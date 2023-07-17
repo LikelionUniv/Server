@@ -1,0 +1,26 @@
+## 공통 설정
+spring:
+  profiles:
+    include:
+      - common
+      - core
+      - infrastructure
+
+
+--- ## dev 환경 설정
+spring:
+  config:
+    activate:
+      on-profile: dev
+
+--- ## staging환경 설정
+spring:
+  config:
+    activate:
+      on-profile: staging
+
+--- ## prod 환경 설정
+spring:
+  config:
+    activate:
+      on-profile: prod

@@ -1,0 +1,8 @@
+rootProject.name = 'likelion'
+include 'likelion-client'
+include 'likelion-admin'
+include 'likelion-core'
+include 'likelion-infrastructure'
+include 'likelion-common'
+include 'likelion-socket'
+
