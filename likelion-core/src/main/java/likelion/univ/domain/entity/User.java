@@ -1,4 +1,4 @@
-package likelion.univ.domain.example.entity;
+package likelion.univ.domain.entity;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;

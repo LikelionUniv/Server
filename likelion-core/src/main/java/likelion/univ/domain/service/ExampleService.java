@@ -1,7 +1,7 @@
-package likelion.univ.domain.example.service;
+package likelion.univ.domain.service;
 
-import likelion.univ.domain.example.entity.Example;
-import likelion.univ.domain.example.repository.ExampleRepository;
+import likelion.univ.domain.entity.Example;
+import likelion.univ.domain.repository.ExampleRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

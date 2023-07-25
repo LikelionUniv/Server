@@ -1,4 +1,4 @@
-package likelion.univ.domain.example.entity;
+package likelion.univ.domain.entity;
 
 import likelion.univ.common.entity.BaseTimeEntity;
 import lombok.AccessLevel;
@@ -26,16 +26,16 @@ public class Comment extends BaseTimeEntity {
     @JoinColumn(name = "post_id", nullable = false)
     private Post post;
 
-    private String body;
-    private Boolean isDeleted;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "parent_id")
     private Comment parentComment;
 
-    @OneToMany(mappedBy = "parent", fetch = FetchType.LAZY,
+    @OneToMany(mappedBy = "parent",
             cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true) // 안정성 체크해봐야됨
-    private List<Comment> childCommentList = new ArrayList<>();
+    private List<Comment> childComments = new ArrayList<>();
+
+    private String body;
+    private Boolean isDeleted;
 
     @Builder
     public Comment(String body) {
@@ -54,6 +54,6 @@ public class Comment extends BaseTimeEntity {
     /* 연관관계 편의 메서드 */
     public void setParent(Comment parent) {
         this.parentComment = parent;
-        parent.getChildCommentList().add(this);
+        parent.getChildComments().add(this);
     }
 }
