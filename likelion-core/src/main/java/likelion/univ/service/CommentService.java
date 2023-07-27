@@ -1,4 +1,4 @@
-package likelion.univ.domain.service;
+package likelion.univ.service;
 
 import likelion.univ.domain.dto.CommentDto;
 import likelion.univ.domain.entity.Comment;

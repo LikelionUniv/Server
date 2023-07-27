@@ -1,14 +1,3 @@
-plugins {
-    id 'java'
-}
-
-group = 'likelion.univ'
-version = '0.0.1-SNAPSHOT'
-
-repositories {
-    mavenCentral()
-}
-
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
 
@@ -23,14 +12,6 @@ dependencies {
     implementation project(':likelion-infrastructure')
 }
 
-test {
-    useJUnitPlatform()
-}
-
-bootJar {
-    enabled = true
-}
-
-jar {
-    enabled = true
-}
+//test {
+//    useJUnitPlatform()
+//}

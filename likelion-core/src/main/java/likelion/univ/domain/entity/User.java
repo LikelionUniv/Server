@@ -1,5 +1,6 @@
 package likelion.univ.domain.entity;
 
+import likelion.univ.common.entity.BaseTimeEntity;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
@@ -13,7 +14,7 @@ import static lombok.AccessLevel.PROTECTED;
 
 @Entity
 @NoArgsConstructor(access = PROTECTED)
-public class User {
+public class User extends BaseTimeEntity {
     @Id @GeneratedValue(strategy = IDENTITY)
     private Long id;
 }

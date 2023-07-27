@@ -2,20 +2,12 @@ plugins {
     id 'java-library'
 }
 
-group = 'likelion.univ'
-version = '0.0.1-SNAPSHOT'
-
 dependencies {
+    //    swagger
+    api group: 'org.springdoc', name: 'springdoc-openapi-ui', version: '1.7.0'
 }
 
 clean {
     delete file('src/main/generated') // IntelliJ Annotation processor 생성물 생성 위치
 }
 
-bootJar {
-    enabled = false
-}
-
-jar {
-    enabled = true
-}

@@ -30,7 +30,7 @@ public class Comment extends BaseTimeEntity {
     @JoinColumn(name = "parent_id")
     private Comment parentComment;
 
-    @OneToMany(mappedBy = "parent",
+    @OneToMany(mappedBy = "parentComment",
             cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true) // 안정성 체크해봐야됨
     private List<Comment> childComments = new ArrayList<>();
 

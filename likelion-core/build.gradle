@@ -9,12 +9,14 @@ dependencies {
         두번 컴파일 되므로 없는게 의존성 낮추는 가장 좋은 방법
      */
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    runtimeOnly 'com.h2database:h2'
+
     implementation group: 'com.mysql', name: 'mysql-connector-j'
-    // Querydsl
+      // Querydsl
     implementation 'com.querydsl:querydsl-jpa'
     implementation 'com.querydsl:querydsl-core'
 
-    // Querydsl JPAAnnotationProcessor 사용 지정
+     // Querydsl JPAAnnotationProcessor 사용 지정
     annotationProcessor "com.querydsl:querydsl-apt:${dependencyManagement.importedProperties['querydsl.version']}:jpa"
     annotationProcessor("jakarta.persistence:jakarta.persistence-api") // java.lang.NoClassDefFoundError(javax.annotation.Entity) 발생 대응
     annotationProcessor("jakarta.annotation:jakarta.annotation-api") // java.lang.NoClassDefFoundError (javax.annotation.Generated) 발생 대응
@@ -24,10 +26,3 @@ clean {
     delete file('src/main/generated') // IntelliJ Annotation processor 생성물 생성 위치
 }
 
-bootJar {
-    enabled = false
-}
-
-jar {
-    enabled = true
-}
