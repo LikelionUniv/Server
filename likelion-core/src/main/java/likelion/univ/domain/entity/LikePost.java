@@ -1,7 +1,7 @@
 package likelion.univ.domain.entity;
 
 
-import likelion.univ.domain.post.entity.Post;
+import likelion.univ.domain.entity.Post;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 

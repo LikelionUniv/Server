@@ -1,6 +1,6 @@
 server:
   port: 8081
-  servelet:
+  servlet:
     encoding:
       charset: UTF-8
       force: true
