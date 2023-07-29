@@ -1,13 +1,10 @@
 package likelion.univ.domain.dto;
 
-import likelion.univ.domain.entity.User;
 import likelion.univ.domain.entity.enums.MainCategory;
 import likelion.univ.domain.entity.enums.SubCategory;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-
-import javax.persistence.*;
 
 @Data
 public class PostDto {

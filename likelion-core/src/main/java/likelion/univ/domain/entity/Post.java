@@ -5,7 +5,6 @@ import likelion.univ.domain.dto.PostDto;
 import likelion.univ.domain.entity.enums.MainCategory;
 import likelion.univ.domain.entity.enums.SubCategory;
 import lombok.*;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.*;
 

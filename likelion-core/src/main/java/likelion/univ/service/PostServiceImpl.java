@@ -8,8 +8,10 @@ import likelion.univ.domain.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class PostServiceImpl implements PostService {
 
@@ -19,6 +21,7 @@ public class PostServiceImpl implements PostService {
     public PostDto.Save createPost(PostDto.Save createRequest, Long userId) {
 
         //User 찾아오는 로직 추가 필요
+
 
         Post post = Post.builder()
                 .title(createRequest.getTitle())
