@@ -16,6 +16,7 @@ import java.util.List;
 public class Comment extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "comment_id")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -34,7 +35,10 @@ public class Comment extends BaseTimeEntity {
             cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true) // 안정성 체크해봐야됨
     private List<Comment> childComments = new ArrayList<>();
 
+    @Column(nullable = false)
     private String body;
+
+    @Column(nullable = false)
     private Boolean isDeleted;
 
     @Builder
