@@ -1,12 +1,14 @@
 package likelion.univ.service;
 
 import likelion.univ.domain.dto.CommentDto;
+import likelion.univ.domain.dto.common.CommonResponseDto;
 
 public interface CommentService {
-    public CommentDto.ResponseSave createParentComment(CommentDto.RequestSave createRequest, Long postId, Long userId);
+    public CommonResponseDto<Object> createParentComment(CommentDto.CreateParent request);
 
-    public CommentDto.ResponseSave createChildComment(CommentDto.RequestSave createRequest, Long postId, Long userId, Long parentId);
+    public CommonResponseDto<Object> createChildComment(CommentDto.CreateChild request);
 
-    public CommentDto.ResponseSave updateCommentBody(CommentDto.RequestSave updateRequest, Long commentId, Long userId);
+    public CommonResponseDto<Object> updateCommentBody(Long commentId, CommentDto.UpdateComment request);
 
+    public CommonResponseDto<Object> deleteComment(Long commentId, CommentDto.DeleteComment request);
 }

@@ -1,6 +1,6 @@
 package likelion.univ.domain.entity;
 
-import likelion.univ.common.entity.BaseTimeEntity;
+import likelion.univ.domain.entity.common.BaseTimeEntity;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -50,12 +50,9 @@ public class Comment extends BaseTimeEntity {
         this.body = body;
         return this;
     }
-    public void delete() {
+    public Comment delete() {
         this.isDeleted = true;
-    }
-
-    public boolean isParent() {
-        return this.parentComment == null;
+        return this;
     }
 
     /* 연관관계 편의 메서드 */

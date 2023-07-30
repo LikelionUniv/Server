@@ -1,4 +1,4 @@
-package likelion.univ.common.entity;
+package likelion.univ.domain.entity.common;
 
 import lombok.Getter;
 import org.springframework.data.annotation.CreatedDate;

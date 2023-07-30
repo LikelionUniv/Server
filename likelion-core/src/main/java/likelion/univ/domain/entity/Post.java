@@ -1,6 +1,6 @@
 package likelion.univ.domain.entity;
 
-import likelion.univ.common.entity.BaseTimeEntity;
+import likelion.univ.domain.entity.common.BaseTimeEntity;
 import likelion.univ.domain.dto.PostDto;
 import likelion.univ.domain.entity.enums.MainCategory;
 import likelion.univ.domain.entity.enums.SubCategory;

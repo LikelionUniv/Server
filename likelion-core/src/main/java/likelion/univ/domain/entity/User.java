@@ -1,7 +1,6 @@
 package likelion.univ.domain.entity;
 
-import likelion.univ.common.entity.BaseTimeEntity;
-import lombok.AccessLevel;
+import likelion.univ.domain.entity.common.BaseTimeEntity;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;

@@ -5,34 +5,75 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import likelion.univ.domain.dto.CommentDto;
+import likelion.univ.domain.dto.common.CommonResponseDto;
 import likelion.univ.domain.repository.CommentRepository;
 import likelion.univ.service.CommentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @Tag(name = "Comment", description = "댓글 api")
 @RestController
-@CrossOrigin("*") /* 향후 프론트 IP에 대해서만 열어두도록 개선 */
+@CrossOrigin("*") /* 향후 프론트 IP에 대해서만 열어두도록 개선 필요 */
 @RequiredArgsConstructor
-@RequestMapping("/api/v1")
+@RequestMapping("/api/v1/community/comment")
 public class CommentController {
-    /* 의존성 추가 예정 */
-    private final CommentService commentService;
-    private final CommentRepository commentRepository;
+    private final CommentService commentService; // C.U.D.
+    private final CommentRepository commentRepository; // READ
 
-    @Operation(summary = "여기는 api 동작 요약", description = "api 동작 상세 설명")
+    @Operation(summary = "댓글 작성", description = "부모 댓글을 생성합니다.")
     @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "good result"),
+            @ApiResponse(responseCode = "200", description = "댓글 작성 완료"),
             @ApiResponse(responseCode = "400", description = "client error"),
             @ApiResponse(responseCode = "500", description = "server error")
     })
-    @GetMapping("/community")
-    public ResponseEntity<CommentDto.ResponseSave> exampleMethod(String name) {
+    @PostMapping("/parent")
+    public ResponseEntity<CommonResponseDto<Object>> createParentComment(@Valid @RequestBody CommentDto.CreateParent request) {
+        CommonResponseDto<Object> responseBody = commentService.createParentComment(request);
 
-        return null;
+        return ResponseEntity.ok()
+                .body(responseBody);
+    }
+
+    @Operation(summary = "대댓글 작성", description = "자식 댓글을 생성합니다.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "댓글 작성 완료"),
+            @ApiResponse(responseCode = "400", description = "client error"),
+            @ApiResponse(responseCode = "500", description = "server error")
+    })
+    @PostMapping("/child")
+    public ResponseEntity<CommonResponseDto<Object>> createChildComment(@Valid @RequestBody CommentDto.CreateChild request) {
+        CommonResponseDto<Object> responseBody = commentService.createChildComment(request);
+
+        return ResponseEntity.ok()
+                .body(responseBody);
+    }
+
+    @Operation(summary = "댓글 내용 수정", description = "댓글 body필드를 수정합니다.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "댓글 수정 완료"),
+            @ApiResponse(responseCode = "400", description = "client error"),
+            @ApiResponse(responseCode = "500", description = "server error")
+    })
+    @PatchMapping("/{commentId}")
+    public ResponseEntity<CommonResponseDto<Object>> updateComment(@PathVariable Long commentId, @Valid @RequestBody CommentDto.UpdateComment request) {
+        CommonResponseDto<Object> responseBody = commentService.updateCommentBody(commentId, request);
+        return ResponseEntity.ok()
+                .body(responseBody);
+    }
+
+    @Operation(summary = "댓글 삭제", description = "댓글을 soft delete 합니다.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "댓글 삭제 완료"),
+            @ApiResponse(responseCode = "400", description = "client error"),
+            @ApiResponse(responseCode = "500", description = "server error")
+    })
+    @PatchMapping("/{commentId}")
+    public ResponseEntity<CommonResponseDto<Object>> deleteComment(@PathVariable Long commentId, @Valid @RequestBody CommentDto.DeleteComment request) {
+        CommonResponseDto<Object> responseBody = commentService.deleteComment(commentId, request); // soft delete
+        return ResponseEntity.ok()
+                .body(responseBody);
     }
 }

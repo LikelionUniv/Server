@@ -1,4 +1,4 @@
-package likelion.univ.common.config;
+package likelion.univ.config;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.context.annotation.Bean;

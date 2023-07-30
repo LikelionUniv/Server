@@ -1,6 +1,7 @@
 package likelion.univ.service;
 
 import likelion.univ.domain.dto.CommentDto;
+import likelion.univ.domain.dto.common.CommonResponseDto;
 import likelion.univ.domain.entity.Comment;
 import likelion.univ.domain.entity.Post;
 import likelion.univ.domain.entity.User;
@@ -22,83 +23,86 @@ public class CommentServiceImpl implements CommentService {
     private final UserRepository userRepository;
 
     @Override
-    public CommentDto.ResponseSave createParentComment(CommentDto.RequestSave createRequest, Long postId, Long userId) {
-        Post findPost = postRepository.findById(postId)
-                .orElseThrow(() -> new NoSuchElementException("no such post"));
-        User findUser = userRepository.findById(userId)
-                .orElseThrow(() -> new NoSuchElementException("no such user"));
+    public CommonResponseDto<Object> createParentComment(CommentDto.CreateParent request) {
+        String body = request.getBody();
+        Post findPost = postRepository.findById(request.getPostId()).orElseThrow(() -> new NoSuchElementException("no such post"));
+        User findUser = userRepository.findById(request.getUserId()).orElseThrow(() -> new NoSuchElementException("no such user"));
 
-        return createCommentAndSave(createRequest, findPost, findUser);
+        return saveComment(createParentComment(body, findPost, findUser));
     }
 
     @Override
-    public CommentDto.ResponseSave createChildComment(CommentDto.RequestSave createRequest, Long postId, Long userId, Long parentId) {
-        Post findPost = postRepository.findById(postId)
-                .orElseThrow(() -> new NoSuchElementException("no such post"));
-        User findUser = userRepository.findById(userId)
-                .orElseThrow(() -> new NoSuchElementException("no such user"));
-        Comment findComment = commentRepository.findById(parentId)
-                .orElseThrow(() -> new NoSuchElementException("no such comment"));
+    public CommonResponseDto<Object> createChildComment(CommentDto.CreateChild request) {
+        String body = request.getBody();
+        Post findPost = postRepository.findById(request.getPostId()).orElseThrow(() -> new NoSuchElementException("no such post"));
+        User findUser = userRepository.findById(request.getUserId()).orElseThrow(() -> new NoSuchElementException("no such user"));
+        Comment findComment = commentRepository.findById(request.getParentId()).orElseThrow(() -> new NoSuchElementException("no such comment"));
 
-        return createChildCommentAndSave(createRequest, findPost, findUser, findComment);
+        return saveComment(createChildComment(body, findPost, findUser, findComment));
     }
 
 
-
     @Override
-    public CommentDto.ResponseSave updateCommentBody(CommentDto.RequestSave updateRequest, Long commentId, Long userId) {
-        User findUser = userRepository.findById(userId).orElseThrow(() -> new NoSuchElementException("no such user"));
+    public CommonResponseDto<Object> updateCommentBody(Long commentId, CommentDto.UpdateComment request) {
+        String body = request.getBody();
+        User findUser = userRepository.findById(request.getUserId()).orElseThrow(() -> new NoSuchElementException("no such user"));
         Comment findComment = commentRepository.findById(commentId).orElseThrow(() -> new NoSuchElementException("no such comment"));
-        if (findComment.getAuthor().equals(findUser)) {
-            return updateCommentBodyAndSave(updateRequest, findComment, commentRepository);
+        if (isCommentAuthor(findUser, findComment)) {
+            return saveComment(findComment.updateBody(body));
         }
-        return updateFailAsUserNotFound(); // return null dto
+        return updateFail();
     }
 
-    private CommentDto.ResponseSave createCommentAndSave(CommentDto.RequestSave createRequest, Post findPost, User findUser) {
-        String body = createRequest.getBody();
-        Comment createComment = Comment.builder()
+    @Override
+    public CommonResponseDto<Object> deleteComment(Long commentId, CommentDto.DeleteComment request) {
+        User findUser = userRepository.findById(request.getUserId()).orElseThrow(() -> new NoSuchElementException("no such user"));
+        Comment findComment = commentRepository.findById(commentId).orElseThrow(() -> new NoSuchElementException("no such comment"));
+        if (isCommentAuthor(findUser, findComment)) {
+            return saveComment(findComment.delete()); // soft delete
+        }
+        return CommonResponseDto.builder()
+                .message("본인이 작성한 댓글만 삭제할 수 있습니다.")
+                .build();
+    }
+
+
+
+    /* ------------------------ 내부메서드 ------------------------ */
+
+    private static boolean isCommentAuthor(User findUser, Comment findComment) {
+        return findComment.getAuthor().equals(findUser);
+    }
+
+    private Comment createParentComment(String body, Post findPost, User findUser) {
+        return Comment.builder()
                 .post(findPost)
                 .user(findUser)
                 .body(body)
                 .build();
-
-        Comment saveComment = commentRepository.save(createComment);
-        return CommentDto.ResponseSave.builder()
-                .commentId(saveComment.getId())
-                .build();
     }
-    private CommentDto.ResponseSave createChildCommentAndSave(CommentDto.RequestSave createRequest, Post findPost, User findUser, Comment findComment) {
-        String body = createRequest.getBody();
-        Comment createChildComment = Comment.builder()
+
+    private Comment createChildComment(String body, Post findPost, User findUser, Comment findComment) {
+        return Comment.builder()
                 .post(findPost)
                 .user(findUser)
                 .body(body)
                 .parentComment(findComment)
                 .build();
-        Comment saveComment = commentRepository.save(createChildComment);
-        return CommentDto.ResponseSave.builder()
-                .commentId(saveComment.getId())
+    }
+
+    private CommonResponseDto<Object> saveComment(Comment comment) {
+        Comment saveComment = commentRepository.save(comment);
+        return CommonResponseDto.builder()
+                .data(saveComment.getId())
+                .message("성공적으로 저장되었습니다.")
                 .build();
     }
 
-    private CommentDto.ResponseSave updateCommentBodyAndSave(CommentDto.RequestSave updateRequest, Comment findComment, CommentRepository commentRepository) {
-        String updateBody = updateRequest.getBody();
-        findComment.updateBody(updateBody);
 
-        Comment saveComment = commentRepository.save(findComment);
-        return CommentDto.ResponseSave.builder()
-                .commentId(saveComment.getId())
+    private CommonResponseDto<Object> updateFail() {
+        return CommonResponseDto.builder()
+                .message("본인이 작성한 댓글만 수정할 수 있습니다.")
                 .build();
     }
-
-    private CommentDto.ResponseSave updateFailAsUserNotFound() {
-        return CommentDto.ResponseSave.builder()
-                .commentId(null)
-                .build();
-
-    }
-
-
-
 }
+
