@@ -24,50 +24,77 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public CommonResponseDto<Object> createParentComment(CommentDto.CreateParent request) {
-        String body = request.getBody();
-        Post findPost = postRepository.findById(request.getPostId()).orElseThrow(() -> new NoSuchElementException("no such post"));
-        User findUser = userRepository.findById(request.getUserId()).orElseThrow(() -> new NoSuchElementException("no such user"));
-
+        String body;
+        Post findPost;
+        User findUser;
+        try {
+            body = request.getBody();
+            findPost = postRepository.findById(request.getPostId()).orElseThrow(() -> new NoSuchElementException("no such post"));
+            findUser = userRepository.findById(request.getUserId()).orElseThrow(() -> new NoSuchElementException("no such user"));
+        } catch (NoSuchElementException e) {
+            return responseException();
+        }
         return saveComment(createParentComment(body, findPost, findUser));
     }
 
     @Override
     public CommonResponseDto<Object> createChildComment(CommentDto.CreateChild request) {
-        String body = request.getBody();
-        Post findPost = postRepository.findById(request.getPostId()).orElseThrow(() -> new NoSuchElementException("no such post"));
-        User findUser = userRepository.findById(request.getUserId()).orElseThrow(() -> new NoSuchElementException("no such user"));
-        Comment findComment = commentRepository.findById(request.getParentId()).orElseThrow(() -> new NoSuchElementException("no such comment"));
-
+        String body;
+        Post findPost;
+        User findUser;
+        Comment findComment;
+        try {
+            body = request.getBody();
+            findPost = postRepository.findById(request.getPostId()).orElseThrow(() -> new NoSuchElementException("no such post"));
+            findUser = userRepository.findById(request.getUserId()).orElseThrow(() -> new NoSuchElementException("no such user"));
+            findComment = commentRepository.findById(request.getParentId()).orElseThrow(() -> new NoSuchElementException("no such comment"));
+        } catch (NoSuchElementException e) {
+            return responseException();
+        }
         return saveComment(createChildComment(body, findPost, findUser, findComment));
     }
 
 
     @Override
     public CommonResponseDto<Object> updateCommentBody(Long commentId, CommentDto.UpdateComment request) {
-        String body = request.getBody();
-        User findUser = userRepository.findById(request.getUserId()).orElseThrow(() -> new NoSuchElementException("no such user"));
-        Comment findComment = commentRepository.findById(commentId).orElseThrow(() -> new NoSuchElementException("no such comment"));
-        if (isCommentAuthor(findUser, findComment)) {
-            return saveComment(findComment.updateBody(body));
+        String body;
+        User findUser;
+        Comment findComment;
+        try {
+            body = request.getBody();
+            findUser = userRepository.findById(request.getUserId()).orElseThrow(() -> new NoSuchElementException("no such user"));
+            findComment = commentRepository.findById(commentId).orElseThrow(() -> new NoSuchElementException("no such comment"));
+            if (isCommentAuthor(findUser, findComment)) {
+                return saveComment(findComment.updateBody(body));
+            }
+        } catch (NoSuchElementException e) {
+            return responseException();
         }
         return updateFail();
     }
 
     @Override
     public CommonResponseDto<Object> deleteComment(Long commentId, CommentDto.DeleteComment request) {
-        User findUser = userRepository.findById(request.getUserId()).orElseThrow(() -> new NoSuchElementException("no such user"));
-        Comment findComment = commentRepository.findById(commentId).orElseThrow(() -> new NoSuchElementException("no such comment"));
-        if (isCommentAuthor(findUser, findComment)) {
-            return saveComment(findComment.delete()); // soft delete
+        User findUser;
+        Comment findComment;
+        try {
+            findUser = userRepository.findById(request.getUserId()).orElseThrow(() -> new NoSuchElementException("no such user"));
+            findComment = commentRepository.findById(commentId).orElseThrow(() -> new NoSuchElementException("no such comment"));
+            if (isCommentAuthor(findUser, findComment)) {
+                return saveComment(findComment.delete()); // soft delete
+            }
+        } catch (NoSuchElementException e) {
+            return responseException();
         }
-        return CommonResponseDto.builder()
-                .message("본인이 작성한 댓글만 삭제할 수 있습니다.")
-                .build();
+        return deleteFail();
     }
 
-
-
     /* ------------------------ 내부메서드 ------------------------ */
+    private static CommonResponseDto<Object> responseException() {
+        return CommonResponseDto.builder()
+                .message("잘못된 요청입니다.")
+                .build();
+    }
 
     private static boolean isCommentAuthor(User findUser, Comment findComment) {
         return findComment.getAuthor().equals(findUser);
@@ -104,5 +131,11 @@ public class CommentServiceImpl implements CommentService {
                 .message("본인이 작성한 댓글만 수정할 수 있습니다.")
                 .build();
     }
+    private static CommonResponseDto<Object> deleteFail() {
+        return CommonResponseDto.builder()
+                .message("본인이 작성한 댓글만 삭제할 수 있습니다.")
+                .build();
+    }
+
 }
 
