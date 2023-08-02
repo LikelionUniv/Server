@@ -9,6 +9,7 @@ dependencies {
         두번 컴파일 되므로 없는게 의존성 낮추는 가장 좋은 방법
      */
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.8.1'
     runtimeOnly 'com.h2database:h2'
 
     implementation group: 'com.mysql', name: 'mysql-connector-j'

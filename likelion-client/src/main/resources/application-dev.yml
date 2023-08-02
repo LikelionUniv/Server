@@ -10,19 +10,20 @@ spring:
       on-profile: dev
   datasource:
     driver-class-name: org.h2.Driver
-    url: jdbc:h2:mem:test;MODE=MySQL
+    url: jdbc:h2:mem:test
     username: sa
     password:
   jpa:
     hibernate:
       ddl-auto: create
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.H2Dialect
   h2:
     console:
       enabled: true
 
-#logging:
-#  level:
-#    '[likelion.univ]':DEBUG
 springdoc:
   default-consumes-media-type: application/json
   default-produces-media-type: application/json

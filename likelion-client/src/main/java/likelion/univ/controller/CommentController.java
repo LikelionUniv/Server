@@ -44,7 +44,7 @@ public class CommentController {
             @ApiResponse(responseCode = "500", description = "server error")
     })
     @PostMapping("/child")
-    public ResponseEntity<CommonResponseDto<Object>> createChildComment(@Valid @RequestBody CommentDto.CreateChild request) {
+    public ResponseEntity<CommonResponseDto<Object>> createChildComment(@RequestBody CommentDto.CreateChild request) {
         CommonResponseDto<Object> responseBody = commentService.createChildComment(request);
 
         return ResponseEntity.ok()
@@ -57,8 +57,8 @@ public class CommentController {
             @ApiResponse(responseCode = "400", description = "client error"),
             @ApiResponse(responseCode = "500", description = "server error")
     })
-    @PatchMapping("/{commentId}")
-    public ResponseEntity<CommonResponseDto<Object>> updateComment(@PathVariable Long commentId, @Valid @RequestBody CommentDto.UpdateComment request) {
+    @PatchMapping("/update/{commentId}")
+    public ResponseEntity<CommonResponseDto<Object>> updateComment(@PathVariable(value = "commentId") Long commentId, @RequestBody CommentDto.UpdateComment request) {
         CommonResponseDto<Object> responseBody = commentService.updateCommentBody(commentId, request);
         return ResponseEntity.ok()
                 .body(responseBody);
@@ -70,8 +70,8 @@ public class CommentController {
             @ApiResponse(responseCode = "400", description = "client error"),
             @ApiResponse(responseCode = "500", description = "server error")
     })
-    @PatchMapping("/{commentId}")
-    public ResponseEntity<CommonResponseDto<Object>> deleteComment(@PathVariable Long commentId, @Valid @RequestBody CommentDto.DeleteComment request) {
+    @PatchMapping("/delete/{commentId}")
+    public ResponseEntity<CommonResponseDto<Object>> deleteComment(@PathVariable(value = "commentId") Long commentId, @RequestBody CommentDto.DeleteComment request) {
         CommonResponseDto<Object> responseBody = commentService.deleteComment(commentId, request); // soft delete
         return ResponseEntity.ok()
                 .body(responseBody);
