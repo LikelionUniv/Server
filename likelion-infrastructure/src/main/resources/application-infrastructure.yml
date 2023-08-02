@@ -1,13 +1,5 @@
 ## 공통 설정
-spring:
-  profiles:
-    include:
-      - common
-      - core
-      - infrastructure
-server:
-  servlet:
-    context-path: /api/admin
+
 
 --- ## dev 환경 설정
 spring:
