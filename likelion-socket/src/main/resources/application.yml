@@ -24,3 +24,23 @@ spring:
   config:
     activate:
       on-profile: prod
+--- ## prod 환경 설정
+spring:
+  devtools:
+    livereload:
+      enabled: true
+    restart:
+      enabled: false
+  freemarker:
+    cache: false
+  jackson:
+    serialization:
+      fail-on-empty-beans: false
+  port: 8080
+  datasource:
+    url: jdbc:mariadb://localhost:3306/test
+    username: root
+    password: 1234
+  jpa:
+    hibernate:
+      ddl-auto: update
