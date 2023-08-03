@@ -58,7 +58,7 @@ public class CommentController {
             @ApiResponse(responseCode = "500", description = "server error")
     })
     @PatchMapping("/update/{commentId}")
-    public ResponseEntity<CommonResponseDto<Object>> updateComment(@PathVariable(value = "commentId") Long commentId, @RequestBody CommentDto.UpdateComment request) {
+    public ResponseEntity<CommonResponseDto<Object>> updateComment(@PathVariable("commentId") Long commentId, @RequestBody CommentDto.UpdateComment request) {
         CommonResponseDto<Object> responseBody = commentService.updateCommentBody(commentId, request);
         return ResponseEntity.ok()
                 .body(responseBody);
@@ -71,7 +71,7 @@ public class CommentController {
             @ApiResponse(responseCode = "500", description = "server error")
     })
     @PatchMapping("/delete/{commentId}")
-    public ResponseEntity<CommonResponseDto<Object>> deleteComment(@PathVariable(value = "commentId") Long commentId, @RequestBody CommentDto.DeleteComment request) {
+    public ResponseEntity<CommonResponseDto<Object>> deleteComment(@PathVariable("commentId") Long commentId, @RequestBody CommentDto.DeleteComment request) {
         CommonResponseDto<Object> responseBody = commentService.deleteComment(commentId, request); // soft delete
         return ResponseEntity.ok()
                 .body(responseBody);
