@@ -1,30 +1,30 @@
-package likelion.univ.domain.entity;
+package likelion.univ.domain.user.entity;
 
 import likelion.univ.common.entity.BaseTimeEntity;
 import lombok.AccessLevel;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Entity(name = "example")
-public class Example extends BaseTimeEntity {
+@Entity(name = "user")
+public class User extends BaseTimeEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "example_id")
     private Long id;
+    private LocalDateTime lastLoginTime;
 
-    @Column(nullable = false)
-    private String body;
-    @Builder
-    public Example(String body) {
-        this.body = body;
-    }
-    public void updateBody(String body){
-        this.body = body;
-    }
+    @Embedded
+    private Profile profile;
+
+    @Embedded
+    private UniversityInfo universityInfo;
+
+    @Embedded
+    private AuthInfo authInfo;
 }

@@ -4,6 +4,7 @@ build/
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**/build/
 !**/src/test/**/build/
+.DS_STORE
 
 ### STS ###
 .apt_generated
@@ -37,7 +38,8 @@ out/
 .vscode/
 
 ### env file ###
-.env
+.env.dev
+.env.*
 
 ### .DS_Store ignore ###
 .DS_Store
