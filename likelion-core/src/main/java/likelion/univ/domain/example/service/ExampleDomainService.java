@@ -8,8 +8,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
-public class ExampleService {
-    private final ExampleRepository exampleRepository;
+public class ExampleDomainService {
+    private final ExampleAdater exampleAdapter;
 
     @Transactional
     public Example createExample(String body){
