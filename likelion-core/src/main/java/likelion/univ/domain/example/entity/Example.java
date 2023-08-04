@@ -24,7 +24,7 @@ public class Example extends BaseTimeEntity {
     public Example(String body) {
         this.body = body;
     }
-    public void updateBody(String body){
+    public void editBody(String body){
         this.body = body;
     }
 }

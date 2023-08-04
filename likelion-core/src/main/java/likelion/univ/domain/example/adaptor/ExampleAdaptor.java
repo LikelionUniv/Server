@@ -1,19 +1,23 @@
-package likelion.univ.domain.example.adapter;
+package likelion.univ.domain.example.adaptor;
 
+import likelion.univ.annotation.Adaptor;
 import likelion.univ.domain.example.entity.Example;
 import likelion.univ.domain.example.exception.ExampleNotFoundException;
 import likelion.univ.domain.example.repository.ExampleRepository;
 import lombok.RequiredArgsConstructor;
 
+@Adaptor
 @RequiredArgsConstructor
-public class ExampleAdapter {
+public class ExampleAdaptor {
     private final ExampleRepository exampleRepository;
 
-    public Example save(Example example) {
-        return exampleRepository.save(example);
+    public void save(Example example) {
+        exampleRepository.save(example);
     }
     public Example findById(Long id){
         return exampleRepository.findById(id)
                 .orElseThrow(() -> new ExampleNotFoundException());
+    }
+    public void delete(Example example) {exampleRepository.delete(example);
     }
 }
