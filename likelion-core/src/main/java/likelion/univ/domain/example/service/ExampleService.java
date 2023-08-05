@@ -12,16 +12,16 @@ public class ExampleService {
     private final ExampleRepository exampleRepository;
 
     @Transactional
-    public Example createExample(String column){
+    public Example createExample(String body){
         Example example = Example.builder()
-                .column(column)
+                .body(body)
                 .build();
         exampleRepository.save(example);
         return example;
     }
     @Transactional
-    public void updateExample(Long id, String column){
+    public void updateExample(Long id, String body){
         Example example = exampleRepository.findById(id).get();
-        example.updateColumn(column);
+        example.updateBody(body);
     }
 }
