@@ -43,8 +43,9 @@ public class Project {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate endDate;
 
-    @Column(nullable = false)
-    private String member;
+//    projectMember 엔티티에서 구현
+//    @Column(nullable = false)
+//    private String member;
 
     private String tech;
 
@@ -57,7 +58,7 @@ public class Project {
     private String link;
 
     @Builder
-    public Project(String thon, Output outPut, String service, int year, String univ, LocalDate startDate, LocalDate endDate, String member, String tech, String description, String content, String link) {
+    public Project(String thon, Output outPut, String service, int year, String univ, LocalDate startDate, LocalDate endDate, String tech, String description, String content, String link) {
         this.thon = thon;
         this.outPut = outPut;
         this.service = service;
@@ -65,7 +66,6 @@ public class Project {
         this.univ = univ;
         this.startDate = startDate;
         this.endDate = endDate;
-        this.member = member;
         this.tech = tech;
         this.description = description;
         this.content = content;
@@ -80,7 +80,6 @@ public class Project {
         this.univ = projectSimpleDto.getUniv();
         this.startDate = projectSimpleDto.getStartDate();
         this.endDate = projectSimpleDto.getEndDate();
-        this.member = projectSimpleDto.getMember();
         this.tech = projectSimpleDto.getTech();
         this.description = projectSimpleDto.getDescription();
         this.content = projectSimpleDto.getContent();
