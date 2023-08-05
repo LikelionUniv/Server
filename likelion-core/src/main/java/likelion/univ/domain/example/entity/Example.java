@@ -19,6 +19,15 @@ public class Example extends BaseTimeEntity {
     private Long id;
 
     @Column(nullable = false)
+<<<<<<< HEAD
+    private String columns;
+    @Builder
+    public Example(String column) {
+        this.columns = column;
+    }
+    public void updateColumn(String column){
+        this.columns = column;
+=======
     private String body;
     @Builder
     public Example(String body) {
@@ -26,5 +35,6 @@ public class Example extends BaseTimeEntity {
     }
     public void updateBody(String body){
         this.body = body;
+>>>>>>> main
     }
 }
