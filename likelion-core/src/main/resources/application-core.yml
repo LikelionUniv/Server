@@ -11,7 +11,7 @@ spring:
     open-in-view: false
     dialect: org.hibernate.dialect.MySQL8Dialect
     hibernate:
-      ddl-auto: create   #create update none
+      ddl-auto: update   #create update none
       default_batch_fetch_size: 500
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
