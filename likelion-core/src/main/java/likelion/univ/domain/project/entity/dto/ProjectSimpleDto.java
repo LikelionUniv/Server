@@ -5,11 +5,6 @@ import likelion.univ.domain.project.entity.Project;
 import likelion.univ.domain.project.entity.dto.ImageSimpleDto;
 import likelion.univ.domain.project.entity.enums.Output;
 import lombok.Data;
-import org.springframework.format.annotation.DateTimeFormat;
-
-import javax.persistence.Column;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
