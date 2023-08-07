@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional(readOnly = true) //읽기 전용 모드
@@ -27,7 +28,9 @@ public class ProjectService {
     public ProjectSimpleDto getProject(Long id) {
         Project project = projectRepository.findById(id).get();
         List<Image> images = imageRepository.findByProject(project);
-        List<ProjectMember> members = projectMemberRepository.findByProject(project);
+        List<User> members = projectMemberRepository.findByProject(project).stream()
+                .map(member -> member.getUser())
+                .collect(Collectors.toList());
         ProjectSimpleDto result = new ProjectSimpleDto(project, images, members);
         return result;
     }

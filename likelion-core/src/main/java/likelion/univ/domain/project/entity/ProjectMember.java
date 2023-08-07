@@ -24,7 +24,7 @@ public class ProjectMember {
     private Project project;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "example_id")
     private User user;
 
     @Builder

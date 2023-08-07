@@ -9,8 +9,11 @@ public class ProjectMemberDto {
     private Long userID;
     private String name;
 
-    public ProjectMemberDto(User user) {
-        this.userID = user.getId();
-        this.name = user.getProfile().getName();
+    public ProjectMemberDto() {
+    }
+
+    public ProjectMemberDto(Long id, String name) {
+        this.userID = id;
+        this.name = name;
     }
 }

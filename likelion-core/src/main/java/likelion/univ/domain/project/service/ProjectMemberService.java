@@ -40,4 +40,9 @@ public class ProjectMemberService {
         Project project = projectRepository.findById(id).get();
         projectMemberRepository.deleteByProject(project);
     }
+
+//    public List<ProjectMember> getProjectMember(Long id) {
+//        Project project = projectRepository.findById(id).get();
+//        return projectMemberRepository.findByProject(project);
+//    }
 }
