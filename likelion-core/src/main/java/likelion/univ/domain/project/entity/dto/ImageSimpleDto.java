@@ -9,6 +9,9 @@ public class ImageSimpleDto {
     private String name;
     private String saved;
 
+    public ImageSimpleDto() {
+    }
+
     public ImageSimpleDto(Image image) {
         this.name = image.getName();
         this.saved = image.getSaved();
