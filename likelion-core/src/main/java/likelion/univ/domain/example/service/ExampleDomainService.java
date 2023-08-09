@@ -1,27 +1,33 @@
 package likelion.univ.domain.example.service;
 
+import likelion.univ.domain.example.adaptor.ExampleAdaptor;
 import likelion.univ.domain.example.entity.Example;
-import likelion.univ.domain.example.repository.ExampleRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
-public class ExampleService {
-    private final ExampleRepository exampleRepository;
+public class ExampleDomainService {
+    private final ExampleAdaptor exampleAdaptor;
 
     @Transactional
     public Example createExample(String body){
         Example example = Example.builder()
                 .body(body)
                 .build();
-        exampleRepository.save(example);
+        exampleAdaptor.save(example);
         return example;
     }
     @Transactional
-    public void updateExample(Long id, String body){
-        Example example = exampleRepository.findById(id).get();
-        example.updateBody(body);
+    public void editExample(Long id, String body){
+        Example example = exampleAdaptor.findById(id);
+        example.editBody(body);
+    }
+
+    @Transactional
+    public void deleteExample(Long id){
+        Example example = exampleAdaptor.findById(id);
+        exampleAdaptor.delete(example);
     }
 }
