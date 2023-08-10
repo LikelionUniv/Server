@@ -7,6 +7,7 @@ import javax.persistence.Embeddable;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import java.util.Objects;
 
 @Embeddable
 @Getter
@@ -20,4 +21,21 @@ public class UniversityInfo {
     private University university;
     private String major;
     private Long ordinal;
+
+
+
+    @Override
+    public boolean equals(Object obj) {
+        if(this==obj) return true;
+        if(obj==null||getClass()!=obj.getClass()) return false;
+        UniversityInfo universityInfo =(UniversityInfo) obj;
+        return Objects.equals(getMajor(),universityInfo.getMajor())&&
+                Objects.equals(getOrdinal(),universityInfo.getOrdinal())&&
+                Objects.equals(getUniversity(),universityInfo.getUniversity());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getMajor(),getOrdinal(),getUniversity());
+    }
 }
