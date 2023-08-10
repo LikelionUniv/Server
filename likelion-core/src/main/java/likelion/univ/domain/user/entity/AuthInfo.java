@@ -5,10 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Embeddable;
-import javax.persistence.Embedded;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
+import javax.persistence.*;
 
 @Embeddable
 @AllArgsConstructor
@@ -18,5 +15,10 @@ public class AuthInfo {
 
     @Enumerated(EnumType.STRING)
     private LoginType loginType;
+
+    @Enumerated(EnumType.STRING)
+    private AccountStatus accountStatus;
+
+    @Column(unique = true)
     private String oid;
 }
