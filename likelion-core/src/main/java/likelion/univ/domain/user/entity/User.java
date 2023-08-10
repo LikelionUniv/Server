@@ -4,18 +4,20 @@ import likelion.univ.common.entity.BaseTimeEntity;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Getter
+@Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity(name = "user")
-public class User extends BaseTimeEntity{
+public class User /*extends BaseTimeEntity*/{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "example_id")
+    @Column(name = "user_id")
     private Long id;
     private LocalDateTime lastLoginTime;
 
@@ -27,4 +29,12 @@ public class User extends BaseTimeEntity{
 
     @Embedded
     private AuthInfo authInfo;
+
+    public void updateProfile(Profile profile){
+        this.profile=profile;
+    }
+
+    public void updateUniversityInfo(UniversityInfo universityInfo){
+        this.universityInfo=universityInfo;
+    }
 }
