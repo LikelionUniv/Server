@@ -12,7 +12,7 @@ public class UpdateUserRequestDto {
 
     private String name;
     private String major;
-//    private String part;
+    private String part;
     private Long ordinal;
     private String email;
 //    private String role;

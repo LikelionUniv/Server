@@ -29,13 +29,14 @@ public class UniversityInfo {
         if(this==obj) return true;
         if(obj==null||getClass()!=obj.getClass()) return false;
         UniversityInfo universityInfo =(UniversityInfo) obj;
-        return Objects.equals(getMajor(),universityInfo.getMajor())&&
-                Objects.equals(getOrdinal(),universityInfo.getOrdinal())&&
-                Objects.equals(getUniversity(),universityInfo.getUniversity());
+        return Objects.equals(getUniversity(),universityInfo.getUniversity())&&
+                Objects.equals(getMajor(),universityInfo.getMajor())&&
+                Objects.equals(getOrdinal(),universityInfo.getOrdinal());
+
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getMajor(),getOrdinal(),getUniversity());
+        return Objects.hash(getUniversity(),getMajor(),getOrdinal());
     }
 }

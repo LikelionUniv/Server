@@ -23,7 +23,8 @@ public class UpdateUserUseCase {
      */
     public UserInfoResponseDto updateUser(Long id, UpdateUserRequestDto updateUserRequestDto){
         User user = userAdaptor.findById(id);
-        userDomainService.updateUser(user, updateUserRequestDto.getName(), updateUserRequestDto.getMajor(),
+        userDomainService.updateUser(user, updateUserRequestDto.getName(),
+                updateUserRequestDto.getPart(),updateUserRequestDto.getMajor(),
                 updateUserRequestDto.getEmail(), updateUserRequestDto.getOrdinal());
         return UserInfoResponseDto.of(user);
     }

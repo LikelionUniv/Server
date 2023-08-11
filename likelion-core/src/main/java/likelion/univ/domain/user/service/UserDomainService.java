@@ -1,5 +1,6 @@
 package likelion.univ.domain.user.service;
 
+import likelion.univ.domain.user.entity.Part;
 import likelion.univ.domain.user.entity.Profile;
 import likelion.univ.domain.user.entity.UniversityInfo;
 import likelion.univ.domain.user.entity.User;
@@ -19,11 +20,11 @@ public class UserDomainService {
     private final EntityManager em;
 
     @Transactional
-    public void updateUser(User user, String name,
+    public void updateUser(User user, String name,String part,
                                           String major,String email,
                                           Long ordinal){
 
-       user.updateProfile(new Profile(name,email,user.getProfile().getProfileImage(),user.getProfile().getIntroduction(),user.getProfile().getPart()));
+       user.updateProfile(new Profile(name,email,user.getProfile().getIntroduction() ,user.getProfile().getProfileImage(),Part.findByValue(part)));
        user.updateUniversityInfo(new UniversityInfo(user.getUniversityInfo().getUniversity(),major,ordinal));
 
        userRepository.save(user);

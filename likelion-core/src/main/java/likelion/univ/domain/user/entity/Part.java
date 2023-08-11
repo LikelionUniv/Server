@@ -3,6 +3,11 @@ package likelion.univ.domain.user.entity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 @AllArgsConstructor
 @Getter
 public enum Part {
@@ -12,6 +17,17 @@ public enum Part {
     DESIGNER("디자인"),
     PM_DESIGNER("기획/디자인");
 
-    private String value;
+    private final String value;
 
+    public String value(){
+        return value;
+    }
+
+    private static final Map<String, Part> BY_VALUE =
+            Stream.of(values()).collect(Collectors.toMap(Part::value, Function.identity()));
+
+
+    public static Part findByValue(String value){
+        return BY_VALUE.get(value);
+    }
 }
