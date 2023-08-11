@@ -41,7 +41,7 @@ public class SuperAdminController {
 
     @Operation(summary = "특정 멤버 조회")
     @GetMapping("v1/{univ}/user/{userId}")
-    public SuccessResponse<Object> findUserById(@PathVariable @RequestParam("userId") Long userId){
+    public SuccessResponse<Object> findUserById(@PathVariable Long userId){
         userId = 1L;
 
         UserInfoResponseDto response = findUserByIdUseCase.findById(userId);
@@ -51,7 +51,7 @@ public class SuperAdminController {
 
     @Operation(summary = "특정 학교 멤버 다건 조회")
     @GetMapping("v1/{univ}/users")
-    public SuccessResponse<Object> findUserByUniv(@PathVariable @RequestParam("univ") String univ){
+    public SuccessResponse<Object> findUserByUniv(@PathVariable String univ){
 
         University university = findUnivUseCase.findUniversity(univ);
 
