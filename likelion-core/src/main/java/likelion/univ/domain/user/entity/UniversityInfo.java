@@ -22,21 +22,10 @@ public class UniversityInfo {
     private String major;
     private Long ordinal;
 
-
-
-    @Override
-    public boolean equals(Object obj) {
-        if(this==obj) return true;
-        if(obj==null||getClass()!=obj.getClass()) return false;
-        UniversityInfo universityInfo =(UniversityInfo) obj;
-        return Objects.equals(getUniversity(),universityInfo.getUniversity())&&
-                Objects.equals(getMajor(),universityInfo.getMajor())&&
-                Objects.equals(getOrdinal(),universityInfo.getOrdinal());
-
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(getUniversity(),getMajor(),getOrdinal());
+    public void updateUniversityInfo(String major, Long ordinal){
+        this.major=major;
+        this.ordinal=ordinal;
     }
 }
+
+

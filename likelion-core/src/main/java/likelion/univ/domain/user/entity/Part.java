@@ -17,17 +17,14 @@ public enum Part {
     DESIGNER("디자인"),
     PM_DESIGNER("기획/디자인");
 
-    private final String value;
+    private String value;
 
-    public String value(){
-        return value;
-    }
 
     private static final Map<String, Part> BY_VALUE =
-            Stream.of(values()).collect(Collectors.toMap(Part::value, Function.identity()));
+            Stream.of(values()).collect(Collectors.toMap(Part::getValue, Function.identity()));
 
 
-    public static Part findByValue(String value){
+    public static Part converter(String value){
         return BY_VALUE.get(value);
     }
 }

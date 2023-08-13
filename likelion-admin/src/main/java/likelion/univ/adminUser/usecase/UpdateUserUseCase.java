@@ -8,6 +8,8 @@ import likelion.univ.domain.user.entity.User;
 import likelion.univ.domain.user.service.UserDomainService;
 import lombok.RequiredArgsConstructor;
 
+import java.util.Optional;
+
 @UseCase
 @RequiredArgsConstructor
 public class UpdateUserUseCase {

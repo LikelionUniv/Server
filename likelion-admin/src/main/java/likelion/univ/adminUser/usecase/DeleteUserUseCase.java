@@ -16,7 +16,7 @@ public class DeleteUserUseCase {
 
     public UserInfoResponseDto deleteUser(Long id){
         User user = userAdaptor.findById(id);
-        userAdaptor.deleteUser(user);
+        userDomainService.deleteUser(user);
         return UserInfoResponseDto.of(user);
     }
 }

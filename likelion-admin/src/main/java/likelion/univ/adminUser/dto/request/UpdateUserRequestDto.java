@@ -15,7 +15,6 @@ public class UpdateUserRequestDto {
     private String part;
     private Long ordinal;
     private String email;
-//    private String role;
 
 
 }

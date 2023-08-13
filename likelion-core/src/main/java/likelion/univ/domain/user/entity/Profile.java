@@ -25,21 +25,9 @@ public class Profile {
     @Enumerated(EnumType.STRING)
     private Part part;
 
-
-    @Override
-    public boolean equals(Object obj) {
-        if(this==obj) return true;
-        if(obj==null||getClass()!=obj.getClass()) return false;
-        Profile profile =(Profile) obj;
-        return Objects.equals(getName(),profile.getName())&&
-                Objects.equals(getEmail(),profile.getEmail())&&
-                Objects.equals(getPart(),profile.getPart())&&
-                Objects.equals(getProfileImage(),profile.getProfileImage())&&
-                Objects.equals(getIntroduction(),profile.getIntroduction());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(getName(),getEmail(),getPart(),getProfileImage(),getIntroduction());
+    public void updateProfile(String name, String email, Part part){
+        this.name=name;
+        this.email=email;
+        this.part=part;
     }
 }

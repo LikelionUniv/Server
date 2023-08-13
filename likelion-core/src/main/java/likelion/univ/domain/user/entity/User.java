@@ -10,7 +10,6 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Getter
-@Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity(name = "user")
 public class User /*extends BaseTimeEntity*/{
@@ -30,11 +29,7 @@ public class User /*extends BaseTimeEntity*/{
     @Embedded
     private AuthInfo authInfo;
 
-    public void updateProfile(Profile profile){
-        this.profile=profile;
-    }
 
-    public void updateUniversityInfo(UniversityInfo universityInfo){
-        this.universityInfo=universityInfo;
-    }
+
+
 }
