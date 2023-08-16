@@ -14,6 +14,7 @@ import javax.persistence.*;
 public class Post extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "post_id")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -23,7 +24,7 @@ public class Post extends BaseTimeEntity {
     @Column(length = 500)
     private String title;
 
-    @Column(length = 50000)
+    @Column(columnDefinition = "TEXT")
     private String body;
 
     private String thumbnail;

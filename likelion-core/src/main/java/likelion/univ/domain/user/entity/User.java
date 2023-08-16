@@ -10,12 +10,12 @@ import java.time.LocalDateTime;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Entity(name = "user")
+@Entity
 public class User extends BaseTimeEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "example_id")
+    @Column(name = "user_id")
     private Long id;
     private LocalDateTime lastLoginTime;
 

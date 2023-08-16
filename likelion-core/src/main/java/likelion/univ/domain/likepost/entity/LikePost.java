@@ -1,5 +1,6 @@
 package likelion.univ.domain.likepost.entity;
 
+import likelion.univ.common.entity.BaseTimeEntity;
 import likelion.univ.domain.post.entity.Post;
 import likelion.univ.domain.user.entity.User;
 import lombok.Getter;
@@ -10,7 +11,7 @@ import javax.persistence.*;
 @Entity
 @Getter
 @NoArgsConstructor
-public class LikePost {
+public class LikePost extends BaseTimeEntity {
 
     @Id
     @GeneratedValue

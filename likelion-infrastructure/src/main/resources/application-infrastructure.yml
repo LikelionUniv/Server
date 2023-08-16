@@ -1,5 +1,9 @@
 ## 공통 설정
-
+kakao:
+  client-id: ${KAKAO_CLIENT_ID}
+  client-secret: ${KAKAO_CLIENT_SECRET}
+  redirect-url: ${KAKAO_REDIRECT_URL}
+  app-id: ${KAKAO_APP_ID}
 
 --- ## dev 환경 설정
 spring:

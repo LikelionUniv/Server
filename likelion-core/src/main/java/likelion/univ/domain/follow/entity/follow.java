@@ -11,7 +11,7 @@ import javax.persistence.*;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Entity(name = "follow")
+@Entity
 public class follow extends BaseTimeEntity {
 
     @Id
