@@ -1,4 +1,4 @@
-package likelion.univ.oauth.kakao.properties;
+package likelion.univ.properties;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

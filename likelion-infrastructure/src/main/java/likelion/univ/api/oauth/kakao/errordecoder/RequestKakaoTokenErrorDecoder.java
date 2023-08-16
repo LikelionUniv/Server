@@ -1,10 +1,10 @@
-package likelion.univ.oauth.kakao.errordecoder;
+package likelion.univ.api.oauth.kakao.errordecoder;
 
 import feign.Response;
 import feign.RetryableException;
 import feign.codec.ErrorDecoder;
 
-public class RequestKakaoUserInfoErrorDecoder implements ErrorDecoder {
+public class RequestKakaoTokenErrorDecoder implements ErrorDecoder{
 
     @Override
     public Exception decode(String methodKey, Response response) {

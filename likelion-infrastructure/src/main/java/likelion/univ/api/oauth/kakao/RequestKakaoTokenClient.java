@@ -1,15 +1,19 @@
-package likelion.univ.oauth.kakao;
+package likelion.univ.api.oauth.kakao;
 
-import likelion.univ.oauth.kakao.dto.KakaoTokenInfoDto;
-import likelion.univ.oauth.kakao.errordecoder.RequestKakaoTokenErrorDecoder;
+import likelion.univ.api.oauth.kakao.dto.KakaoTokenInfoDto;
+import likelion.univ.api.oauth.kakao.errordecoder.RequestKakaoTokenErrorDecoder;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+
+
 
 @FeignClient(
         name = "RequestKakaoTokenClient",
         url = "https://kauth.kakao.com",
         configuration = RequestKakaoTokenErrorDecoder.class)
+@EnableFeignClients()
 public interface RequestKakaoTokenClient {
     @PostMapping(
             "/oauth/token?grant_type=authorization_code&client_id={CLIENT_ID}&redirect_uri={REDIRECT_URI}&code={CODE}&client_secret={CLIENT_SECRET}")

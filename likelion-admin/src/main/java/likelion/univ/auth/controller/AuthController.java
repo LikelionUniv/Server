@@ -19,15 +19,15 @@ public class AuthController {
 
     private final LoginUseCase loginUseCase;
 
-//    @Operation(summary = "로그인 code를 통해 로그인을 진행합니다.")
-//    @GetMapping("/login/{loginType}")
-//    public AccountTokenDto getCredentialFromKaKao(
-//            @RequestParam("code") String code,
-//            @PathVariable("loginType") String loginType){
-//
-//        AccountTokenDto accountTokenDto = loginUseCase.excute(loginType,code);
-//        return SuccessResponse.of(accountTokenDto);
-//    }
+    @Operation(summary = "로그인 code를 통해 로그인을 진행합니다.")
+    @GetMapping("/login/{loginType}")
+    public SuccessResponse<Object> getCredentialFromKaKao(
+            @RequestParam("code") String code,
+            @PathVariable("loginType") String loginType){
+
+        AccountTokenDto accountTokenDto = loginUseCase.login(loginType,code);
+        return SuccessResponse.of(accountTokenDto);
+    }
 
 
 }
