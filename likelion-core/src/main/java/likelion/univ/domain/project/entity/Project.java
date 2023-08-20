@@ -29,9 +29,9 @@ public class Project {
     private Output outPut;
 
     @Column(nullable = false)
-    private String service;
+    private String serviceName; //서비스명
 
-    private int year;
+    private int ordinal; //기수
 
     private String univ; // University DB와 연결?
 
@@ -55,34 +55,34 @@ public class Project {
     @Column(columnDefinition = "Text")
     private String content;
 
-    private String link;
+    private String projectUrl;
 
     @Builder
-    public Project(String thon, Output outPut, String service, int year, String univ, LocalDate startDate, LocalDate endDate, String tech, String description, String content, String link) {
+    public Project(String thon, Output outPut, String serviceName, int ordinal, String univ, LocalDate startDate, LocalDate endDate, String tech, String description, String content, String projectUrl) {
         this.thon = thon;
         this.outPut = outPut;
-        this.service = service;
-        this.year = year;
+        this.serviceName = serviceName;
+        this.ordinal = ordinal;
         this.univ = univ;
         this.startDate = startDate;
         this.endDate = endDate;
         this.tech = tech;
         this.description = description;
         this.content = content;
-        this.link = link;
+        this.projectUrl = projectUrl;
     }
 
     public void update(ProjectSimpleDto projectSimpleDto) {
         this.thon = projectSimpleDto.getThon();
         this.outPut = projectSimpleDto.getOutPut();
-        this.service = projectSimpleDto.getService();
-        this.year = projectSimpleDto.getYear();
+        this.serviceName = projectSimpleDto.getServiceName();
+        this.ordinal = projectSimpleDto.getOrdinal();
         this.univ = projectSimpleDto.getUniv();
         this.startDate = projectSimpleDto.getStartDate();
         this.endDate = projectSimpleDto.getEndDate();
         this.tech = projectSimpleDto.getTech();
         this.description = projectSimpleDto.getDescription();
         this.content = projectSimpleDto.getContent();
-        this.link = projectSimpleDto.getLink();
+        this.projectUrl = projectSimpleDto.getProjectUrl();
     }
 }

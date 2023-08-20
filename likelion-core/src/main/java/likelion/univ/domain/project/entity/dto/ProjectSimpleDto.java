@@ -17,15 +17,15 @@ public class ProjectSimpleDto {
 
     private String thon;
     private Output outPut;
-    private String service;
-    private int year;
+    private String serviceName;
+    private int ordinal;
     private String univ;
     private LocalDate startDate;
     private LocalDate endDate;
     private String tech;
     private String description;
     private String content;
-    private String link;
+    private String projectUrl;
     private List<ImageSimpleDto> images;
     private List<ProjectMemberDto> members;
 
@@ -55,15 +55,15 @@ public class ProjectSimpleDto {
     public ProjectSimpleDto(Project project, List<Image> images, List<User> users) {
         this.thon = project.getThon();
         this.outPut = project.getOutPut();
-        this.service = project.getService();
-        this.year = project.getYear();
+        this.serviceName = project.getServiceName();
+        this.ordinal = project.getOrdinal();
         this.univ = project.getUniv();
         this.startDate = project.getStartDate();
         this.endDate = project.getEndDate();
         this.tech = project.getTech();
         this.description = project.getDescription();
         this.content = project.getContent();
-        this.link = project.getLink();
+        this.projectUrl = project.getProjectUrl();
         this.images = images.stream()
                 .map(image -> new ImageSimpleDto(image))
                 .collect(Collectors.toList());

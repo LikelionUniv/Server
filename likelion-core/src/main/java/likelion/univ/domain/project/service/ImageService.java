@@ -1,10 +1,10 @@
 package likelion.univ.domain.project.service;
 
+import likelion.univ.domain.project.adapter.ImageAdapter;
+import likelion.univ.domain.project.adapter.ProjectAdapter;
 import likelion.univ.domain.project.entity.Image;
 import likelion.univ.domain.project.entity.Project;
 import likelion.univ.domain.project.dto.ProjectSimpleDto;
-import likelion.univ.domain.project.repository.ImageRepository;
-import likelion.univ.domain.project.repository.ProjectRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,23 +17,24 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class ImageService {
 
-    private final ProjectRepository projectRepository;
-    private final ImageRepository imageRepository;
+    private final ProjectAdapter projectAdapter;
+    private final ImageAdapter imageAdapter;
+
     @Transactional
     public void updateImage(Long id, ProjectSimpleDto projectSimpleDto) {
-        Project project = projectRepository.findById(id).get();
-        imageRepository.deleteByProject(project); //기존 사진 모두 삭제
+        Project project = projectAdapter.findById(id).get();
+        imageAdapter.deleteByProject(project); //기존 사진 모두 삭제
         if(projectSimpleDto.getImages() != null) {
             List<Image> images = projectSimpleDto.getImages().stream()
                     .map(imageSimpleDto -> new Image(project, imageSimpleDto.getName(), imageSimpleDto.getSaved()))
                     .collect(Collectors.toList());
-            imageRepository.saveAll(images);
+            imageAdapter.saveAll(images);
         }
     }
 
     @Transactional
     public void deleteImage(Long id) {
-        Project project = projectRepository.findById(id).get();
-        imageRepository.deleteByProject(project);
+        Project project = projectAdapter.findById(id).get();
+        imageAdapter.deleteByProject(project);
     }
 }
