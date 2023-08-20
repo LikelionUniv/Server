@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -19,6 +20,19 @@ public class ImageService {
 
     private final ProjectAdapter projectAdapter;
     private final ImageAdapter imageAdapter;
+
+    @Transactional
+    public void addImage(Long id, ProjectRequestDto projectRequestDto) {
+        Project project = projectAdapter.findById(id).get();
+        if (projectRequestDto.getImages() != null) {
+            List<Image> images = new ArrayList<>();
+            for (ImageRequestDTO imageRequestDTO : projectRequestDto.getImages()) {
+                Image image = new Image(project, imageRequestDTO.getName(), imageRequestDTO.getSaved());
+                images.add(image);
+            }
+            imageAdapter.saveAll(images);
+        }
+    }
 
     @Transactional
     public void updateImage(Long id, ProjectSimpleDto projectSimpleDto) {

@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,6 +22,19 @@ public class ProjectMemberService {
     private final ProjectAdapter projectAdapter;
     private final ProjectMemberAdapter projectMemberAdapter;
     private final UserAdaptor userAdaptor;
+
+    public void addMembers(Long id, ProjectRequestDto projectRequestDto){
+        Optional<Project> optionalProject = projectAdaptor.findById(id);
+        if (optionalProject.isPresent()) {
+            List<ProjectMember> members = new ArrayList<>();
+            Project project = optionalProject.get();
+            for(ProjectMemberRequestDto projectMemberRequestDto : projectRequestDto.getMembers()){
+                ProjectMember projectMember = new ProjectMember(project,projectMemberRequestDto.getUser());
+                members.add(projectMember);
+            }
+            projecMemberAdaptor.saveAll(members);
+        }
+    }
 
     @Transactional
     public void updateProjectMember(Long id, ProjectSimpleDto projectSimpleDto) {

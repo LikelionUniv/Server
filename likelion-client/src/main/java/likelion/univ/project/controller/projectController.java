@@ -35,6 +35,25 @@ public class projectController {
         return SuccessResponse.of(projectResponseDto);
     }
 
+    //--------- 프로젝트 등록 ------------//
+    @PostMapping("/api/v1/project/post")
+    public ProjectResponseDto createProject(@RequestBody ProjectRequestDto projectRequestDto){
+        Project project = projectService.createProject(projectRequestDto);
+        Long id = project.getId();
+        imageService.addImage(id, projectRequestDto);
+        projectMemberService.addMembers(id,projectRequestDto);
+        return new ProjectResponseDto(project.getId(),"프로젝트 등록 성공");
+    }
+
+
+    //-----------프로젝트 목록 --------//
+    @GetMapping("/api/v1/project")
+    public String list(Model model){
+        List<Project> projectList = projectService.findProjectAll();
+        model.addAttribute("project",projectList);
+        return "/project";
+    }
+
     //-----------수정 중 --------//
 
 //    @GetMapping("/v2/project/update/{projectId}")

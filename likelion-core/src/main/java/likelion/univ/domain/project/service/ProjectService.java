@@ -9,6 +9,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @Transactional(readOnly = true) //읽기 전용 모드
 @RequiredArgsConstructor
@@ -17,6 +19,18 @@ public class ProjectService {
     private final ProjectAdapter projectAdapter;
     private final ImageAdapter imageAdapter;
     private final ProjectMemberAdapter projectMemberAdapter;
+
+    @Transactional
+    public Project createProject(ProjectRequestDto projectRequestDto) {
+        // 유저 권한 설정 필요 ?
+        Project project = projectAdapter.save(projectRequestDto.toEntity());
+
+        return project;
+    }
+
+    public List<Project> findProjectAll(){
+        return projectAdapter.findAll();
+    }
 
 //    public ProjectSimpleDto getProject(Long id) {
 //        Project project = projectAdapter.findById(id);
