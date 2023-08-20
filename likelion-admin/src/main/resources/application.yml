@@ -5,8 +5,19 @@ spring:
       - common
       - core
       - infrastructure
+  mail:
+    host: ${protocol}
+    port: 587
+    username: ${Email}
+    password: ${KEY}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
 
-## 해당 spring fox가 스프링 2.6이상과 설정이 달라 따로 설정
+  ## 해당 spring fox가 스프링 2.6이상과 설정이 달라 따로 설정
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher
