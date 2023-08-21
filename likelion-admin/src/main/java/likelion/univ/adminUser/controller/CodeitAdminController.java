@@ -3,15 +3,16 @@ package likelion.univ.adminUser.controller;
 import io.swagger.annotations.Api;
 import io.swagger.v3.oas.annotations.Operation;
 import likelion.univ.adminUser.dto.request.SendMailRequestDto;
+import likelion.univ.adminUser.dto.request.SendMsgRequestDto;
 import likelion.univ.adminUser.dto.response.UserInfoResponseDto;
 import likelion.univ.adminUser.usecase.SendMessengerUseCase;
 import likelion.univ.response.SuccessResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import net.nurigo.sdk.message.exception.NurigoEmptyResponseException;
+import net.nurigo.sdk.message.exception.NurigoMessageNotReceivedException;
+import net.nurigo.sdk.message.exception.NurigoUnknownException;
+import org.springframework.web.bind.annotation.*;
 
 import javax.mail.MessagingException;
 import java.io.IOException;
@@ -34,4 +35,11 @@ public class CodeitAdminController {
         return SuccessResponse.empty();
     }
 
+    @Operation(summary = "메신저 전송")
+    @PostMapping(value="/messenger")
+    public SuccessResponse<Object> sendMessenger(@RequestBody SendMsgRequestDto sendMsgRequestDto)
+            throws NurigoMessageNotReceivedException, NurigoEmptyResponseException, NurigoUnknownException {
+        sendMessengerUseCase.sendMsg(sendMsgRequestDto);
+        return SuccessResponse.empty();
+    }
 }

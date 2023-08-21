@@ -5,6 +5,7 @@ spring:
       - common
       - core
       - infrastructure
+  ## 메일 설정
   mail:
     host: ${protocol}
     port: 587
@@ -16,6 +17,19 @@ spring:
           auth: true
           starttls:
             enable: true
+  ## 문자 메시지 설정
+  coolsms:
+    devHee:
+      apikey : ${API_KEY}
+      apisecret: ${API_SECRET_KEY}
+      fromNum: ${PHONENUM}
+  popbill:
+    linkId: Tester #링크아이디
+    secretKey : GsA3FQvcavKzq3KDUNLziJFuajqa7ZY1 #비밀키
+    isTest: true #연동환경 설정값 true(개발용), false(상업용)
+    isIpRedirectOnOff : true #인증토큰 아이피 제한 기능 사용여부 true(사용), false(미사용)
+    useStaticIp: false #팝필 API 서비스 고정 IP 사용여부 true(사용), false(미사용)
+    useLocalTimeYn: true #로컬시스템 시간 사용여부 true(사용-권장), false(미사용)
 
   ## 해당 spring fox가 스프링 2.6이상과 설정이 달라 따로 설정
   mvc:

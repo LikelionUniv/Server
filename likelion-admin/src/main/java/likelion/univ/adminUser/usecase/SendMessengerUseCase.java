@@ -1,30 +1,33 @@
 package likelion.univ.adminUser.usecase;
 
+import com.google.gson.JsonObject;
 import likelion.univ.adminUser.dto.request.SendMailRequestDto;
-import likelion.univ.adminUser.dto.response.UserInfoResponseDto;
+import likelion.univ.adminUser.dto.request.SendMsgRequestDto;
 import likelion.univ.annotation.UseCase;
 import likelion.univ.domain.user.adaptor.UserAdaptor;
 import likelion.univ.domain.user.entity.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.fileupload.disk.DiskFileItem;
-import org.apache.commons.io.IOUtils;
-import org.apache.commons.fileupload.FileItem;
-import org.springframework.core.io.ByteArrayResource;
+import net.nurigo.sdk.NurigoApp;
+import net.nurigo.sdk.message.exception.NurigoEmptyResponseException;
+import net.nurigo.sdk.message.exception.NurigoMessageNotReceivedException;
+import net.nurigo.sdk.message.exception.NurigoUnknownException;
+import net.nurigo.sdk.message.model.Message;
+import net.nurigo.sdk.message.response.MultipleDetailMessageSentResponse;
+import net.nurigo.sdk.message.service.DefaultMessageService;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
-import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.commons.CommonsMultipartFile;
+
 
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
-import javax.mail.internet.MimeUtility;
 import java.io.*;
-import java.nio.file.Files;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Slf4j
 @UseCase
@@ -32,6 +35,16 @@ import java.util.stream.Collectors;
 public class SendMessengerUseCase {
     private final UserAdaptor userAdaptor;
     private final JavaMailSender mailSender;
+    private DefaultMessageService messageService;
+
+    @Value("${spring.coolsms.devHee.apikey}")
+    private String api_key;
+    @Value("${spring.coolsms.devHee.apisecret}")
+    private String api_secret;
+    @Value("${spring.coolsms.devHee.fromNum}")
+    private String fromNum;
+
+
     public void sendEmail(SendMailRequestDto sendMailRequestDto) throws MessagingException, IOException {
         MimeMessage mail = mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(mail, true, "UTF-8");
@@ -47,6 +60,23 @@ public class SendMessengerUseCase {
         }
         helper.setTo(sendMailRequestDto.getToAddress());
         mailSender.send(mail);
+    }
+
+    public void sendMsg(SendMsgRequestDto sendMsgRequestDto) throws NurigoMessageNotReceivedException, NurigoEmptyResponseException, NurigoUnknownException {
+        messageService = NurigoApp.INSTANCE.initialize(api_key,api_secret, "https://api.coolsms.co.kr");
+        ArrayList<Message> messageList = new ArrayList<>();
+
+        for(String toNum : sendMsgRequestDto.getPhoneNum()){
+            Message message = new Message();
+            message.setFrom(fromNum);
+            message.setTo(toNum);
+            message.setText(sendMsgRequestDto.getMsg());
+            messageList.add(message);
+        }
+        MultipleDetailMessageSentResponse response = this.messageService.send(messageList,false, false);
+
+
+
     }
 
 }
