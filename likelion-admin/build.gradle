@@ -18,7 +18,8 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-mail' // 이메일 전송
     implementation group: 'commons-io', name: 'commons-io', version: '2.6' //이메일 첨부 파일
     implementation group: 'commons-fileupload', name: 'commons-fileupload', version: '1.4' //이메일 첨부 파일
-    implementation group: 'net.nurigo', name: 'sdk', version: '4.2.4' // 카카오 전송
+    implementation 'net.nurigo:sdk:4.3.0' // 카카오 전송, 문자 전송
+    implementation 'kr.co.linkhub:popbill-spring-boot-starter:1.9.2' //카카오 전송
     /* swagger */
     implementation 'io.springfox:springfox-boot-starter:3.0.0'
     /* security */
