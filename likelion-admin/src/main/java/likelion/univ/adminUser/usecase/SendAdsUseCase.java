@@ -1,11 +1,9 @@
 package likelion.univ.adminUser.usecase;
 
-import com.google.gson.JsonObject;
 import likelion.univ.adminUser.dto.request.SendMailRequestDto;
 import likelion.univ.adminUser.dto.request.SendMsgRequestDto;
 import likelion.univ.annotation.UseCase;
 import likelion.univ.domain.user.adaptor.UserAdaptor;
-import likelion.univ.domain.user.entity.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.nurigo.sdk.NurigoApp;
@@ -13,7 +11,6 @@ import net.nurigo.sdk.message.exception.NurigoEmptyResponseException;
 import net.nurigo.sdk.message.exception.NurigoMessageNotReceivedException;
 import net.nurigo.sdk.message.exception.NurigoUnknownException;
 import net.nurigo.sdk.message.model.Message;
-import net.nurigo.sdk.message.response.MultipleDetailMessageSentResponse;
 import net.nurigo.sdk.message.service.DefaultMessageService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -26,13 +23,11 @@ import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import java.io.*;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 
 @Slf4j
 @UseCase
 @RequiredArgsConstructor
-public class SendMessengerUseCase {
+public class SendAdsUseCase {
     private final UserAdaptor userAdaptor;
     private final JavaMailSender mailSender;
     private DefaultMessageService messageService;
@@ -73,7 +68,7 @@ public class SendMessengerUseCase {
             message.setText(sendMsgRequestDto.getMsg());
             messageList.add(message);
         }
-        MultipleDetailMessageSentResponse response = this.messageService.send(messageList,false, false);
+        messageService.send(messageList,false, false);
 
 
 
