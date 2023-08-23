@@ -24,11 +24,6 @@ public class CommentController {
     private final CommentRepository commentRepository; // READ
 
     @Operation(summary = "댓글 작성", description = "부모 댓글을 생성합니다.")
-    @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "댓글 작성 완료"),
-            @ApiResponse(responseCode = "400", description = "client error"),
-            @ApiResponse(responseCode = "500", description = "server error")
-    })
     @PostMapping("/parent")
     public ResponseEntity<CommonResponseDto<Object>> createParentComment(@RequestBody CommentDto.CreateParent request) {
         CommonResponseDto<Object> responseBody = commentService.createParentComment(request);
@@ -38,11 +33,6 @@ public class CommentController {
     }
 
     @Operation(summary = "대댓글 작성", description = "자식 댓글을 생성합니다.")
-    @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "댓글 작성 완료"),
-            @ApiResponse(responseCode = "400", description = "client error"),
-            @ApiResponse(responseCode = "500", description = "server error")
-    })
     @PostMapping("/child")
     public ResponseEntity<CommonResponseDto<Object>> createChildComment(@RequestBody CommentDto.CreateChild request) {
         CommonResponseDto<Object> responseBody = commentService.createChildComment(request);
@@ -52,11 +42,6 @@ public class CommentController {
     }
 
     @Operation(summary = "댓글 내용 수정", description = "댓글 body필드를 수정합니다.")
-    @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "댓글 수정 완료"),
-            @ApiResponse(responseCode = "400", description = "client error"),
-            @ApiResponse(responseCode = "500", description = "server error")
-    })
     @PatchMapping("/update/{commentId}")
     public ResponseEntity<CommonResponseDto<Object>> updateComment(@PathVariable("commentId") Long commentId, @RequestBody CommentDto.UpdateComment request) {
         CommonResponseDto<Object> responseBody = commentService.updateCommentBody(commentId, request);
@@ -65,11 +50,6 @@ public class CommentController {
     }
 
     @Operation(summary = "댓글 삭제", description = "댓글을 soft delete 합니다.")
-    @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "댓글 삭제 완료"),
-            @ApiResponse(responseCode = "400", description = "client error"),
-            @ApiResponse(responseCode = "500", description = "server error")
-    })
     @PatchMapping("/delete/{commentId}")
     public ResponseEntity<CommonResponseDto<Object>> deleteComment(@PathVariable("commentId") Long commentId, @RequestBody CommentDto.DeleteComment request) {
         CommonResponseDto<Object> responseBody = commentService.deleteComment(commentId, request); // soft delete
