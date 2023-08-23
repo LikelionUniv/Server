@@ -3,8 +3,6 @@ package likelion.univ.adminUser.dto.response;
 import likelion.univ.domain.user.entity.User;
 import lombok.*;
 
-import java.util.Optional;
-
 @Data
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)

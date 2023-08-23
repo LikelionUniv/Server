@@ -2,16 +2,12 @@ package likelion.univ.adminUser.usecase;
 
 import likelion.univ.adminUser.dto.response.UserInfoResponseDto;
 import likelion.univ.annotation.UseCase;
-import likelion.univ.domain.university.adaptor.UniversityAdaptor;
-import likelion.univ.domain.university.entity.University;
 import likelion.univ.domain.user.adaptor.UserAdaptor;
 import likelion.univ.domain.user.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @UseCase

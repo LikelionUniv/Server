@@ -1,5 +1,7 @@
 ## 공통 설정
-
+spring:
+  main:
+    allow-bean-definition-overriding: true
 
 --- ## dev 환경 설정
 spring:

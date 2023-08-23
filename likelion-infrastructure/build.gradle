@@ -2,8 +2,18 @@ plugins {
     id 'java-library'
 }
 
+ext {
+    set('springCloudVersion', "2021.0.4") //openfeign
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}" //openfeign
+    }
+}
 
 dependencies {
+    implementation 'org.springframework.cloud:spring-cloud-starter-openfeign' //openfeign
 }
 
 clean {
