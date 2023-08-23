@@ -21,7 +21,7 @@ public class SwaggerConfig {
     private ApiInfo getApiInfo() {
         return new ApiInfoBuilder()
                 .title("Likelion-Univ Admin API")
-                .description("Likelion-Univ Admin API문서입니다.")
+                .description("Likelion-Univ Client API문서입니다.")
                 .contact(new Contact("Likelion-Univ",
                         "https://github.com/LikelionUniv/LikelionUniv-Server",
                         "tmfrk0426@gmail.com"))

@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 
 @RestController
 @CrossOrigin("*")
@@ -23,7 +22,7 @@ public class PostController {
     private PostService postService;
 
     @PostMapping("")
-    public ResponseEntity<CommonResponseDto<Object>> createPost(@Valid @RequestBody PostDto.Save request) {
+    public ResponseEntity<CommonResponseDto<Object>> createPost(@RequestBody PostDto.Save request) {
         Long userId=1l;
         CommonResponseDto<Object> responseBody = postService.createPost(request, userId);
 
@@ -34,7 +33,7 @@ public class PostController {
 
 
     @PatchMapping("")
-    public ResponseEntity<CommonResponseDto<Object>> updatePost(@Valid @RequestBody PostDto.Update request) {
+    public ResponseEntity<CommonResponseDto<Object>> updatePost(@RequestBody PostDto.Update request) {
         Long userId=1l;
         CommonResponseDto<Object> responseBody = postService.updatePost(request, userId);
 
@@ -44,7 +43,7 @@ public class PostController {
 
 
     @DeleteMapping("")
-    public ResponseEntity<CommonResponseDto<Object>> deletePost(@Valid @RequestBody PostDto.Delete request) {
+    public ResponseEntity<CommonResponseDto<Object>> deletePost(@RequestBody PostDto.Delete request) {
         Long userId=1l;
         CommonResponseDto<Object> responseBody = postService.deletePost(request, userId);
 

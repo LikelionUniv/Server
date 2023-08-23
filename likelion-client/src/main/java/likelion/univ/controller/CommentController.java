@@ -10,9 +10,9 @@ import likelion.univ.domain.repository.CommentRepository;
 import likelion.univ.service.CommentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 
 @Tag(name = "Comment", description = "댓글 api")
 @RestController
@@ -30,7 +30,7 @@ public class CommentController {
             @ApiResponse(responseCode = "500", description = "server error")
     })
     @PostMapping("/parent")
-    public ResponseEntity<CommonResponseDto<Object>> createParentComment(@Valid @RequestBody CommentDto.CreateParent request) {
+    public ResponseEntity<CommonResponseDto<Object>> createParentComment(@RequestBody CommentDto.CreateParent request) {
         CommonResponseDto<Object> responseBody = commentService.createParentComment(request);
 
         return ResponseEntity.ok()
