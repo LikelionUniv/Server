@@ -1,9 +1,9 @@
 package likelion.univ.project.usecase;
 
 import likelion.univ.annotation.UseCase;
-import likelion.univ.domain.project.adapter.ImageAdapter;
-import likelion.univ.domain.project.adapter.ProjectAdapter;
-import likelion.univ.domain.project.adapter.ProjectMemberAdapter;
+import likelion.univ.domain.project.adapter.ImageAdaptor;
+import likelion.univ.domain.project.adapter.ProjectAdaptor;
+import likelion.univ.domain.project.adapter.ProjectMemberAdaptor;
 import likelion.univ.domain.project.entity.Image;
 import likelion.univ.domain.project.entity.Project;
 import likelion.univ.domain.project.entity.enums.Output;
@@ -17,9 +17,7 @@ import likelion.univ.project.dto.response.ProjectResponseDto;
 import lombok.RequiredArgsConstructor;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @UseCase
@@ -29,14 +27,14 @@ public class UpdateProjectUsecase {
     private final ProjectService projectService;
     private final ImageService imageService;
     private final ProjectMemberService projectMemberService;
-    private final ProjectAdapter projectAdapter;
-    private final ImageAdapter imageAdapter;
-    private final ProjectMemberAdapter projectMemberAdapter;
+    private final ProjectAdaptor projectAdaptor;
+    private final ImageAdaptor imageAdaptor;
+    private final ProjectMemberAdaptor projectMemberAdaptor;
     private final UserAdaptor userAdaptor;
 
     public ProjectResponseDto excute(Long projectId, ProjectRequestDto projectRequestDto) {
 
-        Project project = projectAdapter.findById(projectId).get();
+        Project project = projectAdaptor.findById(projectId).get();
 
         String thon = projectRequestDto.getThon();
         Output outPut = projectRequestDto.getOutPut();
@@ -64,8 +62,8 @@ public class UpdateProjectUsecase {
         imageService.updateImage(project, image);
         projectMemberService.updateProjectMember(project, members);
 
-        List<Image> images = imageAdapter.findByProject(project);
-        List<User> users = projectMemberAdapter.findByProject(project).stream()
+        List<Image> images = imageAdaptor.findByProject(project);
+        List<User> users = projectMemberAdaptor.findByProject(project).stream()
                 .map(projectMember -> projectMember.getUser())
                 .map(user -> userAdaptor.findById(user.getId()))
                 .collect(Collectors.toList());

@@ -10,7 +10,7 @@ import java.util.Optional;
 
 @Adaptor
 @RequiredArgsConstructor
-public class ProjectAdapter {
+public class ProjectAdaptor {
 
     private final ProjectRepository projectRepository;
 

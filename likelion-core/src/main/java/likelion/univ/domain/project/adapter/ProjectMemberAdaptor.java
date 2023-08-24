@@ -10,7 +10,7 @@ import java.util.List;
 
 @Adaptor
 @RequiredArgsConstructor
-public class ProjectMemberAdapter {
+public class ProjectMemberAdaptor {
 
     private final ProjectMemberRepository projectMemberRepository;
 
