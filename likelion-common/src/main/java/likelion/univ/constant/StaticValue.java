@@ -9,6 +9,10 @@ public class StaticValue {
     public static final int METHOD_NOT_ALLOWED = 405;
     public static final int INTERNAL_SERVER_ERROR = 500;
 
+    /* token type */
+    public static final String ACCESS_TOKEN = "AccessToken";
+    public static final String REFRESH_TOKEN = "RefreshToken";
+
     /* swagger urls */
     public static final String[] SwaggerUrlPatterns = {
             "/v2/api-docs",

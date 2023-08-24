@@ -19,8 +19,11 @@ dependencies {
     implementation 'io.springfox:springfox-boot-starter:3.0.0'
     /* security */
     implementation("org.springframework.boot:spring-boot-starter-security")
+
     /* core 모듈 추가  */
     implementation project(':likelion-core')
+    /* redis 모듈 추가  */
+    implementation project(':likelion-redis')
     /* common 모듈 추가 */
     implementation project(':likelion-common')
     /* infrastructure 모듈 추가 */

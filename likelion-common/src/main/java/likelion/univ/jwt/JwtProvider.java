@@ -5,11 +5,16 @@ import io.jsonwebtoken.security.Keys;
 import likelion.univ.exception.ExpiredTokenException;
 import likelion.univ.exception.InvalidSignatureTokenException;
 import likelion.univ.exception.InvalidTokenException;
+import likelion.univ.exception.NotMatchedTokenTypeException;
+import likelion.univ.jwt.dto.DecodedJwtToken;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.security.Key;
 import java.util.Date;
+
+import static likelion.univ.constant.StaticValue.ACCESS_TOKEN;
+import static likelion.univ.constant.StaticValue.REFRESH_TOKEN;
 
 @RequiredArgsConstructor
 @Component
@@ -22,7 +27,10 @@ public class JwtProvider {
 
     public Jws<Claims> getClaim(String token){
         try {
-            return Jwts.parserBuilder().setSigningKey(getSecretKey()).build().parseClaimsJws(token);
+            return Jwts.parserBuilder()
+                    .setSigningKey(getSecretKey())
+                    .build()
+                    .parseClaimsJws(token);
         } catch (SignatureException e) {
             throw new InvalidSignatureTokenException();
         } catch (ExpiredJwtException e) {
@@ -32,11 +40,11 @@ public class JwtProvider {
         }
     }
 
-    private String publishToken(Long uid, String role, String type){
+    private String publishToken(Long userId, String role, String type){
         Date now = new Date();
         return Jwts.builder()
                 .setIssuer("LikelionUniv")
-                .setSubject(uid.toString())
+                .setSubject(userId.toString())
                 .setIssuedAt(now)
                 .setExpiration(new Date(now.getTime() + jwtProperties.getAccessTokenExp()))
                 .claim("type",type)
@@ -45,15 +53,25 @@ public class JwtProvider {
                 .compact();
     }
 
-    public String generateAccessToken(Long uid, String role){
-        return publishToken(uid,role,"AccessToken");
+    public String generateAccessToken(Long userId, String role){
+        return publishToken(userId,role,ACCESS_TOKEN);
     }
-    public String generateRefreshToken(Long uid, String role){
-        return publishToken(uid,role,"RefreshToken");
+    public String generateRefreshToken(Long userId, String role){
+        return publishToken(userId,role,REFRESH_TOKEN);
     }
 
-    public Long getUserId(String token){
+    public DecodedJwtToken decodeToken(String token, String type){
         Claims claims = getClaim(token).getBody();
-        return Long.valueOf(claims.getSubject());
+        checkType(claims,type);
+        DecodedJwtToken result = DecodedJwtToken.builder()
+                .userId(Long.valueOf(claims.getSubject()))
+                .role(String.valueOf(claims.get("role")))
+                .type(String.valueOf(claims.get("type")))
+                .build();
+        return result;
+    }
+    private void checkType(Claims claims, String type){
+        if(type.equals(String.valueOf(claims.get("type")))) return;
+        else throw new NotMatchedTokenTypeException();
     }
 }

@@ -1,14 +1,15 @@
-package likelion.univ.api.oauth.kakao.dto;
+package likelion.univ.api.oauth.oidc;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Getter
 @NoArgsConstructor
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
-public class KakaoUserInfoDto {
-    private String sub;
-    private String email;
+public class PublicKeysDto {
+    private List<PublicKeyDto> keys;
 }

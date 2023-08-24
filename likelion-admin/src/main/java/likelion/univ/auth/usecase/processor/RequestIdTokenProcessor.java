@@ -7,17 +7,16 @@ import likelion.univ.api.oauth.kakao.dto.KakaoTokenInfoDto;
 import likelion.univ.properties.KakaoProperties;
 import lombok.RequiredArgsConstructor;
 
-
 @Processor
 @RequiredArgsConstructor
 public class RequestIdTokenProcessor {
     private final RequestKakaoTokenClient requestKakaoTokenClient;
     private final KakaoProperties kakaoProperties;
     public String execute(String loginType, String code){
-        String idToken = "";
+        String idToken = new String();
         switch (loginType) {
             case "kakao":
-                KakaoTokenInfoDto kakaoTokenInfoDto = requestKakaoTokenClient.excute(
+                KakaoTokenInfoDto kakaoTokenInfoDto = requestKakaoTokenClient.getToken(
                         kakaoProperties.getClientId(),
                         kakaoProperties.getRedirectUrl(),
                         code,
@@ -30,6 +29,5 @@ public class RequestIdTokenProcessor {
                 throw new NotSupportedLoginTypeException();
         }
         return idToken;
-
     }
 }

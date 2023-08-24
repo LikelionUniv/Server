@@ -5,6 +5,8 @@ import likelion.univ.exception.base.BaseErrorCode;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+import java.security.spec.InvalidKeySpecException;
+
 import static likelion.univ.constant.StaticValue.*;
 
 @Getter
@@ -16,9 +18,15 @@ public enum GlobalErrorCode implements BaseErrorCode {
     SERVER_ERROR(INTERNAL_SERVER_ERROR,"GLOBAL_500","서버 내부에서 알 수 없는 오류가 발생했습니다."),
 
 
-    INVALID_SIGNATURE_TOKEN(UNAUTHORIZED,"TOKEN_401_1","토큰의 Signature가 일치하지 않습니다."),
-    EXPIRED_TOKEN(UNAUTHORIZED,"TOKEN_401_2","토큰이 만료되었습니다."),
-    INVALID_TOKEN(UNAUTHORIZED,"TOKEN_401_3","토큰이 유효하지않습니다.");
+    INVALID_TOKEN(UNAUTHORIZED,"TOKEN_401_1","토큰이 유효하지않습니다."),
+    INVALID_SIGNATURE_TOKEN(UNAUTHORIZED,"TOKEN_401_2","토큰의 Signature가 일치하지 않습니다."),
+    INCORRECT_CLAIM_TOKEN(UNAUTHORIZED,"TOKEN_401_3","토큰의 iss 혹은 aud가 일치하지 않습니다."),
+    EXPIRED_TOKEN(UNAUTHORIZED,"TOKEN_401_4","토큰이 만료되었습니다."),
+    NOT_MATCHED_TOKEN_TYPE(UNAUTHORIZED,"TOKEN_401_5","토큰의 타입이 일치하지 않아 디코딩할 수 없습니다."),
+    PUBLIC_KEY_NOT_FOUND_TOKEN(UNAUTHORIZED,"TOKEN_401_5","토큰의 타입이 일치하지 않아 디코딩할 수 없습니다."),
+
+
+    PUBKEY_GENERATION_FAILED(BAD_REQUEST,"PUBLIC_KEY_400_1","공개키를 생성하는데 실패했습니다.");
 
 
 
