@@ -30,7 +30,7 @@ public class ProjectRequestDto {
     private String description;
     private String content;
     private String projectUrl;
-    private List<ImageRequestDTO> images;
+    private List<ImageRequestDto> images;
     private List<ProjectMemberRequestDto> members;
 
     @Builder
@@ -47,10 +47,13 @@ public class ProjectRequestDto {
         this.content = project.getContent();
         this.projectUrl = project.getProjectUrl();
         this.images = images.stream()
-                .map(image -> new ImageRequestDTO(image))
+                .map(image -> new ImageRequestDto(image))
                 .collect(Collectors.toList());
         this.members = members.stream()
-                .map(user -> new ProjectMemberRequestDto(user))
+                .map(user -> ProjectMemberRequestDto.builder()
+                        .id(user.getId())
+                        .name(user.getUser().getProfile().getName())
+                        .build())
                 .collect(Collectors.toList());
     }
 

@@ -4,8 +4,11 @@ import likelion.univ.domain.project.entity.Project;
 import likelion.univ.domain.project.service.ImageService;
 import likelion.univ.domain.project.service.ProjectMemberService;
 import likelion.univ.domain.project.service.ProjectService;
+import likelion.univ.project.dto.request.ProjectRequestDto;
 import likelion.univ.project.dto.response.ProjectResponseDto;
+import likelion.univ.project.usecase.DeleteProjectUsecase;
 import likelion.univ.project.usecase.GetProjectUsecase;
+import likelion.univ.project.usecase.UpdateProjectUsecase;
 import likelion.univ.response.SuccessResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -13,6 +16,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Objects;
 
 @Slf4j
 @RestController
@@ -27,6 +31,8 @@ public class projectController {
     private final ProjectMemberService projectMemberService;
 
     private final GetProjectUsecase getProjectUsecase;
+    private final UpdateProjectUsecase updateProjectUsecase;
+    private final DeleteProjectUsecase deleteProjectUsecase;
 
     @GetMapping("/update/{projectId}")
 //    @Operation(summary = " .")
@@ -35,24 +41,36 @@ public class projectController {
         return SuccessResponse.of(projectResponseDto);
     }
 
-    //--------- 프로젝트 등록 ------------//
-    @PostMapping("/api/v1/project/post")
-    public ProjectResponseDto createProject(@RequestBody ProjectRequestDto projectRequestDto){
-        Project project = projectService.createProject(projectRequestDto);
-        Long id = project.getId();
-        imageService.addImage(id, projectRequestDto);
-        projectMemberService.addMembers(id,projectRequestDto);
-        return new ProjectResponseDto(project.getId(),"프로젝트 등록 성공");
+    @PutMapping("/update/{projectId}")
+    public SuccessResponse<ProjectResponseDto> updateProject(@PathVariable("projectId") Long projectId, @RequestBody ProjectRequestDto projectRequestDto) {
+        ProjectResponseDto projectResponseDto = updateProjectUsecase.excute(projectId, projectRequestDto);
+        return SuccessResponse.of(projectResponseDto);
     }
+
+    @DeleteMapping("/delete/{projectId}")
+    public SuccessResponse<Objects> deleteProject(@PathVariable("projectId") Long projectId) {
+        deleteProjectUsecase.excute(projectId);
+        return SuccessResponse.empty();
+    }
+
+    //--------- 프로젝트 등록 ------------//
+//    @PostMapping("/api/v1/project/post")
+//    public ProjectResponseDto createProject(@RequestBody ProjectRequestDto projectRequestDto){
+//        Project project = projectService.createProject(projectRequestDto);
+//        Long id = project.getId();
+//        imageService.addImage(id, projectRequestDto);
+//        projectMemberService.addMembers(id,projectRequestDto);
+//        return new ProjectResponseDto(project.getId(),"프로젝트 등록 성공");
+//    }
 
 
     //-----------프로젝트 목록 --------//
-    @GetMapping("/api/v1/project")
-    public String list(Model model){
-        List<Project> projectList = projectService.findProjectAll();
-        model.addAttribute("project",projectList);
-        return "/project";
-    }
+//    @GetMapping("/api/v1/project")
+//    public String list(Model model){
+//        List<Project> projectList = projectService.findProjectAll();
+//        model.addAttribute("project",projectList);
+//        return "/project";
+//    }
 
     //-----------수정 중 --------//
 

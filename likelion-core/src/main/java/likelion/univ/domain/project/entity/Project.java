@@ -1,6 +1,5 @@
 package likelion.univ.domain.project.entity;
 
-import likelion.univ.domain.project.dto.ProjectSimpleDto;
 import likelion.univ.domain.project.entity.enums.Output;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -72,17 +71,17 @@ public class Project {
         this.projectUrl = projectUrl;
     }
 
-    public void update(ProjectSimpleDto projectSimpleDto) {
-        this.thon = projectSimpleDto.getThon();
-        this.outPut = projectSimpleDto.getOutPut();
-        this.serviceName = projectSimpleDto.getServiceName();
-        this.ordinal = projectSimpleDto.getOrdinal();
-        this.univ = projectSimpleDto.getUniv();
-        this.startDate = projectSimpleDto.getStartDate();
-        this.endDate = projectSimpleDto.getEndDate();
-        this.tech = projectSimpleDto.getTech();
-        this.description = projectSimpleDto.getDescription();
-        this.content = projectSimpleDto.getContent();
-        this.projectUrl = projectSimpleDto.getProjectUrl();
+    public void update(String thon, Output output, String serviceName, int ordinal, String univ, LocalDate startDate, LocalDate endDate, String tech, String description, String content, String projectUrl) {
+        this.thon = thon;
+        this.outPut = output;
+        this.serviceName = serviceName;
+        this.ordinal = ordinal;
+        this.univ = univ;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.tech = tech;
+        this.description = description;
+        this.content = content;
+        this.projectUrl = projectUrl;
     }
 }
