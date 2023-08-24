@@ -8,6 +8,9 @@ import com.querydsl.core.types.PathMetadata;
 import javax.annotation.processing.Generated;
 import com.querydsl.core.types.Path;
 import com.querydsl.core.types.dsl.PathInits;
+import likelion.univ.domain.community.post.entity.Post;
+import likelion.univ.domain.community.post.entity.enums.MainCategory;
+import likelion.univ.domain.community.post.entity.enums.SubCategory;
 
 
 /**
@@ -33,12 +36,12 @@ public class QPost extends EntityPathBase<Post> {
 
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
-    public final EnumPath<likelion.univ.domain.entity.enums.MainCategory> mainCategory = createEnum("mainCategory", likelion.univ.domain.entity.enums.MainCategory.class);
+    public final EnumPath<MainCategory> mainCategory = createEnum("mainCategory", MainCategory.class);
 
     //inherited
     public final DateTimePath<java.time.LocalDateTime> modifiedDate = _super.modifiedDate;
 
-    public final EnumPath<likelion.univ.domain.entity.enums.SubCategory> subCategory = createEnum("subCategory", likelion.univ.domain.entity.enums.SubCategory.class);
+    public final EnumPath<SubCategory> subCategory = createEnum("subCategory", SubCategory.class);
 
     public final StringPath thumbnail = createString("thumbnail");
 
