@@ -1,6 +1,6 @@
 package likelion.univ.domain.user.entity;
 
-import likelion.univ.common.entity.BaseTimeEntity;
+import likelion.univ.domain.common.BaseTimeEntity;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity(name = "user")
-public class User extends BaseTimeEntity{
+public class User extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

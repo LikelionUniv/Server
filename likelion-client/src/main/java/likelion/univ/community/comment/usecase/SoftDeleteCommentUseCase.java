@@ -20,8 +20,8 @@ public class SoftDeleteCommentUseCase {
             throw new AuthorNotDetectedException();
         }
         CommentServiceDto.DeleteComment deleteServiceDto = buildServiceDtoFrom(deleteRequestDto);
-        CommentServiceDto.Response deleteResponseDto = commentDomainService.deleteCommentSoft(deleteServiceDto);
-        return SuccessResponse.of(deleteResponseDto);
+        CommentServiceDto.CUDResponse deleteCUDResponseDto = commentDomainService.deleteCommentSoft(deleteServiceDto);
+        return SuccessResponse.of(deleteCUDResponseDto);
     }
 
     private static CommentServiceDto.DeleteComment buildServiceDtoFrom(CommentRequestDto.DeleteComment deleteRequestDto) {

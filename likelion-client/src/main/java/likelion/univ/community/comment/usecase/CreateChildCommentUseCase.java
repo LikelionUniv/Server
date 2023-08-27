@@ -6,7 +6,6 @@ import likelion.univ.domain.community.comment.adaptor.CommentAdaptor;
 import likelion.univ.domain.community.comment.dto.CommentServiceDto;
 import likelion.univ.domain.community.comment.service.CommentDomainService;
 import likelion.univ.domain.user.adaptor.UserAdaptor;
-import likelion.univ.response.SuccessResponse;
 import lombok.RequiredArgsConstructor;
 
 @UseCase
@@ -17,7 +16,7 @@ public class CreateChildCommentUseCase {
     private final UserAdaptor userAdaptor;
     private final CommentDomainService commentDomainService;
 
-    public CommentServiceDto.Response execute(CommentRequestDto.CreateChild createRequestDto) {
+    public CommentServiceDto.CUDResponse execute(CommentRequestDto.CreateChild createRequestDto) {
         CommentServiceDto.CreateChildComment createServiceDto = buildServiceDtoFrom(createRequestDto);
         return commentDomainService.createChildComment(createServiceDto);
     }

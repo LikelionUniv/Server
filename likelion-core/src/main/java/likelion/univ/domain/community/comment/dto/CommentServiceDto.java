@@ -10,7 +10,7 @@ import lombok.Data;
 public class CommentServiceDto {
     @Data
     @Builder
-    public static class CreateChildComment {
+    public static class CreateParentComment {
         private String body;
         private Post post;
         private User user;
@@ -40,8 +40,30 @@ public class CommentServiceDto {
 
     @Data
     @Builder
-    public static class Response {
+    public static class CUDResponse {
         private Long id;
     }
+
+    @Data
+    @Builder
+    public static class ReadResponse {
+        private Long id;
+        private String username; // author.profile.name
+        private Long parentId;
+        private String body;
+        private Boolean isDeleted;
+
+        public static ReadResponse of(Comment comment) {
+            return ReadResponse.builder()
+                    .id(comment.getId())
+                    .username(comment.getAuthor().getProfile().getName())
+                    .parentId(comment.getParentComment().getId())
+                    .body(comment.getBody())
+                    .isDeleted(comment.getIsDeleted())
+                    .build();
+        }
+    }
+
+
 
 }

@@ -6,7 +6,6 @@ import likelion.univ.domain.community.comment.adaptor.CommentAdaptor;
 import likelion.univ.domain.community.comment.dto.CommentServiceDto;
 import likelion.univ.domain.community.comment.exception.AuthorNotDetectedException;
 import likelion.univ.domain.community.comment.service.CommentDomainService;
-import likelion.univ.response.SuccessResponse;
 import lombok.RequiredArgsConstructor;
 
 @UseCase
@@ -15,7 +14,7 @@ public class EditCommentUseCase {
     private final CommentAdaptor commentAdaptor;
     private final CommentDomainService commentDomainService;
 
-    public CommentServiceDto.Response execute(CommentRequestDto.EditComment editRequestDto) {
+    public CommentServiceDto.CUDResponse execute(CommentRequestDto.EditComment editRequestDto) {
         if (!isCommentAuthor(editRequestDto)) {
             throw new AuthorNotDetectedException();
         }

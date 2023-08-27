@@ -4,7 +4,10 @@ import likelion.univ.annotation.Adaptor;
 import likelion.univ.domain.community.comment.entity.Comment;
 import likelion.univ.domain.community.comment.exception.CommentNotFoundException;
 import likelion.univ.domain.community.comment.repository.CommentRepository;
+import likelion.univ.domain.community.post.entity.Post;
 import lombok.RequiredArgsConstructor;
+
+import java.util.List;
 
 
 @Adaptor
@@ -24,6 +27,8 @@ public class CommentAdaptor {
         commentRepository.delete(comment);
     }
 
-    public Comment find
+    public List<Comment> findAllByPost(Post post) {
+        return commentRepository.findAllByPost(post);
+    }
 
 }
