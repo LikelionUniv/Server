@@ -4,7 +4,9 @@ package likelion.univ.auth.controller;
 import io.swagger.annotations.Api;
 import io.swagger.v3.oas.annotations.Operation;
 import likelion.univ.auth.dto.response.AccountTokenDto;
+import likelion.univ.auth.dto.response.IdTokenDto;
 import likelion.univ.auth.usecase.LoginUseCase;
+import likelion.univ.auth.usecase.RequestIdTokenUseCase;
 import likelion.univ.response.SuccessResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,15 +20,35 @@ import org.springframework.web.bind.annotation.*;
 public class AuthController {
 
     private final LoginUseCase loginUseCase;
+    private final RequestIdTokenUseCase requestIdTokenUseCase;
 
-    @Operation(summary = "로그인 code를 통해 로그인을 진행합니다.")
-    @GetMapping("/login/{loginType}")
-    public SuccessResponse<Object> getCredentialFromKaKao(
+    @Operation(summary = "id token을 발급받습니다.")
+    @GetMapping("/{loginType}/idToken")
+    public SuccessResponse<Object> getIdToken(
             @RequestParam("code") String code,
             @PathVariable("loginType") String loginType){
 
-        AccountTokenDto accountTokenDto = loginUseCase.login(loginType,code);
+        IdTokenDto idTokenDto = requestIdTokenUseCase.execute(loginType,code);
+        return SuccessResponse.of(idTokenDto);
+    }
+    @Operation(summary = "id token으로 로그인 합니다.")
+    @PostMapping("/{loginType}/login")
+    public SuccessResponse<Object> login(
+            @RequestParam("idToken") String idToken,
+            @PathVariable("loginType") String loginType){
+
+        AccountTokenDto accountTokenDto = loginUseCase.execute(loginType,idToken);
         return SuccessResponse.of(accountTokenDto);
+    }
+
+    @Operation(summary = "id token으로 회원가입 합니다.")
+    @PostMapping("/{loginType}/register")
+    public SuccessResponse<Object> register(
+            @RequestParam("idToken") String idToken,
+            @PathVariable("loginType") String loginType){
+
+//        AccountTokenDto accountTokenDto = loginUseCase.execute(loginType,idToken);
+        return SuccessResponse.of();
     }
 
 

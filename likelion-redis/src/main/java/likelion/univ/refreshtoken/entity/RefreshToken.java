@@ -14,7 +14,6 @@ import javax.persistence.GeneratedValue;
 public class RefreshToken {
 
     @Id
-    @GeneratedValue
-    private Long id;
+    private Long userId;
     private String token;
 }

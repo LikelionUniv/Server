@@ -4,7 +4,7 @@ import likelion.univ.annotation.Processor;
 import likelion.univ.api.oauth.oidc.PublicKeyDto;
 import likelion.univ.api.oauth.oidc.PublicKeysDto;
 import likelion.univ.domain.user.exception.NotSupportedLoginTypeException;
-import likelion.univ.exception.PublicKeyNotFoundException;
+import likelion.univ.exception.IncorrectIssuerTokenException;
 import likelion.univ.jwt.JwtIdTokenProvider;
 import likelion.univ.jwt.dto.UserInfoFromIdToken;
 import likelion.univ.properties.KakaoProperties;
@@ -27,7 +27,7 @@ public class LoginByIdTokenProcessor {
         switch (loginType) {
             case "kakao":
                 PublicKeysDto keys = publicKeyProcessor.getCachedKakaoPublicKeys();
-                publicKeys = keys;
+                    publicKeys = keys;
                 iss = kakaoProperties.getIss();
                 aud = kakaoProperties.getAppKey();
                 break;
@@ -40,7 +40,7 @@ public class LoginByIdTokenProcessor {
         PublicKeyDto key = publicKeys.getKeys().stream()
                 .filter(k -> k.getKid().equals(kid))
                 .findFirst()
-                .orElseThrow(() -> new PublicKeyNotFoundException());
+                .orElseThrow(() -> new IncorrectIssuerTokenException());
         return jwtIdTokenProvider.getUserInfo(idToken, publicKeyProcessor.generatePublicKey(key), iss, aud);
     }
 

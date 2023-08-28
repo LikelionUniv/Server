@@ -1,9 +1,6 @@
 package likelion.univ.domain.user.entity;
 
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -11,6 +8,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
+@Getter
 public class AuthInfo {
 
     @Enumerated(EnumType.STRING)
@@ -19,6 +17,11 @@ public class AuthInfo {
     @Enumerated(EnumType.STRING)
     private AccountStatus accountStatus;
 
+    @Enumerated(EnumType.STRING)
+    private Role role;
+
     @Column(unique = true)
+    private String email;
+
     private String oid;
 }

@@ -6,8 +6,8 @@ import lombok.Getter;
 @AllArgsConstructor
 @Getter
 public enum LoginType {
-    KAKAO("KAKAO"),
-    GOOGLE("GOOGLE");
+    KAKAO("kakao"),
+    GOOGLE("google");
 
     private String value;
 }

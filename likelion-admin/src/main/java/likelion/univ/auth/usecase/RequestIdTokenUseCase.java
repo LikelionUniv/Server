@@ -1,19 +1,20 @@
-package likelion.univ.auth.usecase.processor;
+package likelion.univ.auth.usecase;
 
-import likelion.univ.annotation.Processor;
-import likelion.univ.domain.user.exception.NotSupportedLoginTypeException;
+
+import likelion.univ.annotation.UseCase;
 import likelion.univ.api.oauth.kakao.RequestKakaoTokenClient;
 import likelion.univ.api.oauth.kakao.dto.KakaoTokenInfoDto;
+import likelion.univ.auth.dto.response.IdTokenDto;
+import likelion.univ.domain.user.exception.NotSupportedLoginTypeException;
 import likelion.univ.properties.KakaoProperties;
 import lombok.RequiredArgsConstructor;
 
-@Processor
+@UseCase
 @RequiredArgsConstructor
-public class RequestIdTokenProcessor {
+public class RequestIdTokenUseCase {
     private final RequestKakaoTokenClient requestKakaoTokenClient;
     private final KakaoProperties kakaoProperties;
-    public String execute(String loginType, String code){
-        String idToken = new String();
+    public IdTokenDto execute(String loginType, String code){
         switch (loginType) {
             case "kakao":
                 KakaoTokenInfoDto kakaoTokenInfoDto = requestKakaoTokenClient.getToken(
@@ -21,13 +22,10 @@ public class RequestIdTokenProcessor {
                         kakaoProperties.getRedirectUrl(),
                         code,
                         kakaoProperties.getClientSecret());
-                idToken = kakaoTokenInfoDto.getIdToken();
-                break;
+                return IdTokenDto.of(kakaoTokenInfoDto.getIdToken());
             case "google":
                 break;
-            default:
-                throw new NotSupportedLoginTypeException();
         }
-        return idToken;
+        throw new NotSupportedLoginTypeException();
     }
 }

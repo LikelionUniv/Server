@@ -3,7 +3,7 @@ package likelion.univ.jwt;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.*;
 import likelion.univ.exception.ExpiredTokenException;
-import likelion.univ.exception.IncorrectClaimTokenException;
+import likelion.univ.exception.IncorrectIssuerTokenException;
 import likelion.univ.exception.InvalidSignatureTokenException;
 import likelion.univ.exception.InvalidTokenException;
 import likelion.univ.jwt.dto.UserInfoFromIdToken;
@@ -51,7 +51,7 @@ public class JwtIdTokenProvider {
         } catch (SignatureException exception) {
             throw new InvalidSignatureTokenException();
         }catch (IncorrectClaimException exception){
-            throw new IncorrectClaimTokenException();
+            throw new IncorrectIssuerTokenException();
         }catch (ExpiredJwtException exception) {
             throw new ExpiredTokenException();
         } catch (Exception exception){

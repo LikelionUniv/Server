@@ -40,7 +40,7 @@ public class JwtProvider {
         }
     }
 
-    private String publishToken(Long userId, String role, String type){
+    private String issueToken(Long userId, String role, String type){
         Date now = new Date();
         return Jwts.builder()
                 .setIssuer("LikelionUniv")
@@ -54,10 +54,10 @@ public class JwtProvider {
     }
 
     public String generateAccessToken(Long userId, String role){
-        return publishToken(userId,role,ACCESS_TOKEN);
+        return issueToken(userId,role,ACCESS_TOKEN);
     }
     public String generateRefreshToken(Long userId, String role){
-        return publishToken(userId,role,REFRESH_TOKEN);
+        return issueToken(userId,role,REFRESH_TOKEN);
     }
 
     public DecodedJwtToken decodeToken(String token, String type){
