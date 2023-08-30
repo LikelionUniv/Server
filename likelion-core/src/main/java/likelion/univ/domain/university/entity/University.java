@@ -16,7 +16,7 @@ public class University extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "university_id")
     private Long id;
-
+    @Column(unique = true)
     private String name;
     private String location;
     private String image;

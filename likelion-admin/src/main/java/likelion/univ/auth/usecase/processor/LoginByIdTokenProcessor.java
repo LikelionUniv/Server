@@ -27,7 +27,7 @@ public class LoginByIdTokenProcessor {
         switch (loginType) {
             case "kakao":
                 PublicKeysDto keys = publicKeyProcessor.getCachedKakaoPublicKeys();
-                    publicKeys = keys;
+                publicKeys = keys;
                 iss = kakaoProperties.getIss();
                 aud = kakaoProperties.getAppKey();
                 break;

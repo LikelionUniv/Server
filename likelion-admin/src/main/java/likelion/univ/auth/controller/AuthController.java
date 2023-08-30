@@ -3,10 +3,12 @@ package likelion.univ.auth.controller;
 
 import io.swagger.annotations.Api;
 import io.swagger.v3.oas.annotations.Operation;
+import likelion.univ.auth.dto.request.SignUpRequestDto;
 import likelion.univ.auth.dto.response.AccountTokenDto;
 import likelion.univ.auth.dto.response.IdTokenDto;
 import likelion.univ.auth.usecase.LoginUseCase;
 import likelion.univ.auth.usecase.RequestIdTokenUseCase;
+import likelion.univ.auth.usecase.SignUpUseCase;
 import likelion.univ.response.SuccessResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,6 +23,7 @@ public class AuthController {
 
     private final LoginUseCase loginUseCase;
     private final RequestIdTokenUseCase requestIdTokenUseCase;
+    private final SignUpUseCase signUpUseCase;
 
     @Operation(summary = "id token을 발급받습니다.")
     @GetMapping("/{loginType}/idToken")
@@ -45,9 +48,10 @@ public class AuthController {
     @PostMapping("/{loginType}/register")
     public SuccessResponse<Object> register(
             @RequestParam("idToken") String idToken,
-            @PathVariable("loginType") String loginType){
+            @PathVariable("loginType") String loginType,
+            @RequestBody SignUpRequestDto signUpRequestDto){
 
-//        AccountTokenDto accountTokenDto = loginUseCase.execute(loginType,idToken);
+        AccountTokenDto accountTokenDto = signUpUseCase.execute(loginType,idToken,signUpRequestDto)
         return SuccessResponse.of();
     }
 

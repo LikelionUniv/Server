@@ -6,7 +6,6 @@ import lombok.Getter;
 @AllArgsConstructor
 @Getter
 public enum AccountStatus {
-    NOT_MEMBER("NOT_MEMBER"),
     MEMEBER("MEMBER"),
     Deleted("DELETED");
 

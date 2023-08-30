@@ -9,7 +9,7 @@ import lombok.Getter;
 @AllArgsConstructor
 @Builder
 public class UserInfoFromIdToken {
-    private String sub;
     private String nickname;
     private String email;
+    private String profileImage;
 }
