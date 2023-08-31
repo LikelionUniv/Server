@@ -1,22 +1,52 @@
 package likelion.univ.domain.project.service;
 
-import likelion.univ.domain.project.adapter.ImageAdapter;
-import likelion.univ.domain.project.adapter.ProjectAdapter;
-import likelion.univ.domain.project.adapter.ProjectMemberAdapter;
-import likelion.univ.domain.project.dto.ProjectSimpleDto;
+import likelion.univ.domain.project.adapter.ImageAdaptor;
+import likelion.univ.domain.project.adapter.ProjectAdaptor;
+import likelion.univ.domain.project.adapter.ProjectMemberAdaptor;
 import likelion.univ.domain.project.entity.Project;
+import likelion.univ.domain.project.entity.enums.Output;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDate;
+import java.util.List;
 
 @Service
 @Transactional(readOnly = true) //읽기 전용 모드
 @RequiredArgsConstructor
 public class ProjectService {
 
-    private final ProjectAdapter projectAdapter;
-    private final ImageAdapter imageAdapter;
-    private final ProjectMemberAdapter projectMemberAdapter;
+    private final ProjectAdaptor projectAdaptor;
+    private final ImageAdaptor imageAdaptor;
+    private final ProjectMemberAdaptor projectMemberAdaptor;
+
+    @Transactional
+    public Project createProject(String thon, Output outPut, String serviceName, int ordinal, String univ, LocalDate startDate,
+                                 LocalDate endDate, String tech, String description, String content, String projectUrl)
+    {
+        // 유저 권한 설정 필요 ?
+        Project project = Project.builder()
+                .thon(thon)
+                .outPut(outPut)
+                .serviceName(serviceName)
+                .ordinal(ordinal)
+                .univ(univ)
+                .startDate(startDate)
+                .endDate(endDate)
+                .tech(tech)
+                .description(description)
+                .content(content)
+                .projectUrl(projectUrl)
+                .build();
+        Project savedProject = projectAdaptor.save(project);
+
+        return savedProject;
+    }
+
+    public List<Project> findProjectAll(){
+        return projectAdaptor.findAll();
+    }
 
 //    public ProjectSimpleDto getProject(Long id) {
 //        Project project = projectAdapter.findById(id);
@@ -29,17 +59,17 @@ public class ProjectService {
 //    }
 
     @Transactional
-    public void updateProject(Long id, ProjectSimpleDto projectSimpleDto) {
-        Project project = projectAdapter.findById(id).get();
-        project.update(projectSimpleDto);
-        projectAdapter.save(project);
+    public void updateProject(Long id, String thon, Output output, String serviceName, int ordinal, String univ, LocalDate startDate, LocalDate endDate, String tech, String description, String content, String projectUrl) {
+        Project project = projectAdaptor.findById(id).get();
+        project.update(thon, output, serviceName, ordinal, univ, startDate, endDate, tech, description, content, projectUrl);
+        projectAdaptor.save(project);
     }
 
     @Transactional
     public void deleteProject(Long id) {
-        Project project = projectAdapter.findById(id).get();
+        Project project = projectAdaptor.findById(id).get();
         if(project != null) {
-            projectAdapter.delete(project);
+            projectAdaptor.delete(project);
         }
     }
 }

@@ -2,6 +2,7 @@ package likelion.univ.domain.project.entity;
 
 
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -27,6 +28,7 @@ public class Image {
     // 등록 파일명
     private String saved;
 
+    @Builder
     public Image(Project project, String name, String saved) {
         this.project = project;
         this.name = name;

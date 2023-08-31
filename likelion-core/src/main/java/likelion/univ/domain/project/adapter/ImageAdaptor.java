@@ -10,7 +10,7 @@ import java.util.List;
 
 @Adaptor
 @RequiredArgsConstructor
-public class ImageAdapter {
+public class ImageAdaptor {
 
     private final ImageRepository imageRepository;
 
