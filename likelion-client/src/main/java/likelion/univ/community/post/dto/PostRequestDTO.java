@@ -5,7 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 
 @Data
-public class PostDto {
+public class PostRequestDTO {
 
     @Data
     @Builder
@@ -15,6 +15,7 @@ public class PostDto {
         private String title;
 
         private String body;
+        private Long userId;
 
         private String thumbnail;
 
@@ -25,7 +26,7 @@ public class PostDto {
     }
 
     @Data
-    public static class Update {//카테고리는 변경할 수 없는지?
+    public static class Update {
         private Long postId;
         private String title;
 

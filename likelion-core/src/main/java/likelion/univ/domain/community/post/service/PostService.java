@@ -1,13 +1,36 @@
 package likelion.univ.domain.community.post.service;
 
+import likelion.univ.domain.community.post.adaptor.PostAdaptor;
+import likelion.univ.domain.community.post.dto.PostServiceDTO;
+import likelion.univ.domain.community.post.entity.Post;
+import likelion.univ.domain.community.post.entity.enums.MainCategory;
+import likelion.univ.domain.community.post.entity.enums.SubCategory;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-import likelion.univ.domain.dto.PostDto;
-import likelion.univ.domain.dto.common.CommonResponseDto;
+@Service
+@RequiredArgsConstructor
+public class PostService{
 
-public interface PostService {
-    public CommonResponseDto<Object> createPost(PostDto.Save createRequest , Long userId) ;
+    @Autowired
+    private PostAdaptor postAdaptor;
 
-    public CommonResponseDto<Object> updatePost(PostDto.Update updateRequest, Long userId);
 
-    public CommonResponseDto<Object> deletePost(PostDto.Delete deleteRequest, Long userId);
+    public PostServiceDTO.CreateResponse createPost(PostServiceDTO.CreateRequest request) {
+        Post post = createEntity(request);
+        postAdaptor.save(post);
+        return PostServiceDTO.CreateResponse.builder().id(post.getId()).build();
+    }
+
+    private static Post createEntity(PostServiceDTO.CreateRequest request) {
+        return  Post.builder()
+                .author(request.getUser())
+                .title(request.getTitle())
+                .body(request.getBody())
+                .thumbnail(request.getThumbnail())
+                .mainCategory(MainCategory.valueOf(request.getMainCategory()))
+                .subCategory(SubCategory.valueOf(request.getSubCategory()))
+                .build();
+    }
 }

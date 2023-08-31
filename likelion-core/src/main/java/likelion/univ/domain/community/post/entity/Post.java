@@ -1,10 +1,10 @@
 package likelion.univ.domain.community.post.entity;
 
-import likelion.univ.domain.entity.User;
 import likelion.univ.domain.common.BaseTimeEntity;
-import likelion.univ.domain.dto.PostDto;
+import likelion.univ.domain.community.post.dto.PostServiceDTO;
 import likelion.univ.domain.community.post.entity.enums.MainCategory;
 import likelion.univ.domain.community.post.entity.enums.SubCategory;
+import likelion.univ.domain.user.entity.User;
 import lombok.*;
 
 import javax.persistence.*;
@@ -40,15 +40,15 @@ public class Post extends BaseTimeEntity {
     private SubCategory subCategory;
 
 
-    public void update(PostDto.Update updateRequest){
-        if(updateRequest.getTitle() != null)
-            this.title = updateRequest.getTitle();
-        if(updateRequest.getBody() != null)
-            this.body = updateRequest.getBody();
-        if(updateRequest.getThumbnail() == null)
-            this.thumbnail = null ;
-        else if (!updateRequest.getThumbnail().equals(this.getThumbnail()))
-            this.thumbnail = updateRequest.getThumbnail();
-    }
+//    public void update(PostServiceDTO.Update updateRequest){
+//        if(updateRequest.getTitle() != null)
+//            this.title = updateRequest.getTitle();
+//        if(updateRequest.getBody() != null)
+//            this.body = updateRequest.getBody();
+//        if(updateRequest.getThumbnail() == null)
+//            this.thumbnail = null ;
+//        else if (!updateRequest.getThumbnail().equals(this.getThumbnail()))
+//            this.thumbnail = updateRequest.getThumbnail();
+//    }
 
 }
