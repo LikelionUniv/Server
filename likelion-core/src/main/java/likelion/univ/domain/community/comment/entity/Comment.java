@@ -44,11 +44,10 @@ public class Comment extends BaseTimeEntity {
     private Boolean isDeleted;
 
     @Builder
-    private Comment(Post post, User user, String body, Comment parentComment) {
+    private Comment(Post post, User user, String body) {
         this.post = post;
         this.author = user;
         this.body = body;
-        this.setParent(parentComment);
         isDeleted = false;
     }
 

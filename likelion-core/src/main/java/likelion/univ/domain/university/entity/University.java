@@ -1,6 +1,6 @@
 package likelion.univ.domain.university.entity;
 
-import likelion.univ.common.entity.BaseTimeEntity;
+import likelion.univ.domain.common.BaseTimeEntity;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

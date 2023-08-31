@@ -4,6 +4,7 @@ import likelion.univ.annotation.UseCase;
 import likelion.univ.domain.community.comment.adaptor.CommentAdaptor;
 import likelion.univ.domain.community.comment.dto.CommentServiceDto;
 import likelion.univ.domain.community.comment.entity.Comment;
+import likelion.univ.domain.community.post.adaptor.PostAdaptor;
 import likelion.univ.domain.community.post.entity.Post;
 import lombok.RequiredArgsConstructor;
 
