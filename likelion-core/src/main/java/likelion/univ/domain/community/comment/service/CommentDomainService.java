@@ -55,7 +55,6 @@ public class CommentDomainService {
     }
     private static Comment buildChildComment(CommentServiceDto.CreateChildComment createChildCommentRequest) {
         return Comment.builder()
-                .parentComment(createChildCommentRequest.getParent())
                 .post(createChildCommentRequest.getPost())
                 .user(createChildCommentRequest.getUser())
                 .body(createChildCommentRequest.getBody())
