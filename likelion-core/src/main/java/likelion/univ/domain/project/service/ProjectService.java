@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
-import java.util.List;
 
 @Service
 @Transactional(readOnly = true) //읽기 전용 모드
@@ -44,9 +43,9 @@ public class ProjectService {
         return savedProject;
     }
 
-    public List<Project> findProjectAll(){
-        return projectAdaptor.findAll();
-    }
+//    public List<Project> findProjectAll(){
+//        return projectAdaptor.findAll();
+//    }
 
 //    public ProjectSimpleDto getProject(Long id) {
 //        Project project = projectAdapter.findById(id);

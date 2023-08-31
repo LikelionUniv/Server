@@ -1,16 +1,14 @@
-package likelion.univ.controller;
+package likelion.univ.project.controller;
 
-import likelion.univ.domain.project.entity.Project;
-import likelion.univ.domain.project.service.ImageService;
-import likelion.univ.domain.project.service.ProjectMemberService;
-import likelion.univ.domain.project.service.ProjectService;
 import likelion.univ.project.dto.request.ProjectRequestDto;
 import likelion.univ.project.dto.response.ProjectResponseDto;
 import likelion.univ.project.usecase.*;
 import likelion.univ.response.SuccessResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.ui.Model;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,10 +21,6 @@ import java.util.Objects;
 //swagger UI에 보일 컨트롤러 이름
 //@Api(tags = {" API"})
 public class projectController {
-
-    private final ProjectService projectService;
-    private final ImageService imageService;
-    private final ProjectMemberService projectMemberService;
 
     private final GetProjectUsecase getProjectUsecase;
     private final GetAllPorjectUsecase getAllPorjectUsecase;
@@ -44,8 +38,8 @@ public class projectController {
 
     //-----------프로젝트 목록 --------//
     @GetMapping("/")
-    public SuccessResponse<List<ProjectResponseDto>> getAllProject(){
-        List<ProjectResponseDto> projectList = getAllPorjectUsecase.excute();
+    public SuccessResponse<List<ProjectResponseDto>> getAllProject(@PageableDefault(page=0, size=5, sort="id" ,direction = Sort.Direction.DESC) Pageable pageable){
+        List<ProjectResponseDto> projectList = getAllPorjectUsecase.excute(pageable);
         return SuccessResponse.of(projectList);
     }
 
