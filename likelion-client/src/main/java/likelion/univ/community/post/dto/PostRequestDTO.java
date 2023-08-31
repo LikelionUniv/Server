@@ -26,7 +26,7 @@ public class PostRequestDTO {
     }
 
     @Data
-    public static class Update {
+    public static class Edit {
         private Long postId;
         private String title;
 

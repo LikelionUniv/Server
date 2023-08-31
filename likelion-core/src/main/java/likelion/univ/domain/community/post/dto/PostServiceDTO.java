@@ -33,7 +33,7 @@ public class PostServiceDTO {
 
     @Data
     @Builder
-    public static class CreateResponse {
+    public static class ResponseDTO {
 
 
         private Long id;
@@ -57,5 +57,23 @@ public class PostServiceDTO {
 
         private String subCategory;
 
+    }
+    @Data
+    @Builder
+    @AllArgsConstructor
+    public static class EditRequest {
+        private Long postId;
+        private String title;
+
+        private String body;
+
+        private String thumbnail;
+    }
+
+    @Data
+    @Builder
+    @AllArgsConstructor
+    public static class DeleteRequest {
+        private Long postId;
     }
 }

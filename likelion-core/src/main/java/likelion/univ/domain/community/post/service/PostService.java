@@ -17,10 +17,22 @@ public class PostService{
     private PostAdaptor postAdaptor;
 
 
-    public PostServiceDTO.CreateResponse createPost(PostServiceDTO.CreateRequest request) {
+    public PostServiceDTO.ResponseDTO createPost(PostServiceDTO.CreateRequest request) {
         Post post = createEntity(request);
         postAdaptor.save(post);
-        return PostServiceDTO.CreateResponse.builder().id(post.getId()).build();
+        return PostServiceDTO.ResponseDTO.builder().id(post.getId()).build();
+    }
+
+    public PostServiceDTO.ResponseDTO editPost(PostServiceDTO.EditRequest request) {
+        Post post = postAdaptor.findById(request.getPostId());
+        post.edit(request);
+        postAdaptor.save(post);
+        return PostServiceDTO.ResponseDTO.builder().id(post.getId()).build();
+    }
+    public void deletePost(PostServiceDTO.DeleteRequest request) {
+        Post post = postAdaptor.findById(request.getPostId());
+        postAdaptor.delete(post);
+        return;
     }
 
     private static Post createEntity(PostServiceDTO.CreateRequest request) {
@@ -33,4 +45,7 @@ public class PostService{
                 .subCategory(SubCategory.valueOf(request.getSubCategory()))
                 .build();
     }
+
+
+
 }

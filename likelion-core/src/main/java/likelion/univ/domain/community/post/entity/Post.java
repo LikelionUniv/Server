@@ -40,15 +40,15 @@ public class Post extends BaseTimeEntity {
     private SubCategory subCategory;
 
 
-//    public void update(PostServiceDTO.Update updateRequest){
-//        if(updateRequest.getTitle() != null)
-//            this.title = updateRequest.getTitle();
-//        if(updateRequest.getBody() != null)
-//            this.body = updateRequest.getBody();
-//        if(updateRequest.getThumbnail() == null)
-//            this.thumbnail = null ;
-//        else if (!updateRequest.getThumbnail().equals(this.getThumbnail()))
-//            this.thumbnail = updateRequest.getThumbnail();
-//    }
+    public void edit(PostServiceDTO.EditRequest request){
+        if(request.getTitle() != null)
+            this.title = request.getTitle();
+        if(request.getBody() != null)
+            this.body = request.getBody();
+        if(request.getThumbnail() == null)
+            this.thumbnail = null ;
+        else if (!request.getThumbnail().equals(this.getThumbnail()))
+            this.thumbnail = request.getThumbnail();
+    }
 
 }

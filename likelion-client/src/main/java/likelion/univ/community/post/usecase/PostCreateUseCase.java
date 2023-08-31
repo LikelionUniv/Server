@@ -17,9 +17,9 @@ public class PostCreateUseCase {
     private PostService postService;
     @Autowired
     private UserAdaptor userAdaptor;
-    public PostServiceDTO.CreateResponse execute(PostRequestDTO.Save request) {
+    public PostServiceDTO.ResponseDTO execute(PostRequestDTO.Save request) {
         //user 인자 추가
-        PostServiceDTO.CreateResponse response = postService.createPost(buildDTO(request));
+        PostServiceDTO.ResponseDTO response = postService.createPost(buildDTO(request));
         return response;
     }
 

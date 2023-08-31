@@ -1,6 +1,8 @@
 package likelion.univ.domain.community.post.adaptor;
 
 import likelion.univ.annotation.Adaptor;
+import likelion.univ.domain.community.comment.entity.Comment;
+import likelion.univ.domain.community.comment.exception.CommentNotFoundException;
 import likelion.univ.domain.community.post.entity.Post;
 import likelion.univ.domain.community.post.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
@@ -16,5 +18,13 @@ public class PostAdaptor {
 
     public void save(Post post) {
         postRepository.save(post);
+    }
+
+    public Post findById(Long id) {
+        return postRepository.findById(id).get(); //예외처리
+    }
+
+    public void delete(Post post) {
+        postRepository.delete(post); //예외처리
     }
 }
