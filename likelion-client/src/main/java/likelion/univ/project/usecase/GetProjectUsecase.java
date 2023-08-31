@@ -24,7 +24,7 @@ public class GetProjectUsecase {
     private final UserAdaptor userAdaptor;
 
     public ProjectResponseDto excute(Long id) {
-        Project project = projectAdaptor.findById(id).get();
+        Project project = projectAdaptor.findById(id);
         List<Image> images = imageAdaptor.findByProject(project);
         List<User> users = projectMemberAdaptor.findByProject(project).stream()
                 .map(projectMember -> projectMember.getUser())

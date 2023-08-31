@@ -1,4 +1,4 @@
-package likelion.univ.controller;
+package likelion.univ.project.controller;
 
 import likelion.univ.domain.project.entity.Project;
 import likelion.univ.domain.project.service.ImageService;
@@ -35,7 +35,7 @@ public class projectController {
     private final DeleteProjectUsecase deleteProjectUsecase;
 
     //-----------프로젝트 한 개 조회 --------//
-    @GetMapping("/update/{projectId}")
+    @GetMapping("/{projectId}")
 //    @Operation(summary = " .")
     public SuccessResponse<ProjectResponseDto> getProject(@PathVariable("projectId") Long projectId) {
         ProjectResponseDto projectResponseDto = getProjectUsecase.excute(projectId);
@@ -59,7 +59,7 @@ public class projectController {
     }
 
     //-----------프로젝트 수정 --------//
-    @PutMapping("/update/{projectId}")
+    @PutMapping("/edit/{projectId}")
     public SuccessResponse<ProjectResponseDto> updateProject(@PathVariable("projectId") Long projectId, @RequestBody ProjectRequestDto projectRequestDto) {
         ProjectResponseDto projectResponseDto = updateProjectUsecase.excute(projectId, projectRequestDto);
         return SuccessResponse.of(projectResponseDto);

@@ -45,7 +45,7 @@ public class CreateProjectUsecase {
                 projectRequestDto.getProjectUrl()
         );
         Long id = createdProject.getId();
-        Project project = projectAdaptor.findById(id).get();
+        Project project = projectAdaptor.findById(id);
         imageService.addImage(
                 projectRequestDto.getImages().stream()
                         .map(imageRequestDto -> Image.builder()

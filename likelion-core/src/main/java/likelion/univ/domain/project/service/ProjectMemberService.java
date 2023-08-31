@@ -47,7 +47,7 @@ public class ProjectMemberService {
 
     @Transactional
     public void deleteProjectMember(Long id) {
-        Project project = projectAdaptor.findById(id).get();
+        Project project = projectAdaptor.findById(id);
         projectMemberAdaptor.deleteByProject(project);
     }
 
