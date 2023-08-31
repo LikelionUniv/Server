@@ -5,11 +5,14 @@ import likelion.univ.community.post.dto.PostRequestDTO;
 import likelion.univ.community.post.usecase.PostCreateUseCase;
 import likelion.univ.community.post.usecase.PostDeleteUseCase;
 import likelion.univ.community.post.usecase.PostEditUseCase;
+import likelion.univ.community.post.usecase.PostRetrieveUseCase;
 import likelion.univ.domain.community.post.dto.PostServiceDTO;
 import likelion.univ.response.SuccessResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 
 @RestController
@@ -27,10 +30,21 @@ public class PostController {
     @Autowired
     private PostDeleteUseCase postDeleteUseCase;
 
+    @Autowired
+    private PostRetrieveUseCase postRetrieveUseCase;
+
     @PostMapping("")
     public SuccessResponse createPost(@RequestBody PostRequestDTO.Save request) {
 
         PostServiceDTO.ResponseDTO response = postCreateUseCase.execute(request);
+
+        return SuccessResponse.of(response);
+    }
+
+    @GetMapping("")
+    public SuccessResponse retrievePostPaging(@RequestParam Integer page,@RequestParam Integer limit) {
+
+        List<PostServiceDTO.Retrieve> response = postRetrieveUseCase.execute(page,limit);
 
         return SuccessResponse.of(response);
     }
@@ -50,5 +64,6 @@ public class PostController {
 
         return SuccessResponse.empty();
     }
+
 
 }

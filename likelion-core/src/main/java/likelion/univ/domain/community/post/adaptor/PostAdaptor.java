@@ -8,6 +8,8 @@ import likelion.univ.domain.community.post.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.List;
+
 @Adaptor
 @RequiredArgsConstructor
 public class PostAdaptor {
@@ -26,5 +28,9 @@ public class PostAdaptor {
 
     public void delete(Post post) {
         postRepository.delete(post); //예외처리
+    }
+
+    public List<Post> retrievePostPaging(Integer page, Integer limit) {
+        return postRepository.pagingWithCoveringIndex(page, limit);
     }
 }
