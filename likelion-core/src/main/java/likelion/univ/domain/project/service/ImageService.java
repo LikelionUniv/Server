@@ -35,7 +35,7 @@ public class ImageService {
 
     @Transactional
     public void deleteImage(Long id) {
-        Project project = projectAdaptor.findById(id).get();
+        Project project = projectAdaptor.findById(id);
         imageAdaptor.deleteByProject(project);
     }
 }
