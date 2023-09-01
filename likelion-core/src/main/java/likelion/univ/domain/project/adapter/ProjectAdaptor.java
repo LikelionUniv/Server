@@ -4,6 +4,8 @@ import likelion.univ.annotation.Adaptor;
 import likelion.univ.domain.project.entity.Project;
 import likelion.univ.domain.project.repository.ProjectRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 import java.util.Optional;
@@ -31,8 +33,8 @@ public class ProjectAdaptor {
         projectRepository.delete(project);
     }
 
-    public List<Project> findAll(){
+    public Page<Project> findAll(Pageable pageable){
 
-        return projectRepository.findAll();
+        return projectRepository.findAll(pageable);
     }
 }

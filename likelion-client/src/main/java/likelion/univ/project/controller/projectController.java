@@ -1,16 +1,14 @@
-package likelion.univ.controller;
+package likelion.univ.project.controller;
 
-import likelion.univ.domain.project.entity.Project;
-import likelion.univ.domain.project.service.ImageService;
-import likelion.univ.domain.project.service.ProjectMemberService;
-import likelion.univ.domain.project.service.ProjectService;
 import likelion.univ.project.dto.request.ProjectRequestDto;
 import likelion.univ.project.dto.response.ProjectResponseDto;
 import likelion.univ.project.usecase.*;
 import likelion.univ.response.SuccessResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.ui.Model;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,10 +22,6 @@ import java.util.Objects;
 //@Api(tags = {" API"})
 public class projectController {
 
-    private final ProjectService projectService;
-    private final ImageService imageService;
-    private final ProjectMemberService projectMemberService;
-
     private final GetProjectUsecase getProjectUsecase;
     private final GetAllPorjectUsecase getAllPorjectUsecase;
     private final CreateProjectUsecase createProjectUsecase;
@@ -35,7 +29,7 @@ public class projectController {
     private final DeleteProjectUsecase deleteProjectUsecase;
 
     //-----------프로젝트 한 개 조회 --------//
-    @GetMapping("/update/{projectId}")
+    @GetMapping("/{projectId}")
 //    @Operation(summary = " .")
     public SuccessResponse<ProjectResponseDto> getProject(@PathVariable("projectId") Long projectId) {
         ProjectResponseDto projectResponseDto = getProjectUsecase.excute(projectId);
@@ -44,8 +38,8 @@ public class projectController {
 
     //-----------프로젝트 목록 --------//
     @GetMapping("/")
-    public SuccessResponse<List<ProjectResponseDto>> getAllProject(){
-        List<ProjectResponseDto> projectList = getAllPorjectUsecase.excute();
+    public SuccessResponse<List<ProjectResponseDto>> getAllProject(@PageableDefault(page=0, size=5, sort="id" ,direction = Sort.Direction.DESC) Pageable pageable){
+        List<ProjectResponseDto> projectList = getAllPorjectUsecase.excute(pageable);
         return SuccessResponse.of(projectList);
     }
 
@@ -59,7 +53,7 @@ public class projectController {
     }
 
     //-----------프로젝트 수정 --------//
-    @PutMapping("/update/{projectId}")
+    @PutMapping("/edit/{projectId}")
     public SuccessResponse<ProjectResponseDto> updateProject(@PathVariable("projectId") Long projectId, @RequestBody ProjectRequestDto projectRequestDto) {
         ProjectResponseDto projectResponseDto = updateProjectUsecase.excute(projectId, projectRequestDto);
         return SuccessResponse.of(projectResponseDto);
