@@ -59,14 +59,14 @@ public class ProjectService {
 
     @Transactional
     public void updateProject(Long id, String thon, Output output, String serviceName, int ordinal, String univ, LocalDate startDate, LocalDate endDate, String tech, String description, String content, String projectUrl) {
-        Project project = projectAdaptor.findById(id).get();
+        Project project = projectAdaptor.findById(id);
         project.update(thon, output, serviceName, ordinal, univ, startDate, endDate, tech, description, content, projectUrl);
         projectAdaptor.save(project);
     }
 
     @Transactional
     public void deleteProject(Long id) {
-        Project project = projectAdaptor.findById(id).get();
+        Project project = projectAdaptor.findById(id);
         if(project != null) {
             projectAdaptor.delete(project);
         }

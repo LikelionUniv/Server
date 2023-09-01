@@ -2,6 +2,7 @@ package likelion.univ.domain.project.adapter;
 
 import likelion.univ.annotation.Adaptor;
 import likelion.univ.domain.project.entity.Project;
+import likelion.univ.domain.project.exception.ProjectNotFoundException;
 import likelion.univ.domain.project.repository.ProjectRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -15,10 +16,12 @@ import java.util.Optional;
 public class ProjectAdaptor {
 
     private final ProjectRepository projectRepository;
-
-    public Optional<Project> findById(Long id) {
-        return projectRepository.findById(id);
+    public Project findById(Long id){
+        return projectRepository.findById(id).orElseThrow(() -> new ProjectNotFoundException());
     }
+//    public Optional<Project> findById(Long id) {
+//        return projectRepository.findById(id);
+//    }
 
 //    public void save(Project project) {
 //        projectRepository.save(project);

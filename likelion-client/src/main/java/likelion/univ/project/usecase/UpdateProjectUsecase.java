@@ -34,7 +34,7 @@ public class UpdateProjectUsecase {
 
     public ProjectResponseDto excute(Long projectId, ProjectRequestDto projectRequestDto) {
 
-        Project project = projectAdaptor.findById(projectId).get();
+        Project project = projectAdaptor.findById(projectId);
 
         String thon = projectRequestDto.getThon();
         Output outPut = projectRequestDto.getOutPut();
