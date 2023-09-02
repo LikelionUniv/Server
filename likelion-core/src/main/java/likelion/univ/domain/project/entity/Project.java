@@ -2,6 +2,7 @@ package likelion.univ.domain.project.entity;
 
 import likelion.univ.domain.project.entity.enums.Output;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -27,9 +28,9 @@ public class Project {
     private Output outPut;
 
     @Column(nullable = false)
-    private String service;
+    private String serviceName; //서비스명
 
-    private int year;
+    private int ordinal; //기수
 
     private String univ; // University DB와 연결?
 
@@ -41,8 +42,9 @@ public class Project {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate endDate;
 
-    @Column(nullable = false)
-    private String member;
+//    projectMember 엔티티에서 구현
+//    @Column(nullable = false)
+//    private String member;
 
     private String tech;
 
@@ -52,5 +54,34 @@ public class Project {
     @Column(columnDefinition = "Text")
     private String content;
 
-    private String link;
+    private String projectUrl;
+
+    @Builder
+    public Project(String thon, Output outPut, String serviceName, int ordinal, String univ, LocalDate startDate, LocalDate endDate, String tech, String description, String content, String projectUrl) {
+        this.thon = thon;
+        this.outPut = outPut;
+        this.serviceName = serviceName;
+        this.ordinal = ordinal;
+        this.univ = univ;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.tech = tech;
+        this.description = description;
+        this.content = content;
+        this.projectUrl = projectUrl;
+    }
+
+    public void update(String thon, Output output, String serviceName, int ordinal, String univ, LocalDate startDate, LocalDate endDate, String tech, String description, String content, String projectUrl) {
+        this.thon = thon;
+        this.outPut = output;
+        this.serviceName = serviceName;
+        this.ordinal = ordinal;
+        this.univ = univ;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.tech = tech;
+        this.description = description;
+        this.content = content;
+        this.projectUrl = projectUrl;
+    }
 }

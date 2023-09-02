@@ -5,6 +5,10 @@ spring:
       - common
       - core
       - infrastructure
+  data:
+    web:
+      pageable: ##페이징
+        one-indexed-parameters: true #1페이지부터 시작, default:0페이지
 server:
   servlet:
     context-path: /api
