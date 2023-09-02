@@ -1,8 +1,8 @@
-package likelion.univ.api.oauth.kakao;
+package likelion.univ.feign.oauth.kakao;
 
-import likelion.univ.api.oauth.kakao.dto.KakaoTokenInfoDto;
-import likelion.univ.api.oauth.kakao.errordecoder.RequestKakaoTokenErrorDecoder;
-import likelion.univ.api.oauth.oidc.PublicKeysDto;
+import likelion.univ.feign.oauth.kakao.dto.KakaoTokenInfoDto;
+import likelion.univ.feign.oauth.kakao.errordecoder.RequestKakaoTokenErrorDecoder;
+import likelion.univ.feign.oauth.oidc.PublicKeysDto;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

@@ -7,11 +7,8 @@ import likelion.univ.auth.usecase.processor.LoginByIdTokenProcessor;
 import likelion.univ.domain.user.adaptor.UserAdaptor;
 import likelion.univ.domain.user.entity.LoginType;
 import likelion.univ.domain.user.entity.User;
-import likelion.univ.domain.user.exception.EmailAlreadyRegistered;
 import likelion.univ.domain.user.service.UserDomainService;
-import likelion.univ.jwt.JwtProvider;
 import likelion.univ.jwt.dto.UserInfoFromIdToken;
-import likelion.univ.refreshtoken.service.RefreshTokenRedisService;
 import lombok.RequiredArgsConstructor;
 
 @UseCase
@@ -28,7 +25,7 @@ public class LoginUseCase {
             return AccountTokenDto.notRegistered();
         }
 
-        User user = userDomainService.login(LoginType.valueOf(loginType), userInfo.getEmail());
-        return generateAccountTokenProcessor.execute(user);
+        User user = userDomainService.login(LoginType.fromValue(loginType), userInfo.getEmail());
+        return generateAccountTokenProcessor.createToken(user);
     }
 }

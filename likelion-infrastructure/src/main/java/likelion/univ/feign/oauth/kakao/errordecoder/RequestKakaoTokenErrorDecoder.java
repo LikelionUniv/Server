@@ -1,4 +1,4 @@
-package likelion.univ.api.oauth.kakao.errordecoder;
+package likelion.univ.feign.oauth.kakao.errordecoder;
 
 import feign.Response;
 import feign.RetryableException;

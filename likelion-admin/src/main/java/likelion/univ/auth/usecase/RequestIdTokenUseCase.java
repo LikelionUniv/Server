@@ -2,8 +2,8 @@ package likelion.univ.auth.usecase;
 
 
 import likelion.univ.annotation.UseCase;
-import likelion.univ.api.oauth.kakao.RequestKakaoTokenClient;
-import likelion.univ.api.oauth.kakao.dto.KakaoTokenInfoDto;
+import likelion.univ.feign.oauth.kakao.RequestKakaoTokenClient;
+import likelion.univ.feign.oauth.kakao.dto.KakaoTokenInfoDto;
 import likelion.univ.auth.dto.response.IdTokenDto;
 import likelion.univ.domain.user.exception.NotSupportedLoginTypeException;
 import likelion.univ.properties.KakaoProperties;

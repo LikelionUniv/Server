@@ -18,11 +18,12 @@ public class UserDomainService {
 
     public User login(LoginType loginType, String email){
         User user = userAdaptor.findByEmail(email);
-        if(user.getAuthInfo().getLoginType().getValue().equals(loginType)){
+        if(user.getAuthInfo().getLoginType().equals(loginType)){
             return user;
         }else throw new EmailAlreadyRegistered();
     }
 
+    @Transactional
     public User signUp(Profile profile, AuthInfo authInfo, UniversityInfo universityInfo){
         User user = User.builder()
                 .profile(profile)

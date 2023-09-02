@@ -1,8 +1,8 @@
 package likelion.univ.auth.usecase.processor;
 
 import likelion.univ.annotation.Processor;
-import likelion.univ.api.oauth.oidc.PublicKeyDto;
-import likelion.univ.api.oauth.oidc.PublicKeysDto;
+import likelion.univ.feign.oauth.oidc.PublicKeyDto;
+import likelion.univ.feign.oauth.oidc.PublicKeysDto;
 import likelion.univ.domain.user.exception.NotSupportedLoginTypeException;
 import likelion.univ.exception.IncorrectIssuerTokenException;
 import likelion.univ.jwt.JwtIdTokenProvider;

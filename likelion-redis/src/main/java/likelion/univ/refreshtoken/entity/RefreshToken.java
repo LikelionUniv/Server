@@ -9,11 +9,11 @@ import javax.persistence.GeneratedValue;
 
 @Getter
 @AllArgsConstructor
-@RedisHash(value = RedisKey.REFRESH_TOKEN, timeToLive = RedisKey.REFRESH_TOKEN_EXPIRE_SEC)
+@NoArgsConstructor
 @Builder
 public class RefreshToken {
 
-    @Id
+
     private Long userId;
     private String token;
 }

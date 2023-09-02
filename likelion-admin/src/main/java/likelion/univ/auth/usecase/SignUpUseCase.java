@@ -35,10 +35,9 @@ public class SignUpUseCase {
             UniversityInfo universityInfo = UniversityInfo.universityInfoForSignUp(university,
                     signUpRequestDto.getMajor());
 
-            AuthInfo authInfo = AuthInfo.authInfoForSignUp(LoginType.valueOf(loginType), userInfo.getEmail());
-
+            AuthInfo authInfo = AuthInfo.authInfoForSignUp((LoginType.fromValue(loginType)), userInfo.getEmail());
             User user = userDomainService.signUp(profile, authInfo, universityInfo);
-            return generateAccountTokenProcessor.execute(user);
+            return generateAccountTokenProcessor.createToken(user);
         }else throw new EmailAlreadyRegistered();
     }
 }

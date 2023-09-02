@@ -1,4 +1,4 @@
-package likelion.univ.api.oauth.kakao.dto;
+package likelion.univ.feign.oauth.oidc;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
@@ -8,8 +8,11 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
-public class KakaoTokenInfoDto {
-    private String accessToken;
-    private String refreshToken;
-    private String idToken;
+public class PublicKeyDto {
+    private String kid;
+    private String kty;
+    private String alg;
+    private String use;
+    private String n;
+    private String e;
 }

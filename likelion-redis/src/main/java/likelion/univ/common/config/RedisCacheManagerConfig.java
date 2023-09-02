@@ -1,5 +1,6 @@
 package likelion.univ.common.config;
 
+import likelion.univ.common.constant.RedisKey;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.EnableCaching;
@@ -16,6 +17,9 @@ import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
 
+import static likelion.univ.common.constant.RedisKey.KAKAO_PUBLIC_KEYS;
+import static likelion.univ.common.constant.RedisKey.REFRESH_TOKEN;
+
 @RequiredArgsConstructor
 @EnableCaching
 @Configuration
@@ -28,7 +32,7 @@ public class RedisCacheManagerConfig {
         RedisCacheConfiguration redisCacheConfiguration = RedisCacheConfiguration.defaultCacheConfig()
                 .serializeKeysWith(RedisSerializationContext.SerializationPair.fromSerializer(new StringRedisSerializer()))
                 .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(new GenericJackson2JsonRedisSerializer()))
-                 .entryTtl(Duration.ofDays(1));
+                 .entryTtl(Duration.ofDays(1L));
 
         RedisCacheManager redisCacheManager = RedisCacheManager.RedisCacheManagerBuilder
                 .fromConnectionFactory(redisConnectionFactory)
@@ -41,8 +45,8 @@ public class RedisCacheManagerConfig {
     /* 커스텀하여 만료기간 설정 */
     private Map<String, RedisCacheConfiguration> customConfigurationMap(RedisCacheConfiguration redisCacheConfiguration) {
         Map<String, RedisCacheConfiguration> customConfigurationMap = new HashMap<>();
-//        customConfigurationMap.put(RedisCacheKey.어쩌구, redisCacheConfiguration.entryTtl(Duration.ofSeconds(5L)));
-//        customConfigurationMap.put(RedisCacheKey.저쩌구, redisCacheConfiguration.entryTtl(Duration.ofDays(1L)));
+        customConfigurationMap.put(KAKAO_PUBLIC_KEYS, redisCacheConfiguration.entryTtl(Duration.ofDays(1L)));
+        customConfigurationMap.put(REFRESH_TOKEN, redisCacheConfiguration.entryTtl(Duration.ofDays(14L)));
         return customConfigurationMap;
     }
 }

@@ -12,7 +12,7 @@ public class SignUpRequestDto {
     @NotNull
     private String name;
     @NotNull
-    private String UniversityName;
+    private String universityName;
     @NotNull
     private String major;
 }
