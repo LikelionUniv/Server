@@ -27,6 +27,9 @@ public class projectController {
     private final CreateProjectUsecase createProjectUsecase;
     private final UpdateProjectUsecase updateProjectUsecase;
     private final DeleteProjectUsecase deleteProjectUsecase;
+    private final ArchiveProjectUsecase archiveProjectUsecase;
+    private final GetProjectByUsecase getProjectByUsecase;
+    private final GetOrdinalUsecase getOrdinalUsecase;
 
     //-----------프로젝트 한 개 조회 --------//
     @GetMapping("/{projectId}")
@@ -41,6 +44,21 @@ public class projectController {
     public SuccessResponse<List<ProjectResponseDto>> getAllProject(@PageableDefault(page=0, size=5, sort="id" ,direction = Sort.Direction.DESC) Pageable pageable){
         List<ProjectResponseDto> projectList = getAllPorjectUsecase.excute(pageable);
         return SuccessResponse.of(projectList);
+    }
+
+    //--------  기수별 프로젝트 -----//
+    @GetMapping("/ordinal/{ordinal}")
+    public SuccessResponse<List<ProjectResponseDto>> getProjectByOrdinal(
+            @PageableDefault(page=0, size=12, sort="id" ,direction = Sort.Direction.DESC) Pageable pageable,
+            @PathVariable int ordinal) {
+        int recentOrdinal = getOrdinalUsecase.excute();
+        if (ordinal > recentOrdinal - 5) {
+            List<ProjectResponseDto> projectListByOrdinal = getProjectByUsecase.excute(ordinal, pageable);
+            return SuccessResponse.of(projectListByOrdinal);
+        } else {
+            List<ProjectResponseDto> projectList = archiveProjectUsecase.excute(ordinal);
+            return SuccessResponse.of(projectList);
+        }
     }
 
     //--------- 프로젝트 등록 ------------//

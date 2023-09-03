@@ -1,8 +1,6 @@
 package likelion.univ.domain.project.service;
 
-import likelion.univ.domain.project.adapter.ImageAdaptor;
 import likelion.univ.domain.project.adapter.ProjectAdaptor;
-import likelion.univ.domain.project.adapter.ProjectMemberAdaptor;
 import likelion.univ.domain.project.entity.Project;
 import likelion.univ.domain.project.entity.enums.Output;
 import lombok.RequiredArgsConstructor;
@@ -17,8 +15,6 @@ import java.time.LocalDate;
 public class ProjectService {
 
     private final ProjectAdaptor projectAdaptor;
-    private final ImageAdaptor imageAdaptor;
-    private final ProjectMemberAdaptor projectMemberAdaptor;
 
     @Transactional
     public Project createProject(String thon, Output outPut, String serviceName, int ordinal, String univ, LocalDate startDate,
@@ -42,20 +38,6 @@ public class ProjectService {
 
         return savedProject;
     }
-
-//    public List<Project> findProjectAll(){
-//        return projectAdaptor.findAll();
-//    }
-
-//    public ProjectSimpleDto getProject(Long id) {
-//        Project project = projectAdapter.findById(id);
-//        List<Image> images = imageAdapter.findByProject(project);
-//        List<User> members = projectMemberAdapter.findByProject(project).stream()
-//                .map(member -> member.getUser())
-//                .collect(Collectors.toList());
-//        ProjectSimpleDto result = new ProjectSimpleDto(project, images, members);
-//        return result;
-//    }
 
     @Transactional
     public void updateProject(Long id, String thon, Output output, String serviceName, int ordinal, String univ, LocalDate startDate, LocalDate endDate, String tech, String description, String content, String projectUrl) {

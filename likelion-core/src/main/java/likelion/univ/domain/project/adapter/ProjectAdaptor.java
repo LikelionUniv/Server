@@ -9,8 +9,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
-import java.util.Optional;
-
 @Adaptor
 @RequiredArgsConstructor
 public class ProjectAdaptor {
@@ -19,13 +17,6 @@ public class ProjectAdaptor {
     public Project findById(Long id){
         return projectRepository.findById(id).orElseThrow(() -> new ProjectNotFoundException());
     }
-//    public Optional<Project> findById(Long id) {
-//        return projectRepository.findById(id);
-//    }
-
-//    public void save(Project project) {
-//        projectRepository.save(project);
-//    }
 
     public Project save(Project project){
         projectRepository.save(project);
@@ -40,4 +31,14 @@ public class ProjectAdaptor {
 
         return projectRepository.findAll(pageable);
     }
+    public Page<Project> findProject(int ordinal, Pageable pageable){
+        return projectRepository.findByOrdinal(ordinal,pageable);
+    }
+    public List<Project> findArchiveProject(int ordinal){
+        return projectRepository.findArchivePosts(ordinal);
+    }
+    public int getCurrentOrdinal(){
+        return projectRepository.findLatestOrdinal();
+    }
+
 }
