@@ -1,24 +1,24 @@
 package likelion.univ.model;
 
 import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
 import lombok.Setter;
+
+import java.io.Serializable;
 import java.util.UUID;
 
 @Getter
 @Setter
-@NoArgsConstructor
-public class ChatRoom {
+public class ChatRoom implements Serializable {
+
+    private static final long serialVersionUID = 6494678977089006639L;
 
     private String roomId;
-    private String roomName;
+    private String name;
 
-
-    public static ChatRoom create(@NonNull String name) {
-        ChatRoom room = new ChatRoom();
-        room.roomId = UUID.randomUUID().toString();
-        room.roomName = name;
-        return room;
+    public static ChatRoom create(String name) {
+        ChatRoom chatRoom = new ChatRoom();
+        chatRoom.roomId = UUID.randomUUID().toString();
+        chatRoom.name = name;
+        return chatRoom;
     }
 }
