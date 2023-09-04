@@ -1,8 +1,9 @@
 package likelion.univ.adminUser.usecase;
 
-import likelion.univ.adminUser.dto.request.NcpSmsRequestDto;
-import likelion.univ.adminUser.dto.request.SendMsgRequestDto;
+import likelion.univ.adminUser.dto.request.NcpRequestDto;
 import likelion.univ.annotation.UseCase;
+import likelion.univ.domain.user.adaptor.UserAdaptor;
+import likelion.univ.domain.user.entity.User;
 import likelion.univ.sms.NcpSmsClient;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,14 +16,16 @@ import java.io.UnsupportedEncodingException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
 @UseCase
 @RequiredArgsConstructor
 @Slf4j
-public class SendNcpSmsUseCase {
+public class NcpSmsUseCase {
     private final NcpSmsClient ncpSmsClient;
+    private final UserAdaptor userAdaptor;
 
     @Value("${spring.ncp.sms.serviceId}")
     private String serviceId;
@@ -33,19 +36,28 @@ public class SendNcpSmsUseCase {
     @Value("${spring.ncp.sms.phoneNum}")
     private String phoneNum;
 
-    public void sendNcpSms(List<SendMsgRequestDto> sendMsgRequestDto) throws UnsupportedEncodingException,
+    public void excute(NcpRequestDto.SendMsgRequestDto sendMsgRequestDto) throws UnsupportedEncodingException,
             NoSuchAlgorithmException, InvalidKeyException {
         //signature 생성
         String timestamp =String.valueOf(Instant.now().toEpochMilli());
+        List<User> users = userAdaptor.findAllUser();
+        List<NcpRequestDto.PhoneNum> toPhoneNums = new ArrayList<>();
+        for(User user : users){
+            toPhoneNums.add(
+                    NcpRequestDto.PhoneNum.builder()
+                            .to(user.getProfile().getPhoneNum())
+                            .build()
+            );
+        }
 
 
-        NcpSmsRequestDto body = NcpSmsRequestDto.builder()
+        NcpRequestDto.NcpSmsRequestDto body = NcpRequestDto.NcpSmsRequestDto.builder()
                 .type("SMS")
                 .contentType("COMM") //AD(080 거부 신청해야함) or COMM
                 .countryCode("82")
                 .from(phoneNum)
-                .content("왜 안되는거닝") //default 메시지
-                .messages(sendMsgRequestDto)
+                .content(sendMsgRequestDto.getContent())
+                .messages(toPhoneNums)
                 .build();
 
         ncpSmsClient.feignNCPSmsDto(

@@ -27,6 +27,10 @@ public class UserAdaptor {
         return userRepository.findAll(PageRequest.of(pageNum,10, Sort.by("profile.name").ascending()));
     }
 
+    public List<User> findAllUser(){
+        return userRepository.findAll();
+    }
+
     public void deleteUser(User user){
         userRepository.delete(user);
     }

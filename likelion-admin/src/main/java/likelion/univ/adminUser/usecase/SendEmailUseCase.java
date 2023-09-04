@@ -23,7 +23,7 @@ public class SendEmailUseCase {
 
 
 
-    public void sendEmail(SendMailRequestDto sendMailRequestDto) throws MessagingException, IOException {
+    public void excute(SendMailRequestDto sendMailRequestDto) throws MessagingException, IOException {
         MimeMessage mail = mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(mail, true, "UTF-8");
 

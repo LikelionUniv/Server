@@ -2,10 +2,10 @@ package likelion.univ.adminUser.controller;
 
 import io.swagger.annotations.Api;
 import io.swagger.v3.oas.annotations.Operation;
+import likelion.univ.adminUser.dto.request.NcpRequestDto;
 import likelion.univ.adminUser.dto.request.SendMailRequestDto;
-import likelion.univ.adminUser.dto.request.SendMsgRequestDto;
+import likelion.univ.adminUser.usecase.NcpSmsUseCase;
 import likelion.univ.adminUser.usecase.SendEmailUseCase;
-import likelion.univ.adminUser.usecase.SendNcpSmsUseCase;
 import likelion.univ.response.SuccessResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,7 +16,6 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
-import java.util.List;
 
 @Slf4j
 @RestController
@@ -26,21 +25,21 @@ import java.util.List;
 public class CodeitAdminController {
 
     private final SendEmailUseCase sendEmailUseCase;
-    private final SendNcpSmsUseCase sendNcpSmsUseCase;
+    private final NcpSmsUseCase ncpSmsUseCase;
 
 
     @Operation(summary = "이메일 전송")
     @PostMapping(value = "/email", consumes = "multipart/form-data")
     public SuccessResponse<Object> sendEmail(SendMailRequestDto sendMailRequestDto)throws MessagingException, IOException {
-        sendEmailUseCase.sendEmail(sendMailRequestDto);
+        sendEmailUseCase.excute(sendMailRequestDto);
         return SuccessResponse.empty();
     }
 
     @Operation(summary = "메신저 전송")
     @PostMapping(value="/messenger")
-    public SuccessResponse<Object> sendMessenger(@RequestBody List<SendMsgRequestDto> sendMsgRequestDto)
+    public SuccessResponse<Object> sendMessenger(@RequestBody NcpRequestDto.SendMsgRequestDto sendMsgRequestDto)
             throws UnsupportedEncodingException, NoSuchAlgorithmException, InvalidKeyException{
-        sendNcpSmsUseCase.sendNcpSms(sendMsgRequestDto);
+        ncpSmsUseCase.excute(sendMsgRequestDto);
         return SuccessResponse.empty();
     }
 

@@ -26,7 +26,7 @@ public class UserDomainService {
                            String major, String email,
                            Long ordinal){
 
-        user.getProfile().updateProfile(name,email,Part.converter(part));
+        user.getProfile().updateProfile(name,email,Part.valueOf(part));
         user.getUniversityInfo().updateUniversityInfo(major,ordinal);
 
 
