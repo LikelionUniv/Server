@@ -1,5 +1,6 @@
 package likelion.univ.domain.project.entity;
 
+import likelion.univ.common.entity.BaseTimeEntity;
 import likelion.univ.domain.project.entity.enums.Output;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -12,7 +13,7 @@ import java.time.LocalDate;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Project {
+public class Project extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

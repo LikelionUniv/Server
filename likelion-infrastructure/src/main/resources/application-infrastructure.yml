@@ -1,7 +1,18 @@
 ## 공통 설정
-spring:
-  main:
-    allow-bean-definition-overriding: true
+kakao:
+  iss: ${KAKAO_ISS}
+  client-id: ${KAKAO_CLIENT_ID}
+  client-secret: ${KAKAO_CLIENT_SECRET}
+  redirect-url: ${KAKAO_REDIRECT_URL}
+  app-key: ${KAKAO_APP_KEY}
+
+google:
+  iss: ${GOOGLE_ISS}
+  client-id: ${GOOGLE_CLIENT_ID}
+  client-secret: ${GOOGLE_CLIENT_SECRET}
+  redirect-url: ${GOOGLE_REDIRECT_URL}
+  app-key: ${GOOGLE_API_KEY}
+  scope: ${GOOGLE_SCOPE}
 
 --- ## dev 환경 설정
 spring:

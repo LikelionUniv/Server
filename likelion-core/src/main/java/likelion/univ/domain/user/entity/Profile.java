@@ -6,7 +6,6 @@ import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import java.util.Objects;
 
 @Embeddable
 @Getter
@@ -16,7 +15,8 @@ import java.util.Objects;
 public class Profile {
 
     private String name;
-    private String email;
+    // 010-0000-0000 형태로
+    // private String phoneNumber;
     private String profileImage;
 
     @Column(columnDefinition = "TEXT")
@@ -25,9 +25,10 @@ public class Profile {
     @Enumerated(EnumType.STRING)
     private Part part;
 
-    public void updateProfile(String name, String email, Part part){
-        this.name=name;
-        this.email=email;
-        this.part=part;
+    public static Profile profileForSignUp(String name, String profileImage){
+        return Profile.builder()
+                .name(name)
+                .profileImage(profileImage)
+                .build();
     }
 }
