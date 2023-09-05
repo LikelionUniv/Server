@@ -10,6 +10,7 @@ import likelion.univ.auth.usecase.LoginUseCase;
 import likelion.univ.auth.usecase.RefreshTokenUseCase;
 import likelion.univ.auth.usecase.RequestIdTokenUseCase;
 import likelion.univ.auth.usecase.SignUpUseCase;
+import likelion.univ.config.security.SecurityUtils;
 import likelion.univ.response.SuccessResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

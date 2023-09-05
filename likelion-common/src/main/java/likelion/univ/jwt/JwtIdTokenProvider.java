@@ -43,7 +43,6 @@ public class JwtIdTokenProvider {
                     .parseClaimsJws(idToken)
                     .getBody();
             return UserInfoFromIdToken.builder()
-                    .profileImage(claims.get("profileImage", String.class))
                     .email(claims.get("email", String.class))
                     .build();
 

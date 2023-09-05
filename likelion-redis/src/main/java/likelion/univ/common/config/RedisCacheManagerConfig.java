@@ -17,8 +17,7 @@ import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
 
-import static likelion.univ.common.constant.RedisKey.KAKAO_PUBLIC_KEYS;
-import static likelion.univ.common.constant.RedisKey.REFRESH_TOKEN;
+import static likelion.univ.common.constant.RedisKey.*;
 
 @RequiredArgsConstructor
 @EnableCaching
@@ -46,6 +45,7 @@ public class RedisCacheManagerConfig {
     private Map<String, RedisCacheConfiguration> customConfigurationMap(RedisCacheConfiguration redisCacheConfiguration) {
         Map<String, RedisCacheConfiguration> customConfigurationMap = new HashMap<>();
         customConfigurationMap.put(KAKAO_PUBLIC_KEYS, redisCacheConfiguration.entryTtl(Duration.ofDays(1L)));
+        customConfigurationMap.put(GOOGLE_PUBLIC_KEYS, redisCacheConfiguration.entryTtl(Duration.ofDays(1L)));
         customConfigurationMap.put(REFRESH_TOKEN, redisCacheConfiguration.entryTtl(Duration.ofDays(14L)));
         return customConfigurationMap;
     }
