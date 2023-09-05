@@ -6,10 +6,13 @@ group = 'likelion.univ'
 version = '0.0.1-SNAPSHOT'
 
 dependencies {
-    /*  jwt*/
+    /*  jwt 추후 모듈 분리할떄 뺄 예정 */
     implementation ("io.jsonwebtoken:jjwt-api:0.11.5")
     runtimeOnly ( "io.jsonwebtoken:jjwt-impl:0.11.5")
     runtimeOnly ( "io.jsonwebtoken:jjwt-jackson:0.11.5")
+    /* jackson 추후 모듈 분리할떄 뺄 예정 */
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.13.5'
+    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.13.5'
 }
 
 clean {

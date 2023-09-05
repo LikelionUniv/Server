@@ -9,14 +9,14 @@ import javax.persistence.*;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Entity(name = "university")
+@Entity
 public class University extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "university_id")
     private Long id;
-
+    @Column(unique = true)
     private String name;
     private String location;
     private String image;

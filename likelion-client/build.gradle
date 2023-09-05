@@ -21,6 +21,8 @@ dependencies {
 
     /* core 모듈 추가  */
     implementation project(':likelion-core')
+    /* redis 모듈 추가  */
+    implementation project(':likelion-redis')
     /* common 모듈 추가 */
     implementation project(':likelion-common')
     /* infrastructure 모듈 추가 */

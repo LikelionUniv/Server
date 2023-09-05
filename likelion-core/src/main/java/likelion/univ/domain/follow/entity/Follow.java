@@ -1,7 +1,6 @@
 package likelion.univ.domain.follow.entity;
 
 import likelion.univ.common.entity.BaseTimeEntity;
-import likelion.univ.domain.university.entity.University;
 import likelion.univ.domain.user.entity.User;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -11,8 +10,8 @@ import javax.persistence.*;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Entity(name = "follow")
-public class follow extends BaseTimeEntity {
+@Entity
+public class Follow extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
