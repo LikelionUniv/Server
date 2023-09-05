@@ -3,14 +3,13 @@ package likelion.univ.auth.controller;
 
 import io.swagger.annotations.Api;
 import io.swagger.v3.oas.annotations.Operation;
-import likelion.univ.auth.dto.request.SignUpRequestDto;
 import likelion.univ.auth.dto.response.AccountTokenDto;
 import likelion.univ.auth.dto.response.IdTokenDto;
 import likelion.univ.auth.usecase.LoginUseCase;
 import likelion.univ.auth.usecase.RefreshTokenUseCase;
 import likelion.univ.auth.usecase.RequestIdTokenUseCase;
 import likelion.univ.auth.usecase.SignUpUseCase;
-import likelion.univ.config.security.SecurityUtils;
+import likelion.univ.auth.dto.request.SignUpRequestDto;
 import likelion.univ.response.SuccessResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

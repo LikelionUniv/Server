@@ -10,7 +10,6 @@ import likelion.univ.jwt.dto.UserInfoFromIdToken;
 import likelion.univ.properties.GoogleProperties;
 import likelion.univ.properties.KakaoProperties;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
 
 @Processor
