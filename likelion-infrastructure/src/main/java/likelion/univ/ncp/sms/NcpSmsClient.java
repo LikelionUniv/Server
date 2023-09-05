@@ -1,4 +1,4 @@
-package likelion.univ.sms;
+package likelion.univ.ncp.sms;
 
 import likelion.univ.ncp.NcpConfig;
 import org.springframework.cloud.openfeign.FeignClient;

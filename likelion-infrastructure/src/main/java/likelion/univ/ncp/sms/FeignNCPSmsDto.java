@@ -1,4 +1,4 @@
-package likelion.univ.sms;
+package likelion.univ.ncp.sms;
 
 import lombok.*;
 
