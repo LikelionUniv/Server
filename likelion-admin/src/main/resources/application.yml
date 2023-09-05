@@ -6,10 +6,10 @@ spring:
       - core
       - infrastructure
   mail:
-    host: ${protocol}
+    host: smtp.gmail.com
     port: 587
-    username: ${Email}
-    password: ${KEY}
+    username: songhyeon4643@gmail.com
+    password: WVTAHFIOJTVSURAV
     properties:
       mail:
         smtp:
@@ -18,10 +18,10 @@ spring:
             enable: true
   ncp:
     sms:
-      serviceId: ${ncp-cliud-sms-serviceId}
-      accessKey: ${ncp-cliud-sms-accessKey}
-      secretKey: ${ncp-cliud-sms-secretKey}
-      phoneNum: ${fromPhoneNum}
+      serviceId: ncp:sms:kr:311882152456:likelionuniv
+      accessKey: 2PzmNYvOlzRgPuwcu4OB
+      secretKey: Fc8yUdUp745SSxDDcmFaarj3as5wDg8fte00UxbX
+      phoneNum: 01056971440
 
   ## 해당 spring fox가 스프링 2.6이상과 설정이 달라 따로 설정
   mvc:

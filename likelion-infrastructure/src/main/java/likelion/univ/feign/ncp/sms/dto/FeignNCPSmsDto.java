@@ -1,4 +1,4 @@
-package likelion.univ.ncp.sms;
+package likelion.univ.feign.ncp.sms.dto;
 
 import lombok.*;
 

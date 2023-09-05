@@ -18,7 +18,7 @@ public class FindAllByUnivUseCase {
     public List<UserInfoResponseDto> excute(Long univId){
         List<User> users = userAdaptor.findUsersByUniversityId(univId);
         return users.stream().map(u -> new UserInfoResponseDto(u.getId(), u.getProfile().getName(),
-                u.getProfile().getEmail(), u.getUniversityInfo().getMajor(),
+                u.getAuthInfo().getEmail(), u.getUniversityInfo().getMajor(),
                 u.getProfile().getPart(), u.getUniversityInfo().getOrdinal())).collect(Collectors.toList());
     }
 }

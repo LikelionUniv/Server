@@ -1,4 +1,4 @@
-package likelion.univ.ncp.kakao;
+package likelion.univ.feign.ncp.kakao.dto;
 
 import lombok.*;
 

@@ -4,7 +4,7 @@ import likelion.univ.adminUser.dto.request.NcpRequestDto;
 import likelion.univ.annotation.UseCase;
 import likelion.univ.domain.user.adaptor.UserAdaptor;
 import likelion.univ.domain.user.entity.User;
-import likelion.univ.ncp.sms.NcpSmsClient;
+import likelion.univ.feign.ncp.sms.NcpSmsClient;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.tomcat.util.codec.binary.Base64;
@@ -45,7 +45,7 @@ public class NcpSmsUseCase {
         for(User user : users){
             toPhoneNums.add(
                     NcpRequestDto.PhoneNum.builder()
-                            .to(user.getProfile().getPhoneNum())
+                            .to(user.getProfile().getPhoneNumber())
                             .build()
             );
         }

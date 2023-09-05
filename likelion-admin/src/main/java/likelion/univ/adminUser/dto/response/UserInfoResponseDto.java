@@ -23,7 +23,7 @@ public class UserInfoResponseDto {
                 .major(user.getUniversityInfo().getMajor())
                 .part(user.getProfile().getPart())
                 .ordinal(user.getUniversityInfo().getOrdinal())
-                .email(user.getProfile().getEmail())
+                .email(user.getAuthInfo().getEmail())
                 .build();
     }
 }

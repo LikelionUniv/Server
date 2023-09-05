@@ -1,4 +1,4 @@
-package likelion.univ.ncp;
+package likelion.univ.feign.ncp;
 
 import feign.RequestInterceptor;
 import feign.RequestTemplate;

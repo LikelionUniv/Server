@@ -2,16 +2,16 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://${MYSQL_HOST}:${MYSQL_PORT}/${MYSQL_NAME}
-    username: ${MYSQL_USERNAME}
-    password: ${MYSQL_PASSWORD}
+    url: jdbc:mysql://localhost:3306/likelionUniv
+    username: root
+    password: hyeon4643!!@
   jpa:
     show-sql: true
     database: mysql
     open-in-view: false
     dialect: org.hibernate.dialect.MySQL8Dialect
     hibernate:
-      ddl-auto: update  #create update none
+      ddl-auto: create #create update none
       default_batch_fetch_size: 500
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl

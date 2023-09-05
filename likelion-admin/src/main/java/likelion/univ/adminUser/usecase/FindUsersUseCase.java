@@ -19,7 +19,7 @@ public class FindUsersUseCase {
     public List<UserInfoResponseDto> excute(int pageNum){
         Page<User> users = userAdaptor.findAllUser(pageNum);
         return users.stream().map(u -> new UserInfoResponseDto(u.getId(), u.getProfile().getName(),
-                u.getProfile().getEmail(), u.getUniversityInfo().getMajor(),
+                u.getAuthInfo().getEmail(), u.getUniversityInfo().getMajor(),
                 u.getProfile().getPart(), u.getUniversityInfo().getOrdinal())).collect(Collectors.toList());
 
     }
