@@ -1,4 +1,4 @@
-package likelion.univ.config.security.filter;
+package likelion.univ.security.filter;
 
 import likelion.univ.exception.AccessDeniedRequestException;
 import org.springframework.security.access.AccessDeniedException;

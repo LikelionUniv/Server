@@ -5,6 +5,8 @@ spring:
       - common
       - core
       - infrastructure
+      - security
+      - redis
 
 ## 해당 spring fox가 스프링 2.6이상과 설정이 달라 따로 설정
   mvc:

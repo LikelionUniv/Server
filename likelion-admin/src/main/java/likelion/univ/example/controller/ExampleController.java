@@ -9,6 +9,7 @@ import likelion.univ.example.usecase.DeleteExampleUseCase;
 import likelion.univ.example.usecase.EditExampleUseCase;
 import likelion.univ.example.usecase.GetExampleUseCase;
 import likelion.univ.response.SuccessResponse;
+import likelion.univ.security.SecurityUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
@@ -28,11 +29,9 @@ public class ExampleController {
     private final DeleteExampleUseCase deleteExampleUseCase;
 
     @GetMapping(value = "/{exampleId}")
-    @Operation(summary = "예시를 생성합니다.")
-    public SuccessResponse<Object> createExample(@PathVariable Long exampleId){
-        //log.info("예시 생성 API 호출 USER = {}", user.getId());
-        ExampleInfoResponseDto exampleInfoResponseDto = getExampleUseCase.excute(exampleId);
-        return SuccessResponse.of(exampleInfoResponseDto);
+    @Operation(summary = "예시를 조회합니다.")
+    public SuccessResponse<Object> GetExample(@PathVariable Long exampleId){
+        return SuccessResponse.of(getExampleUseCase.excute(exampleId));
     }
 
     @PostMapping

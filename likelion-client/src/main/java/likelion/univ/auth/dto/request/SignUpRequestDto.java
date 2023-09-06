@@ -1,11 +1,9 @@
 package likelion.univ.auth.dto.request;
 
 import io.swagger.annotations.ApiModelProperty;
-import likelion.univ.domain.user.entity.UniversityInfo;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import javax.validation.constraints.NotNull;
+import org.jetbrains.annotations.NotNull;
 
 @Getter
 @NoArgsConstructor
