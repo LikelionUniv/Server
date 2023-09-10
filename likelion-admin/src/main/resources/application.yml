@@ -5,23 +5,26 @@ spring:
       - common
       - core
       - infrastructure
+      - security
+      - redis
   mail:
-    host: smtp.gmail.com
+    host: ${protocol}
     port: 587
-    username: songhyeon4643@gmail.com
-    password: WVTAHFIOJTVSURAV
+    username: ${Email}
+    password: ${KEY}
     properties:
       mail:
         smtp:
           auth: true
           starttls:
             enable: true
-  ncp:
-    sms:
-      serviceId: ncp:sms:kr:311882152456:likelionuniv
-      accessKey: 2PzmNYvOlzRgPuwcu4OB
-      secretKey: Fc8yUdUp745SSxDDcmFaarj3as5wDg8fte00UxbX
-      phoneNum: 01056971440
+    ncp:
+      sms:
+        serviceId: ${ncp-cliud-sms-serviceId}
+        accessKey: ${ncp-cliud-sms-accessKey}
+        secretKey: ${ncp-cliud-sms-secretKey}
+        phoneNum: ${fromPhoneNum}
+
 
   ## 해당 spring fox가 스프링 2.6이상과 설정이 달라 따로 설정
   mvc:

@@ -8,13 +8,13 @@ import likelion.univ.exception.InvalidTokenException;
 import likelion.univ.exception.NotMatchedTokenTypeException;
 import likelion.univ.jwt.dto.DecodedJwtToken;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.security.Key;
 import java.util.Date;
 
-import static likelion.univ.constant.StaticValue.ACCESS_TOKEN;
-import static likelion.univ.constant.StaticValue.REFRESH_TOKEN;
+import static likelion.univ.constant.StaticValue.*;
 
 @RequiredArgsConstructor
 @Component
@@ -40,13 +40,13 @@ public class JwtProvider {
         }
     }
 
-    private String issueToken(Long userId, String role, String type){
+    private String issueToken(Long userId, String role, String type, Long time){
         Date now = new Date();
         return Jwts.builder()
                 .setIssuer("LikelionUniv")
                 .setSubject(userId.toString())
                 .setIssuedAt(now)
-                .setExpiration(new Date(now.getTime() + jwtProperties.getAccessTokenExp()))
+                .setExpiration(new Date(now.getTime() + time))
                 .claim("type",type)
                 .claim("role", role)
                 .signWith(getSecretKey())
@@ -54,10 +54,10 @@ public class JwtProvider {
     }
 
     public String generateAccessToken(Long userId, String role){
-        return issueToken(userId,role,ACCESS_TOKEN);
+        return issueToken(userId,role, ACCESS_TOKEN, jwtProperties.getAccessTokenExp());
     }
     public String generateRefreshToken(Long userId, String role){
-        return issueToken(userId,role,REFRESH_TOKEN);
+        return issueToken(userId,role, REFRESH_TOKEN, jwtProperties.getRefreshTokenExp());
     }
 
     public DecodedJwtToken decodeToken(String token, String type){

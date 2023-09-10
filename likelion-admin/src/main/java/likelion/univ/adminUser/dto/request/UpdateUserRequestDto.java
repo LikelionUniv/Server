@@ -19,7 +19,7 @@ public class UpdateUserRequestDto {
     @ApiModelProperty(value = "전공", example = "컴퓨터공학과", required = true)
     private String major;
     @NotBlank
-    @ApiModelProperty(value = "파트", example = "백엔드", required = true)
+    @ApiModelProperty(value = "파트", example = "BACKEND", required = true)
     private String part;
     @NotBlank
     @ApiModelProperty(value = "기수", example = "11", required = true)

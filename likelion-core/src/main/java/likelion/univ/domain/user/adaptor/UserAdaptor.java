@@ -46,4 +46,8 @@ public class UserAdaptor {
     public List<User> findUsersByUniversityId(Long id) {
         return userRepository.findByUniversityInfoUniversityId(id);
     }
+
+    public List<User> findAllByUniversityName(String univName){
+        return userRepository.findByUniversityInfoUniversityName(univName);
+    }
 }

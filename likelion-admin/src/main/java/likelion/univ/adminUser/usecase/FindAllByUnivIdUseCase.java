@@ -13,12 +13,18 @@ import java.util.stream.Collectors;
 
 @UseCase
 @RequiredArgsConstructor
-public class FindAllByUnivUseCase {
+public class FindAllByUnivIdUseCase {
 
     private final UserAdaptor userAdaptor;
+    private final AuthentiatedUserUtils authentiatedUserUtils;
 
-    public List<UserInfoResponseDto> excute(String univName) {
-        List<User> users = userAdaptor.findAllByUniversityName(univName);
+    public List<UserInfoResponseDto> excute(Long univId) {
+        User user = authentiatedUserUtils.getCurrentUser();
+        if (user.getUniversityInfo().getUniversity().getId() != univId) {
+            throw new ForbiddenAuthorization();
+        }
+
+        List<User> users = userAdaptor.findUsersByUniversityId(univId);
         return users.stream().map(u -> new UserInfoResponseDto(u.getId(), u.getProfile().getName(),
                 u.getAuthInfo().getEmail(), u.getUniversityInfo().getMajor(),
                 u.getProfile().getPart(), u.getUniversityInfo().getOrdinal())).collect(Collectors.toList());

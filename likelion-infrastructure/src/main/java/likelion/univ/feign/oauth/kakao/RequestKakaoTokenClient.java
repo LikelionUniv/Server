@@ -7,6 +7,7 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 
 @FeignClient(
@@ -16,10 +17,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 public interface RequestKakaoTokenClient {
     @PostMapping("/oauth/token?grant_type=authorization_code")
     KakaoTokenInfoDto getToken(
-            @PathVariable("client_id") String clientId,
-            @PathVariable("redirect_uri") String redirectUri,
-            @PathVariable("code") String code,
-            @PathVariable("client_secret") String client_secret);
+            @RequestParam("client_id") String clientId,
+            @RequestParam("redirect_uri") String redirectUri,
+            @RequestParam("code") String code,
+            @RequestParam("client_secret") String clientSecret);
 
     @GetMapping("/.well-known/jwks.json")
     PublicKeysDto getPublicKeys();

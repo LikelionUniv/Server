@@ -1,4 +1,4 @@
-package likelion.univ.config.security;
+package likelion.univ.security;
 
 import likelion.univ.exception.NotAuthentiatedException;
 import org.springframework.security.core.Authentication;

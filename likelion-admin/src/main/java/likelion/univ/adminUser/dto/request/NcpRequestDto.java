@@ -36,6 +36,7 @@ public class NcpRequestDto {
     @Builder
     public static class PhoneNum{
         @NotBlank
+        @ApiModelProperty(value = "전화번호", example = "01012341234", required = true)
         private String to;
 
     }

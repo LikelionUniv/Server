@@ -39,7 +39,7 @@ public class SuperAdminController {
     }
 
     @Operation(summary = "특정 멤버 조회")
-    @GetMapping("/superadmin/{univ}/user/{userId}")
+    @GetMapping("/superadmin/user/{userId}")
     public SuccessResponse<Object> findUserById(@PathVariable Long userId){
         UserInfoResponseDto response = findUserUseCase.excute(userId);
 
@@ -47,28 +47,30 @@ public class SuperAdminController {
     }
 
     @Operation(summary = "특정 학교 멤버 다건 조회")
-    @GetMapping("/v1/univ/{univId}/users")
-    public SuccessResponse<Object> findUserByUniv(@PathVariable Long univId){
+    @GetMapping("/superadmin/univ/{univName}/users")
+    public SuccessResponse<Object> findUserByUniv(@PathVariable String univName){
 
-        List<UserInfoResponseDto> response = findAllByUnivUseCase.excute(univId);
+        List<UserInfoResponseDto> response = findAllByUnivUseCase.excute(univName);
 
         return SuccessResponse.of(response);
     }
 
     @Operation(summary = "특정 멤버 수정")
-    @PatchMapping("/superadmin/{univ}/user/{userId}")
+    @PatchMapping("/superadmin/{univId}/user/{userId}")
     public SuccessResponse<Object> updateUser(@PathVariable("userId")Long userId,
+                                              @PathVariable("univId")Long univId,
                                               @RequestBody UpdateUserRequestDto updateUserRequestDto){
 
-        UserInfoResponseDto response = updateUserUseCase.excute(userId, updateUserRequestDto);
+        UserInfoResponseDto response = updateUserUseCase.excute(userId,univId, updateUserRequestDto);
         return SuccessResponse.of(response);
     }
 
     @Operation(summary = "특정 멤버 삭제")
-    @DeleteMapping("/superadmin/{univ}/user/{userId}")
-    public SuccessResponse<Object> deleteUser(@PathVariable("userId")Long userId){
+    @DeleteMapping("/superadmin/{univId}/user/{userId}")
+    public SuccessResponse<Object> deleteUser(@PathVariable("userId")Long userId,
+                                              @PathVariable("univId")Long univId){
 
-        UserInfoResponseDto response = deleteUserUseCase.excute(userId);
+        UserInfoResponseDto response = deleteUserUseCase.excute(userId,univId);
         return SuccessResponse.of(response);
 
 }

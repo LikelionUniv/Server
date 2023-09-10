@@ -1,8 +1,8 @@
 package likelion.univ.utils;
 
-import likelion.univ.config.security.SecurityUtils;
 import likelion.univ.domain.user.adaptor.UserAdaptor;
 import likelion.univ.domain.user.entity.User;
+import likelion.univ.security.SecurityUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
