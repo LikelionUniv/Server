@@ -15,6 +15,7 @@ public class PostDeleteUseCase {
     private PostService postService;
 
     public void execute(PostRequestDTO.Delete request) {
+
         postService.deletePost(buildDTO(request));
         return ;
     }

@@ -27,6 +27,8 @@ public class PostRequestDTO {
 
     @Data
     public static class Edit {
+        private Long userId;
+
         private Long postId;
         private String title;
 
@@ -37,6 +39,7 @@ public class PostRequestDTO {
 
     @Data
     public static class Delete {
+        private Long userId;
         private Long postId;
     }
 

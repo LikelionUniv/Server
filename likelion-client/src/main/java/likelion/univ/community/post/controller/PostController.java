@@ -41,13 +41,13 @@ public class PostController {
         return SuccessResponse.of(response);
     }
 
-//    @GetMapping("")
-//    public SuccessResponse retrievePostPaging(@RequestParam Integer page,@RequestParam Integer limit) {
-//
-//        List<PostServiceDTO.Retrieve> response = postRetrieveUseCase.execute(page,limit);
-//
-//        return SuccessResponse.of(response);
-//    }
+    @GetMapping("")
+    public SuccessResponse retrievePostPaging(@RequestParam Integer page,@RequestParam Integer limit) {
+
+        List<PostServiceDTO.Retrieve> response = postRetrieveUseCase.execute(page,limit);
+
+        return SuccessResponse.of(response);
+    }
 
     @PatchMapping("")
     public SuccessResponse editPost(@RequestBody PostRequestDTO.Edit request) {

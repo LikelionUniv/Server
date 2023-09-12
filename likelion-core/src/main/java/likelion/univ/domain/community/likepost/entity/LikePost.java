@@ -3,6 +3,8 @@ package likelion.univ.domain.community.likepost.entity;
 import likelion.univ.common.entity.BaseTimeEntity;
 import likelion.univ.domain.community.post.entity.Post;
 import likelion.univ.domain.user.entity.User;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -11,6 +13,8 @@ import javax.persistence.*;
 @Entity
 @Getter
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class LikePost extends BaseTimeEntity {
 
     @Id
@@ -25,13 +29,6 @@ public class LikePost extends BaseTimeEntity {
     @ManyToOne(fetch = FetchType.LAZY )
     @JoinColumn(name = "post_id"  )
     private Post post;
-
-
-
-    @Column(name = "post_title")
-    private String postTitle;
-
-
 
 
 }
