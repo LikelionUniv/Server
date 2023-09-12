@@ -17,19 +17,18 @@ public class PostCustomRepositoryImpl implements PostCustomRepository{
     @Override
     public List<Post> pagingWithCoveringIndex(Integer page, Integer limit) {
 
-        return null;
-//        List<Long> ids = jpaQueryFactory
-//                .select(post.id)
-//                .from(post)
-//                .limit(limit)
-//                .offset(page * limit)
-//                .fetch();
-//
-//        return jpaQueryFactory
-//                .selectFrom(post)
-//                .innerJoin(post.author, user)
-//                .fetchJoin()
-//                .where(post.id.in(ids))
-//                .fetch();
+        List<Long> ids = jpaQueryFactory
+                .select(post.id)
+                .from(post)
+                .limit(limit)
+                .offset(page * limit)
+                .fetch();
+
+        return jpaQueryFactory
+                .selectFrom(post)
+                .innerJoin(post.author, user)
+                .fetchJoin()
+                .where(post.id.in(ids))
+                .fetch();
     }
 }
