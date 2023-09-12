@@ -5,6 +5,7 @@ import likelion.univ.domain.community.post.dto.PostServiceDTO;
 import likelion.univ.domain.community.post.entity.Post;
 import likelion.univ.domain.community.post.entity.enums.MainCategory;
 import likelion.univ.domain.community.post.entity.enums.SubCategory;
+import likelion.univ.domain.community.post.exception.PostNoAuthorizationException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -44,12 +45,18 @@ public class PostService{
 
     public PostServiceDTO.ResponseDTO editPost(PostServiceDTO.EditRequest request) {
         Post post = postAdaptor.findById(request.getPostId());
+        if (!(post.getAuthor().getId().equals(request.getUserId()))) {
+            throw new PostNoAuthorizationException();
+        }
         post.edit(request);
         postAdaptor.save(post);
         return PostServiceDTO.ResponseDTO.builder().id(post.getId()).build();
     }
     public void deletePost(PostServiceDTO.DeleteRequest request) {
         Post post = postAdaptor.findById(request.getPostId());
+        if (!(post.getAuthor().getId().equals(request.getUserId()))) {
+            throw new PostNoAuthorizationException();
+        }
         postAdaptor.delete(post);
         return;
     }

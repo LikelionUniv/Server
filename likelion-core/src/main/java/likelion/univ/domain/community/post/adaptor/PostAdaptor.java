@@ -4,6 +4,7 @@ import likelion.univ.annotation.Adaptor;
 import likelion.univ.domain.community.comment.entity.Comment;
 import likelion.univ.domain.community.comment.exception.CommentNotFoundException;
 import likelion.univ.domain.community.post.entity.Post;
+import likelion.univ.domain.community.post.exception.PostNotFoudException;
 import likelion.univ.domain.community.post.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +24,7 @@ public class PostAdaptor {
     }
 
     public Post findById(Long id) {
-        return postRepository.findById(id).get(); //예외처리
+        return postRepository.findById(id).orElseThrow(() -> new PostNotFoudException());
     }
 
     public void delete(Post post) {

@@ -62,6 +62,7 @@ public class PostServiceDTO {
     @Builder
     @AllArgsConstructor
     public static class EditRequest {
+        private Long userId;
         private Long postId;
         private String title;
 
@@ -74,6 +75,7 @@ public class PostServiceDTO {
     @Builder
     @AllArgsConstructor
     public static class DeleteRequest {
+        private Long userId;
         private Long postId;
     }
 }
