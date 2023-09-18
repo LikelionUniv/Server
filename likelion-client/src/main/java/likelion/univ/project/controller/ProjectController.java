@@ -1,5 +1,6 @@
 package likelion.univ.project.controller;
 
+import io.swagger.annotations.Api;
 import likelion.univ.project.dto.request.ProjectRequestDto;
 import likelion.univ.project.dto.response.ProjectResponseDto;
 import likelion.univ.project.usecase.*;
@@ -19,8 +20,8 @@ import java.util.Objects;
 @RequiredArgsConstructor
 @RequestMapping(value = "/v1/project")
 //swagger UI에 보일 컨트롤러 이름
-//@Api(tags = {" API"})
-public class projectController {
+@Api(tags = {"프로젝트 API"})
+public class ProjectController {
 
     private final GetProjectUsecase getProjectUsecase;
     private final GetAllPorjectUsecase getAllPorjectUsecase;
@@ -39,9 +40,9 @@ public class projectController {
         return SuccessResponse.of(projectResponseDto);
     }
 
-    //-----------프로젝트 목록 --------//
+    //-----------프로젝트 목록 5 -> 12 로 수정--------//
     @GetMapping("/")
-    public SuccessResponse<List<ProjectResponseDto>> getAllProject(@PageableDefault(page=0, size=5, sort="id" ,direction = Sort.Direction.DESC) Pageable pageable){
+    public SuccessResponse<List<ProjectResponseDto>> getAllProject(@PageableDefault(page=0, size=12, sort="id" ,direction = Sort.Direction.DESC) Pageable pageable){
         List<ProjectResponseDto> projectList = getAllPorjectUsecase.excute(pageable);
         return SuccessResponse.of(projectList);
     }
@@ -66,7 +67,6 @@ public class projectController {
     public SuccessResponse<ProjectResponseDto> createProject(@RequestBody ProjectRequestDto projectRequestDto){
 
         ProjectResponseDto projectResponseDto = createProjectUsecase.excute(projectRequestDto);
-//        return new ProjectResponseDto(project.getId(),"프로젝트 등록 성공");
         return SuccessResponse.of(projectResponseDto);
     }
 
