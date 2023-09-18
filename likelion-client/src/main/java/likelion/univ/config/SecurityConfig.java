@@ -1,6 +1,7 @@
 package likelion.univ.config;
 
 import likelion.univ.security.AccessProcessor;
+import likelion.univ.security.CorsConfig;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,6 +19,7 @@ import static likelion.univ.constant.StaticValue.SwaggerUrlPatterns;
 public class SecurityConfig {
     private final ClientFilterConfig clientFilterConfig;
     private final AccessProcessor accessProcessor;
+    private final CorsConfig corsConfig;
 
     @Bean
     public BCryptPasswordEncoder encoder() {
