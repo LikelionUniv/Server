@@ -22,7 +22,8 @@ import java.util.Objects;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(value = "/v1/project")
-//@Api(tags = {"프로젝트 API"})  //swagger UI에 보일 컨트롤러 이름
+//swagger UI에 보일 컨트롤러 이름
+@Api(tags = {"프로젝트 API"})
 public class projectController {
 
     private final GetProjectUsecase getProjectUsecase;
