@@ -24,7 +24,7 @@ import java.util.Objects;
 @RequestMapping(value = "/v1/project")
 //swagger UI에 보일 컨트롤러 이름
 @Api(tags = {"프로젝트 API"})
-public class projectController {
+public class ProjectController {
 
     private final GetProjectUsecase getProjectUsecase;
     private final GetAllPorjectUsecase getAllPorjectUsecase;
