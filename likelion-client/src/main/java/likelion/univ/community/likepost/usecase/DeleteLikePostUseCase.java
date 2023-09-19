@@ -32,7 +32,7 @@ public class DeleteLikePostUseCase {
     private LikePostDto.DeleteRequest buildDTO(LikePostRequestDto.Delete request) {
         return LikePostDto.DeleteRequest.builder()
                 .post(postAdaptor.findById(request.getPostId()))
-            //    .author(userAdaptor.findById(request.getUserId()))
+                .author(userAdaptor.findById(request.getUserId()))
                 .build();
     }
 }

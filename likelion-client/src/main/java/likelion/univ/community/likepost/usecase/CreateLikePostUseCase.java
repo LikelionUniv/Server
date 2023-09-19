@@ -31,7 +31,7 @@ public class CreateLikePostUseCase {
     private LikePostDto.CreateRequest buildDTO(LikePostRequestDto.Save request) {
         return LikePostDto.CreateRequest.builder()
                 .post(postAdaptor.findById(request.getPostId()))
-              //  .author(userAdaptor.findById(request.getUserId()))
+                 .author(userAdaptor.findById(request.getUserId()))
                 .build();
     }
 
