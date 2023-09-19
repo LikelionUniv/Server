@@ -1,7 +1,11 @@
 package likelion.univ.project.controller;
 
+import io.swagger.annotations.Api;
 import likelion.univ.project.dto.request.ProjectRequestDto;
+import likelion.univ.project.dto.response.ProjectIdResponseDto;
 import likelion.univ.project.dto.response.ProjectResponseDto;
+import likelion.univ.project.dto.response.UnivResponseDto;
+import likelion.univ.project.dto.response.UserResponseDto;
 import likelion.univ.project.usecase.*;
 import likelion.univ.response.SuccessResponse;
 import lombok.RequiredArgsConstructor;
@@ -18,8 +22,7 @@ import java.util.Objects;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(value = "/v1/project")
-//swagger UI에 보일 컨트롤러 이름
-//@Api(tags = {" API"})
+//@Api(tags = {"프로젝트 API"})  //swagger UI에 보일 컨트롤러 이름
 public class projectController {
 
     private final GetProjectUsecase getProjectUsecase;
@@ -30,6 +33,8 @@ public class projectController {
     private final ArchiveProjectUsecase archiveProjectUsecase;
     private final GetProjectByUsecase getProjectByUsecase;
     private final GetOrdinalUsecase getOrdinalUsecase;
+    private final GetUnivUsecase getUnivUsecase;
+    private final GetUserUsecase getUserUsecase;
 
     //-----------프로젝트 한 개 조회 --------//
     @GetMapping("/{projectId}")
@@ -63,18 +68,16 @@ public class projectController {
 
     //--------- 프로젝트 등록 ------------//
     @PostMapping("/post")
-    public SuccessResponse<ProjectResponseDto> createProject(@RequestBody ProjectRequestDto projectRequestDto){
-
-        ProjectResponseDto projectResponseDto = createProjectUsecase.excute(projectRequestDto);
-//        return new ProjectResponseDto(project.getId(),"프로젝트 등록 성공");
-        return SuccessResponse.of(projectResponseDto);
+    public SuccessResponse<ProjectIdResponseDto> createProject(@RequestBody ProjectRequestDto projectRequestDto){
+        ProjectIdResponseDto projectIdResponseDto = createProjectUsecase.excute(projectRequestDto);
+        return SuccessResponse.of(projectIdResponseDto);
     }
 
     //-----------프로젝트 수정 --------//
     @PutMapping("/edit/{projectId}")
-    public SuccessResponse<ProjectResponseDto> updateProject(@PathVariable("projectId") Long projectId, @RequestBody ProjectRequestDto projectRequestDto) {
-        ProjectResponseDto projectResponseDto = updateProjectUsecase.excute(projectId, projectRequestDto);
-        return SuccessResponse.of(projectResponseDto);
+    public SuccessResponse<ProjectIdResponseDto> updateProject(@PathVariable("projectId") Long projectId, @RequestBody ProjectRequestDto projectRequestDto) {
+        ProjectIdResponseDto projectIdResponseDto = updateProjectUsecase.excute(projectId, projectRequestDto);
+        return SuccessResponse.of(projectIdResponseDto);
     }
 
     //-----------프로젝트 삭제 --------//
@@ -82,5 +85,19 @@ public class projectController {
     public SuccessResponse<Objects> deleteProject(@PathVariable("projectId") Long projectId) {
         deleteProjectUsecase.excute(projectId);
         return SuccessResponse.empty();
+    }
+
+    //-----------학교 조회 --------//
+    @GetMapping("/university")
+    public SuccessResponse<List<UnivResponseDto>> getAllUniv(){
+        List<UnivResponseDto> univList = getUnivUsecase.excute();
+        return SuccessResponse.of(univList);
+    }
+
+    //-----------유저 조회 --------//
+    @GetMapping("/users")
+    public SuccessResponse<List<UserResponseDto>> getAllUser(){
+        List<UserResponseDto> userList = getUserUsecase.excute();
+        return SuccessResponse.of(userList);
     }
 }

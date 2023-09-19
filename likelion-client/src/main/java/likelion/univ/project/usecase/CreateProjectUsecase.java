@@ -12,6 +12,7 @@ import likelion.univ.domain.project.service.ProjectService;
 import likelion.univ.domain.user.adaptor.UserAdaptor;
 import likelion.univ.domain.user.entity.User;
 import likelion.univ.project.dto.request.ProjectRequestDto;
+import likelion.univ.project.dto.response.ProjectIdResponseDto;
 import likelion.univ.project.dto.response.ProjectResponseDto;
 import lombok.RequiredArgsConstructor;
 
@@ -30,7 +31,7 @@ public class CreateProjectUsecase {
     private final ImageAdaptor imageAdaptor;
     private final ProjectMemberAdaptor projectMemberAdaptor;
 
-    public ProjectResponseDto excute(ProjectRequestDto projectRequestDto) {
+    public ProjectIdResponseDto excute(ProjectRequestDto projectRequestDto) {
         Project createdProject = projectService.createProject(
                 projectRequestDto.getThon(),
                 projectRequestDto.getOutPut(),
@@ -46,24 +47,29 @@ public class CreateProjectUsecase {
         );
         Long id = createdProject.getId();
         Project project = projectAdaptor.findById(id);
-        imageService.addImage(
-                projectRequestDto.getImages().stream()
-                        .map(imageRequestDto -> Image.builder()
-                                .name(imageRequestDto.getName())
-                                .saved(imageRequestDto.getSaved())
-                                .project(project)
-                                .build())
-                        .collect(Collectors.toList()));
-        projectMemberService.addMembers(project, projectRequestDto.getMembers().stream()
-                .map(member -> userAdaptor.findById(member.getId()))
-                .collect(Collectors.toList()));
+        try{
+            imageService.addImage(
+                    projectRequestDto.getImages().stream()
+                            .map(imageRequestDto -> Image.builder()
+                                    .name(imageRequestDto.getName())
+                                    .saved(imageRequestDto.getSaved())
+                                    .project(project)
+                                    .build())
+                            .collect(Collectors.toList()));
+            projectMemberService.addMembers(project, projectRequestDto.getMembers().stream()
+                    .map(member -> userAdaptor.findById(member.getId()))
+                    .collect(Collectors.toList()));
+        } catch(Exception e) {
+            System.out.println("error message");
+            System.out.println(e.getMessage());
+        }
 
-        List<Image> images = imageAdaptor.findByProject(project);
-        List<User> users = projectMemberAdaptor.findByProject(project).stream()
-                .map(projectMember -> projectMember.getUser())
-                .map(user -> userAdaptor.findById(user.getId()))
-                .collect(Collectors.toList());
+//        List<Image> images = imageAdaptor.findByProject(project);
+//        List<User> users = projectMemberAdaptor.findByProject(project).stream()
+//                .map(projectMember -> projectMember.getUser())
+//                .map(user -> userAdaptor.findById(user.getId()))
+//                .collect(Collectors.toList());
 
-        return ProjectResponseDto.of(project, images, users);
+        return ProjectIdResponseDto.of(id);
     }
 }

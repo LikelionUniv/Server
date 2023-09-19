@@ -18,7 +18,7 @@ public class ProjectResponseDto {
     private String thon;
     private Output outPut;
     private String service;
-    private int year;
+    private int ordinal;
     private String univ;
     private LocalDate startDate;
     private LocalDate endDate;
@@ -34,7 +34,7 @@ public class ProjectResponseDto {
                 .thon(project.getThon())
                 .outPut(project.getOutPut())
                 .service(project.getServiceName())
-                .year(project.getOrdinal())
+                .ordinal(project.getOrdinal())
                 .univ(project.getUniv())
                 .startDate(project.getStartDate())
                 .endDate(project.getEndDate())

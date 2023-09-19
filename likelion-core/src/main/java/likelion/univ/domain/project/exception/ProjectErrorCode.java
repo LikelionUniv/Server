@@ -16,5 +16,4 @@ public enum ProjectErrorCode implements BaseErrorCode {
     private final int httpStatus;
     private final String code;
     private final String message;
-
 }
