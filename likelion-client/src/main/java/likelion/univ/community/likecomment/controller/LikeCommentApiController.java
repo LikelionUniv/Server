@@ -1,7 +1,7 @@
 package likelion.univ.community.likecomment.controller;
 
-import io.swagger.annotations.Api;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import likelion.univ.community.likecomment.dto.LikeCommentRequestDto;
 import likelion.univ.community.likecomment.usecase.CreateLikeCommentUseCase;
 import likelion.univ.community.likecomment.usecase.SwitchLikeCommentUseCase;
@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin("*")
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/community/likecomment")
-@Api(tags = {"댓글 좋아요 API"})
+@Tag(name = "댓글 좋아요", description = "댓글 좋아요 API")
 public class LikeCommentApiController {
     private final CreateLikeCommentUseCase createLikeCommentUseCase;
     private final SwitchLikeCommentUseCase switchLikeCommentUseCase;

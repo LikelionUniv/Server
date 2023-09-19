@@ -19,7 +19,6 @@ import static likelion.univ.constant.StaticValue.SwaggerUrlPatterns;
 public class SecurityConfig {
     private final ClientFilterConfig clientFilterConfig;
     private final AccessProcessor accessProcessor;
-    private final CorsConfig corsConfig;
 
     @Bean
     public BCryptPasswordEncoder encoder() {

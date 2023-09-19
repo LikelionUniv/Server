@@ -1,7 +1,6 @@
 package likelion.univ.security;
 
 import likelion.univ.annotation.Processor;
-import org.springframework.context.annotation.Bean;
 import org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl;
 import org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler;
 

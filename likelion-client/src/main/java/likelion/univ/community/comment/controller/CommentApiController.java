@@ -1,7 +1,7 @@
 package likelion.univ.community.comment.controller;
 
-import io.swagger.annotations.Api;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import likelion.univ.community.comment.dto.CommentRequestDto;
 import likelion.univ.community.comment.usecase.*;
 import likelion.univ.domain.community.comment.dto.CommentServiceDto;
@@ -18,7 +18,7 @@ import java.util.List;
 @CrossOrigin("*") /* 향후 nginx IP에 대해서만 열어두도록 개선 필요 */
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/community/comment")
-@Api(tags = {"댓글 API"})
+@Tag(name = "댓글", description = "댓글 API")
 public class CommentApiController {
     private final CreateParentCommentUseCase createParentCommentUseCase;
     private final CreateChildCommentUseCase createChildCommentUseCase;
