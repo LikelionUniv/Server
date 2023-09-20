@@ -21,8 +21,6 @@ public class Project extends BaseTimeEntity {
     @Column(name="project_id")
     private long id;
 
-    // private String thumbnail;
-
     private String thon;
 
     @Enumerated(EnumType.STRING)
