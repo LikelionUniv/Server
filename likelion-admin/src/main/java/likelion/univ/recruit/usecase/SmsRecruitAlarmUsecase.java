@@ -3,9 +3,7 @@ package likelion.univ.recruit.usecase;
 import likelion.univ.annotation.UseCase;
 import likelion.univ.domain.recruit.entity.Recruit;
 import likelion.univ.domain.recruit.service.RecruitQueryService;
-import likelion.univ.email.EmailContent;
-import likelion.univ.email.EmailSender;
-import likelion.univ.recruit.dto.RecruitAlarmContent;
+import likelion.univ.recruit.dto.RecruitAlarmContentDto;
 import likelion.univ.sms.SmsContent;
 import likelion.univ.sms.SmsSender;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +18,7 @@ public class SmsRecruitAlarmUsecase implements RecruitAlarmUsecase {
     private final RecruitQueryService recruitQueryService;
     private final SmsSender smsSender;
 
-    public void execute(RecruitAlarmContent recruitAlarmContent, Long universityId) {
+    public void execute(RecruitAlarmContentDto recruitAlarmContentDto, Long universityId) {
         List<Recruit> recruits = recruitQueryService.queryAllByUniversity(universityId);
 
         List<String> phones = recruits.stream()
@@ -28,7 +26,7 @@ public class SmsRecruitAlarmUsecase implements RecruitAlarmUsecase {
                 .collect(Collectors.toList());
 
         SmsContent smsContent = SmsContent.builder()
-                .contents(recruitAlarmContent.getContents())
+                .contents(recruitAlarmContentDto.getContents())
                 .receivers(phones)
                 .build();
         smsSender.send(smsContent);

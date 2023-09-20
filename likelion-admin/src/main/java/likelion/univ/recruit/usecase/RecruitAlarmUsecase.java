@@ -1,8 +1,7 @@
 package likelion.univ.recruit.usecase;
 
-import likelion.univ.annotation.UseCase;
-import likelion.univ.recruit.dto.RecruitAlarmContent;
+import likelion.univ.recruit.dto.RecruitAlarmContentDto;
 
 public interface RecruitAlarmUsecase {
-    void execute(RecruitAlarmContent recruitAlarmContent, Long universityId);
+    void execute(RecruitAlarmContentDto recruitAlarmContentDto, Long universityId);
 }
