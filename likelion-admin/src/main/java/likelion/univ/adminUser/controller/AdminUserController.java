@@ -16,7 +16,7 @@ import java.util.List;
 
 @Slf4j
 @RestController
-@RequestMapping(value = "/v1/univ/{univId}")
+@RequestMapping(value = "/v1/univAdmin/{univId}")
 @RequiredArgsConstructor
 @Api(tags = {"학교 대표"})
 public class AdminUserController {

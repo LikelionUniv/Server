@@ -24,7 +24,7 @@ import java.util.NoSuchElementException;
 @RequiredArgsConstructor
 @Slf4j
 public class NcpSmsUseCase {
-    private final NcpSmsClient ncpSmsClient;
+    /*private final NcpSmsClient ncpSmsClient;
     private final UserAdaptor userAdaptor;
 
     @Value("${spring.ncp.sms.serviceId}")
@@ -100,5 +100,5 @@ public class NcpSmsUseCase {
         return encodeBase64String;
 
     }
-
+*/
 }

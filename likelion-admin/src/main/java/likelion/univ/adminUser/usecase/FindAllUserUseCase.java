@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 
 @UseCase
 @RequiredArgsConstructor
-public class FindUsersUseCase {
+public class FindAllUserUseCase {
     private final UserAdaptor userAdaptor;
 
 

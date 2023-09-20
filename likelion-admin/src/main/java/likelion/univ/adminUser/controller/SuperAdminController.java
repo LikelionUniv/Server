@@ -16,12 +16,12 @@ import java.util.List;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(value = "/v1")
+@RequestMapping(value = "/v1/superAdmin")
 @Api(tags = {"슈퍼 관리자"})
 public class SuperAdminController {
 
     private final DeleteUserUseCase deleteUserUseCase;
-    private final FindUsersUseCase findUsersUseCase;
+    private final FindAllUserUseCase findAllUserUseCase;
     private final UpdateUserUseCase updateUserUseCase;
     private final FindAllByUnivUseCase findAllByUnivUseCase;
     private final FindUserUseCase findUserUseCase;
@@ -30,16 +30,16 @@ public class SuperAdminController {
 
 
     @Operation(summary = "멤버 전체 조회")
-    @GetMapping("/superadmin/users")
-    public SuccessResponse<Object> findAllUsers(int pageNum){
+    @GetMapping("/users")
+    public SuccessResponse<Object> findAllUser(int pageNum){
 
-        List<UserInfoResponseDto> response = findUsersUseCase.excute(pageNum);
+        List<UserInfoResponseDto> response = findAllUserUseCase.excute(pageNum);
 
         return SuccessResponse.of(response);
     }
 
     @Operation(summary = "특정 멤버 조회")
-    @GetMapping("/superadmin/user/{userId}")
+    @GetMapping("/user/{userId}")
     public SuccessResponse<Object> findUserById(@PathVariable Long userId){
         UserInfoResponseDto response = findUserUseCase.excute(userId);
 
@@ -47,8 +47,8 @@ public class SuperAdminController {
     }
 
     @Operation(summary = "특정 학교 멤버 다건 조회")
-    @GetMapping("/superadmin/univ/{univName}/users")
-    public SuccessResponse<Object> findUserByUniv(@PathVariable String univName){
+    @GetMapping("/univ/{univName}/users")
+    public SuccessResponse<Object> findUsersByUniv(@PathVariable String univName){
 
         List<UserInfoResponseDto> response = findAllByUnivUseCase.excute(univName);
 
@@ -56,7 +56,7 @@ public class SuperAdminController {
     }
 
     @Operation(summary = "특정 멤버 수정")
-    @PatchMapping("/superadmin/{univId}/user/{userId}")
+    @PatchMapping("/{univId}/user/{userId}")
     public SuccessResponse<Object> updateUser(@PathVariable("userId")Long userId,
                                               @PathVariable("univId")Long univId,
                                               @RequestBody UpdateUserRequestDto updateUserRequestDto){
@@ -66,7 +66,7 @@ public class SuperAdminController {
     }
 
     @Operation(summary = "특정 멤버 삭제")
-    @DeleteMapping("/superadmin/{univId}/user/{userId}")
+    @DeleteMapping("/{univId}/user/{userId}")
     public SuccessResponse<Object> deleteUser(@PathVariable("userId")Long userId,
                                               @PathVariable("univId")Long univId){
 

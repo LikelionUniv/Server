@@ -18,7 +18,6 @@ import java.io.*;
 @UseCase
 @RequiredArgsConstructor
 public class SendEmailUseCase {
-    private final UserAdaptor userAdaptor;
     private final JavaMailSender mailSender;
 
 

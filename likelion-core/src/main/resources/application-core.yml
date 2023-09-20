@@ -9,14 +9,12 @@ spring:
     show-sql: true
     database: mysql
     open-in-view: false
+    dialect: org.hibernate.dialect.MySQL8Dialect
     hibernate:
-      ddl-auto: update  #create update none
+      ddl-auto: create   #create update none
+      default_batch_fetch_size: 500
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
-    properties:
-      dialect: org.hibernate.dialect.MySQL8Dialect
-      hibernate:
-        default_batch_fetch_size: 1000
 
 logging:
   level:

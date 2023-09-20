@@ -28,7 +28,7 @@ public class CodeitAdminController {
     private final NcpSmsUseCase ncpSmsUseCase;
 
 
-    @Operation(summary = "이메일 전송")
+/*    @Operation(summary = "이메일 전송")
     @PostMapping(value = "/email", consumes = "multipart/form-data")
     public SuccessResponse<Object> sendEmail(SendMailRequestDto sendMailRequestDto)throws MessagingException, IOException {
         sendEmailUseCase.excute(sendMailRequestDto);
@@ -41,6 +41,6 @@ public class CodeitAdminController {
             throws UnsupportedEncodingException, NoSuchAlgorithmException, InvalidKeyException{
         ncpSmsUseCase.excute(sendMsgRequestDto);
         return SuccessResponse.empty();
-    }
+    }*/
 
 }

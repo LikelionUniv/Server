@@ -11,6 +11,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 import static likelion.univ.constant.StaticValue.SwaggerUrlPatterns;
+import static likelion.univ.domain.user.entity.Role.ADMIN;
+import static likelion.univ.domain.user.entity.Role.SUPER_ADMIN;
 
 @Configuration
 @RequiredArgsConstructor
@@ -37,6 +39,8 @@ public class SecurityConfig {
                 .authorizeRequests()
                 .antMatchers(SwaggerUrlPatterns)
                 .permitAll()
+/*                .antMatchers("/superAdmin/**").hasRole(SUPER_ADMIN)
+                .antMatchers("/univAdmin/**").hasRole(ADMIN)*/
 //                .antMatchers("/v1/**").hasRole(ROLE_USER)
 //                .anyRequest().authenticated();
                 .anyRequest().permitAll(); //임시

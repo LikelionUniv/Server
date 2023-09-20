@@ -18,12 +18,12 @@ spring:
           auth: true
           starttls:
             enable: true
-    ncp:
-      sms:
-        serviceId: ${ncp-cliud-sms-serviceId}
-        accessKey: ${ncp-cliud-sms-accessKey}
-        secretKey: ${ncp-cliud-sms-secretKey}
-        phoneNum: ${fromPhoneNum}
+  ncp:
+    sms:
+      serviceId: ${ncp-cliud-sms-serviceId}
+      accessKey: ${ncp-cliud-sms-accessKey}
+      secretKey: ${ncp-cliud-sms-secretKey}
+      phoneNum: ${fromPhoneNum}
 
 
   ## 해당 spring fox가 스프링 2.6이상과 설정이 달라 따로 설정
