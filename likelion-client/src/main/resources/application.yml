@@ -5,14 +5,26 @@ spring:
       - common
       - core
       - infrastructure
-  data:
-    web:
-      pageable: ##페이징
-        one-indexed-parameters: true #1페이지부터 시작, default:0페이지
+      - security
+      - redis
+
 server:
   servlet:
     context-path: /api
 
+springdoc:
+  default-consumes-media-type: application/json;charset=UTF-8
+  default-produces-media-type: application/json;charset=UTF-8
+  api-docs:
+    enabled: ${SWAGGER_ENABLED}
+    path: '/swagger'
+  swagger-ui:
+    enabled: ${SWAGGER_ENABLED}
+    path: '/swagger-ui.html'
+    try-it-out-enabled: ${SWAGGER_TRY_IT_OUT}
+    operations-sorter: alpha
+
+    
 --- ## dev 환경 설정
 spring:
   config:
