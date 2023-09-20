@@ -13,7 +13,7 @@ import likelion.univ.domain.project.service.ProjectService;
 import likelion.univ.domain.user.adaptor.UserAdaptor;
 import likelion.univ.domain.user.entity.User;
 import likelion.univ.project.dto.request.ProjectRequestDto;
-import likelion.univ.project.dto.response.ProjectResponseDto;
+import likelion.univ.project.dto.response.ProjectIdResponseDto;
 import lombok.RequiredArgsConstructor;
 
 import java.time.LocalDate;
@@ -32,7 +32,7 @@ public class UpdateProjectUsecase {
     private final ProjectMemberAdaptor projectMemberAdaptor;
     private final UserAdaptor userAdaptor;
 
-    public ProjectResponseDto excute(Long projectId, ProjectRequestDto projectRequestDto) {
+    public ProjectIdResponseDto excute(Long projectId, ProjectRequestDto projectRequestDto) {
 
         Project project = projectAdaptor.findById(projectId);
 
@@ -62,12 +62,12 @@ public class UpdateProjectUsecase {
         imageService.updateImage(project, image);
         projectMemberService.updateProjectMember(project, members);
 
-        List<Image> images = imageAdaptor.findByProject(project);
-        List<User> users = projectMemberAdaptor.findByProject(project).stream()
-                .map(projectMember -> projectMember.getUser())
-                .map(user -> userAdaptor.findById(user.getId()))
-                .collect(Collectors.toList());
+//        List<Image> images = imageAdaptor.findByProject(project);
+//        List<User> users = projectMemberAdaptor.findByProject(project).stream()
+//                .map(projectMember -> projectMember.getUser())
+//                .map(user -> userAdaptor.findById(user.getId()))
+//                .collect(Collectors.toList());
 
-        return ProjectResponseDto.of(project, images, users);
+        return ProjectIdResponseDto.of(projectId);
     }
 }

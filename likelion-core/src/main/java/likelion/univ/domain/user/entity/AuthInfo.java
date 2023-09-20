@@ -4,7 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 
-import static likelion.univ.domain.user.entity.AccountStatus.MEMEBER;
+import static likelion.univ.domain.user.entity.AccountStatus.MEMBER;
 import static likelion.univ.domain.user.entity.Role.GUEST;
 
 @Embeddable
@@ -28,7 +28,7 @@ public class AuthInfo {
         return AuthInfo.builder()
                 .loginType(loginType)
                 .email(email)
-                .accountStatus(MEMEBER)
+                .accountStatus(MEMBER)
                 .role(GUEST)
                 .build();
     }

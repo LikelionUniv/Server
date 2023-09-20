@@ -2,6 +2,7 @@ package likelion.univ.domain.project.adapter;
 
 import likelion.univ.annotation.Adaptor;
 import likelion.univ.domain.project.entity.Project;
+import likelion.univ.domain.project.exception.CreateProjectBadRequestException;
 import likelion.univ.domain.project.exception.ProjectNotFoundException;
 import likelion.univ.domain.project.repository.ProjectRepository;
 import lombok.RequiredArgsConstructor;
@@ -9,6 +10,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
+import java.util.Optional;
+
 @Adaptor
 @RequiredArgsConstructor
 public class ProjectAdaptor {
@@ -19,7 +22,14 @@ public class ProjectAdaptor {
     }
 
     public Project save(Project project){
-        projectRepository.save(project);
+        try {
+            projectRepository.save(project);
+        }catch(Exception e) {
+            System.out.println("message");
+            System.out.println(e.getMessage());
+            throw new CreateProjectBadRequestException();
+        }
+//        projectRepository.save(project);
         return project;
     }
 

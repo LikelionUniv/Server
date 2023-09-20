@@ -1,7 +1,7 @@
 package likelion.univ.config;
 
 import likelion.univ.security.AccessProcessor;
-import likelion.univ.security.CorsConfig;
+import likelion.univ.security.filter.FilterProcessor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,7 +17,7 @@ import static likelion.univ.constant.StaticValue.SwaggerUrlPatterns;
 @RequiredArgsConstructor
 @EnableWebSecurity
 public class SecurityConfig {
-    private final ClientFilterConfig clientFilterConfig;
+    private final FilterProcessor filterProcessor;
     private final AccessProcessor accessProcessor;
 
     @Bean
@@ -27,12 +27,12 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
-        http.httpBasic().disable().cors();// cors 적용
-        http.csrf().disable();
-        http.formLogin().disable();
-        http.sessionManagement( ).sessionCreationPolicy(SessionCreationPolicy.STATELESS); // JWT이용으로 세션 이용 x
-        http.apply(clientFilterConfig);
-        http.authorizeRequests().expressionHandler(accessProcessor.expressionHandler());
+        http
+                .httpBasic().disable().cors()// cors 적용
+                .and()
+                .csrf().disable()
+                .formLogin().disable()
+                .sessionManagement( ).sessionCreationPolicy(SessionCreationPolicy.STATELESS); // JWT이용으로 세션 이용 x
 
         http
                 .authorizeRequests()
@@ -45,5 +45,20 @@ public class SecurityConfig {
 //                .anyRequest().authenticated();
                 .anyRequest().permitAll(); //임시
         return http.build();
+    }
+
+
+    @Bean
+    public RoleHierarchyImpl roleHierarchy() {
+        RoleHierarchyImpl roleHierarchy = new RoleHierarchyImpl();
+        roleHierarchy.setHierarchy("ROLE_SUPER_ADMIN > ROLE_CODEIT_ADMIN > ROLE_ADMIN > ROLE_MANAGER > ROLE_USER");
+        return roleHierarchy;
+    }
+
+    @Bean
+    public DefaultWebSecurityExpressionHandler expressionHandler() {
+        DefaultWebSecurityExpressionHandler expressionHandler = new DefaultWebSecurityExpressionHandler();
+        expressionHandler.setRoleHierarchy(roleHierarchy());
+        return expressionHandler;
     }
 }
