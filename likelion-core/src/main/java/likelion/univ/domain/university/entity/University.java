@@ -22,5 +22,4 @@ public class University extends BaseTimeEntity {
     private String image;
     private String recruiteUrl;
 
-
 }

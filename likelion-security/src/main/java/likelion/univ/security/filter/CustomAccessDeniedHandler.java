@@ -3,6 +3,7 @@ package likelion.univ.security.filter;
 import likelion.univ.exception.AccessDeniedRequestException;
 import likelion.univ.security.FilterExceptionProcessor;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.stereotype.Component;

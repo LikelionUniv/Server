@@ -1,7 +1,7 @@
 package likelion.univ.config;
 
 import likelion.univ.security.AccessProcessor;
-import likelion.univ.security.CorsConfig;
+import likelion.univ.security.filter.FilterProcessor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,7 +17,7 @@ import static likelion.univ.constant.StaticValue.SwaggerUrlPatterns;
 @RequiredArgsConstructor
 @EnableWebSecurity
 public class SecurityConfig {
-    private final ClientFilterConfig clientFilterConfig;
+    private final FilterProcessor filterProcessor;
     private final AccessProcessor accessProcessor;
 
     @Bean
@@ -31,8 +31,8 @@ public class SecurityConfig {
         http.csrf().disable();
         http.formLogin().disable();
         http.sessionManagement( ).sessionCreationPolicy(SessionCreationPolicy.STATELESS); // JWT이용으로 세션 이용 x
-        http.apply(clientFilterConfig);
         http.authorizeRequests().expressionHandler(accessProcessor.expressionHandler());
+        filterProcessor.common(http);
 
         http
                 .authorizeRequests()
@@ -40,7 +40,10 @@ public class SecurityConfig {
                 .permitAll()
 //                .antMatchers("/v1/**").hasRole(ROLE_USER)
 //                .anyRequest().authenticated();
+                .antMatchers("/v1/auth/refresh/**")
+                .hasRole("ADMIN")
                 .anyRequest().permitAll(); //임시
+
         return http.build();
     }
 }

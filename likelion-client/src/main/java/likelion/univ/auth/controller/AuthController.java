@@ -11,10 +11,8 @@ import likelion.univ.auth.usecase.SignUpUseCase;
 import likelion.univ.auth.dto.request.SignUpRequestDto;
 import likelion.univ.response.SuccessResponse;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
-@Slf4j
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(value = "/v1/auth")
@@ -60,7 +58,6 @@ public class AuthController {
     @PostMapping("/refresh")
     public SuccessResponse<Object> refreshToken(
             @RequestParam("token") String refreshToken){
-
         AccountTokenDto accountTokenDto = refreshTokenUseCase.execute(refreshToken);
         return SuccessResponse.of(accountTokenDto);
     }
