@@ -20,4 +20,11 @@ public class UniversityInfo {
     private University university;
     private String major;
     private Long ordinal;
+
+    public static UniversityInfo universityInfoForSignUp(University university, String major){
+        return UniversityInfo.builder()
+                .university(university)
+                .major(major)
+                .build();
+    }
 }

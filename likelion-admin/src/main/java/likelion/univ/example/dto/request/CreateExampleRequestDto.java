@@ -1,6 +1,6 @@
 package likelion.univ.example.dto.request;
 
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,6 +13,6 @@ import javax.validation.constraints.NotBlank;
 public class CreateExampleRequestDto {
 
     @NotBlank
-    @ApiModelProperty(value = "댓글 내용", example = "안녕하세요. 멋쟁이사자처럼입니다.", required = true)
+    @Schema(description = "댓글 내용", example = "안녕하세요. 멋쟁이사자처럼입니다.", required = true)
     private String body;
 }

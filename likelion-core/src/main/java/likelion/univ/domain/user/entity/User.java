@@ -1,23 +1,23 @@
 package likelion.univ.domain.user.entity;
 
 import likelion.univ.common.entity.BaseTimeEntity;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Entity(name = "user")
+@Builder
+@AllArgsConstructor
+@Entity
+@Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"email", "loginType"})})
 public class User extends BaseTimeEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "example_id")
+    @Column(name = "user_id")
     private Long id;
-    private LocalDateTime lastLoginTime;
 
     @Embedded
     private Profile profile;
@@ -27,4 +27,5 @@ public class User extends BaseTimeEntity{
 
     @Embedded
     private AuthInfo authInfo;
+
 }

@@ -24,7 +24,7 @@ springdoc:
     try-it-out-enabled: ${SWAGGER_TRY_IT_OUT}
     operations-sorter: alpha
 
-    
+
 --- ## dev 환경 설정
 spring:
   config:
