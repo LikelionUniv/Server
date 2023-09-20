@@ -25,6 +25,7 @@ spring:
       secretKey: ${ncp-cliud-sms-secretKey}
       phoneNum: ${fromPhoneNum}
 
+<<<<<<< HEAD
 
   ## 해당 spring fox가 스프링 2.6이상과 설정이 달라 따로 설정
   mvc:
@@ -32,9 +33,23 @@ spring:
       matching-strategy: ant_path_matcher
 
 ## 해당 spring fox가 스프링 2.6이상과 설정이 달라 따로 설정
+=======
+>>>>>>> 90c65fd9c7c40efcf69d0e93fa520fc3d0b32ed4
 server:
   servlet:
     context-path: /api/admin
+
+springdoc:
+  default-consumes-media-type: application/json;charset=UTF-8
+  default-produces-media-type: application/json;charset=UTF-8
+  api-docs:
+    enabled: ${SWAGGER_ENABLED}
+    path: '/swagger'
+  swagger-ui:
+    enabled: ${SWAGGER_ENABLED}
+    path: '/swagger-ui.html'
+    try-it-out-enabled: ${SWAGGER_TRY_IT_OUT}
+    operations-sorter: alpha
 
 
 

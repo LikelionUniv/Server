@@ -14,7 +14,8 @@ dependencies {
     /* security */
     implementation 'org.springframework.boot:spring-boot-starter-security'
     /* swagger */
-    implementation 'io.springfox:springfox-boot-starter:3.0.0'
+    implementation 'org.springdoc:springdoc-openapi-ui:1.6.9'
+
     implementation 'org.jetbrains:annotations:24.0.0'
 
     testImplementation platform('org.junit:junit-bom:5.9.1')

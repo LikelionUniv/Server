@@ -1,6 +1,7 @@
 package likelion.univ.config;
 
 import likelion.univ.security.AccessProcessor;
+import likelion.univ.security.filter.FilterProcessor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,7 +19,7 @@ import static likelion.univ.domain.user.entity.Role.SUPER_ADMIN;
 @RequiredArgsConstructor
 @EnableWebSecurity
 public class SecurityConfig {
-    private final AdminFilterConfig adminFilterConfig;
+    private final FilterProcessor filterProcessor;
     private final AccessProcessor accessProcessor;
 
     @Bean
@@ -32,7 +33,7 @@ public class SecurityConfig {
         http.csrf().disable();
         http.formLogin().disable();
         http.sessionManagement( ).sessionCreationPolicy(SessionCreationPolicy.STATELESS); // JWT이용으로 세션 이용 x
-        http.apply(adminFilterConfig);
+        filterProcessor.common(http);
         http.authorizeRequests().expressionHandler(accessProcessor.expressionHandler());
 
         http
