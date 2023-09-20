@@ -12,6 +12,11 @@ import java.util.List;
 public class UniversityAdaptor {
     private final UniversityRepository universityRepository;
 
+    public University findByName(String name){
+        return universityRepository.findByName(name)
+                .orElseThrow(() -> new UniversityNotFoundException());
+    }
+
     public List<University> findAll() {
         return universityRepository.findAll();
     }
