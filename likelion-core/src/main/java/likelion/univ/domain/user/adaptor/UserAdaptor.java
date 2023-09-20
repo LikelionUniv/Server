@@ -6,6 +6,8 @@ import likelion.univ.domain.user.exception.UserNotFoundException;
 import likelion.univ.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 
+import java.util.List;
+
 @Adaptor
 @RequiredArgsConstructor
 public class UserAdaptor {

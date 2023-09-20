@@ -2,6 +2,7 @@ package likelion.univ.domain.university.adaptor;
 
 import likelion.univ.annotation.Adaptor;
 import likelion.univ.domain.university.entity.University;
+import likelion.univ.domain.university.exception.UniversityNotFoundException;
 import likelion.univ.domain.university.repository.UniversityRepository;
 import lombok.RequiredArgsConstructor;
 

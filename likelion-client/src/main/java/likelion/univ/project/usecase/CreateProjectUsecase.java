@@ -47,22 +47,17 @@ public class CreateProjectUsecase {
         );
         Long id = createdProject.getId();
         Project project = projectAdaptor.findById(id);
-        try{
-            imageService.addImage(
-                    projectRequestDto.getImages().stream()
-                            .map(imageRequestDto -> Image.builder()
-                                    .name(imageRequestDto.getName())
-                                    .saved(imageRequestDto.getSaved())
-                                    .project(project)
-                                    .build())
-                            .collect(Collectors.toList()));
-            projectMemberService.addMembers(project, projectRequestDto.getMembers().stream()
-                    .map(member -> userAdaptor.findById(member.getId()))
-                    .collect(Collectors.toList()));
-        } catch(Exception e) {
-            System.out.println("error message");
-            System.out.println(e.getMessage());
-        }
+        imageService.addImage(
+                projectRequestDto.getImages().stream()
+                        .map(imageRequestDto -> Image.builder()
+                                .name(imageRequestDto.getName())
+                                .saved(imageRequestDto.getSaved())
+                                .project(project)
+                                .build())
+                        .collect(Collectors.toList()));
+        projectMemberService.addMembers(project, projectRequestDto.getMembers().stream()
+                .map(member -> userAdaptor.findById(member.getId()))
+                .collect(Collectors.toList()));
 
 //        List<Image> images = imageAdaptor.findByProject(project);
 //        List<User> users = projectMemberAdaptor.findByProject(project).stream()

@@ -1,6 +1,5 @@
 package likelion.univ.project.controller;
 
-import io.swagger.annotations.Api;
 import likelion.univ.project.dto.request.ProjectRequestDto;
 import likelion.univ.project.dto.response.ProjectIdResponseDto;
 import likelion.univ.project.dto.response.ProjectResponseDto;
@@ -22,8 +21,6 @@ import java.util.Objects;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(value = "/v1/project")
-//swagger UI에 보일 컨트롤러 이름
-@Api(tags = {"프로젝트 API"})
 public class ProjectController {
 
     private final GetProjectUsecase getProjectUsecase;
