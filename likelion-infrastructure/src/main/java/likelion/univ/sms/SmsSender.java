@@ -46,8 +46,6 @@ public class SmsSender {
             messageService.send(messages);
         } catch (NurigoMessageNotReceivedException e) {
             e.printStackTrace();
-        } catch (NurigoEmptyResponseException e) {
-            throw new RuntimeException(e);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -55,7 +53,7 @@ public class SmsSender {
 
     /**
      * TODO
-     * https://coolsms.co.kr/
+     * https://msg.nurigo.co.kr
      * 아래 콘솔에서 API KEY, SECRET 발급, 발신번호 추가 절차 필요
      * 이후 application.yml 에 설정
      */
