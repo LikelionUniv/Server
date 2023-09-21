@@ -16,7 +16,7 @@ public class RecruitQueryService {
 
     private final RecruitAdopter recruitAdopter;
 
-    public List<Recruit> queryAllByUniversity(Long universityId) {
-        return recruitAdopter.findAllByUniversityId(universityId);
+    public List<Recruit> queryAllByUniversityName(String universityName) {
+        return recruitAdopter.findAllByUniversityId(universityName);
     }
 }

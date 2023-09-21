@@ -24,7 +24,7 @@ public class RecruitAdopter {
                 .orElseThrow(() -> new BaseException(GlobalErrorCode.BAD_REQUEST_ERROR)); // TODO ERROR CODE 수정 필요
     }
 
-    public List<Recruit> findAllByUniversityId(Long universityId) {
-        return recruitRepository.findAllByUniversityIdAndGeneration(universityId, 12);
+    public List<Recruit> findAllByUniversityId(String universityName) {
+        return recruitRepository.findAllByUniversityNameAndGeneration(universityName, 12);
     }
 }

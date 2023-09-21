@@ -13,8 +13,7 @@ public class GetRecruitUsecase {
 
     private final RecruitQueryService recruitQueryService;
 
-    public void execute(Long universityId) {
-        List<Recruit> recruits = recruitQueryService.queryAllByUniversity(universityId);
-
+    public void execute(String universityName) {
+        List<Recruit> recruits = recruitQueryService.queryAllByUniversityName(universityName);
     }
 }
