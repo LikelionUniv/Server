@@ -1,6 +1,6 @@
 package likelion.univ.alarm.usecase;
 
-import likelion.univ.alarm.dto.EmailContentsDto;
+import likelion.univ.alarm.dto.AlarmContentsDto;
 import likelion.univ.annotation.UseCase;
 import likelion.univ.email.EmailContent;
 import likelion.univ.email.EmailSender;
@@ -8,21 +8,18 @@ import lombok.RequiredArgsConstructor;
 
 @UseCase
 @RequiredArgsConstructor
-public class EmailAlarmUsecase {
+public class EmailAlarmUsecase implements AlarmUsecase {
 
     private final EmailSender emailSender;
 
-    public void execute(EmailContentsDto emailContentsDto) {;
-
+    public void execute(AlarmContentsDto alarmContentsDto) {
         EmailContent emailContent = EmailContent.builder()
-                .subject(emailContentsDto.getSubject())
-                .sender(emailContentsDto.getSender())
-                .contents(emailContentsDto.getContent())
-                .receivers(emailContentsDto.getEmails())
+                .subject(alarmContentsDto.getSubject())
+                .sender(alarmContentsDto.getSender())
+                .contents(alarmContentsDto.getContent())
+                .receivers(alarmContentsDto.getEmails())
                 .build();
 
         emailSender.send(emailContent);
-
-        // sms 보내려면 user 도메인에 전화번호 필요
     }
 }
