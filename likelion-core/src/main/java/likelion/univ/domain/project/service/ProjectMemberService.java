@@ -4,7 +4,6 @@ import likelion.univ.domain.project.adapter.ProjectAdaptor;
 import likelion.univ.domain.project.adapter.ProjectMemberAdaptor;
 import likelion.univ.domain.project.entity.Project;
 import likelion.univ.domain.project.entity.ProjectMember;
-import likelion.univ.domain.user.adaptor.UserAdaptor;
 import likelion.univ.domain.user.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

@@ -1,9 +1,7 @@
 package likelion.univ.project.usecase;
 
 import likelion.univ.annotation.UseCase;
-import likelion.univ.domain.project.adapter.ImageAdaptor;
 import likelion.univ.domain.project.adapter.ProjectAdaptor;
-import likelion.univ.domain.project.adapter.ProjectMemberAdaptor;
 import likelion.univ.domain.project.entity.Image;
 import likelion.univ.domain.project.entity.Project;
 import likelion.univ.domain.project.entity.enums.Output;
@@ -28,8 +26,6 @@ public class UpdateProjectUsecase {
     private final ImageService imageService;
     private final ProjectMemberService projectMemberService;
     private final ProjectAdaptor projectAdaptor;
-    private final ImageAdaptor imageAdaptor;
-    private final ProjectMemberAdaptor projectMemberAdaptor;
     private final UserAdaptor userAdaptor;
 
     public ProjectIdResponseDto excute(Long projectId, ProjectRequestDto projectRequestDto) {
@@ -39,7 +35,7 @@ public class UpdateProjectUsecase {
         String thon = projectRequestDto.getThon();
         Output outPut = projectRequestDto.getOutPut();
         String serviceName = projectRequestDto.getServiceName();
-        int ordinal = projectRequestDto.getOrdinal();
+        long ordinal = projectRequestDto.getOrdinal();
         String univ = projectRequestDto.getUniv();
         LocalDate startDate = projectRequestDto.getStartDate();
         LocalDate endDate = projectRequestDto.getEndDate();

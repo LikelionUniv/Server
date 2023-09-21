@@ -18,7 +18,7 @@ public class ProjectResponseDto {
     private String thon;
     private Output outPut;
     private String service;
-    private int ordinal;
+    private long ordinal;
     private String univ;
     private LocalDate startDate;
     private LocalDate endDate;

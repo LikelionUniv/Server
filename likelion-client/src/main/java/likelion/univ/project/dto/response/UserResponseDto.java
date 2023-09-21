@@ -1,7 +1,6 @@
 package likelion.univ.project.dto.response;
 
 import likelion.univ.domain.university.entity.University;
-import likelion.univ.domain.user.entity.UniversityInfo;
 import likelion.univ.domain.user.entity.User;
 import lombok.Builder;
 import lombok.Data;

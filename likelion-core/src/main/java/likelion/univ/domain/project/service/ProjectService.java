@@ -17,10 +17,10 @@ public class ProjectService {
 
     private final ProjectAdaptor projectAdaptor;
     @Transactional
-    public Project createProject(String thon, Output outPut, String serviceName, int ordinal, String univ, LocalDate startDate,
+    public Project createProject(String thon, Output outPut, String serviceName, long ordinal, String univ, LocalDate startDate,
                                  LocalDate endDate, String tech, String description, String content, String projectUrl)
     {
-        if (thon.isEmpty() || outPut.toString().isEmpty()|| serviceName.isEmpty() ||
+        if (thon.isEmpty() || serviceName.isEmpty() ||
                 ordinal <= 1 || startDate == null || endDate == null ||
                 tech.isEmpty()) {
             throw new CreateProjectBadRequestException();
@@ -44,7 +44,7 @@ public class ProjectService {
     }
 
     @Transactional
-    public void updateProject(Long id, String thon, Output output, String serviceName, int ordinal, String univ, LocalDate startDate, LocalDate endDate, String tech, String description, String content, String projectUrl) {
+    public void updateProject(Long id, String thon, Output output, String serviceName, long ordinal, String univ, LocalDate startDate, LocalDate endDate, String tech, String description, String content, String projectUrl) {
         Project project = projectAdaptor.findById(id);
         if (thon.isEmpty() || serviceName.isEmpty() ||
                 ordinal <= 1 || startDate == null || endDate == null ||

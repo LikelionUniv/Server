@@ -1,22 +1,17 @@
 package likelion.univ.project.usecase;
 
 import likelion.univ.annotation.UseCase;
-import likelion.univ.domain.project.adapter.ImageAdaptor;
 import likelion.univ.domain.project.adapter.ProjectAdaptor;
-import likelion.univ.domain.project.adapter.ProjectMemberAdaptor;
 import likelion.univ.domain.project.entity.Image;
 import likelion.univ.domain.project.entity.Project;
 import likelion.univ.domain.project.service.ImageService;
 import likelion.univ.domain.project.service.ProjectMemberService;
 import likelion.univ.domain.project.service.ProjectService;
 import likelion.univ.domain.user.adaptor.UserAdaptor;
-import likelion.univ.domain.user.entity.User;
 import likelion.univ.project.dto.request.ProjectRequestDto;
 import likelion.univ.project.dto.response.ProjectIdResponseDto;
-import likelion.univ.project.dto.response.ProjectResponseDto;
 import lombok.RequiredArgsConstructor;
 
-import java.util.List;
 import java.util.stream.Collectors;
 
 @UseCase
@@ -28,8 +23,6 @@ public class CreateProjectUsecase {
     private final ProjectMemberService projectMemberService;
     private final UserAdaptor userAdaptor;
     private final ProjectAdaptor projectAdaptor;
-    private final ImageAdaptor imageAdaptor;
-    private final ProjectMemberAdaptor projectMemberAdaptor;
 
     public ProjectIdResponseDto excute(ProjectRequestDto projectRequestDto) {
         Project createdProject = projectService.createProject(

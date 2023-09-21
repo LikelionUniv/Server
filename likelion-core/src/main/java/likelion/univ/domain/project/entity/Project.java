@@ -29,7 +29,7 @@ public class Project extends BaseTimeEntity {
     @Column(nullable = false)
     private String serviceName; //서비스명
 
-    private int ordinal; //기수
+    private long ordinal; //기수
 
     private String univ; // University DB와 연결?
 
@@ -47,7 +47,7 @@ public class Project extends BaseTimeEntity {
 
     private String tech;
 
-    @Column(columnDefinition = "Text")
+    @Column(length = 100)
     private String description;
 
     @Column(columnDefinition = "Text")
@@ -56,7 +56,7 @@ public class Project extends BaseTimeEntity {
     private String projectUrl;
 
     @Builder
-    public Project(String thon, Output outPut, String serviceName, int ordinal, String univ, LocalDate startDate, LocalDate endDate, String tech, String description, String content, String projectUrl) {
+    public Project(String thon, Output outPut, String serviceName, long ordinal, String univ, LocalDate startDate, LocalDate endDate, String tech, String description, String content, String projectUrl) {
         this.thon = thon;
         this.outPut = outPut;
         this.serviceName = serviceName;
@@ -70,7 +70,7 @@ public class Project extends BaseTimeEntity {
         this.projectUrl = projectUrl;
     }
 
-    public void update(String thon, Output output, String serviceName, int ordinal, String univ, LocalDate startDate, LocalDate endDate, String tech, String description, String content, String projectUrl) {
+    public void update(String thon, Output output, String serviceName, long ordinal, String univ, LocalDate startDate, LocalDate endDate, String tech, String description, String content, String projectUrl) {
         this.thon = thon;
         this.outPut = output;
         this.serviceName = serviceName;

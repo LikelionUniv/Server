@@ -1,5 +1,7 @@
 package likelion.univ.project.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import likelion.univ.project.dto.request.ProjectRequestDto;
 import likelion.univ.project.dto.response.ProjectIdResponseDto;
 import likelion.univ.project.dto.response.ProjectResponseDto;
@@ -21,6 +23,7 @@ import java.util.Objects;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(value = "/v1/project")
+@Tag(name = "Project", description = "프로젝트 API")
 public class ProjectController {
 
     private final GetProjectUsecase getProjectUsecase;
@@ -36,7 +39,7 @@ public class ProjectController {
 
     //-----------프로젝트 한 개 조회 --------//
     @GetMapping("/{projectId}")
-//    @Operation(summary = " .")
+    @Operation(summary = "프로젝트 조회", description = "프로젝트 id로 프로젝트를 조회했습니다.")
     public SuccessResponse<ProjectResponseDto> getProject(@PathVariable("projectId") Long projectId) {
         ProjectResponseDto projectResponseDto = getProjectUsecase.excute(projectId);
         return SuccessResponse.of(projectResponseDto);
@@ -44,6 +47,7 @@ public class ProjectController {
 
     //-----------프로젝트 목록 --------//
     @GetMapping("/")
+    @Operation(summary = "프로젝트 목록", description = "프로젝트 목록을 출력했습니다.")
     public SuccessResponse<List<ProjectResponseDto>> getAllProject(@PageableDefault(page=0, size=12, sort="id" ,direction = Sort.Direction.DESC) Pageable pageable){
         List<ProjectResponseDto> projectList = getAllPorjectUsecase.excute(pageable);
         return SuccessResponse.of(projectList);
@@ -51,6 +55,7 @@ public class ProjectController {
 
     //--------  기수별 프로젝트 -----//
     @GetMapping("/ordinal/{ordinal}")
+    @Operation(summary = "기수별 프로젝트", description = "선택한 기수에 따라 프로젝트 목록을 출력했습니다.")
     public SuccessResponse<List<ProjectResponseDto>> getProjectByOrdinal(
             @PageableDefault(page=0, size=12, sort="id" ,direction = Sort.Direction.DESC) Pageable pageable,
             @PathVariable int ordinal) {
@@ -66,6 +71,7 @@ public class ProjectController {
 
     //--------- 프로젝트 등록 ------------//
     @PostMapping("/post")
+    @Operation(summary = "프로젝트 등록", description = "새로운 프로젝트를 등록했습니다.")
     public SuccessResponse<ProjectIdResponseDto> createProject(@RequestBody ProjectRequestDto projectRequestDto){
         ProjectIdResponseDto projectIdResponseDto = createProjectUsecase.excute(projectRequestDto);
         return SuccessResponse.of(projectIdResponseDto);
@@ -73,6 +79,7 @@ public class ProjectController {
 
     //-----------프로젝트 수정 --------//
     @PutMapping("/edit/{projectId}")
+    @Operation(summary = "프로젝트 수정", description = "프로젝트의 내용을 수정하였습니다.")
     public SuccessResponse<ProjectIdResponseDto> updateProject(@PathVariable("projectId") Long projectId, @RequestBody ProjectRequestDto projectRequestDto) {
         ProjectIdResponseDto projectIdResponseDto = updateProjectUsecase.excute(projectId, projectRequestDto);
         return SuccessResponse.of(projectIdResponseDto);
@@ -80,6 +87,7 @@ public class ProjectController {
 
     //-----------프로젝트 삭제 --------//
     @DeleteMapping("/delete/{projectId}")
+    @Operation(summary = "프로젝트 삭제", description = "프로젝트를 삭제했습니다.")
     public SuccessResponse<Objects> deleteProject(@PathVariable("projectId") Long projectId) {
         deleteProjectUsecase.excute(projectId);
         return SuccessResponse.empty();
@@ -87,6 +95,7 @@ public class ProjectController {
 
     //-----------학교 조회 --------//
     @GetMapping("/university")
+    @Operation(summary = "학교 조회", description = "학교를 조회합니다.")
     public SuccessResponse<List<UnivResponseDto>> getAllUniv(){
         List<UnivResponseDto> univList = getUnivUsecase.excute();
         return SuccessResponse.of(univList);
@@ -94,6 +103,7 @@ public class ProjectController {
 
     //-----------유저 조회 --------//
     @GetMapping("/users")
+    @Operation(summary = "프로젝트 멤버 조회", description = "유저에서 프로젝트 멤버를 조회합니다.")
     public SuccessResponse<List<UserResponseDto>> getAllUser(){
         List<UserResponseDto> userList = getUserUsecase.excute();
         return SuccessResponse.of(userList);
