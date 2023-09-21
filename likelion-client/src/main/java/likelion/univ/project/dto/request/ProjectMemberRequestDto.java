@@ -15,15 +15,9 @@ public class ProjectMemberRequestDto {
 //    private User user;
 
     private Long id;
-    private String name;
-//    @Builder
-//    public ProjectMemberRequestDto(ProjectMember projectMember){
-//        this.user = projectMember.getUser();
-//    }
 
     @Builder
-    public ProjectMemberRequestDto(Long id, String name) {
+    public ProjectMemberRequestDto(Long id) {
         this.id = id;
-        this.name = name;
     }
 }

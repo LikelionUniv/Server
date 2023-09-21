@@ -52,7 +52,6 @@ public class ProjectRequestDto {
         this.members = members.stream()
                 .map(user -> ProjectMemberRequestDto.builder()
                         .id(user.getId())
-                        .name(user.getUser().getProfile().getName())
                         .build())
                 .collect(Collectors.toList());
     }

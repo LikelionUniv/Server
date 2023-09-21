@@ -55,7 +55,7 @@ public class ProjectController {
 
     //--------  기수별 프로젝트 -----//
     @GetMapping("/ordinal/{ordinal}")
-    @Operation(summary = "기수별 프로젝트", description = "선택한 기수에 따라 프로젝트 목록을 출력했습니다.")
+    @Operation(summary = "기수별 프로젝트", description = "선택한 기수에 따라 프로젝트 목록을 출력했습니다. 최근 5개의 기수보다 이전의 기수는 한번에 보여집니다.")
     public SuccessResponse<List<ProjectResponseDto>> getProjectByOrdinal(
             @PageableDefault(page=0, size=12, sort="id" ,direction = Sort.Direction.DESC) Pageable pageable,
             @PathVariable int ordinal) {
@@ -93,9 +93,9 @@ public class ProjectController {
         return SuccessResponse.empty();
     }
 
-    //-----------학교 조회 --------//
+    //-----------대학교 조회 --------//
     @GetMapping("/university")
-    @Operation(summary = "학교 조회", description = "학교를 조회합니다.")
+    @Operation(summary = "대학교 조회", description = "대학교를 조회합니다.")
     public SuccessResponse<List<UnivResponseDto>> getAllUniv(){
         List<UnivResponseDto> univList = getUnivUsecase.excute();
         return SuccessResponse.of(univList);
@@ -103,7 +103,7 @@ public class ProjectController {
 
     //-----------유저 조회 --------//
     @GetMapping("/users")
-    @Operation(summary = "프로젝트 멤버 조회", description = "유저에서 프로젝트 멤버를 조회합니다.")
+    @Operation(summary = "전체 유저 조회", description = "전체 유저 정보를 조회합니다.")
     public SuccessResponse<List<UserResponseDto>> getAllUser(){
         List<UserResponseDto> userList = getUserUsecase.excute();
         return SuccessResponse.of(userList);

@@ -41,10 +41,6 @@ public class Project extends BaseTimeEntity {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate endDate;
 
-//    projectMember 엔티티에서 구현
-//    @Column(nullable = false)
-//    private String member;
-
     private String tech;
 
     @Column(length = 100)
