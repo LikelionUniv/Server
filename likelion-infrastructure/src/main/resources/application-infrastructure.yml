@@ -32,13 +32,12 @@ spring:
     activate:
       on-profile: prod
 
-
 --- ## alarm(email, sms) 설정
 alarm:
   email:
-    sender-email: email@gmail.com
-    sender-password: apppassword
+    sender-email: ${EMAIL_SENDER}
+    sender-password: ${EMAIL_PASSWORD}
   sms:
-    api-key: api-key
-    api-secret: api-secret
-    sending-number: 01012345678
+    api-key: ${SMS_API_KEY}
+    api-secret: ${SMS_API_SECRET}
+    sending-number: ${SMS_SENDING_NUMBER}
