@@ -1,0 +1,6 @@
+spring:
+  profiles:
+    active: local
+  redis:
+    host: Standalone Redis 8080
+    port: Standalone Redis 6379
