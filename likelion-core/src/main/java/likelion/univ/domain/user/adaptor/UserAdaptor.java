@@ -32,7 +32,12 @@ public class UserAdaptor {
         return userRepository.save(user);
     }
 
+
+    public List<User> findAll() {
+        return userRepository.findAll();
+
     public List<User> findDynamicUsers(UserSearchCondition condition) {
         return userQueryRepository.findDynamicUsers(condition);
+
     }
 }
