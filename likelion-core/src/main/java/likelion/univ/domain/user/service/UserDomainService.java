@@ -1,7 +1,6 @@
 package likelion.univ.domain.user.service;
 
 import likelion.univ.domain.university.adaptor.UniversityAdaptor;
-import likelion.univ.domain.university.entity.University;
 import likelion.univ.domain.user.adaptor.UserAdaptor;
 import likelion.univ.domain.user.entity.*;
 import likelion.univ.domain.user.exception.EmailAlreadyRegistered;
@@ -40,8 +39,8 @@ public class UserDomainService {
         return userAdaptor.findByEmail(email);
     }
 
-    public List<User> findAll(UserSearchCondition condition) {
-        return findAll(condition);
+    public List<User> findDynamicUsers(UserSearchCondition condition) {
+        return userAdaptor.findDynamicUsers(condition);
     }
 
 }
