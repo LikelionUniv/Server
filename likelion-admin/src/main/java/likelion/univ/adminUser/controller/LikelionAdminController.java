@@ -19,7 +19,7 @@ import java.security.NoSuchAlgorithmException;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(value = "/v1/codeit")
+@RequestMapping(value = "/v1/likelion")
 @Tag(name = "LikelionAdmin", description = "멋쟁이 사자처럼 관리자 API")
 public class LikelionAdminController {
 
