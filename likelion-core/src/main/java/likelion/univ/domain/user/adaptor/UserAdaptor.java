@@ -35,9 +35,9 @@ public class UserAdaptor {
 
     public List<User> findAll() {
         return userRepository.findAll();
+    }
 
     public List<User> findDynamicUsers(UserSearchCondition condition) {
         return userQueryRepository.findDynamicUsers(condition);
-
     }
 }
