@@ -11,25 +11,7 @@ import io.swagger.v3.oas.models.security.SecurityRequirement;
 import io.swagger.v3.oas.models.security.SecurityScheme;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-<<<<<<< HEAD
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import springfox.documentation.builders.ApiInfoBuilder;
-import springfox.documentation.builders.PathSelectors;
-import springfox.documentation.builders.RequestHandlerSelectors;
-import springfox.documentation.schema.AlternateTypeRules;
-import springfox.documentation.service.*;
-import springfox.documentation.spi.DocumentationType;
-import springfox.documentation.spi.service.contexts.SecurityContext;
-import springfox.documentation.spring.web.plugins.Docket;
-
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-=======
 import org.springframework.http.HttpHeaders;
->>>>>>> 90c65fd9c7c40efcf69d0e93fa520fc3d0b32ed4
 
 @Configuration
 public class SwaggerConfig {
@@ -42,8 +24,6 @@ public class SwaggerConfig {
                 .addSecurityItem(securityItem())
                 .info(info());
     }
-
-
     @Bean
     public ModelResolver modelResolver(ObjectMapper objectMapper) {
         return new ModelResolver(objectMapper);

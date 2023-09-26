@@ -3,42 +3,36 @@ package likelion.univ.adminUser.usecase;
 import likelion.univ.adminUser.dto.request.SendMailRequestDto;
 import likelion.univ.annotation.UseCase;
 import likelion.univ.domain.user.adaptor.UserAdaptor;
+import likelion.univ.domain.user.entity.User;
+import likelion.univ.mail.SendMail;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMessageHelper;
-import org.springframework.web.multipart.MultipartFile;
 
-
-import javax.mail.MessagingException;
-import javax.mail.internet.MimeMessage;
-import java.io.*;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 @Slf4j
 @UseCase
 @RequiredArgsConstructor
 public class SendEmailUseCase {
-    private final JavaMailSender mailSender;
 
+    private final SendMail sendMail;
+    private final UserAdaptor userAdaptor;
 
+    @SneakyThrows
+    public void excute(SendMailRequestDto sendMailRequestDto) throws IOException {
 
-    public void excute(SendMailRequestDto sendMailRequestDto) throws MessagingException, IOException {
-        MimeMessage mail = mailSender.createMimeMessage();
-        MimeMessageHelper helper = new MimeMessageHelper(mail, true, "UTF-8");
-
-        helper.setSubject(sendMailRequestDto.getTitle());
-        helper.setText(sendMailRequestDto.getBody());
-
-        //로컬 첨부 파일 설정
-        if(sendMailRequestDto.getFiles()!=null) {
-            for(MultipartFile multipartFile : sendMailRequestDto.getFiles()) {
-                helper.addAttachment(multipartFile.getOriginalFilename(), multipartFile);
-            }
+        List<User> users = userAdaptor.findAllUser();
+        List<String> toAddress = new ArrayList<>();
+        for(User user : users) {
+            toAddress.add(user.getAuthInfo().getEmail());
         }
-        helper.setTo(sendMailRequestDto.getToAddress());
-        mailSender.send(mail);
-    }
 
+        sendMail.sendMail(sendMailRequestDto.getTitle(), sendMailRequestDto.getBody(),
+                sendMailRequestDto.getFiles(), toAddress.toArray(new String[users.size()]));
+    }
 
 
 }

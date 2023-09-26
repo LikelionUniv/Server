@@ -1,7 +1,7 @@
 package likelion.univ.adminUser.controller;
 
-import io.swagger.annotations.Api;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import likelion.univ.adminUser.dto.request.UpdateUserRequestDto;
 import likelion.univ.adminUser.dto.response.UserInfoResponseDto;
 import likelion.univ.adminUser.usecase.*;
@@ -17,7 +17,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(value = "/v1/superAdmin")
-@Api(tags = {"슈퍼 관리자"})
+@Tag(name = "SuperAdmin", description = "슈퍼 어드민 API")
 public class SuperAdminController {
 
     private final DeleteUserUseCase deleteUserUseCase;
@@ -31,7 +31,7 @@ public class SuperAdminController {
 
     @Operation(summary = "멤버 전체 조회")
     @GetMapping("/users")
-    public SuccessResponse<Object> findAllUser(int pageNum){
+    public SuccessResponse<Object> findAllUser(@RequestParam int pageNum){
 
         List<UserInfoResponseDto> response = findAllUserUseCase.excute(pageNum);
 

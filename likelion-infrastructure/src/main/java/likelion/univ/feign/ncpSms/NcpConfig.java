@@ -1,12 +1,13 @@
-package likelion.univ.feign.ncp;
+package likelion.univ.feign.ncpSms;
 
 import feign.RequestInterceptor;
 import feign.RequestTemplate;
 import org.springframework.context.annotation.Bean;
 
 /*
-* serviceId의 ":" 자동 인코딩 방지
-* */
+ * serviceId의 ":" 자동 인코딩 방지
+ * */
+
 public class NcpConfig {
     @Bean
     public RequestInterceptor basicAuthRequestInterceptor(){

@@ -1,13 +1,16 @@
 package likelion.univ.domain.user.service;
 
-import likelion.univ.domain.university.adaptor.UniversityAdaptor;
-import likelion.univ.domain.university.entity.University;
 import likelion.univ.domain.user.adaptor.UserAdaptor;
 import likelion.univ.domain.user.entity.*;
 import likelion.univ.domain.user.exception.EmailAlreadyRegistered;
+import likelion.univ.domain.user.exception.NoDataFound;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @Transactional(readOnly = true)
@@ -46,6 +49,15 @@ public class UserDomainService {
     @Transactional
     public void deleteUser(User user){
         userAdaptor.delete(user);
+    }
+
+    public List<User> findAllUser(int pageNum){
+        Page<User> pageUsers = userAdaptor.findAllUser(pageNum);
+        List<User> pageToListUsers = new ArrayList<User>();
+
+        if(pageUsers!=null && pageUsers.hasContent()){
+            return pageToListUsers = pageUsers.getContent();
+        }else throw new NoDataFound();
     }
 
 }

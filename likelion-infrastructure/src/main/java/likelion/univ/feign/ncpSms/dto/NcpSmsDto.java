@@ -1,15 +1,14 @@
-package likelion.univ.feign.ncp.sms.dto;
-
-import lombok.*;
+package likelion.univ.feign.ncpSms.dto;
 
 import java.time.LocalDateTime;
+import lombok.*;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Setter
 @Getter
 @Builder
-public class FeignNCPSmsDto {
+public class NcpSmsDto {
     String requestId;
     LocalDateTime requestTime;
     String statusCode;

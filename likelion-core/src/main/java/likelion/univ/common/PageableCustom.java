@@ -1,5 +1,4 @@
-package likelion.univ.config;
-
+package likelion.univ.common;
 
 import org.springframework.data.domain.Sort;
 
@@ -8,6 +7,7 @@ public class PageableCustom {
     private int page = 1;
     private int size = 10;
     private Sort.Direction direction = Sort.Direction.DESC;
+
     public void setPage(int page) {
         this.page = page <= 0 ? 1 : page;
     }

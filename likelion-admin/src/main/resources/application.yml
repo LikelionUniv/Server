@@ -7,34 +7,7 @@ spring:
       - infrastructure
       - security
       - redis
-  mail:
-    host: ${protocol}
-    port: 587
-    username: ${Email}
-    password: ${KEY}
-    properties:
-      mail:
-        smtp:
-          auth: true
-          starttls:
-            enable: true
-  ncp:
-    sms:
-      serviceId: ${ncp-cliud-sms-serviceId}
-      accessKey: ${ncp-cliud-sms-accessKey}
-      secretKey: ${ncp-cliud-sms-secretKey}
-      phoneNum: ${fromPhoneNum}
 
-<<<<<<< HEAD
-
-  ## 해당 spring fox가 스프링 2.6이상과 설정이 달라 따로 설정
-  mvc:
-    pathmatch:
-      matching-strategy: ant_path_matcher
-
-## 해당 spring fox가 스프링 2.6이상과 설정이 달라 따로 설정
-=======
->>>>>>> 90c65fd9c7c40efcf69d0e93fa520fc3d0b32ed4
 server:
   servlet:
     context-path: /api/admin

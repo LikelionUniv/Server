@@ -1,7 +1,7 @@
 package likelion.univ.adminUser.controller;
 
-import io.swagger.annotations.Api;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import likelion.univ.adminUser.dto.request.UpdateUserRequestDto;
 import likelion.univ.adminUser.dto.response.UserInfoResponseDto;
 import likelion.univ.adminUser.usecase.DeleteUserUseCase;
@@ -18,7 +18,7 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "/v1/univAdmin/{univId}")
 @RequiredArgsConstructor
-@Api(tags = {"학교 대표"})
+@Tag(name = "UnivAdmin", description = "학교 대표 API")
 public class AdminUserController {
 
     private final UpdateUserUseCase updateUserUseCase;

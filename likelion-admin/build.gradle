@@ -8,35 +8,16 @@ version = '0.0.1-SNAPSHOT'
 repositories {
     mavenCentral()
 }
-ext {
-    set('springCloudVersion', "2021.0.4") //openfeign
-}
 
-dependencyManagement {
-    imports {
-        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}" //openfeign
-    }
-}
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
-    implementation project(path: ':likelion-client')
     testImplementation platform('org.junit:junit-bom:5.9.1')
     testImplementation 'org.junit.jupiter:junit-jupiter'
-    implementation group: 'org.springframework.data', name: 'spring-data-commons' //pageable
-    implementation 'org.springframework.boot:spring-boot-starter-mail' // 이메일 전송
-    implementation group: 'commons-io', name: 'commons-io', version: '2.6' //이메일 첨부 파일
-    implementation group: 'commons-fileupload', name: 'commons-fileupload', version: '1.4' //이메일 첨부 파일
-    implementation 'org.springframework.cloud:spring-cloud-starter-openfeign' //openfeign
-    /* swagger */
-<<<<<<< HEAD
-    implementation 'io.springfox:springfox-boot-starter:3.0.0'
     /* security */
     implementation("org.springframework.boot:spring-boot-starter-security")
-=======
     implementation 'org.springdoc:springdoc-openapi-ui:1.6.9'
->>>>>>> 90c65fd9c7c40efcf69d0e93fa520fc3d0b32ed4
 
     /* core 모듈 추가  */
     implementation project(':likelion-core')

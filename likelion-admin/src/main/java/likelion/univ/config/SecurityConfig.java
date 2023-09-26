@@ -12,8 +12,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 import static likelion.univ.constant.StaticValue.SwaggerUrlPatterns;
-import static likelion.univ.domain.user.entity.Role.ADMIN;
-import static likelion.univ.domain.user.entity.Role.SUPER_ADMIN;
 
 @Configuration
 @RequiredArgsConstructor

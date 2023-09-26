@@ -6,7 +6,6 @@ import likelion.univ.domain.example.entity.Example;
 import likelion.univ.domain.example.service.ExampleDomainService;
 import likelion.univ.domain.user.adaptor.UserAdaptor;
 import likelion.univ.domain.user.service.UserDomainService;
-import likelion.univ.example.dto.response.ExampleInfoResponseDto;
 import lombok.RequiredArgsConstructor;
 
 @UseCase

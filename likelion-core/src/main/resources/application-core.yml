@@ -10,12 +10,7 @@ spring:
     database: mysql
     open-in-view: false
     hibernate:
-<<<<<<< HEAD
-      ddl-auto: create   #create update none
-      default_batch_fetch_size: 500
-=======
       ddl-auto: update  #create update none
->>>>>>> 90c65fd9c7c40efcf69d0e93fa520fc3d0b32ed4
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
     properties:
