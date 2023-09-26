@@ -1,4 +1,4 @@
-package likelion.univ.domain.recruit;
+package likelion.univ.domain.recruit.entity;
 
 import likelion.univ.common.entity.BaseTimeEntity;
 import likelion.univ.domain.university.entity.University;
@@ -28,6 +28,8 @@ public class Recruit extends BaseTimeEntity {
 
     private String phoneNumber;
 
+    private Integer generation;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "university_id", nullable = false)
     private University university;
@@ -38,5 +40,6 @@ public class Recruit extends BaseTimeEntity {
         this.email = email;
         this.phoneNumber = phoneNumber;
         this.university = university;
+        this.generation = 12;
     }
 }
