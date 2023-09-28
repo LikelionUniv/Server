@@ -14,6 +14,27 @@ google:
   app-key: ${GOOGLE_API_KEY}
   scope: ${GOOGLE_SCOPE}
 
+ ## NCP 문자 메시지 전송
+ncp:
+  sms:
+    serviceId: ${SERVICE_ID}
+    accessKey: ${ACCESS_KEY}
+    secretKey: ${SECRET_KEY}
+    phoneNum: ${PHONE_NUM}
+
+## GMAIL 메일 전송
+mail:
+  host: ${GMAIL_HOST}
+  port: ${PORT}
+  username : ${SENDER_EMAIL}
+  password : ${APP_KEY}
+  properties:
+    mail:
+      smtp:
+        auth: ${AUTH}
+        starttls:
+          enable: ${ENABLE}
+
 --- ## dev 환경 설정
 spring:
   config:
