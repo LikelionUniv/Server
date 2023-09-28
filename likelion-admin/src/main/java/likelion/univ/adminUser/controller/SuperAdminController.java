@@ -58,19 +58,17 @@ public class SuperAdminController {
     @Operation(summary = "특정 멤버 수정")
     @PatchMapping("/{univId}/user/{userId}")
     public SuccessResponse<Object> updateUser(@PathVariable("userId")Long userId,
-                                              @PathVariable("univId")Long univId,
                                               @RequestBody UpdateUserRequestDto updateUserRequestDto){
 
-        UserInfoResponseDto response = updateUserUseCase.excute(userId,univId, updateUserRequestDto);
+        UserInfoResponseDto response = updateUserUseCase.excute(userId, updateUserRequestDto);
         return SuccessResponse.of(response);
     }
 
     @Operation(summary = "특정 멤버 삭제")
     @DeleteMapping("/{univId}/user/{userId}")
-    public SuccessResponse<Object> deleteUser(@PathVariable("userId")Long userId,
-                                              @PathVariable("univId")Long univId){
+    public SuccessResponse<Object> deleteUser(@PathVariable("userId")Long userId){
 
-        UserInfoResponseDto response = deleteUserUseCase.excute(userId,univId);
+        UserInfoResponseDto response = deleteUserUseCase.excute(userId);
         return SuccessResponse.of(response);
 
 }
