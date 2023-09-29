@@ -15,12 +15,10 @@ import java.util.List;
 public class UserAdaptor {
     private final UserRepository userRepository;
     private final UserQueryRepository userQueryRepository;
-
     public User findById(Long id){
         return userRepository.findById(id)
                 .orElseThrow(()-> new UserNotFoundException());
     }
-
     public User findByEmail(String email){
         return userRepository.findByAuthInfoEmail(email)
                 .orElseThrow(()-> new UserNotFoundException());
@@ -31,12 +29,9 @@ public class UserAdaptor {
     public User save(User user){
         return userRepository.save(user);
     }
-
-
     public List<User> findAll() {
         return userRepository.findAll();
     }
-
     public List<User> findDynamicUsers(UserSearchCondition condition) {
         return userQueryRepository.findDynamicUsers(condition);
     }
