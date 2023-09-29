@@ -15,7 +15,6 @@ import javax.persistence.*;
 @Builder
 @Getter
 @Setter
-@Table(name = "posts")
 public class Post extends BaseTimeEntity {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -27,7 +26,7 @@ public class Post extends BaseTimeEntity {
     @Column(length = 500)
     private String title;
 
-    @Column(columnDefinition = "TEXT")
+    @Column(length = 50000)
     private String body;
 
     private String thumbnail;

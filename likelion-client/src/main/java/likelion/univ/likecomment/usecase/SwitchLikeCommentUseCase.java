@@ -2,8 +2,8 @@ package likelion.univ.likecomment.usecase;
 
 import likelion.univ.annotation.UseCase;
 import likelion.univ.likecomment.dto.LikeCommentRequestDto;
-import likelion.univ.domain.comment.dto.LikeCommentServiceDto;
-import likelion.univ.domain.comment.service.LikeCommentDomainService;
+import likelion.univ.domain.likecomment.dto.LikeCommentServiceDto;
+import likelion.univ.domain.likecomment.service.LikeCommentDomainService;
 import lombok.RequiredArgsConstructor;
 
 @UseCase

@@ -1,18 +1,20 @@
-package likelion.univ.domain.post.entity;
+package likelion.univ.domain.likepost.entity;
 
-
+import likelion.univ.domain.post.entity.Post;
 import likelion.univ.domain.user.entity.User;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
-import static javax.persistence.FetchType.LAZY;
-
 @Entity
 @Getter
 @NoArgsConstructor
-public class LikePost {
+@AllArgsConstructor
+@Builder
+public class LikePost   {
 
     @Id
     @GeneratedValue
@@ -23,16 +25,9 @@ public class LikePost {
     @JoinColumn(name = "user_id", nullable = false)
     private User author;
 
-    @ManyToOne(fetch = LAZY )
+    @ManyToOne(fetch = FetchType.LAZY )
     @JoinColumn(name = "post_id"  )
     private Post post;
-
-
-
-    @Column(name = "post_title")
-    private String postTitle;
-
-
 
 
 }

@@ -22,6 +22,7 @@ public class PostEditUseCase {
 
     PostServiceDTO.EditRequest buildDTO(PostRequestDTO.Edit request) {
         return PostServiceDTO.EditRequest.builder()
+                .userId(request.getUserId())
                 .postId(request.getPostId())
                 .title(request.getTitle())
                 .thumbnail(request.getThumbnail())

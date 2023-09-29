@@ -21,6 +21,7 @@ public class PostDeleteUseCase {
 
     PostServiceDTO.DeleteRequest buildDTO(PostRequestDTO.Delete request) {
         return PostServiceDTO.DeleteRequest.builder()
+                .userId(request.getUserId())
                 .postId(request.getPostId())
                 .build();
     }
