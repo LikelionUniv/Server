@@ -1,19 +1,23 @@
 plugins {
-	id 'java'
+	id 'java-library'
 	id 'org.springframework.boot' version '2.7.13'
 	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
 }
 
-group = 'likelion.univ'
-version = '0.0.1-SNAPSHOT'
+allprojects {
+	group = 'likelion.univ'
+	version = '0.0.1-SNAPSHOT'
 
-java {
-	sourceCompatibility = '17'
-}
-
-configurations {
-	compileOnly {
-		extendsFrom annotationProcessor
+	java {
+		sourceCompatibility = 17
+		targetCompatibility = 17
+	}
+	repositories {
+		mavenCentral()
+	}
+	dependencies {
+//		implementation 'org.springframework.boot:spring-boot-starter'
+//		annotationProcessor('org.springframework.boot:spring-boot-configuration-processor:3.0.4')
 	}
 }
 
@@ -30,16 +34,11 @@ subprojects {
 	apply plugin: 'org.springframework.boot'
 	apply plugin: 'io.spring.dependency-management'
 
-	sourceCompatibility = 17
-	targetCompatibility = 17
-
-	group = 'likelion.univ'
-	version = '0.0.1-SNAPSHOT'
-
-	repositories {
-		mavenCentral()
+	configurations {
+		compileOnly {
+			extendsFrom annotationProcessor
+		}
 	}
-
 	dependencies {
 		implementation 'org.springframework.boot:spring-boot-starter'
 		testImplementation 'org.springframework.boot:spring-boot-starter-test'
@@ -47,4 +46,79 @@ subprojects {
 		annotationProcessor 'org.projectlombok:lombok'
 		annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
 	}
+	test {
+		useJUnitPlatform()
+	}
 }
+bootJar {
+	enabled = false
+}
+
+project(':likelion-client') {
+	bootJar {
+		enabled = true
+	}
+	jar {
+		enabled = false
+	}
+	dependencies {
+		compileOnly project(':likelion-core')
+		compileOnly project(':likelion-common')
+		compileOnly project(':likelion-infrastructure')
+	}
+}
+project(':likelion-admin') {
+	bootJar {
+		enabled = true
+	}
+	jar {
+		enabled = false
+	}
+	dependencies {
+		compileOnly project(':likelion-core')
+		compileOnly project(':likelion-common')
+		compileOnly project(':likelion-infrastructure')
+	}
+}
+project(':likelion-core') {
+	bootJar {
+		enabled = false
+	}
+	jar {
+		enabled = true
+	}
+	dependencies {
+		compileOnly project(':likelion-infrastructure')
+	}
+}
+project(':likelion-common') {
+	bootJar {
+		enabled = false
+	}
+	jar {
+		enabled = true
+	}
+	dependencies {
+	}
+}
+project(':likelion-infrastructure') {
+	bootJar {
+		enabled = false
+	}
+	jar {
+		enabled = true
+	}
+	dependencies {
+	}
+}
+project(':likelion-socket') {
+	/* 임시 설정 */
+	bootJar {
+		enabled = false
+	}
+	jar {
+		enabled = false
+	}
+	dependencies {}
+}
+

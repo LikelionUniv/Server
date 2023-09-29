@@ -2,9 +2,7 @@ package likelion.univ.domain.user.entity;
 
 import likelion.univ.common.entity.BaseTimeEntity;
 import lombok.*;
-
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)

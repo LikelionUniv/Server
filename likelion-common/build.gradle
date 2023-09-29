@@ -9,10 +9,3 @@ clean {
     delete file('src/main/generated') // IntelliJ Annotation processor 생성물 생성 위치
 }
 
-bootJar {
-    enabled = false
-}
-
-jar {
-    enabled = true
-}

@@ -1,6 +1,9 @@
 package likelion.univ.domain.follow.entity;
 
+<<<<<<< HEAD:likelion-core/src/main/java/likelion/univ/domain/follow/entity/Follow.java
 import likelion.univ.common.entity.BaseTimeEntity;
+=======
+>>>>>>> 4b4ff2799b67a4ed393a628bae18a933d8e924b8:likelion-core/src/main/java/likelion/univ/domain/follow/entity/follow.java
 import likelion.univ.domain.user.entity.User;
 import lombok.AccessLevel;
 import lombok.Getter;

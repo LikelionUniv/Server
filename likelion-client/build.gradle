@@ -1,18 +1,8 @@
-plugins {
-    id 'java'
-}
-
-group = 'likelion.univ'
-version = '0.0.1-SNAPSHOT'
-
-repositories {
-    mavenCentral()
-}
-
 dependencies {
     /* pageable */
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-web'
+
     /* security */
     implementation 'org.springframework.boot:spring-boot-starter-security'
     /* swagger */
@@ -22,6 +12,8 @@ dependencies {
 
     testImplementation platform('org.junit:junit-bom:5.9.1')
     testImplementation 'org.junit.jupiter:junit-jupiter'
+
+
 
     /* core 모듈 추가  */
     implementation project(':likelion-core')
@@ -35,14 +27,3 @@ dependencies {
     implementation project(':likelion-infrastructure')
 }
 
-test {
-    useJUnitPlatform()
-}
-
-bootJar {
-    enabled = true
-}
-
-jar {
-    enabled = true
-}
