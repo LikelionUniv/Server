@@ -5,9 +5,10 @@ import likelion.univ.domain.post.entity.Post;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import static likelion.univ.domain.entity.QPost.post;
-import static likelion.univ.domain.entity.QUser.user;
 import java.util.List;
+
+import static likelion.univ.domain.post.entity.QPost.post;
+import static likelion.univ.domain.user.entity.QUser.user;
 
 @Repository
 public class PostCustomRepositoryImpl implements PostCustomRepository{

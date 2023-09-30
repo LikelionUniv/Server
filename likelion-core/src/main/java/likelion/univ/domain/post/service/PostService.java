@@ -17,8 +17,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class PostService{
 
-    @Autowired
-    private PostAdaptor postAdaptor;
+    private final PostAdaptor postAdaptor;
 
 
     public PostServiceDTO.ResponseDTO createPost(PostServiceDTO.CreateRequest request) {

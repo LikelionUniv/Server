@@ -11,8 +11,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class LikePostDomainService {
 
-    @Autowired
-    private LikePostAdaptor likePostAdaptor;
+    private final LikePostAdaptor likePostAdaptor;
 
     public LikePostDto.ResponseDTO createLikePost(LikePostDto.CreateRequest request) {
         LikePost likePost = createEntity(request);

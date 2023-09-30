@@ -15,10 +15,9 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @RequestMapping("/v1/community/likepost")
 public class LikePostController {
-    @Autowired
-    private CreateLikePostUseCase createLikePostUseCase;
-    @Autowired
-    private DeleteLikePostUseCase deleteLikePostUseCase;
+    private final CreateLikePostUseCase createLikePostUseCase;
+    private final DeleteLikePostUseCase deleteLikePostUseCase;
+
 
     @PostMapping("")
     public SuccessResponse createLikePost(@RequestBody LikePostRequestDto.Save request) {

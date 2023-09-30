@@ -21,17 +21,10 @@ import java.util.List;
 @RequestMapping("/v1/community/post")
 public class PostController {
 
-    @Autowired
-    private PostCreateUseCase postCreateUseCase;
-
-    @Autowired
-    private PostEditUseCase postEditUseCase;
-
-    @Autowired
-    private PostDeleteUseCase postDeleteUseCase;
-
-    @Autowired
-    private PostRetrieveUseCase postRetrieveUseCase;
+    private final PostCreateUseCase postCreateUseCase;
+    private final PostEditUseCase postEditUseCase;
+    private final PostDeleteUseCase postDeleteUseCase;
+    private final PostRetrieveUseCase postRetrieveUseCase;
 
     @PostMapping("")
     public SuccessResponse createPost(@RequestBody PostRequestDTO.Save request) {
