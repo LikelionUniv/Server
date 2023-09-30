@@ -1,7 +1,7 @@
 package likelion.univ.domain.post.entity;
 
 import likelion.univ.common.entity.BaseTimeEntity;
-import likelion.univ.domain.post.dto.PostServiceDTO;
+import likelion.univ.domain.post.dto.PostUpdateServiceDto;
 import likelion.univ.domain.post.entity.enums.MainCategory;
 import likelion.univ.domain.post.entity.enums.SubCategory;
 import likelion.univ.domain.user.entity.User;
@@ -41,7 +41,7 @@ public class Post extends BaseTimeEntity {
     private SubCategory subCategory;
 
 
-    public void edit(PostServiceDTO.EditRequest request){
+    public void edit(PostUpdateServiceDto request){
         if(request.getTitle() != null)
             this.title = request.getTitle();
         if(request.getBody() != null)

@@ -9,8 +9,9 @@ import lombok.Data;
 @Data
 @Builder
 @AllArgsConstructor
-public class LikePostDeleteRequestDto {
-    private Post post;
+public class LikePostCreateServiceDto {
     private User author;
+    private Post post;
+
 
 }

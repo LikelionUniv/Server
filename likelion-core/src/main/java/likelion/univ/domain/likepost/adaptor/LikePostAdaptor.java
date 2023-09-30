@@ -12,9 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 @Adaptor
 @RequiredArgsConstructor
 public class LikePostAdaptor {
-
-    @Autowired
-    private LikePostRepository likePostRepository;
+    private final LikePostRepository likePostRepository;
 
     public Long save(LikePost likePost) {
         LikePost savedLike = likePostRepository.save(likePost);

@@ -1,8 +1,8 @@
 package likelion.univ.domain.likepost.service;
 
 import likelion.univ.domain.likepost.adaptor.LikePostAdaptor;
-import likelion.univ.domain.likepost.dto.LikePostCreateRequestDto;
-import likelion.univ.domain.likepost.dto.LikePostDeleteRequestDto;
+import likelion.univ.domain.likepost.dto.LikePostCreateServiceDto;
+import likelion.univ.domain.likepost.dto.LikePostDeleteServiceDto;
 import likelion.univ.domain.likepost.dto.LikePostResponseDto;
 import likelion.univ.domain.likepost.entity.LikePost;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +14,7 @@ public class LikePostDomainService {
 
     private final LikePostAdaptor likePostAdaptor;
 
-    public LikePostResponseDto createLikePost(LikePostCreateRequestDto request) {
+    public LikePostResponseDto createLikePost(LikePostCreateServiceDto request) {
         Long savedLikeId = likePostAdaptor.save(LikePost.of(request));
 
         return LikePostResponseDto.builder()
@@ -22,7 +22,7 @@ public class LikePostDomainService {
                 .build();
     }
 
-    public void deleteLikePost(LikePostDeleteRequestDto request) {
+    public void deleteLikePost(LikePostDeleteServiceDto request) {
         LikePost likePost = likePostAdaptor.find(request.getPost(), request.getAuthor());
         likePostAdaptor.delete(likePost);
     }

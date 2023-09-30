@@ -1,7 +1,7 @@
 package likelion.univ.likepost.usecase;
 
 import likelion.univ.annotation.UseCase;
-import likelion.univ.domain.likepost.dto.LikePostCreateRequestDto;
+import likelion.univ.domain.likepost.dto.LikePostCreateServiceDto;
 import likelion.univ.domain.likepost.dto.LikePostResponseDto;
 import likelion.univ.domain.likepost.service.LikePostDomainService;
 import likelion.univ.domain.post.adaptor.PostAdaptor;
@@ -17,11 +17,11 @@ public class CreateLikePostUseCase {
     private final PostAdaptor postAdaptor;
 
     public LikePostResponseDto execute(LikePostRequestDto postIdDto) {
-        return likePostDomainService.createLikePost(requestDtoBy(postIdDto));
+        return likePostDomainService.createLikePost(serviceDtoBy(postIdDto));
     }
 
-    private LikePostCreateRequestDto requestDtoBy(LikePostRequestDto postIdDto) {
-        return LikePostCreateRequestDto.builder()
+    private LikePostCreateServiceDto serviceDtoBy(LikePostRequestDto postIdDto) {
+        return LikePostCreateServiceDto.builder()
                 .post(postAdaptor.findById(postIdDto.getPostId()))
                 .author(userUtils.getCurrentUser())
                 .build();

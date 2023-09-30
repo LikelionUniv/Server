@@ -5,7 +5,6 @@ import likelion.univ.domain.likepost.dto.LikePostResponseDto;
 import likelion.univ.likepost.dto.LikePostRequestDto;
 import likelion.univ.likepost.usecase.CreateLikePostUseCase;
 import likelion.univ.likepost.usecase.DeleteLikePostUseCase;
-import likelion.univ.domain.likepost.dto.LikePostCreateRequestDto;
 import likelion.univ.response.SuccessResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;

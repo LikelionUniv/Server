@@ -5,7 +5,6 @@ import likelion.univ.domain.post.entity.Post;
 import likelion.univ.domain.post.exception.PostNotFoudException;
 import likelion.univ.domain.post.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
@@ -13,12 +12,12 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PostAdaptor {
 
-    @Autowired
-    private PostRepository postRepository;
+    private final PostRepository postRepository;
 
 
-    public void save(Post post) {
-        postRepository.save(post);
+    public Long save(Post post) {
+        Post savedPost = postRepository.save(post);
+        return savedPost.getId();
     }
 
     public Post findById(Long id) {
@@ -29,7 +28,7 @@ public class PostAdaptor {
         postRepository.delete(post); //예외처리
     }
 
-    public List<Post> retrievePostPaging(Integer page, Integer limit) {
+    public List<Post> findPosts(Integer page, Integer limit) {
         return postRepository.pagingWithCoveringIndex(page, limit);
     }
 }
