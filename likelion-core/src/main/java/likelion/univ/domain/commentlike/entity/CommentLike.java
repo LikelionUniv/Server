@@ -29,10 +29,10 @@ public class CommentLike extends BaseTimeEntity {
     private Boolean isCanceled;
 
     @Builder
-    public CommentLike(User user, Comment comment) {
+    public CommentLike(User user, Comment comment, Boolean isCanceled) {
         this.user = user;
         this.comment = comment;
-        this.isCanceled = false;
+        this.isCanceled = isCanceled;
     }
 
     public CommentLike switchLikeComment() {

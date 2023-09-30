@@ -1,25 +1,30 @@
 package likelion.univ.commentlike.usecase;
 
 import likelion.univ.annotation.UseCase;
-import likelion.univ.commentlike.dto.CommentLikeRequestDto;
+import likelion.univ.commentlike.dto.CommentLikeCreateRequestDto;
+import likelion.univ.domain.commentlike.dto.CommentLikeResponseDto;
 import likelion.univ.domain.commentlike.dto.CommentLikeServiceDto;
+import likelion.univ.domain.commentlike.dto.CommentLikeSwitchServiceDto;
 import likelion.univ.domain.commentlike.service.CommentLikeDomainService;
+import likelion.univ.response.SuccessResponse;
+import likelion.univ.utils.AuthentiatedUserUtils;
 import lombok.RequiredArgsConstructor;
 
 @UseCase
 @RequiredArgsConstructor
 public class SwitchCommentLikeUseCase {
+    private final AuthentiatedUserUtils userUtils;
     private final CommentLikeDomainService commentLikeDomainService;
 
-    public CommentLikeServiceDto.CommandResponse execute(CommentLikeRequestDto.Switch switchRequest, Long likeCommentId) {
-        CommentLikeServiceDto.switchLikeCommentRequest switchLikeCommentRequest = buildServiceDtoBy(switchRequest, likeCommentId);
-        return commentLikeDomainService.switchLikeComment(switchLikeCommentRequest);
+    public SuccessResponse<?> execute(Long commentLikeId) {
+        CommentLikeResponseDto response = commentLikeDomainService.switchLikeComment(serviceDtoBy(commentLikeId));
+        return SuccessResponse.of(response);
     }
 
-    private CommentLikeServiceDto.switchLikeCommentRequest buildServiceDtoBy(CommentLikeRequestDto.Switch switchRequest, Long likeCommentId) {
-        return CommentLikeServiceDto.switchLikeCommentRequest.builder()
-                .likeCommentId(likeCommentId)
-                .userId(switchRequest.getUserId())
+    private CommentLikeSwitchServiceDto serviceDtoBy(Long commentLikeId) {
+        return CommentLikeSwitchServiceDto.builder()
+                .commentLikeId(commentLikeId)
+                .loginUserId(userUtils.getCurrentUserId())
                 .build();
     }
 }
