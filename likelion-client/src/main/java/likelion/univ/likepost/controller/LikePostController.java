@@ -1,13 +1,13 @@
 package likelion.univ.likepost.controller;
 
 
+import likelion.univ.domain.likepost.dto.LikePostResponseDto;
 import likelion.univ.likepost.dto.LikePostRequestDto;
 import likelion.univ.likepost.usecase.CreateLikePostUseCase;
 import likelion.univ.likepost.usecase.DeleteLikePostUseCase;
-import likelion.univ.domain.likepost.dto.LikePostDto;
+import likelion.univ.domain.likepost.dto.LikePostCreateRequestDto;
 import likelion.univ.response.SuccessResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -20,15 +20,15 @@ public class LikePostController {
 
 
     @PostMapping("")
-    public SuccessResponse createLikePost(@RequestBody LikePostRequestDto.Save request) {
+    public SuccessResponse createLikePost(@RequestBody LikePostRequestDto request) {
 
-        LikePostDto.ResponseDTO response = createLikePostUseCase.execute(request);
+        LikePostResponseDto response = createLikePostUseCase.execute(request);
 
         return SuccessResponse.of(response);
     }
 
     @DeleteMapping("")
-    public SuccessResponse deleteLikePost(@RequestBody LikePostRequestDto.Delete request) {
+    public SuccessResponse deleteLikePost(@RequestBody LikePostRequestDto request) {
 
         deleteLikePostUseCase.execute(request);
 

@@ -1,4 +1,4 @@
-package likelion.univ.likepost.dto;
+package likelion.univ.domain.likepost.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -7,7 +7,6 @@ import lombok.Data;
 @Data
 @Builder
 @AllArgsConstructor
-public class LikePostRequestDto {
-
-    private Long postId;
+public class LikePostResponseDto {
+    private Long id;
 }

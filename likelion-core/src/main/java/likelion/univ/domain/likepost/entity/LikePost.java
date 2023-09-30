@@ -1,5 +1,6 @@
 package likelion.univ.domain.likepost.entity;
 
+import likelion.univ.domain.likepost.dto.LikePostCreateRequestDto;
 import likelion.univ.domain.post.entity.Post;
 import likelion.univ.domain.user.entity.User;
 import lombok.AllArgsConstructor;
@@ -15,11 +16,10 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Builder
 public class LikePost   {
-
     @Id
     @GeneratedValue
     @Column(name = "like_post_id")
-    private Long likeId;
+    private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
@@ -29,5 +29,10 @@ public class LikePost   {
     @JoinColumn(name = "post_id"  )
     private Post post;
 
-
+    public static LikePost of(LikePostCreateRequestDto request) {
+        return LikePost.builder()
+                .post(request.getPost())
+                .author(request.getAuthor())
+                .build();
+    }
 }

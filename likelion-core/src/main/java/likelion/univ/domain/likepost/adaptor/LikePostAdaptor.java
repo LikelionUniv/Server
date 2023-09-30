@@ -16,8 +16,9 @@ public class LikePostAdaptor {
     @Autowired
     private LikePostRepository likePostRepository;
 
-    public void save(LikePost likePost) {
-        likePostRepository.save(likePost);
+    public Long save(LikePost likePost) {
+        LikePost savedLike = likePostRepository.save(likePost);
+        return savedLike.getId();
     }
     public void delete(LikePost likePost) {
         likePostRepository.delete(likePost);

@@ -1,38 +1,31 @@
 package likelion.univ.likepost.usecase;
 
 import likelion.univ.annotation.UseCase;
-import likelion.univ.likepost.dto.LikePostRequestDto;
-import likelion.univ.domain.likepost.dto.LikePostDto;
+import likelion.univ.domain.likepost.dto.LikePostCreateRequestDto;
+import likelion.univ.domain.likepost.dto.LikePostDeleteRequestDto;
 import likelion.univ.domain.likepost.service.LikePostDomainService;
 import likelion.univ.domain.post.adaptor.PostAdaptor;
-import likelion.univ.domain.user.adaptor.UserAdaptor;
+import likelion.univ.likepost.dto.LikePostRequestDto;
+import likelion.univ.utils.AuthentiatedUserUtils;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 
 @UseCase
 @RequiredArgsConstructor
 public class DeleteLikePostUseCase {
 
-    @Autowired
-    private LikePostDomainService likePostDomainService;
+    private final LikePostDomainService likePostDomainService;
+    private final AuthentiatedUserUtils userUtils;
+    private final PostAdaptor postAdaptor;
 
-    @Autowired
-    private UserAdaptor userAdaptor;
-
-    @Autowired
-    private PostAdaptor postAdaptor;
-
-    public void execute(LikePostRequestDto.Delete request) {
-        //user
-
-        likePostDomainService.deleteLikePost(buildDTO(request));
+    public void execute(LikePostRequestDto postIdDto) {
+        likePostDomainService.deleteLikePost(requestDtoBy(postIdDto));
 
     }
 
-    private LikePostDto.DeleteRequest buildDTO(LikePostRequestDto.Delete request) {
-        return LikePostDto.DeleteRequest.builder()
-                .post(postAdaptor.findById(request.getPostId()))
-                .author(userAdaptor.findById(request.getUserId()))
+    private LikePostDeleteRequestDto requestDtoBy(LikePostRequestDto postIdDto) {
+        return LikePostDeleteRequestDto.builder()
+                .post(postAdaptor.findById(postIdDto.getPostId()))
+                .author(userUtils.getCurrentUser())
                 .build();
     }
 }

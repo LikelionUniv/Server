@@ -1,10 +1,11 @@
 package likelion.univ.domain.likepost.service;
 
 import likelion.univ.domain.likepost.adaptor.LikePostAdaptor;
-import likelion.univ.domain.likepost.dto.LikePostDto;
+import likelion.univ.domain.likepost.dto.LikePostCreateRequestDto;
+import likelion.univ.domain.likepost.dto.LikePostDeleteRequestDto;
+import likelion.univ.domain.likepost.dto.LikePostResponseDto;
 import likelion.univ.domain.likepost.entity.LikePost;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -13,21 +14,16 @@ public class LikePostDomainService {
 
     private final LikePostAdaptor likePostAdaptor;
 
-    public LikePostDto.ResponseDTO createLikePost(LikePostDto.CreateRequest request) {
-        LikePost likePost = createEntity(request);
-        likePostAdaptor.save(likePost);
-        return LikePostDto.ResponseDTO.builder().id(likePost.getLikeId()).build();
-    }
+    public LikePostResponseDto createLikePost(LikePostCreateRequestDto request) {
+        Long savedLikeId = likePostAdaptor.save(LikePost.of(request));
 
-    public void deleteLikePost(LikePostDto.DeleteRequest request) {
-        LikePost likePost = likePostAdaptor.find(request.getPost(), request.getAuthor());
-        likePostAdaptor.delete(likePost);
-    }
-    private static LikePost createEntity(LikePostDto.CreateRequest request) {
-        return LikePost.builder()
-                .post(request.getPost())
-                .author(request.getAuthor())
+        return LikePostResponseDto.builder()
+                .id(savedLikeId)
                 .build();
     }
 
+    public void deleteLikePost(LikePostDeleteRequestDto request) {
+        LikePost likePost = likePostAdaptor.find(request.getPost(), request.getAuthor());
+        likePostAdaptor.delete(likePost);
+    }
 }
