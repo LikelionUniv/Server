@@ -1,6 +1,5 @@
 package likelion.univ.domain.comment.entity;
 
-import likelion.univ.domain.comment.entity.Comment;
 import likelion.univ.domain.user.entity.User;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -22,7 +21,7 @@ class CommentTest {
         String getPrev = comment.getBody();
 
         // when
-        comment.editBody(next);
+        comment.updateBody(next);
 
         // then
         assertThat(getPrev).isEqualTo(prev);
@@ -41,7 +40,7 @@ class CommentTest {
         Boolean prevIsDeleted = comment.getIsDeleted();
 
         // when
-        comment.delete();
+        comment.softDelete();
 
         // then
         assertThat(prevIsDeleted).isEqualTo(false);

@@ -20,7 +20,7 @@ public class PostDeleteUseCase {
     private PostDeleteServiceDto serviceDtoBy(Long postId) {
         return PostDeleteServiceDto.builder()
                 .postId(postId)
-                .userId(userUtils.getCurrentUserId())
+                .loginUserId(userUtils.getCurrentUserId())
                 .build();
     }
 }

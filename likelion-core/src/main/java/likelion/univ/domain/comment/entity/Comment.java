@@ -1,7 +1,7 @@
 package likelion.univ.domain.comment.entity;
 
 import likelion.univ.common.entity.BaseTimeEntity;
-import likelion.univ.domain.likecomment.entity.LikeComment;
+import likelion.univ.domain.commentlike.entity.CommentLike;
 import likelion.univ.domain.post.entity.Post;
 import likelion.univ.domain.user.entity.User;
 import lombok.AccessLevel;
@@ -32,12 +32,12 @@ public class Comment extends BaseTimeEntity {
     private Post post;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "parent_id")
+    @JoinColumn(name = "parent_comment_id")
     private Comment parentComment;
 
     @OneToMany(mappedBy = "comment",
             cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, orphanRemoval = true) // 안정성 체크해봐야됨
-    private List<LikeComment> likeComments = new ArrayList<>();
+    private List<CommentLike> commentLikes = new ArrayList<>();
 
 
     @OneToMany(mappedBy = "parentComment",
@@ -52,19 +52,20 @@ public class Comment extends BaseTimeEntity {
 
     @Builder
     private Comment(Post post, User author, String body) {
+        this.parentComment = null;
         this.post = post;
         this.author = author;
         this.body = body;
-        isDeleted = false;
+        this.isDeleted = false;
     }
 
-    public Comment editBody(String body) {
+    public Long updateBody(String body) {
         this.body = body;
-        return this;
+        return this.id;
     }
-    public Comment delete() {
+    public Long softDelete() {
         this.isDeleted = true;
-        return this;
+        return this.id;
     }
 
     /* 연관관계 편의 메서드 */

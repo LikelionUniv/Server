@@ -2,7 +2,7 @@ package likelion.univ.post.usecase;
 
 import likelion.univ.annotation.UseCase;
 import likelion.univ.domain.post.dto.PostCreateServiceDto;
-import likelion.univ.domain.post.dto.PostSimpleResponseDto;
+import likelion.univ.domain.post.dto.PostCommandResponseDto;
 import likelion.univ.domain.post.service.PostService;
 import likelion.univ.post.dto.PostCreateRequestDto;
 import likelion.univ.utils.AuthentiatedUserUtils;
@@ -13,7 +13,7 @@ import lombok.RequiredArgsConstructor;
 public class PostCreateUseCase {
     private final PostService postService;
     private final AuthentiatedUserUtils userUtils;
-    public PostSimpleResponseDto execute(PostCreateRequestDto request) {
+    public PostCommandResponseDto execute(PostCreateRequestDto request) {
         return postService.createPost(serviceDtoBy(request));
     }
 

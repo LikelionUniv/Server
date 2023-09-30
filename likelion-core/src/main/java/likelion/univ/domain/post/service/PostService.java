@@ -10,7 +10,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -19,10 +18,10 @@ public class PostService{
     private final PostAdaptor postAdaptor;
 
 
-    public PostSimpleResponseDto createPost(PostCreateServiceDto request) {
+    public PostCommandResponseDto createPost(PostCreateServiceDto request) {
         Post post = createEntity(request);
         Long savedId = postAdaptor.save(post);
-        return PostSimpleResponseDto.builder()
+        return PostCommandResponseDto.builder()
                 .postId(savedId)
                 .build();
     }
@@ -43,20 +42,20 @@ public class PostService{
                 .toList();
     }
 
-    public PostSimpleResponseDto editPost(PostUpdateServiceDto request) {
+    public PostCommandResponseDto editPost(PostUpdateServiceDto request) {
         Post post = postAdaptor.findById(request.getPostId());
-        if (!(post.getAuthor().getId().equals(request.getUserId()))) {
+        if (!(post.getAuthor().getId().equals(request.getLoginUserId()))) {
             throw new PostNoAuthorizationException();
         }
         post.edit(request);
         Long savedId = postAdaptor.save(post);
-        return PostSimpleResponseDto.builder()
+        return PostCommandResponseDto.builder()
                 .postId(savedId)
                 .build();
     }
     public void deletePost(PostDeleteServiceDto request) {
         Post post = postAdaptor.findById(request.getPostId());
-        if (!(post.getAuthor().getId().equals(request.getUserId()))) {
+        if (!(post.getAuthor().getId().equals(request.getLoginUserId()))) {
             throw new PostNoAuthorizationException();
         }
         postAdaptor.delete(post);

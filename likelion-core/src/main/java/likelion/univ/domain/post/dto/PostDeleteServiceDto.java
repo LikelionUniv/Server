@@ -9,5 +9,5 @@ import lombok.Data;
 @AllArgsConstructor
 public class PostDeleteServiceDto {
     private Long postId;
-    private Long userId;
+    private Long loginUserId;
 }
