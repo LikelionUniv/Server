@@ -1,9 +1,5 @@
 ## 공통 설정
-server:
-  servlet:
-    encoding:
-      charset: UTF-8
-      force: true
+
 
 --- ## dev 환경 설정
 spring:
