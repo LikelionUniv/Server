@@ -1,7 +1,7 @@
 package likelion.univ.domain.comment.entity;
 
 import likelion.univ.common.entity.BaseTimeEntity;
-import likelion.univ.domain.commentlike.entity.CommentLike;
+import likelion.univ.domain.like.commentlike.entity.CommentLike;
 import likelion.univ.domain.post.entity.Post;
 import likelion.univ.domain.user.entity.User;
 import lombok.AccessLevel;

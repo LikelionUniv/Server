@@ -1,5 +1,6 @@
 package likelion.univ.domain.commentlike.entity;
 
+import likelion.univ.domain.like.commentlike.entity.CommentLike;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
