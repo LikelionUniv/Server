@@ -21,7 +21,7 @@ public class PostCreateUseCase {
         return PostCreateServiceDto.builder()
                 .title(request.getTitle())
                 .body(request.getBody())
-                .user(userUtils.getCurrentUser())
+                .authorId(userUtils.getCurrentUserId())
                 .thumbnail(request.getThumbnail())
                 .mainCategory(request.getMainCategory())
                 .subCategory(request.getSubCategory())

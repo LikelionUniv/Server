@@ -4,7 +4,6 @@ import likelion.univ.annotation.UseCase;
 import likelion.univ.commentlike.dto.CommentLikeCreateRequestDto;
 import likelion.univ.domain.commentlike.dto.CommentLikeCreateServiceDto;
 import likelion.univ.domain.commentlike.dto.CommentLikeResponseDto;
-import likelion.univ.domain.commentlike.dto.CommentLikeServiceDto;
 import likelion.univ.domain.commentlike.service.CommentLikeDomainService;
 import likelion.univ.response.SuccessResponse;
 import likelion.univ.utils.AuthentiatedUserUtils;

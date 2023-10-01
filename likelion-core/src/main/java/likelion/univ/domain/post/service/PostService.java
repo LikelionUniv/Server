@@ -6,6 +6,7 @@ import likelion.univ.domain.post.entity.Post;
 import likelion.univ.domain.post.entity.enums.MainCategory;
 import likelion.univ.domain.post.entity.enums.SubCategory;
 import likelion.univ.domain.post.exception.PostNoAuthorizationException;
+import likelion.univ.domain.user.adaptor.UserAdaptor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +17,7 @@ import java.util.List;
 public class PostService{
 
     private final PostAdaptor postAdaptor;
+    private final UserAdaptor userAdaptor;
 
 
     public PostCommandResponseDto createPost(PostCreateServiceDto request) {
@@ -32,7 +34,7 @@ public class PostService{
                 .map(post -> PostDetailResponseDto.builder()
                         .id(post.getId())
                         .authorId(post.getAuthor().getId())
-                        .author(post.getAuthor().getProfile().getName())
+                        .authorName(post.getAuthor().getProfile().getName())
                         .title(post.getTitle())
                         .body(post.getBody())
                         .thumbnail(post.getThumbnail())
@@ -62,9 +64,9 @@ public class PostService{
         return;
     }
 
-    private static Post createEntity(PostCreateServiceDto request) {
+    private Post createEntity(PostCreateServiceDto request) {
         return  Post.builder()
-                .author(request.getUser())
+                .author(userAdaptor.findById(request.getAuthorId()))
                 .title(request.getTitle())
                 .body(request.getBody())
                 .thumbnail(request.getThumbnail())

@@ -10,9 +10,9 @@ import lombok.Data;
 @AllArgsConstructor
 public class PostCreateServiceDto {
     private String title;
-
     private String body;
-    private User user;
+
+    private Long authorId;
 
     private String thumbnail;
 
