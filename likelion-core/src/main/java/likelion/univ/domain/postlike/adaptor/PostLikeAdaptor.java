@@ -24,4 +24,8 @@ public class PostLikeAdaptor {
     public PostLike find(Post post, User author) {
         return postLikeRepository.findByPostAndAuthor(post, author).orElseThrow(() -> new PostLikeNotFoundException());
     }
+
+    public PostLike findById(Long postLikeId) {
+        return postLikeRepository.findById(postLikeId).orElseThrow(() -> new PostLikeNotFoundException());
+    }
 }

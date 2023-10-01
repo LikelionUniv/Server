@@ -14,7 +14,6 @@ import lombok.RequiredArgsConstructor;
 public class CreatePostLikeUseCase {
     private final PostLikeDomainService postLikeDomainService;
     private final AuthentiatedUserUtils userUtils;
-    private final PostAdaptor postAdaptor;
 
     public PostLikeResponseDto execute(PostLikeRequestDto postIdDto) {
         return postLikeDomainService.createLikePost(serviceDtoBy(postIdDto));
@@ -22,8 +21,8 @@ public class CreatePostLikeUseCase {
 
     private PostLikeCreateServiceDto serviceDtoBy(PostLikeRequestDto postIdDto) {
         return PostLikeCreateServiceDto.builder()
-                .post(postAdaptor.findById(postIdDto.getPostId()))
-                .author(userUtils.getCurrentUser())
+                .postId(postIdDto.getPostId())
+                .authorId(userUtils.getCurrentUserId())
                 .build();
     }
 

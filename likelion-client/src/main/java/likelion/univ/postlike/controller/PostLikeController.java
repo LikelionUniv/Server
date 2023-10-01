@@ -18,18 +18,15 @@ public class PostLikeController {
 
 
     @PostMapping("")
-    public SuccessResponse createLikePost(@RequestBody PostLikeRequestDto request) {
+    public SuccessResponse<?> createLikePost(@RequestBody PostLikeRequestDto request) {
 
         PostLikeResponseDto response = createPostLikeUseCase.execute(request);
-
         return SuccessResponse.of(response);
     }
 
-    @DeleteMapping("")
-    public SuccessResponse deleteLikePost(@RequestBody PostLikeRequestDto request) {
+    @DeleteMapping("/{postLikeId}")
+    public SuccessResponse<?> deleteLikePost(@PathVariable Long postLikeId) {
 
-        deletePostLikeUseCase.execute(request);
-
-        return SuccessResponse.empty();
+        return deletePostLikeUseCase.execute(postLikeId);
     }
 }

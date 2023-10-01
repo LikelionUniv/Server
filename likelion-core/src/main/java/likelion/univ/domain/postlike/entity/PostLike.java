@@ -28,10 +28,4 @@ public class PostLike {
     @JoinColumn(name = "post_id"  )
     private Post post;
 
-    public static PostLike of(PostLikeCreateServiceDto request) {
-        return PostLike.builder()
-                .post(request.getPost())
-                .author(request.getAuthor())
-                .build();
-    }
 }

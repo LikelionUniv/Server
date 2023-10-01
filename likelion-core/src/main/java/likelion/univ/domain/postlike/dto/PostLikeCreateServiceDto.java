@@ -10,8 +10,8 @@ import lombok.Data;
 @Builder
 @AllArgsConstructor
 public class PostLikeCreateServiceDto {
-    private User author;
-    private Post post;
+    private Long authorId;
+    private Long postId;
 
 
 }
