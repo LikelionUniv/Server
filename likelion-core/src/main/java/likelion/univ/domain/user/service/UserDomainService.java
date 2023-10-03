@@ -4,6 +4,7 @@ import likelion.univ.domain.user.adaptor.UserAdaptor;
 import likelion.univ.domain.user.entity.*;
 import likelion.univ.domain.user.exception.EmailAlreadyRegistered;
 import likelion.univ.domain.user.exception.NoDataFound;
+import likelion.univ.domain.user.repository.searchcondition.UserSearchCondition;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
@@ -60,4 +61,7 @@ public class UserDomainService {
         }else throw new NoDataFound();
     }
 
+    public List<User> findDynamicUsers(UserSearchCondition condition) {
+        return userAdaptor.findDynamicUsers(condition);
+    }
 }

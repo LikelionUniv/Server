@@ -1,6 +1,5 @@
 package likelion.univ.security;
 
-import likelion.univ.annotation.Processor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -13,6 +12,8 @@ public class CorsConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         ArrayList<String> allowedOriginPatterns = new ArrayList<>();
+        allowedOriginPatterns.add("http://localhost:3000");
+        allowedOriginPatterns.add("http://localhost:8080");
         allowedOriginPatterns.add("https://likelionuniv.com");
         allowedOriginPatterns.add("https://stag.likelionuniv.com");
 
