@@ -1,4 +1,4 @@
-package likelion.univ.project.dto.response;
+package likelion.univ.university.dto.response;
 
 import likelion.univ.domain.university.entity.University;
 import likelion.univ.domain.user.entity.User;

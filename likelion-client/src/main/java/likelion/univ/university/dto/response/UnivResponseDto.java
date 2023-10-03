@@ -1,9 +1,7 @@
-package likelion.univ.project.dto.response;
+package likelion.univ.university.dto.response;
 
 import lombok.Builder;
 import lombok.Data;
-
-import java.util.List;
 
 @Data
 @Builder

@@ -1,9 +1,9 @@
-package likelion.univ.project.usecase;
+package likelion.univ.university.usecase;
 
 import likelion.univ.annotation.UseCase;
 import likelion.univ.domain.university.adaptor.UniversityAdaptor;
 import likelion.univ.domain.user.adaptor.UserAdaptor;
-import likelion.univ.project.dto.response.UserResponseDto;
+import likelion.univ.university.dto.response.UserResponseDto;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;

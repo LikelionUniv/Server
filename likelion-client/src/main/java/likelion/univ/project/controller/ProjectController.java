@@ -5,15 +5,12 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import likelion.univ.project.dto.request.ProjectRequestDto;
 import likelion.univ.project.dto.response.ProjectIdResponseDto;
 import likelion.univ.project.dto.response.ProjectResponseDto;
-import likelion.univ.project.dto.response.UnivResponseDto;
-import likelion.univ.project.dto.response.UserResponseDto;
 import likelion.univ.project.usecase.*;
 import likelion.univ.response.SuccessResponse;
+import likelion.univ.university.usecase.GetUnivUsecase;
+import likelion.univ.university.usecase.GetUserUsecase;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -34,8 +31,6 @@ public class ProjectController {
     private final ArchiveProjectUsecase archiveProjectUsecase;
     private final GetProjectByUsecase getProjectByUsecase;
     private final GetOrdinalUsecase getOrdinalUsecase;
-    private final GetUnivUsecase getUnivUsecase;
-    private final GetUserUsecase getUserUsecase;
 
     //-----------프로젝트 한 개 조회 --------//
     @GetMapping("/{projectId}")
@@ -93,21 +88,5 @@ public class ProjectController {
     public SuccessResponse<Objects> deleteProject(@PathVariable("projectId") Long projectId) {
         deleteProjectUsecase.excute(projectId);
         return SuccessResponse.empty();
-    }
-
-    //-----------대학교 조회 --------//
-    @GetMapping("/university")
-    @Operation(summary = "대학교 조회", description = "대학교를 조회합니다.")
-    public SuccessResponse<List<UnivResponseDto>> getAllUniv(){
-        List<UnivResponseDto> univList = getUnivUsecase.excute();
-        return SuccessResponse.of(univList);
-    }
-
-    //-----------유저 조회 --------//
-    @GetMapping("/users")
-    @Operation(summary = "전체 유저 조회", description = "전체 유저 정보를 조회합니다.")
-    public SuccessResponse<List<UserResponseDto>> getAllUser(){
-        List<UserResponseDto> userList = getUserUsecase.excute();
-        return SuccessResponse.of(userList);
     }
 }
