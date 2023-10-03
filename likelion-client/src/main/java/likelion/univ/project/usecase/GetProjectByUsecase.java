@@ -10,7 +10,6 @@ import likelion.univ.domain.user.adaptor.UserAdaptor;
 import likelion.univ.domain.user.entity.User;
 import likelion.univ.project.dto.response.ProjectResponseDto;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.util.ArrayList;
@@ -25,8 +24,8 @@ public class GetProjectByUsecase {
     private final ProjectMemberAdaptor projectMemberAdaptor;
     private final UserAdaptor userAdaptor;
 
-    public List<ProjectResponseDto> excute(int ordinal, Pageable pageable){
-        Page<Project> projects = projectAdaptor.findProject(ordinal,pageable);
+    public List<ProjectResponseDto> excute(Long ordinal, int pageNo){
+        List<Project> projects = projectAdaptor.findProject(ordinal, pageNo);
         List<ProjectResponseDto> projectResponseDtos = new ArrayList<>();
         for(Project project : projects) {
             List<Image> images = imageAdaptor.findByProject(project);

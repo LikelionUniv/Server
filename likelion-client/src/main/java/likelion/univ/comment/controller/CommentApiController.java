@@ -4,7 +4,6 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import likelion.univ.comment.dto.CommentRequestDto;
 import likelion.univ.comment.usecase.*;
-import likelion.univ.community.comment.usecase.*;
 import likelion.univ.domain.comment.dto.CommentServiceDto;
 import likelion.univ.response.SuccessResponse;
 import lombok.RequiredArgsConstructor;
@@ -44,8 +43,8 @@ public class CommentApiController {
 
     @Operation(summary = "댓글 내용 수정", description = "댓글 body필드를 수정합니다.")
     /*
-    * patch / put 선택 후 리팩 필요
-    **/
+     * patch / put 선택 후 리팩 필요
+     **/
     @PatchMapping("/edit")
     public SuccessResponse<?> editComment(@RequestBody CommentRequestDto.EditComment request, @RequestParam Long commentId) {
         CommentServiceDto.CommandResponse editCommandResponse = editCommentUseCase.execute(request, commentId);

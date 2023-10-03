@@ -48,8 +48,10 @@ public class ProjectController {
     //-----------프로젝트 목록 --------//
     @GetMapping("/")
     @Operation(summary = "프로젝트 목록", description = "프로젝트 목록을 출력했습니다.")
-    public SuccessResponse<List<ProjectResponseDto>> getAllProject(@PageableDefault(page=0, size=12, sort="id" ,direction = Sort.Direction.DESC) Pageable pageable){
-        List<ProjectResponseDto> projectList = getAllPorjectUsecase.excute(pageable);
+    public SuccessResponse<List<ProjectResponseDto>> getAllProject(
+            @RequestParam(value = "pageNo", defaultValue = "1", required = false) int pageNo
+    ){
+        List<ProjectResponseDto> projectList = getAllPorjectUsecase.excute(pageNo);
         return SuccessResponse.of(projectList);
     }
 
@@ -57,11 +59,11 @@ public class ProjectController {
     @GetMapping("/ordinal/{ordinal}")
     @Operation(summary = "기수별 프로젝트", description = "선택한 기수에 따라 프로젝트 목록을 출력했습니다. 최근 5개의 기수보다 이전의 기수는 한번에 보여집니다.")
     public SuccessResponse<List<ProjectResponseDto>> getProjectByOrdinal(
-            @PageableDefault(page=0, size=12, sort="id" ,direction = Sort.Direction.DESC) Pageable pageable,
-            @PathVariable int ordinal) {
+            @RequestParam(value = "pageNo", defaultValue = "1", required = false) int pageNo,
+            @PathVariable Long ordinal) {
         int recentOrdinal = getOrdinalUsecase.excute();
         if (ordinal > recentOrdinal - 5) {
-            List<ProjectResponseDto> projectListByOrdinal = getProjectByUsecase.excute(ordinal, pageable);
+            List<ProjectResponseDto> projectListByOrdinal = getProjectByUsecase.excute(ordinal, pageNo);
             return SuccessResponse.of(projectListByOrdinal);
         } else {
             List<ProjectResponseDto> projectList = archiveProjectUsecase.excute(ordinal);
@@ -70,7 +72,7 @@ public class ProjectController {
     }
 
     //--------- 프로젝트 등록 ------------//
-    @PostMapping("/post")
+    @PostMapping("/")
     @Operation(summary = "프로젝트 등록", description = "새로운 프로젝트를 등록했습니다.")
     public SuccessResponse<ProjectIdResponseDto> createProject(@RequestBody ProjectRequestDto projectRequestDto){
         ProjectIdResponseDto projectIdResponseDto = createProjectUsecase.excute(projectRequestDto);
@@ -78,7 +80,7 @@ public class ProjectController {
     }
 
     //-----------프로젝트 수정 --------//
-    @PutMapping("/edit/{projectId}")
+    @PatchMapping("/{projectId}/edit")
     @Operation(summary = "프로젝트 수정", description = "프로젝트의 내용을 수정하였습니다.")
     public SuccessResponse<ProjectIdResponseDto> updateProject(@PathVariable("projectId") Long projectId, @RequestBody ProjectRequestDto projectRequestDto) {
         ProjectIdResponseDto projectIdResponseDto = updateProjectUsecase.excute(projectId, projectRequestDto);
@@ -86,7 +88,7 @@ public class ProjectController {
     }
 
     //-----------프로젝트 삭제 --------//
-    @DeleteMapping("/delete/{projectId}")
+    @DeleteMapping("/{projectId}/delete")
     @Operation(summary = "프로젝트 삭제", description = "프로젝트를 삭제했습니다.")
     public SuccessResponse<Objects> deleteProject(@PathVariable("projectId") Long projectId) {
         deleteProjectUsecase.excute(projectId);

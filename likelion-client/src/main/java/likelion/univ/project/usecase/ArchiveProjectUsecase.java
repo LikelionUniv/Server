@@ -23,7 +23,7 @@ public class ArchiveProjectUsecase {
     private final ProjectMemberAdaptor projectMemberAdaptor;
     private final UserAdaptor userAdaptor;
 
-    public List<ProjectResponseDto> excute(int ordinal){
+    public List<ProjectResponseDto> excute(Long ordinal){
         List<Project> projects = projectAdaptor.findArchiveProject(ordinal);
         List<ProjectResponseDto> projectResponseDtos = new ArrayList<>();
         for(Project project : projects) {

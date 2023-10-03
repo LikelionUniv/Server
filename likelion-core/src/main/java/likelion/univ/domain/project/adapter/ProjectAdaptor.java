@@ -7,7 +7,9 @@ import likelion.univ.domain.project.exception.ProjectNotFoundException;
 import likelion.univ.domain.project.repository.ProjectRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 
 import java.util.List;
 
@@ -36,14 +38,15 @@ public class ProjectAdaptor {
         projectRepository.delete(project);
     }
 
-    public Page<Project> findAll(Pageable pageable){
-
-        return projectRepository.findAll(pageable);
+    public List<Project> findAll(int pageNo){
+        Pageable pageable = PageRequest.of((pageNo-1), 12, Sort.by("id").descending());
+        return projectRepository.findAll(pageable).stream().toList();
     }
-    public Page<Project> findProject(int ordinal, Pageable pageable){
-        return projectRepository.findByOrdinal(ordinal,pageable);
+    public List<Project> findProject(Long ordinal, int pageNo){
+        Pageable pageable = PageRequest.of((pageNo-1), 12);
+        return projectRepository.findByOrdinal(ordinal, pageable).stream().toList();
     }
-    public List<Project> findArchiveProject(int ordinal){
+    public List<Project> findArchiveProject(Long ordinal){
         return projectRepository.findArchivePosts(ordinal);
     }
     public int getCurrentOrdinal(){
