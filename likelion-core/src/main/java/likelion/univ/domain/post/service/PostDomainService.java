@@ -3,8 +3,6 @@ package likelion.univ.domain.post.service;
 import likelion.univ.domain.post.adaptor.PostAdaptor;
 import likelion.univ.domain.post.dto.*;
 import likelion.univ.domain.post.entity.Post;
-import likelion.univ.domain.post.entity.enums.MainCategory;
-import likelion.univ.domain.post.entity.enums.SubCategory;
 import likelion.univ.domain.post.exception.PostNoAuthorizationException;
 import likelion.univ.domain.user.adaptor.UserAdaptor;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +12,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class PostService{
+public class PostDomainService {
 
     private final PostAdaptor postAdaptor;
     private final UserAdaptor userAdaptor;
@@ -70,8 +68,9 @@ public class PostService{
                 .title(request.getTitle())
                 .body(request.getBody())
                 .thumbnail(request.getThumbnail())
-                .mainCategory(MainCategory.valueOf(request.getMainCategory()))
-                .subCategory(SubCategory.valueOf(request.getSubCategory()))
+                // TODO : category 입력되도록 수정
+//                .mainCategory(MainCategory.valueOf(request.getMainCategory()))
+//                .subCategory(SubCategory.valueOf(request.getSubCategory()))
                 .build();
     }
 

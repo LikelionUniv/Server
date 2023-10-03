@@ -11,8 +11,10 @@ import likelion.univ.post.usecase.PostUpdateUseCase;
 import likelion.univ.post.usecase.PostFindAllUseCase;
 import likelion.univ.response.SuccessResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 
@@ -27,7 +29,7 @@ public class PostController {
     private final PostFindAllUseCase postFindAllUseCase;
 
     @PostMapping("/new")
-    public SuccessResponse<?> createPost(@RequestBody PostCreateRequestDto request) {
+    public SuccessResponse<?> createPost(@RequestBody @Valid PostCreateRequestDto request/*, BindingResult bindingResult*/) {
         PostCommandResponseDto response = postCreateUseCase.execute(request);
         return SuccessResponse.of(response);
     }

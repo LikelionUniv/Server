@@ -42,7 +42,7 @@ public class CommentController {
 
     @Operation(summary = "댓글 내용 수정", description = "댓글 body필드를 수정합니다.")
     @PatchMapping("/update/{commentId}")
-    public SuccessResponse<?> updateComment(@RequestBody CommentUpdateRequestDto request, @RequestParam Long commentId) {
+    public SuccessResponse<?> updateComment(@PathVariable Long commentId, @RequestBody CommentUpdateRequestDto request) {
         return updateCommentUseCase.execute(commentId, request);
     }
 
