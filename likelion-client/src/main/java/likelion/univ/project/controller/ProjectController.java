@@ -7,8 +7,6 @@ import likelion.univ.project.dto.response.ProjectIdResponseDto;
 import likelion.univ.project.dto.response.ProjectResponseDto;
 import likelion.univ.project.usecase.*;
 import likelion.univ.response.SuccessResponse;
-import likelion.univ.university.usecase.GetUnivUsecase;
-import likelion.univ.university.usecase.GetUserUsecase;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -28,9 +26,7 @@ public class ProjectController {
     private final CreateProjectUsecase createProjectUsecase;
     private final UpdateProjectUsecase updateProjectUsecase;
     private final DeleteProjectUsecase deleteProjectUsecase;
-    private final ArchiveProjectUsecase archiveProjectUsecase;
     private final GetProjectByUsecase getProjectByUsecase;
-    private final GetOrdinalUsecase getOrdinalUsecase;
 
     //-----------프로젝트 한 개 조회 --------//
     @GetMapping("/{projectId}")
@@ -56,14 +52,8 @@ public class ProjectController {
     public SuccessResponse<List<ProjectResponseDto>> getProjectByOrdinal(
             @RequestParam(value = "pageNo", defaultValue = "1", required = false) int pageNo,
             @PathVariable Long ordinal) {
-        int recentOrdinal = getOrdinalUsecase.excute();
-        if (ordinal > recentOrdinal - 5) {
-            List<ProjectResponseDto> projectListByOrdinal = getProjectByUsecase.excute(ordinal, pageNo);
-            return SuccessResponse.of(projectListByOrdinal);
-        } else {
-            List<ProjectResponseDto> projectList = archiveProjectUsecase.excute(ordinal);
-            return SuccessResponse.of(projectList);
-        }
+        List<ProjectResponseDto> projectListBy = getProjectByUsecase.excute(ordinal,pageNo);
+        return SuccessResponse.of(projectListBy);
     }
 
     //--------- 프로젝트 등록 ------------//

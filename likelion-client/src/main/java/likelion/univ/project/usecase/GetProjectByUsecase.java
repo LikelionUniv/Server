@@ -1,7 +1,7 @@
 package likelion.univ.project.usecase;
 
 import likelion.univ.annotation.UseCase;
-import likelion.univ.domain.project.adapter.ImageAdaptor;
+import likelion.univ.domain.project.adapter.ProjectImageAdaptor;
 import likelion.univ.domain.project.adapter.ProjectAdaptor;
 import likelion.univ.domain.project.adapter.ProjectMemberAdaptor;
 import likelion.univ.domain.project.entity.Image;
@@ -19,21 +19,36 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class GetProjectByUsecase {
     private final ProjectAdaptor projectAdaptor;
-    private final ImageAdaptor imageAdaptor;
+    private final ProjectImageAdaptor projectImageAdaptor;
     private final ProjectMemberAdaptor projectMemberAdaptor;
     private final UserAdaptor userAdaptor;
 
     public List<ProjectResponseDto> excute(Long ordinal, int pageNo){
-        List<Project> projects = projectAdaptor.findProject(ordinal, pageNo);
         List<ProjectResponseDto> projectResponseDtos = new ArrayList<>();
-        for(Project project : projects) {
-            List<Image> images = imageAdaptor.findByProject(project);
-            List<User> users = projectMemberAdaptor.findByProject(project).stream()
-                    .map(projectMember -> projectMember.getUser())
-                    .map(user -> userAdaptor.findById(user.getId()))
-                    .collect(Collectors.toList());
-            projectResponseDtos.add(ProjectResponseDto.of(project, images, users));
+        long recentOrdinal = projectAdaptor.getCurrentOrdinal();
+        if(ordinal > recentOrdinal - 5){
+            List<Project> projectListByOrdinal = projectAdaptor.findProject(ordinal, pageNo);
+            for(Project project : projectListByOrdinal) {
+                List<Image> images = projectImageAdaptor.findByProject(project);
+                List<User> users = projectMemberAdaptor.findByProject(project).stream()
+                        .map(projectMember -> projectMember.getUser())
+                        .map(user -> userAdaptor.findById(user.getId()))
+                        .collect(Collectors.toList());
+                projectResponseDtos.add(ProjectResponseDto.of(project, images, users));
+            }
+            return projectResponseDtos;
         }
-        return projectResponseDtos;
+        else {
+            List<Project> projects = projectAdaptor.findArchiveProject(ordinal);
+            for(Project project : projects) {
+                List<Image> images = projectImageAdaptor.findByProject(project);
+                List<User> users = projectMemberAdaptor.findByProject(project).stream()
+                        .map(projectMember -> projectMember.getUser())
+                        .map(user -> userAdaptor.findById(user.getId()))
+                        .collect(Collectors.toList());
+                projectResponseDtos.add(ProjectResponseDto.of(project, images, users));
+            }
+            return projectResponseDtos;
+        }
     }
 }
