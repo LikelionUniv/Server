@@ -6,7 +6,6 @@ import likelion.univ.domain.project.exception.CreateProjectBadRequestException;
 import likelion.univ.domain.project.exception.ProjectNotFoundException;
 import likelion.univ.domain.project.repository.ProjectRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;

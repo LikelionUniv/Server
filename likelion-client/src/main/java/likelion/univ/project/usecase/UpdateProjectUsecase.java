@@ -5,7 +5,7 @@ import likelion.univ.domain.project.adapter.ProjectAdaptor;
 import likelion.univ.domain.project.entity.Image;
 import likelion.univ.domain.project.entity.Project;
 import likelion.univ.domain.project.entity.enums.Output;
-import likelion.univ.domain.project.service.ImageService;
+import likelion.univ.domain.project.service.ProjectImageService;
 import likelion.univ.domain.project.service.ProjectMemberService;
 import likelion.univ.domain.project.service.ProjectService;
 import likelion.univ.domain.user.adaptor.UserAdaptor;
@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
 public class UpdateProjectUsecase {
 
     private final ProjectService projectService;
-    private final ImageService imageService;
+    private final ProjectImageService projectImageService;
     private final ProjectMemberService projectMemberService;
     private final ProjectAdaptor projectAdaptor;
     private final UserAdaptor userAdaptor;
@@ -55,7 +55,7 @@ public class UpdateProjectUsecase {
                 .collect(Collectors.toList());
 
         projectService.updateProject(projectId, thon, outPut, serviceName, ordinal, univ, startDate, endDate, tech, description, content, projectUrl);
-        imageService.updateImage(project, image);
+        projectImageService.updateImage(project, image);
         projectMemberService.updateProjectMember(project, members);
 
 //        List<Image> images = imageAdaptor.findByProject(project);

@@ -4,7 +4,7 @@ import likelion.univ.annotation.UseCase;
 import likelion.univ.domain.project.adapter.ProjectAdaptor;
 import likelion.univ.domain.project.entity.Image;
 import likelion.univ.domain.project.entity.Project;
-import likelion.univ.domain.project.service.ImageService;
+import likelion.univ.domain.project.service.ProjectImageService;
 import likelion.univ.domain.project.service.ProjectMemberService;
 import likelion.univ.domain.project.service.ProjectService;
 import likelion.univ.domain.user.adaptor.UserAdaptor;
@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 public class CreateProjectUsecase {
 
     private final ProjectService projectService;
-    private final ImageService imageService;
+    private final ProjectImageService projectImageService;
     private final ProjectMemberService projectMemberService;
     private final UserAdaptor userAdaptor;
     private final ProjectAdaptor projectAdaptor;
@@ -40,7 +40,7 @@ public class CreateProjectUsecase {
         );
         Long id = createdProject.getId();
         Project project = projectAdaptor.findById(id);
-        imageService.addImage(
+        projectImageService.addImage(
                 projectRequestDto.getImages().stream()
                         .map(imageRequestDto -> Image.builder()
                                 .name(imageRequestDto.getName())

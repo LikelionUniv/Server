@@ -1,7 +1,7 @@
 package likelion.univ.project.usecase;
 
 import likelion.univ.annotation.UseCase;
-import likelion.univ.domain.project.adapter.ImageAdaptor;
+import likelion.univ.domain.project.adapter.ProjectImageAdaptor;
 import likelion.univ.domain.project.adapter.ProjectAdaptor;
 import likelion.univ.domain.project.adapter.ProjectMemberAdaptor;
 import likelion.univ.domain.project.entity.Image;
@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 public class GetAllPorjectUsecase {
 
     private final ProjectAdaptor projectAdaptor;
-    private final ImageAdaptor imageAdaptor;
+    private final ProjectImageAdaptor projectImageAdaptor;
     private final ProjectMemberAdaptor projectMemberAdaptor;
     private final UserAdaptor userAdaptor;
 
@@ -28,7 +28,7 @@ public class GetAllPorjectUsecase {
         List<Project> projects = projectAdaptor.findAll(pageNo);
         List<ProjectResponseDto> projectResponseDtos = new ArrayList<>();
         for(Project project : projects) {
-            List<Image> images = imageAdaptor.findByProject(project);
+            List<Image> images = projectImageAdaptor.findByProject(project);
             List<User> users = projectMemberAdaptor.findByProject(project).stream()
                     .map(projectMember -> projectMember.getUser())
                     .map(user -> userAdaptor.findById(user.getId()))

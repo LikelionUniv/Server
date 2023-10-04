@@ -3,30 +3,30 @@ package likelion.univ.domain.project.adapter;
 import likelion.univ.annotation.Adaptor;
 import likelion.univ.domain.project.entity.Image;
 import likelion.univ.domain.project.entity.Project;
-import likelion.univ.domain.project.repository.ImageRepository;
+import likelion.univ.domain.project.repository.ProjectImageRepository;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 
 @Adaptor
 @RequiredArgsConstructor
-public class ImageAdaptor {
+public class ProjectImageAdaptor {
 
-    private final ImageRepository imageRepository;
+    private final ProjectImageRepository projectImageRepository;
 
     public List<Image> findByProject(Project project) {
-        return imageRepository.findByProject(project);
+        return projectImageRepository.findByProject(project);
     }
 
     public void saveAll(List<Image> images) {
-        imageRepository.saveAll(images);
+        projectImageRepository.saveAll(images);
     }
 
     public void deleteByProject(Project project) {
-        imageRepository.deleteByProject(project);
+        projectImageRepository.deleteByProject(project);
     }
 
     public void save(Image image){
-        imageRepository.save(image);
+        projectImageRepository.save(image);
     }
 }
