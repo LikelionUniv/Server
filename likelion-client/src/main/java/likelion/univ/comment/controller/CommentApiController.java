@@ -4,7 +4,6 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import likelion.univ.comment.dto.CommentRequestDto;
 import likelion.univ.comment.usecase.*;
-import likelion.univ.community.comment.usecase.*;
 import likelion.univ.domain.comment.dto.CommentServiceDto;
 import likelion.univ.response.SuccessResponse;
 import lombok.RequiredArgsConstructor;

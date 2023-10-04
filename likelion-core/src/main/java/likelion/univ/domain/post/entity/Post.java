@@ -15,9 +15,10 @@ import javax.persistence.*;
 @Builder
 @Getter
 @Setter
-@Table(name = "posts")
+@Table(name = "post")
 public class Post extends BaseTimeEntity {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "post_id")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -33,11 +34,9 @@ public class Post extends BaseTimeEntity {
     private String thumbnail;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "main_category")
     private MainCategory mainCategory;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "sub_category")
     private SubCategory subCategory;
 
 

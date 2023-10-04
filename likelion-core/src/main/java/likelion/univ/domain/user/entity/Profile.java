@@ -16,7 +16,7 @@ public class Profile {
 
     private String name;
     // 010-0000-0000 형태로
-    // private String phoneNumber;
+    private String phoneNumber;
     private String profileImage;
 
     @Column(columnDefinition = "TEXT")
@@ -25,10 +25,9 @@ public class Profile {
     @Enumerated(EnumType.STRING)
     private Part part;
 
-    public static Profile profileForSignUp(String name, String profileImage){
+    public static Profile fromName(String name){
         return Profile.builder()
                 .name(name)
-                .profileImage(profileImage)
                 .build();
     }
 }

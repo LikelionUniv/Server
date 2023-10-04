@@ -3,11 +3,6 @@ plugins {
 }
 
 dependencies {
-    //api 'org.springframework.boot:spring-boot-starter-data-jpa'
-    /*
-        api는 다른 모듈에서 이 라이브러리를 사용할때(직접적으로) 적용
-        두번 컴파일 되므로 없는게 의존성 낮추는 가장 좋은 방법
-     */
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation group: 'com.mysql', name: 'mysql-connector-j'
     // Querydsl
