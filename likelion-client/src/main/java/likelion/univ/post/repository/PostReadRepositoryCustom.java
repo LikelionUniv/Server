@@ -7,7 +7,9 @@ import java.util.List;
 
 public interface PostReadRepositoryCustom {
 
-    List<PostDetailResponseDto> findPostsByAuthor(Long authorId, Pageable pageable);
+    List<PostDetailResponseDto> findAuthorPosts(Long authorId, Pageable pageable);
 
-    List<PostDetailResponseDto> findPostsByCommentAuthor(Long authorId, Pageable pageable);
+    List<PostDetailResponseDto> findCommentedPosts(Long authorId, Pageable pageable);
+
+    List<PostDetailResponseDto> findLikedPosts(Pageable pageable);
 }

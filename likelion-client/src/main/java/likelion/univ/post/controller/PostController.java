@@ -28,17 +28,24 @@ public class PostController {
     private final PostReadRepository postReadRepository;
 
     /* read */
-    @GetMapping("/all/author/{userId}")
-    public SuccessResponse<?> findPostsByAuthor(@PathVariable Long userId, @RequestParam Integer page, @RequestParam Integer size) {
+    @GetMapping("/author/{userId}")
+    public SuccessResponse<?> findAuthorPosts(@PathVariable Long userId, @RequestParam Integer page, @RequestParam Integer size) {
         PageRequest pageRequest = PageRequest.of(page, size);
-        List<PostDetailResponseDto> response = postReadRepository.findPostsByAuthor(userId, pageRequest);
+        List<PostDetailResponseDto> response = postReadRepository.findAuthorPosts(userId, pageRequest);
         return SuccessResponse.of(response);
     }
 
-    @GetMapping("/all/commentAuthor/{authorId}")
-    public SuccessResponse<?> findPostsByCommentAuthor(@PathVariable Long authorId, @RequestParam Integer page, @RequestParam Integer size) {
+    @GetMapping("/commentAuthor/{authorId}")
+    public SuccessResponse<?> findCommentedPosts(@PathVariable Long authorId, @RequestParam Integer page, @RequestParam Integer size) {
         PageRequest pageRequest = PageRequest.of(page, size);
-        List<PostDetailResponseDto> response = postReadRepository.findPostsByCommentAuthor(authorId, pageRequest);
+        List<PostDetailResponseDto> response = postReadRepository.findCommentedPosts(authorId, pageRequest);
+        return SuccessResponse.of(response);
+    }
+
+    @GetMapping("/likeduser/{userId}")
+    public SuccessResponse<?> findLikedPosts(@PathVariable Long userId, @RequestParam Integer page, @RequestParam Integer size) {
+        PageRequest pageRequest = PageRequest.of(page, size);
+        List<PostDetailResponseDto> response = postReadRepository.findLikedPosts(pageRequest);
         return SuccessResponse.of(response);
     }
 
