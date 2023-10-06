@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Objects;
 
@@ -59,7 +60,7 @@ public class ProjectController {
     //--------- 프로젝트 등록 ------------//
     @PostMapping("/")
     @Operation(summary = "프로젝트 등록", description = "새로운 프로젝트를 등록했습니다.")
-    public SuccessResponse<ProjectIdResponseDto> createProject(@RequestBody ProjectRequestDto projectRequestDto){
+    public SuccessResponse<ProjectIdResponseDto> createProject(@Valid @RequestBody ProjectRequestDto projectRequestDto){
         ProjectIdResponseDto projectIdResponseDto = createProjectUsecase.excute(projectRequestDto);
         return SuccessResponse.of(projectIdResponseDto);
     }
@@ -67,7 +68,7 @@ public class ProjectController {
     //-----------프로젝트 수정 --------//
     @PatchMapping("/{projectId}/edit")
     @Operation(summary = "프로젝트 수정", description = "프로젝트의 내용을 수정하였습니다.")
-    public SuccessResponse<ProjectIdResponseDto> updateProject(@PathVariable("projectId") Long projectId, @RequestBody ProjectRequestDto projectRequestDto) {
+    public SuccessResponse<ProjectIdResponseDto> updateProject(@PathVariable("projectId") Long projectId, @Valid @RequestBody ProjectRequestDto projectRequestDto) {
         ProjectIdResponseDto projectIdResponseDto = updateProjectUsecase.excute(projectId, projectRequestDto);
         return SuccessResponse.of(projectIdResponseDto);
     }

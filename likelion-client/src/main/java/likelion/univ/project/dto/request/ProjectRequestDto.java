@@ -4,10 +4,10 @@ import likelion.univ.domain.project.entity.Image;
 import likelion.univ.domain.project.entity.Project;
 import likelion.univ.domain.project.entity.ProjectMember;
 import likelion.univ.domain.project.entity.enums.Output;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -16,17 +16,34 @@ import java.util.stream.Collectors;
  * thumnail 제외
  */
 
-@Getter
+//@Getter
 @NoArgsConstructor
+@AllArgsConstructor
+@Data
 public class ProjectRequestDto {
+    @NotBlank
     private String thon;
+
+    @NotBlank
     private Output outPut;
+
+    @NotBlank
     private String serviceName;
+
+    @NotBlank
     private long ordinal;
+
     private String univ;
+
+    @NotBlank
     private LocalDate startDate;
+
+    @NotBlank
     private LocalDate endDate;
+
+    @NotNull
     private String tech;
+
     private String description;
     private String content;
     private String projectUrl;
