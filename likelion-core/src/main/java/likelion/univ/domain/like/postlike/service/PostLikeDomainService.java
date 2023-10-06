@@ -43,7 +43,7 @@ public class PostLikeDomainService {
     }
 
     private boolean isAuthorized(PostLike findPostLike, Long loginUserId) {
-        Long authorId = findPostLike.getUser().getId();
+        Long authorId = findPostLike.getAuthor().getId();
         return loginUserId.equals(authorId);
     }
 

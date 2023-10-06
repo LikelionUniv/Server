@@ -3,7 +3,8 @@ package likelion.univ.post.controller;
 
 import likelion.univ.domain.post.dto.response.PostDetailResponseDto;
 import likelion.univ.domain.post.dto.response.PostCommandResponseDto;
-import likelion.univ.domain.post.entity.Post;
+import likelion.univ.domain.post.entity.enums.MainCategory;
+import likelion.univ.domain.post.entity.enums.SubCategory;
 import likelion.univ.post.dto.PostCreateRequestDto;
 import likelion.univ.post.dto.PostUpdateRequestDto;
 import likelion.univ.post.repository.PostReadRepository;
@@ -28,6 +29,12 @@ public class PostController {
     private final PostReadRepository postReadRepository;
 
     /* read */
+    @GetMapping("")
+    public SuccessResponse<?> findCategorizedPosts(@RequestParam MainCategory mainCategory, @RequestParam SubCategory subCategory, @RequestParam Integer page, @RequestParam Integer size) {
+        PageRequest pageRequest = PageRequest.of(page, size);
+        List<PostDetailResponseDto> response = postReadRepository.findAll(mainCategory, subCategory, pageRequest);
+        return SuccessResponse.of(response);
+    }
     @GetMapping("/author/{userId}")
     public SuccessResponse<?> findAuthorPosts(@PathVariable Long userId, @RequestParam Integer page, @RequestParam Integer size) {
         PageRequest pageRequest = PageRequest.of(page, size);
@@ -67,19 +74,4 @@ public class PostController {
         return SuccessResponse.empty();
     }
 
-    /* 내부 메서드 */
-    private static List<PostDetailResponseDto> getPostDetailResponseDtos(List<Post> posts) {
-        return posts.stream()
-                .map(post -> PostDetailResponseDto.builder()
-                        .id(post.getId())
-                        .authorId(post.getAuthor().getId())
-                        .authorName(post.getAuthor().getProfile().getName())
-                        .title(post.getTitle())
-                        .body(post.getBody())
-                        .thumbnail(post.getThumbnail())
-                        .mainCategory(post.getMainCategory())
-                        .subCategory(post.getSubCategory())
-                        .build())
-                .toList();
-    }
 }

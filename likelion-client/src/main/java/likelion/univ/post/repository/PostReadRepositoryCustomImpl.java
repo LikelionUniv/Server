@@ -3,6 +3,8 @@ package likelion.univ.post.repository;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import likelion.univ.domain.post.dto.response.PostDetailResponseDto;
 import likelion.univ.domain.post.dto.response.QPostDetailResponseDto;
+import likelion.univ.domain.post.entity.enums.MainCategory;
+import likelion.univ.domain.post.entity.enums.SubCategory;
 import likelion.univ.utils.AuthentiatedUserUtils;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
@@ -25,18 +27,34 @@ public class PostReadRepositoryCustomImpl implements PostReadRepositoryCustom {
     private final AuthentiatedUserUtils userUtils;
 
     @Override
+    public List<PostDetailResponseDto> findAll(MainCategory mainCategory, SubCategory subCategory, Pageable pageable) {
+        return queryFactory
+                .select(postDetailResponseDto())
+                .from(post)
+                .join(post.author, user)
+                .where(
+                        post.mainCategory.eq(mainCategory),
+                        post.subCategory.eq(subCategory)
+                )
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .orderBy(post.createdDate.desc())
+                .fetch();
+    }
+
+    @Override
     public List<PostDetailResponseDto> findAuthorPosts(Long userId, Pageable pageable) {
 
         return queryFactory
                 .select(postDetailResponseDto())
                 .from(post)
-                .innerJoin(post.author, user)
-                .orderBy(post.createdDate.desc())
+                .join(post.author, user)
                 .where(
                         post.author.id.eq(userId)
                 )
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
+                .orderBy(post.createdDate.desc())
                 .fetch();
     }
 
@@ -56,12 +74,12 @@ public class PostReadRepositoryCustomImpl implements PostReadRepositoryCustom {
                 .select(postDetailResponseDto())
                 .from(post)
                 .innerJoin(post.author, user)
-                .orderBy(post.createdDate.desc())
                 .where(
                         post.id.in(postIds)
                 )
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
+                .orderBy(post.createdDate.desc())
                 .fetch();
     }
 
@@ -82,12 +100,12 @@ public class PostReadRepositoryCustomImpl implements PostReadRepositoryCustom {
                 .select(postDetailResponseDto())
                 .from(post)
                 .innerJoin(post.author, user)
-                .orderBy(post.createdDate.desc())
                 .where(
                         post.id.in(postIds)
                 )
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
+                .orderBy(post.createdDate.desc())
                 .fetch();
     }
 
