@@ -5,12 +5,17 @@ import likelion.univ.domain.post.dto.*;
 import likelion.univ.domain.post.entity.Post;
 import likelion.univ.domain.post.exception.PostNoAuthorizationException;
 import likelion.univ.domain.user.adaptor.UserAdaptor;
+import likelion.univ.domain.user.entity.User;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class PostDomainService {
 
@@ -24,22 +29,6 @@ public class PostDomainService {
         return PostCommandResponseDto.builder()
                 .postId(savedId)
                 .build();
-    }
-
-    public List<PostDetailResponseDto> findPosts(Integer page, Integer limit) {
-        List<Post> posts= postAdaptor.findPosts(page,limit);
-        return posts.stream()
-                .map(post -> PostDetailResponseDto.builder()
-                        .id(post.getId())
-                        .authorId(post.getAuthor().getId())
-                        .authorName(post.getAuthor().getProfile().getName())
-                        .title(post.getTitle())
-                        .body(post.getBody())
-                        .thumbnail(post.getThumbnail())
-                        .mainCategory(post.getMainCategory())
-                        .subCategory(post.getSubCategory())
-                        .build())
-                .toList();
     }
 
     public PostCommandResponseDto editPost(PostUpdateServiceDto request) {
@@ -59,7 +48,6 @@ public class PostDomainService {
             throw new PostNoAuthorizationException();
         }
         postAdaptor.delete(post);
-        return;
     }
 
     private Post createEntity(PostCreateServiceDto request) {
@@ -73,7 +61,5 @@ public class PostDomainService {
 //                .subCategory(SubCategory.valueOf(request.getSubCategory()))
                 .build();
     }
-
-
 
 }
