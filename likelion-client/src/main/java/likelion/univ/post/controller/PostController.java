@@ -1,11 +1,10 @@
 package likelion.univ.post.controller;
 
 
-import likelion.univ.domain.post.dto.PostDetailResponseDto;
-import likelion.univ.domain.post.dto.PostCommandResponseDto;
+import likelion.univ.domain.post.dto.response.PostDetailResponseDto;
+import likelion.univ.domain.post.dto.response.PostCommandResponseDto;
 import likelion.univ.domain.post.entity.Post;
 import likelion.univ.post.dto.PostCreateRequestDto;
-import likelion.univ.post.dto.PostFindRequestDto;
 import likelion.univ.post.dto.PostUpdateRequestDto;
 import likelion.univ.post.repository.PostReadRepository;
 import likelion.univ.post.usecase.*;
@@ -29,10 +28,17 @@ public class PostController {
     private final PostReadRepository postReadRepository;
 
     /* read */
-    @GetMapping("/all/author/{authorId}")
-    public SuccessResponse<?> findPostsByAuthor(@PathVariable Long authorId, @RequestParam Integer page, @RequestParam Integer size) {
-        PageRequest pageable = PageRequest.of(page, size);
-        List<PostDetailResponseDto> response = postReadRepository.findPostsByAuthor(authorId, pageable);
+    @GetMapping("/all/author/{userId}")
+    public SuccessResponse<?> findPostsByAuthor(@PathVariable Long userId, @RequestParam Integer page, @RequestParam Integer size) {
+        PageRequest pageRequest = PageRequest.of(page, size);
+        List<PostDetailResponseDto> response = postReadRepository.findPostsByAuthor(userId, pageRequest);
+        return SuccessResponse.of(response);
+    }
+
+    @GetMapping("/all/commentAuthor/{authorId}")
+    public SuccessResponse<?> findPostsByCommentAuthor(@PathVariable Long authorId, @RequestParam Integer page, @RequestParam Integer size) {
+        PageRequest pageRequest = PageRequest.of(page, size);
+        List<PostDetailResponseDto> response = postReadRepository.findPostsByCommentAuthor(authorId, pageRequest);
         return SuccessResponse.of(response);
     }
 
@@ -55,13 +61,6 @@ public class PostController {
     }
 
     /* 내부 메서드 */
-    private static PostFindRequestDto getPostFindRequestDto(Integer page, Integer size) {
-        PostFindRequestDto request = PostFindRequestDto.builder()
-                .page(page)
-                .size(size)
-                .build();
-        return request;
-    }
     private static List<PostDetailResponseDto> getPostDetailResponseDtos(List<Post> posts) {
         return posts.stream()
                 .map(post -> PostDetailResponseDto.builder()

@@ -1,8 +1,8 @@
 package likelion.univ.post.usecase;
 
 import likelion.univ.annotation.UseCase;
-import likelion.univ.domain.post.dto.PostCommandResponseDto;
-import likelion.univ.domain.post.dto.PostUpdateServiceDto;
+import likelion.univ.domain.post.dto.response.PostCommandResponseDto;
+import likelion.univ.domain.post.dto.request.PostUpdateServiceDto;
 import likelion.univ.domain.post.service.PostDomainService;
 import likelion.univ.post.dto.PostUpdateRequestDto;
 import likelion.univ.utils.AuthentiatedUserUtils;

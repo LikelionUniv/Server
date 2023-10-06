@@ -1,4 +1,4 @@
-package likelion.univ.domain.post.dto;
+package likelion.univ.domain.post.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -7,7 +7,6 @@ import lombok.Data;
 @Data
 @Builder
 @AllArgsConstructor
-public class PostDeleteServiceDto {
+public class PostCommandResponseDto {
     private Long postId;
-    private Long loginUserId;
 }

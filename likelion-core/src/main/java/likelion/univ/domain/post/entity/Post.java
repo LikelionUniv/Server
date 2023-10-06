@@ -1,7 +1,7 @@
 package likelion.univ.domain.post.entity;
 
 import likelion.univ.common.entity.BaseTimeEntity;
-import likelion.univ.domain.post.dto.PostUpdateServiceDto;
+import likelion.univ.domain.post.dto.request.PostUpdateServiceDto;
 import likelion.univ.domain.post.entity.enums.MainCategory;
 import likelion.univ.domain.post.entity.enums.SubCategory;
 import likelion.univ.domain.user.entity.User;

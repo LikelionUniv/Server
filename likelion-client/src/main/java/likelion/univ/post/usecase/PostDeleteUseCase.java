@@ -1,7 +1,7 @@
 package likelion.univ.post.usecase;
 
 import likelion.univ.annotation.UseCase;
-import likelion.univ.domain.post.dto.PostDeleteServiceDto;
+import likelion.univ.domain.post.dto.request.PostDeleteServiceDto;
 import likelion.univ.domain.post.service.PostDomainService;
 import likelion.univ.utils.AuthentiatedUserUtils;
 import lombok.RequiredArgsConstructor;

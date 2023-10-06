@@ -1,9 +1,8 @@
-package likelion.univ.domain.post.dto;
+package likelion.univ.domain.post.dto.response;
 
 import com.querydsl.core.annotations.QueryProjection;
 import likelion.univ.domain.post.entity.enums.MainCategory;
 import likelion.univ.domain.post.entity.enums.SubCategory;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 

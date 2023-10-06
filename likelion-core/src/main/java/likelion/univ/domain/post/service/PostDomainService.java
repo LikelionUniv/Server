@@ -1,18 +1,16 @@
 package likelion.univ.domain.post.service;
 
 import likelion.univ.domain.post.adaptor.PostAdaptor;
-import likelion.univ.domain.post.dto.*;
+import likelion.univ.domain.post.dto.request.PostCreateServiceDto;
+import likelion.univ.domain.post.dto.request.PostDeleteServiceDto;
+import likelion.univ.domain.post.dto.request.PostUpdateServiceDto;
+import likelion.univ.domain.post.dto.response.PostCommandResponseDto;
 import likelion.univ.domain.post.entity.Post;
 import likelion.univ.domain.post.exception.PostNoAuthorizationException;
 import likelion.univ.domain.user.adaptor.UserAdaptor;
-import likelion.univ.domain.user.entity.User;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 @Service
 @Transactional

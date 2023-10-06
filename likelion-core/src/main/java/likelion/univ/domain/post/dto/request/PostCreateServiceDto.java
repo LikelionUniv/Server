@@ -1,4 +1,4 @@
-package likelion.univ.domain.post.dto;
+package likelion.univ.domain.post.dto.request;
 
 import likelion.univ.domain.user.entity.User;
 import lombok.AllArgsConstructor;
