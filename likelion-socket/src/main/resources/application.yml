@@ -6,7 +6,6 @@ spring:
       - core
       - infrastructure
 
-
 --- ## dev 환경 설정
 spring:
   config:
@@ -24,3 +23,4 @@ spring:
   config:
     activate:
       on-profile: prod
+
