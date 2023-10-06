@@ -33,11 +33,9 @@ public class Post extends BaseTimeEntity {
     private String thumbnail;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "main_category")
     private MainCategory mainCategory;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "sub_category")
     private SubCategory subCategory;
 
 

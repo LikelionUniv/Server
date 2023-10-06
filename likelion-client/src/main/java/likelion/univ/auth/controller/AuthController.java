@@ -49,7 +49,6 @@ public class AuthController {
             @RequestParam("idtoken") String idToken,
             @PathVariable("logintype") String loginType,
             @RequestBody SignUpRequestDto signUpRequestDto){
-
         AccountTokenDto accountTokenDto = signUpUseCase.execute(loginType,idToken,signUpRequestDto);
         return SuccessResponse.of(accountTokenDto);
     }

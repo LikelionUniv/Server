@@ -9,21 +9,29 @@ import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.info.License;
 import io.swagger.v3.oas.models.security.SecurityRequirement;
 import io.swagger.v3.oas.models.security.SecurityScheme;
+import io.swagger.v3.oas.models.servers.Server;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpHeaders;
+
+import javax.servlet.ServletContext;
+import java.util.List;
 
 
 @Configuration
 public class SwaggerConfig {
     @Bean
-    public OpenAPI openAPI() {
+    public OpenAPI openAPI(ServletContext servletContext) {
+        String contextPath = servletContext.getContextPath();
+        Server server = new Server().url(contextPath);
         return new OpenAPI()
-                // Security 인증 컴포넌트 설정
-                .components(new Components().addSecuritySchemes("Authorization(accessToken)", securityScheme()))
+                .servers(List.of(server))
+                .info(info())
                 // 인증 전역설정
                 .addSecurityItem(securityItem())
-                .info(info());
+                // Security 인증 컴포넌트 설정
+                .components(new Components()
+                        .addSecuritySchemes("Authorization(accessToken)", securityScheme()));
     }
     @Bean
     public ModelResolver modelResolver(ObjectMapper objectMapper) {
@@ -58,7 +66,7 @@ public class SwaggerConfig {
     // Security 요청 설정
     private SecurityRequirement securityItem(){
         SecurityRequirement securityItem = new SecurityRequirement();
-        securityItem.addList("Authorization");
+        securityItem.addList("Authorization(accessToken)");
         return securityItem;
     }
 }
