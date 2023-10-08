@@ -20,7 +20,7 @@ public class CommentLikeController {
     private final SwitchCommentLikeUseCase switchCommentLikeUseCase;
 
     @Operation(summary = "댓글 좋아요 수행", description = "댓글 좋아요를 생성합니다.")
-    @PostMapping("/new")
+    @PostMapping("")
     public SuccessResponse<?> createCommentLike(@RequestBody CommentLikeCreateRequestDto request) {
         return createCommentLikeUseCase.execute(request);
     }
