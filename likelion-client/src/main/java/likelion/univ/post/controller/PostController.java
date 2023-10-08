@@ -42,15 +42,15 @@ public class PostController {
         return SuccessResponse.of(response);
     }
 
-    @GetMapping("/commentAuthor/{authorId}")
-    public SuccessResponse<?> findCommentedPosts(@PathVariable Long authorId, @RequestParam Integer page, @RequestParam Integer size) {
+    @GetMapping("/commented")
+    public SuccessResponse<?> findCommentedPosts(@RequestParam Integer page, @RequestParam Integer size) {
         PageRequest pageRequest = PageRequest.of(page, size);
-        List<PostDetailResponseDto> response = postReadRepository.findCommentedPosts(authorId, pageRequest);
+        List<PostDetailResponseDto> response = postReadRepository.findCommentedPosts(pageRequest);
         return SuccessResponse.of(response);
     }
 
-    @GetMapping("/likeduser/{userId}")
-    public SuccessResponse<?> findLikedPosts(@PathVariable Long userId, @RequestParam Integer page, @RequestParam Integer size) {
+    @GetMapping("/liked")
+    public SuccessResponse<?> findLikedPosts(@RequestParam Integer page, @RequestParam Integer size) {
         PageRequest pageRequest = PageRequest.of(page, size);
         List<PostDetailResponseDto> response = postReadRepository.findLikedPosts(pageRequest);
         return SuccessResponse.of(response);

@@ -13,7 +13,7 @@ public interface PostReadRepositoryCustom {
 
     List<PostDetailResponseDto> findAuthorPosts(Long authorId, Pageable pageable);
 
-    List<PostDetailResponseDto> findCommentedPosts(Long authorId, Pageable pageable);
+    List<PostDetailResponseDto> findCommentedPosts(Pageable pageable);
 
     List<PostDetailResponseDto> findLikedPosts(Pageable pageable);
 }

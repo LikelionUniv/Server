@@ -60,14 +60,16 @@ public class PostReadRepositoryCustomImpl implements PostReadRepositoryCustom {
 
 
     @Override
-    public List<PostDetailResponseDto> findCommentedPosts(Long userId, Pageable pageable) {
+    public List<PostDetailResponseDto> findCommentedPosts(Pageable pageable) {
+        Long loginUserId = userUtils.getCurrentUserId();
+
         List<Long> postIds = queryFactory
                 .select(comment.post.id)
                 .from(comment)
-                .join(comment.post, post).fetchJoin()
-                .join(comment.author, user).fetchJoin()
+                .join(comment.post, post)
                 .where(
-                        comment.author.id.eq(userId)
+                        comment.author.id.eq(loginUserId),
+                        comment.isDeleted.isFalse()
                 )
                 .fetch();
         return queryFactory
@@ -90,8 +92,7 @@ public class PostReadRepositoryCustomImpl implements PostReadRepositoryCustom {
         List<Long> postIds = queryFactory
                 .select(postLike.post.id)
                 .from(postLike)
-                .join(postLike.post, post).fetchJoin()
-                .join(postLike.author, user).fetchJoin()
+                .join(postLike.post, post)
                 .where(
                         postLike.author.id.eq(loginUserId)
                 )
