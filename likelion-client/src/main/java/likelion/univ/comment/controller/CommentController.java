@@ -59,8 +59,8 @@ public class CommentController {
     }
 
     @Operation(summary = "댓글 조회", description = "게시글에 대한 댓글을 전부 조회합니다.")
-    @GetMapping("")
-    public SuccessResponse<?> getComments(@RequestBody CommentFindRequestDto request) {
-        return getAllCommentUseCase.execute(request);
+    @GetMapping("/post/{postId}")
+    public SuccessResponse<?> getComments(@PathVariable Long postId) {
+        return getAllCommentUseCase.execute(postId);
     }
 }
