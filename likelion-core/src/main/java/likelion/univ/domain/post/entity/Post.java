@@ -1,7 +1,7 @@
 package likelion.univ.domain.post.entity;
 
 import likelion.univ.common.entity.BaseTimeEntity;
-import likelion.univ.domain.post.dto.PostServiceDTO;
+import likelion.univ.domain.post.dto.request.PostUpdateServiceDto;
 import likelion.univ.domain.post.entity.enums.MainCategory;
 import likelion.univ.domain.post.entity.enums.SubCategory;
 import likelion.univ.domain.user.entity.User;
@@ -9,15 +9,14 @@ import lombok.*;
 
 import javax.persistence.*;
 
-@Entity
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
-@Builder
 @Getter
-@Setter
-@Table(name = "post")
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Builder
+@AllArgsConstructor
+@Entity
 public class Post extends BaseTimeEntity {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "post_id")
     private Long id;
 
@@ -25,10 +24,10 @@ public class Post extends BaseTimeEntity {
     @JoinColumn(name = "user_id", nullable = false)
     private User author;
 
-    @Column(length = 500)
+    @Column(length = 100)
     private String title;
 
-    @Column(columnDefinition = "TEXT")
+    @Column(columnDefinition="TEXT")
     private String body;
 
     private String thumbnail;
@@ -40,13 +39,13 @@ public class Post extends BaseTimeEntity {
     private SubCategory subCategory;
 
 
-    public void edit(PostServiceDTO.EditRequest request){
-        if(request.getTitle() != null)
+    public void edit(PostUpdateServiceDto request) {
+        if (request.getTitle() != null)
             this.title = request.getTitle();
-        if(request.getBody() != null)
+        if (request.getBody() != null)
             this.body = request.getBody();
-        if(request.getThumbnail() == null)
-            this.thumbnail = null ;
+        if (request.getThumbnail() == null)
+            this.thumbnail = null;
         else if (!request.getThumbnail().equals(this.getThumbnail()))
             this.thumbnail = request.getThumbnail();
     }

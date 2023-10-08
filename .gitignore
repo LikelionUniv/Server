@@ -40,3 +40,6 @@ out/
 ### env file ###
 .env.dev
 .env.*
+
+### .DS_Store ignore ###
+.DS_Store
