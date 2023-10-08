@@ -44,7 +44,7 @@ public class Comment extends BaseTimeEntity {
             cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, orphanRemoval = true) // 안정성 체크해봐야됨
     private List<Comment> childComments = new ArrayList<>();
 
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "TEXT")
     private String body;
 
     @Column(nullable = false)
