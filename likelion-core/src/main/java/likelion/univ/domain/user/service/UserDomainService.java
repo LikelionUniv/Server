@@ -52,13 +52,8 @@ public class UserDomainService {
         userAdaptor.delete(user);
     }
 
-    public List<User> findAllUser(int pageNum){
-        Page<User> pageUsers = userAdaptor.findAllUser(pageNum);
-        List<User> pageToListUsers = new ArrayList<User>();
-
-        if(pageUsers!=null && pageUsers.hasContent()){
-            return pageToListUsers = pageUsers.getContent();
-        }else throw new NoDataFound();
+    public Page<User> findAllUser(int pageNum){
+         return userAdaptor.findAllUser(pageNum);
     }
 
     public List<User> findDynamicUsers(UserSearchCondition condition) {
