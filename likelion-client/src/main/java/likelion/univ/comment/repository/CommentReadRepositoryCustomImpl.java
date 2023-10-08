@@ -26,8 +26,7 @@ public class CommentReadRepositoryCustomImpl implements CommentReadRepositoryCus
                         .select(commentDetailResponseDto())
                         .from(comment)
                         .join(comment.author, user)
-                        .leftJoin(comment.parentComment, comment)
-                        .leftJoin(comment.commentLikes, commentLike)
+//                        .leftJoin(comment.commentLikes, commentLike)
                         .where(comment.post.id.eq(postId))
                         .orderBy(comment.createdDate.asc())
                         .fetch();
