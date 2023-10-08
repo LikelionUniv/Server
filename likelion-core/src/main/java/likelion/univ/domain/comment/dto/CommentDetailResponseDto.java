@@ -1,5 +1,6 @@
 package likelion.univ.domain.comment.dto;
 
+import com.querydsl.core.annotations.QueryProjection;
 import likelion.univ.domain.comment.entity.Comment;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -7,15 +8,25 @@ import lombok.Data;
 
 @Data
 @Builder
-@AllArgsConstructor
 public class CommentDetailResponseDto {
     private Long commentId;
     private Long userId;
     private String username;
     private Long parentId;
     private String body;
-    private Long likeCount;
+    private Integer likeCount;
     private Boolean isDeleted;
+
+    @QueryProjection
+    public CommentDetailResponseDto(Long commentId, Long userId, String username, Long parentId, String body, Integer likeCount, Boolean isDeleted) {
+        this.commentId = commentId;
+        this.userId = userId;
+        this.username = username;
+        this.parentId = parentId;
+        this.body = body;
+        this.likeCount = likeCount;
+        this.isDeleted = isDeleted;
+    }
 
     public static CommentDetailResponseDto of(Comment comment) {
         return CommentDetailResponseDto.builder()
@@ -28,9 +39,9 @@ public class CommentDetailResponseDto {
                 .isDeleted(comment.getIsDeleted())
                 .build();
     }
-    private static long getLikeCount(Comment comment) {
-        return comment.getCommentLikes().stream()
+    private static Integer getLikeCount(Comment comment) {
+        return Math.toIntExact(comment.getCommentLikes().stream()
                 .filter(l -> l.getIsCanceled().equals(false))
-                .count();
+                .count());
     }
 }

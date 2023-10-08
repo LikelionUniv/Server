@@ -36,10 +36,11 @@ public class PostLikeDomainService {
         Long loginUserId = request.getLoginUserId();
         PostLike findPostLike = postLikeAdaptor.findById(postLikeId);
 
-        if (isAuthorized(findPostLike, loginUserId)) {
-            postLikeAdaptor.delete(findPostLike);
+        if (!isAuthorized(findPostLike, loginUserId)) {
+            throw new NotAuthorizedException();
         }
-        throw new NotAuthorizedException();
+        postLikeAdaptor.delete(findPostLike);
+
     }
 
     private boolean isAuthorized(PostLike findPostLike, Long loginUserId) {

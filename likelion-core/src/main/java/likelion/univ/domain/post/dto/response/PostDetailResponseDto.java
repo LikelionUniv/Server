@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @Data
 @Builder
 public class PostDetailResponseDto {
-    private Long id;
+    private Long postId;
 
     private Long authorId; // 각 유저별 작성글 조회 기능 구현 목적
 
@@ -32,8 +32,8 @@ public class PostDetailResponseDto {
     private LocalDateTime modifiedDate;
 
     @QueryProjection
-    public PostDetailResponseDto(Long id, Long authorId, String authorName, String title, String body, String thumbnail, MainCategory mainCategory, SubCategory subCategory, LocalDateTime createdDate, LocalDateTime modifiedDate) {
-        this.id = id;
+    public PostDetailResponseDto(Long postId, Long authorId, String authorName, String title, String body, String thumbnail, MainCategory mainCategory, SubCategory subCategory, LocalDateTime createdDate, LocalDateTime modifiedDate) {
+        this.postId = postId;
         this.authorId = authorId;
         this.authorName = authorName;
         this.title = title;

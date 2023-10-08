@@ -14,9 +14,8 @@ import lombok.RequiredArgsConstructor;
 public class CreateCommentLikeUseCase {
     private final AuthentiatedUserUtils userUtils;
     private final CommentLikeDomainService commentLikeDomainService;
-    public SuccessResponse<?> execute(CommentLikeCreateRequestDto request) {
-        CommentLikeResponseDto response = commentLikeDomainService.createLikeComment(serviceDtoBy(request));
-        return SuccessResponse.of(response);
+    public CommentLikeResponseDto execute(CommentLikeCreateRequestDto request) {
+        return commentLikeDomainService.createLikeComment(serviceDtoBy(request));
     }
 
     private CommentLikeCreateServiceDto serviceDtoBy(CommentLikeCreateRequestDto request) {
