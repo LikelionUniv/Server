@@ -27,7 +27,7 @@ public class CommentLikeController {
         return SuccessResponse.of(response);
     }
 
-    @Operation(summary = "댓글 좋아요 수정", description = "이미 좋아요한 댓글을 취소하거나, 취소한 댓글을 다시 좋아요 합니다.")
+    @Operation(summary = "댓글 좋아요 수정", description = "좋아요 상태를 bool 필드를 이용해 on/off 전환합니다. (soft switch)")
     @PatchMapping("/switch/{commentLikeId}")
     public SuccessResponse<?> switchCommentLike(@PathVariable Long commentLikeId) {
         return switchCommentLikeUseCase.execute(commentLikeId);

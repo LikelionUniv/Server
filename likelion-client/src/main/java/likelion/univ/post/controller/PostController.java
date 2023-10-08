@@ -1,6 +1,7 @@
 package likelion.univ.post.controller;
 
 
+import io.swagger.v3.oas.annotations.Operation;
 import likelion.univ.domain.post.dto.response.PostDetailResponseDto;
 import likelion.univ.domain.post.dto.response.PostCommandResponseDto;
 import likelion.univ.domain.post.entity.enums.MainCategory;
@@ -29,12 +30,14 @@ public class PostController {
     private final PostReadRepository postReadRepository;
 
     /* read */
+    @Operation(summary = "(커뮤니티) 카테고리별 posts 최신순 조회", description = "카테고리가 일치하는 게시글 최신순으로 조회")
     @GetMapping("")
     public SuccessResponse<?> findCategorizedPosts(@RequestParam MainCategory mainCategory, @RequestParam SubCategory subCategory, @RequestParam Integer page, @RequestParam Integer size) {
         PageRequest pageRequest = PageRequest.of(page, size);
         List<PostDetailResponseDto> response = postReadRepository.findAll(mainCategory, subCategory, pageRequest);
         return SuccessResponse.of(response);
     }
+    @Operation(summary = "(마이페이지) 유저별 posts 최신순 조회", description = "유저Id를 param으로 넣어서, 유저별로 작성한 게시글을 최신순으로 조회")
     @GetMapping("/author/{userId}")
     public SuccessResponse<?> findAuthorPosts(@PathVariable Long userId, @RequestParam Integer page, @RequestParam Integer size) {
         PageRequest pageRequest = PageRequest.of(page, size);
@@ -42,6 +45,7 @@ public class PostController {
         return SuccessResponse.of(response);
     }
 
+    @Operation(summary = "(마이페이지) 유저가 댓글을 단 posts 최신순 조회", description = "(로그인된 유저 기준 only) 댓글 단 posts 최신순 조회")
     @GetMapping("/commented")
     public SuccessResponse<?> findCommentedPosts(@RequestParam Integer page, @RequestParam Integer size) {
         PageRequest pageRequest = PageRequest.of(page, size);
@@ -49,6 +53,7 @@ public class PostController {
         return SuccessResponse.of(response);
     }
 
+    @Operation(summary = "(마이페이지) 유저가 좋아요한 posts 최신순 조회", description = "(로그인된 유저 기준 only) 좋아요를 누른 posts 최신순 조회")
     @GetMapping("/liked")
     public SuccessResponse<?> findLikedPosts(@RequestParam Integer page, @RequestParam Integer size) {
         PageRequest pageRequest = PageRequest.of(page, size);
@@ -57,17 +62,20 @@ public class PostController {
     }
 
     /* command */
+    @Operation(summary = "게시글을 생성", description = "(작업중 - 카테고리 반영 필요)")
     @PostMapping("/new")
     public SuccessResponse<?> createPost(@RequestBody @Valid PostCreateRequestDto request/*, BindingResult bindingResult*/) {
         PostCommandResponseDto response = postCreateUseCase.execute(request);
         return SuccessResponse.of(response);
     }
+    @Operation(summary = "게시글 수정", description = "제목, 내용, 썸네일 수정 : 수정을 안하는 값은 기존 데이터로 넘겨줘야 함")
     @PatchMapping("/{postId}")
     public SuccessResponse<?> updatePost(@PathVariable Long postId, @RequestBody PostUpdateRequestDto request) {
         PostCommandResponseDto response = postUpdateUsecase.execute(postId, request);
         return SuccessResponse.of(response);
     }
 
+    @Operation(summary = "게시글 hard delete", description = "게시글을 database로부터 hard delete")
     @DeleteMapping("/{postId}")
     public SuccessResponse<?> deletePost(@PathVariable Long postId) {
         postDeleteUseCase.execute(postId);

@@ -30,7 +30,7 @@ public class CommentController {
     private final CommentReadRepository commentReadRepository;
 
     /* read */
-    @Operation(summary = "댓글 조회", description = "게시글에 대한 댓글을 전부 조회합니다.")
+    @Operation(summary = "댓글 조회", description = "게시글에 대한 댓글을 최신순으로 조회합니다.")
     @GetMapping("/of/{postId}")
     public SuccessResponse<?> getComments(@PathVariable Long postId) {
         List<CommentDetailResponseDto> response = commentReadRepository.findAll(postId);
@@ -51,7 +51,7 @@ public class CommentController {
         return createChildCommentUseCase.execute(request);
     }
 
-    @Operation(summary = "댓글 내용 수정", description = "댓글 body필드를 수정합니다.")
+    @Operation(summary = "댓글 내용 수정", description = "댓글의 내용(body only)을 수정합니다.")
     @PatchMapping("/{commentId}")
     public SuccessResponse<?> updateComment(@PathVariable Long commentId, @RequestBody CommentUpdateRequestDto request) {
         return updateCommentUseCase.execute(commentId, request);
