@@ -19,10 +19,11 @@ dependencies {
     implementation group: 'io.springfox', name: 'springfox-boot-starter', version: '3.0.0'
     implementation group: 'io.swagger.core.v3', name: 'swagger-annotations', version: '2.1.7'
     implementation 'org.springframework.boot:spring-boot-starter-websocket'
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+
 
     /* core 모듈 추가  */
     implementation project(':likelion-core')
-    implementation project(':likelion-redis')
     /* common 모듈 추가 */
     implementation project(':likelion-common')
     /* infrastructure 모듈 추가 */
