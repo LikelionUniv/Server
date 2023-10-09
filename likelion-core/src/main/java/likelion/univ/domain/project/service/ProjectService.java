@@ -2,8 +2,6 @@ package likelion.univ.domain.project.service;
 
 import likelion.univ.domain.project.adapter.ProjectAdaptor;
 import likelion.univ.domain.project.entity.Project;
-import likelion.univ.domain.project.entity.enums.Output;
-import likelion.univ.domain.project.repository.ProjectRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

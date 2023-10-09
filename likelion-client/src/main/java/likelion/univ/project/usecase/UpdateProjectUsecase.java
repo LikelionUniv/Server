@@ -4,7 +4,6 @@ import likelion.univ.annotation.UseCase;
 import likelion.univ.domain.project.adapter.ProjectAdaptor;
 import likelion.univ.domain.project.entity.Image;
 import likelion.univ.domain.project.entity.Project;
-import likelion.univ.domain.project.entity.enums.Output;
 import likelion.univ.domain.project.service.ProjectImageService;
 import likelion.univ.domain.project.service.ProjectMemberService;
 import likelion.univ.domain.project.service.ProjectService;
@@ -14,7 +13,6 @@ import likelion.univ.project.dto.request.ProjectRequestDto;
 import likelion.univ.project.dto.response.ProjectIdResponseDto;
 import lombok.RequiredArgsConstructor;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 

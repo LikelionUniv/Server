@@ -1,8 +1,6 @@
 package likelion.univ.project.dto.request;
 
-import likelion.univ.domain.project.entity.Image;
 import likelion.univ.domain.project.entity.Project;
-import likelion.univ.domain.project.entity.ProjectMember;
 import likelion.univ.domain.project.entity.enums.Output;
 import lombok.*;
 
@@ -10,7 +8,6 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * thumnail 제외
