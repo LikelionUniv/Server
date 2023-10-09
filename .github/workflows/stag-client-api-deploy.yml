@@ -25,7 +25,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
       - name: docker image push
-        run: docker buildx build -f ./likelion-client/Dockerfile --build-arg PROFILE=stag --platform linux/amd64 -t ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKER_CLIENT_API_STAG_IMAGE }} --push .
+        run: docker buildx build -f ./likelion-client/Dockerfile --build-arg PROFILE=stag --platform linux/amd64 -t ${{ secrets.DOCKER_CLIENT_API_STAG_IMAGE }} --push .
 
       - name: client-api-deploy
         uses: appleboy/ssh-action@master
