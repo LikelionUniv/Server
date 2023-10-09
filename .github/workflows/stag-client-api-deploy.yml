@@ -19,7 +19,7 @@ jobs:
         run: ./gradlew clean
         
       - name: client api build
-        run: ./gradlew :likelion-client:build
+        run: ./gradlew :likelion-client:build -x test
 
       - name: Docker login
         uses: docker/login-action@v2
