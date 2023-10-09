@@ -39,11 +39,12 @@ public class ProjectAdaptor {
         return projectRepository.findAll(pageable).stream().toList();
     }
     public List<Project> findProject(Long ordinal, int pageNo){
-        Pageable pageable = PageRequest.of((pageNo-1), 12);
+        Pageable pageable = PageRequest.of((pageNo-1), 12, Sort.by("id").descending());
         return projectRepository.findByOrdinal(ordinal, pageable).stream().toList();
     }
-    public List<Project> findArchiveProject(Long ordinal){
-        return projectRepository.findArchivePosts(ordinal);
+    public List<Project> findArchiveProject(Long ordinal, int pageNo){
+        Pageable pageable = PageRequest.of((pageNo-1), 12, Sort.by("id").descending());
+        return projectRepository.findArchivePosts(ordinal, pageable);
     }
     public int getCurrentOrdinal(){
         return projectRepository.findLatestOrdinal();

@@ -29,7 +29,7 @@ public class GetProjectByUsecase {
             return getProjectResponseDtos(projectAdaptor.findProject(ordinal, pageNo));
         }
         else {
-            return getProjectResponseDtos(projectAdaptor.findArchiveProject(ordinal));
+            return getProjectResponseDtos(projectAdaptor.findArchiveProject(recentOrdinal - 5, pageNo));
         }
     }
 
