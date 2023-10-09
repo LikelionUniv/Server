@@ -32,14 +32,14 @@ public class PostController {
     private final PostReadRepository postReadRepository;
 
     /* read */
-    @Operation(summary = "(커뮤니티) 카테고리별 posts 최신순 조회", description = "카테고리가 일치하는 게시글 최신순으로 조회")
+    @Operation(summary = "(커뮤니티) 카테고리별 posts 최신순 조회", description = "- page : 0 이상의 정수 \n- size : 양수")
     @GetMapping("")
     public SuccessResponse<?> findCategorizedPosts(@RequestParam MainCategory mainCategory, @RequestParam SubCategory subCategory, @RequestParam Integer page, @RequestParam Integer size) {
         PageRequest pageRequest = PageRequest.of(page, size);
         List<PostDetailResponseDto> response = postReadRepository.findAll(mainCategory, subCategory, pageRequest);
         return SuccessResponse.of(response);
     }
-    @Operation(summary = "(마이페이지) 유저별 posts 최신순 조회", description = "유저Id를 param으로 넣어서, 유저별로 작성한 게시글을 최신순으로 조회")
+    @Operation(summary = "(마이페이지) 유저별 posts 최신순 조회", description = "유저Id를 param으로 넣어서, 유저별로 작성한 게시글을 최신순으로 조회 \n- page : 0 이상의 정수 \n- size : 양수")
     @GetMapping("/author/{userId}")
     public SuccessResponse<?> findAuthorPosts(@PathVariable Long userId, @RequestParam Integer page, @RequestParam Integer size) {
         PageRequest pageRequest = PageRequest.of(page, size);
@@ -47,7 +47,7 @@ public class PostController {
         return SuccessResponse.of(response);
     }
 
-    @Operation(summary = "(마이페이지) 유저가 댓글을 단 posts 최신순 조회", description = "(로그인된 유저 기준 only) 댓글 단 posts 최신순 조회")
+    @Operation(summary = "(마이페이지) 유저가 댓글을 단 posts 최신순 조회", description = "(로그인된 유저 기준 only) 댓글 단 posts 최신순 조회 \n- page : 0 이상의 정수 \n- size : 양수")
     @GetMapping("/commented")
     public SuccessResponse<?> findCommentedPosts(@RequestParam Integer page, @RequestParam Integer size) {
         PageRequest pageRequest = PageRequest.of(page, size);
@@ -55,7 +55,7 @@ public class PostController {
         return SuccessResponse.of(response);
     }
 
-    @Operation(summary = "(마이페이지) 유저가 좋아요한 posts 최신순 조회", description = "(로그인된 유저 기준 only) 좋아요를 누른 posts 최신순 조회")
+    @Operation(summary = "(마이페이지) 유저가 좋아요한 posts 최신순 조회", description = "(로그인된 유저 기준 only) 좋아요를 누른 posts 최신순 조회 \n- page : 0 이상의 정수 \n- size : 양수")
     @GetMapping("/liked")
     public SuccessResponse<?> findLikedPosts(@RequestParam Integer page, @RequestParam Integer size) {
         PageRequest pageRequest = PageRequest.of(page, size);
