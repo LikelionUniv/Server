@@ -6,6 +6,8 @@ import likelion.univ.domain.post.dto.request.PostDeleteServiceDto;
 import likelion.univ.domain.post.dto.request.PostUpdateServiceDto;
 import likelion.univ.domain.post.dto.response.PostCommandResponseDto;
 import likelion.univ.domain.post.entity.Post;
+import likelion.univ.domain.post.entity.enums.MainCategory;
+import likelion.univ.domain.post.entity.enums.SubCategory;
 import likelion.univ.domain.post.exception.PostNoAuthorizationException;
 import likelion.univ.domain.user.adaptor.UserAdaptor;
 import lombok.RequiredArgsConstructor;
@@ -54,9 +56,8 @@ public class PostDomainService {
                 .title(request.getTitle())
                 .body(request.getBody())
                 .thumbnail(request.getThumbnail())
-                // TODO : category 입력되도록 수정
-//                .mainCategory(MainCategory.valueOf(request.getMainCategory()))
-//                .subCategory(SubCategory.valueOf(request.getSubCategory()))
+                .mainCategory(MainCategory.valueOf(request.getMainCategory()))
+                .subCategory(SubCategory.valueOf(request.getSubCategory()))
                 .build();
     }
 
