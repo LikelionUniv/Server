@@ -23,6 +23,8 @@ public class PostDetailResponseDto {
 
     private String thumbnail;
 
+    private Integer likeCount;
+
     private MainCategory mainCategory;
 
     private SubCategory subCategory;
@@ -32,13 +34,14 @@ public class PostDetailResponseDto {
     private LocalDateTime modifiedDate;
 
     @QueryProjection
-    public PostDetailResponseDto(Long postId, Long authorId, String authorName, String title, String body, String thumbnail, MainCategory mainCategory, SubCategory subCategory, LocalDateTime createdDate, LocalDateTime modifiedDate) {
+    public PostDetailResponseDto(Long postId, Long authorId, String authorName, String title, String body, String thumbnail, Integer likeCount, MainCategory mainCategory, SubCategory subCategory, LocalDateTime createdDate, LocalDateTime modifiedDate) {
         this.postId = postId;
         this.authorId = authorId;
         this.authorName = authorName;
         this.title = title;
         this.body = body;
         this.thumbnail = thumbnail;
+        this.likeCount = likeCount;
         this.mainCategory = mainCategory;
         this.subCategory = subCategory;
         this.createdDate = createdDate;
