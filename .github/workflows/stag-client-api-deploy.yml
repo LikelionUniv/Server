@@ -1,6 +1,9 @@
 name: stag-client-api-deploy
 
-on: workflow_dispatch
+on: 
+  push: 
+    branches: [ "stag/client" ]
+  workflow_dispatch:
 
 jobs:
   deploy:
@@ -16,7 +19,7 @@ jobs:
         run: ./gradlew clean
         
       - name: client api build
-        run: ./gradlew :likelion-client:bootJar
+        run: ./gradlew :likelion-client:build
 
       - name: Docker login
         uses: docker/login-action@v2
@@ -24,8 +27,13 @@ jobs:
           username: ${{ secrets.DOCKERHUB_EMAIL }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
-      - name: docker image push
-        run: docker buildx build -f ./likelion-client/Dockerfile --build-arg PROFILE=stag --platform linux/amd64 -t ${{ secrets.DOCKER_CLIENT_API_STAG_IMAGE }} --push .
+      - name: Build and push
+        uses: docker/build-push-action@v3
+        with:
+          context: ./likelion-client
+          push: true
+          tags: ${{ secrets.DOCKER_CLIENT_API_STAG_IMAGE }}
+          build-args: PROFILE=stag
 
       - name: client-api-deploy
         uses: appleboy/ssh-action@master
