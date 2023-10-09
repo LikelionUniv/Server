@@ -1,39 +1,28 @@
 package likelion.univ.comment.usecase;
 
 import likelion.univ.annotation.UseCase;
-import likelion.univ.comment.dto.CommentRequestDto;
-import likelion.univ.domain.comment.adaptor.CommentAdaptor;
-import likelion.univ.domain.comment.dto.CommentServiceDto;
-import likelion.univ.domain.comment.exception.AuthorNotDetectedException;
+import likelion.univ.domain.comment.dto.CommentCommandResponseDto;
+import likelion.univ.domain.comment.dto.CommentDeleteServiceDto;
 import likelion.univ.domain.comment.service.CommentDomainService;
 import likelion.univ.response.SuccessResponse;
+import likelion.univ.utils.AuthentiatedUserUtils;
 import lombok.RequiredArgsConstructor;
 
 @UseCase
 @RequiredArgsConstructor
 public class SoftDeleteCommentUseCase {
-    public final CommentAdaptor commentAdaptor;
-    public final CommentDomainService commentDomainService;
+    private final AuthentiatedUserUtils userUtils;
+    private final CommentDomainService commentDomainService;
 
-    public SuccessResponse<?> execute(CommentRequestDto.DeleteComment deleteRequestDto, Long commentId) {
-        if (!isCommentAuthor(deleteRequestDto, commentId)) {
-            throw new AuthorNotDetectedException();
-        }
-        CommentServiceDto.DeleteCommentRequest deleteServiceDto = buildServiceDtoBy(commentId);
-        CommentServiceDto.CommandResponse deleteCommandResponseDto = commentDomainService.deleteCommentSoft(deleteServiceDto);
-        return SuccessResponse.of(deleteCommandResponseDto);
+    public SuccessResponse<?> execute(Long commentId) {
+        CommentCommandResponseDto response = commentDomainService.deleteCommentSoft(serviceDtoBy(commentId));
+        return SuccessResponse.of(response);
     }
 
-    private static CommentServiceDto.DeleteCommentRequest buildServiceDtoBy(Long commentId) {
-        return CommentServiceDto.DeleteCommentRequest.builder()
-                .id(commentId)
+    private CommentDeleteServiceDto serviceDtoBy(Long commentId) {
+        return CommentDeleteServiceDto.builder()
+                .commentId(commentId)
+                .loginUserId(userUtils.getCurrentUserId())
                 .build();
-    }
-    private boolean isCommentAuthor(CommentRequestDto.DeleteComment deleteRequestDto, Long commentId) {
-        return deleteRequestDto.getUserId().equals(getUserIdFromComment(commentId));
-    }
-
-    private Long getUserIdFromComment(Long commentId) {
-        return commentAdaptor.findById(commentId).getAuthor().getId();
     }
 }

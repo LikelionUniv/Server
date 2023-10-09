@@ -2,16 +2,14 @@ package likelion.univ.domain.user.entity;
 
 import likelion.univ.common.entity.BaseTimeEntity;
 import lombok.*;
-
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
 @AllArgsConstructor
 @Entity
-@Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"email", "loginType"})})
+@Table(name="users", uniqueConstraints = {@UniqueConstraint(columnNames = {"email", "loginType"})})
 public class User extends BaseTimeEntity{
 
     @Id

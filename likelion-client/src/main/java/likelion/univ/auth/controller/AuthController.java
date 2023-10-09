@@ -10,6 +10,7 @@ import likelion.univ.auth.usecase.RequestIdTokenUseCase;
 import likelion.univ.auth.usecase.SignUpUseCase;
 import likelion.univ.auth.dto.request.SignUpRequestDto;
 import likelion.univ.response.SuccessResponse;
+import likelion.univ.utils.AuthentiatedUserUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,6 +24,7 @@ public class AuthController {
     private final RequestIdTokenUseCase requestIdTokenUseCase;
     private final SignUpUseCase signUpUseCase;
     private final RefreshTokenUseCase refreshTokenUseCase;
+    private final AuthentiatedUserUtils userUtils;
 
     @Operation(summary = "id token 발급", description = "인가 코드로 id token을 발급받습니다.")
     @GetMapping("/{logintype}/idtoken")
@@ -49,7 +51,6 @@ public class AuthController {
             @RequestParam("idtoken") String idToken,
             @PathVariable("logintype") String loginType,
             @RequestBody SignUpRequestDto signUpRequestDto){
-
         AccountTokenDto accountTokenDto = signUpUseCase.execute(loginType,idToken,signUpRequestDto);
         return SuccessResponse.of(accountTokenDto);
     }
@@ -60,5 +61,11 @@ public class AuthController {
             @RequestParam("token") String refreshToken){
         AccountTokenDto accountTokenDto = refreshTokenUseCase.execute(refreshToken);
         return SuccessResponse.of(accountTokenDto);
+    }
+
+    @Operation(summary = "로그인 유저 Id 반환", description = "(for client only) 로그인 중인 유저의 Id를 얻습니다.")
+    @GetMapping("/loginuserid")
+    public SuccessResponse<?> getLoginUserId() {
+        return SuccessResponse.of(userUtils.getCurrentUserId());
     }
 }
