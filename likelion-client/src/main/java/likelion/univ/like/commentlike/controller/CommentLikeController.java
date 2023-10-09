@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/v1/community/commentlike")
-@Tag(name = "댓글 좋아요", description = "댓글 좋아요 API")
+@Tag(name = "댓글 좋아요", description = "커뮤니티 APIs")
 public class CommentLikeController {
     private final CreateCommentLikeUseCase createCommentLikeUseCase;
     private final SwitchCommentLikeUseCase switchCommentLikeUseCase;

@@ -2,6 +2,7 @@ package likelion.univ.post.controller;
 
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import likelion.univ.domain.post.dto.response.PostDetailResponseDto;
 import likelion.univ.domain.post.dto.response.PostCommandResponseDto;
 import likelion.univ.domain.post.entity.enums.MainCategory;
@@ -22,6 +23,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/v1/community/posts")
+@Tag(name = "게시글", description = "커뮤니티, 마이페이지 APIs")
 public class PostController {
 
     private final PostCreateUseCase postCreateUseCase;
@@ -62,7 +64,7 @@ public class PostController {
     }
 
     /* command */
-    @Operation(summary = "게시글을 생성", description = "(작업중 - 카테고리 반영 필요)")
+    @Operation(summary = "게시글을 생성", description = "Main Category\n- HQ_BOARD(멋대 중앙)\n- FREE_BOARD(자유게시판)\n- OVERFLOW(멋사 오버플로우) \n\nSub Category\n- HQ_BOARD : NOTICE(공지사항), QNA(질문건의), HQ_INFO(정보공유)\n- FREE_BOARD : FREE_INFO(정보공유), GET_MEMBER(팀원구함), GET_PROJECT(프로젝트 구함), SHOWOFF(프로젝트 자랑)\n- OVERFLOW : FRONTEND(프론트엔드), BACKEND(백엔드), PM(기획), UXUI(디자인), ETC(기타)")
     @PostMapping("/new")
     public SuccessResponse<?> createPost(@RequestBody @Valid PostCreateRequestDto request/*, BindingResult bindingResult*/) {
         PostCommandResponseDto response = postCreateUseCase.execute(request);
