@@ -22,15 +22,13 @@ public class ProjectMemberService {
 
     @Transactional
     public void addMembers(Project project, List<User> users){
-        if (project != null) {
-            List<ProjectMember> members = users.stream()
-                    .map(user -> ProjectMember.builder()
-                            .user(user)
-                            .project(project)
-                            .build())
-                    .collect(Collectors.toList());
-            projectMemberAdaptor.saveAll(members);
-        }
+        List<ProjectMember> members = users.stream()
+                .map(user -> ProjectMember.builder()
+                        .user(user)
+                        .project(project)
+                        .build())
+                .collect(Collectors.toList());
+        projectMemberAdaptor.saveAll(members);
     }
 
     @Transactional

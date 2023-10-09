@@ -24,31 +24,25 @@ public class GetProjectByUsecase {
     private final UserAdaptor userAdaptor;
 
     public List<ProjectResponseDto> excute(Long ordinal, int pageNo){
-        List<ProjectResponseDto> projectResponseDtos = new ArrayList<>();
         long recentOrdinal = projectAdaptor.getCurrentOrdinal();
         if(ordinal > recentOrdinal - 5){
-            List<Project> projectListByOrdinal = projectAdaptor.findProject(ordinal, pageNo);
-            for(Project project : projectListByOrdinal) {
-                List<Image> images = projectImageAdaptor.findByProject(project);
-                List<User> users = projectMemberAdaptor.findByProject(project).stream()
-                        .map(projectMember -> projectMember.getUser())
-                        .map(user -> userAdaptor.findById(user.getId()))
-                        .collect(Collectors.toList());
-                projectResponseDtos.add(ProjectResponseDto.of(project, images, users));
-            }
-            return projectResponseDtos;
+            return getProjectResponseDtos(projectAdaptor.findProject(ordinal, pageNo));
         }
         else {
-            List<Project> projects = projectAdaptor.findArchiveProject(ordinal);
-            for(Project project : projects) {
-                List<Image> images = projectImageAdaptor.findByProject(project);
-                List<User> users = projectMemberAdaptor.findByProject(project).stream()
-                        .map(projectMember -> projectMember.getUser())
-                        .map(user -> userAdaptor.findById(user.getId()))
-                        .collect(Collectors.toList());
-                projectResponseDtos.add(ProjectResponseDto.of(project, images, users));
-            }
-            return projectResponseDtos;
+            return getProjectResponseDtos(projectAdaptor.findArchiveProject(ordinal));
         }
+    }
+
+    public List<ProjectResponseDto> getProjectResponseDtos(List<Project> projects) {
+        List<ProjectResponseDto> projectResponseDtos = new ArrayList<>();
+        for(Project project : projects) {
+            List<Image> images = projectImageAdaptor.findByProject(project);
+            List<User> users = projectMemberAdaptor.findByProject(project).stream()
+                    .map(projectMember -> projectMember.getUser())
+                    .map(user -> userAdaptor.findById(user.getId()))
+                    .collect(Collectors.toList());
+            projectResponseDtos.add(ProjectResponseDto.of(project, images, users));
+        }
+        return projectResponseDtos;
     }
 }

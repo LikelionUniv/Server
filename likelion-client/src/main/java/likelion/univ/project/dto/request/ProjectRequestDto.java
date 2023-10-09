@@ -21,6 +21,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 @Data
 public class ProjectRequestDto {
+
     @NotBlank
     private String thon;
 
@@ -47,31 +48,31 @@ public class ProjectRequestDto {
     private String description;
     private String content;
     private String projectUrl;
-    private List<ImageRequestDto> images;
+    private List<String> imageUrl;
     private List<ProjectMemberRequestDto> members;
 
-    @Builder
-    public ProjectRequestDto(Project project, List<Image> images, List<ProjectMember> members) {
-        this.thon = project.getThon();
-        this.outPut = project.getOutPut();
-        this.serviceName = project.getServiceName();
-        this.ordinal = project.getOrdinal();
-        this.univ = project.getUniv();
-        this.startDate = project.getStartDate();
-        this.endDate = project.getEndDate();
-        this.tech = project.getTech();
-        this.description = project.getDescription();
-        this.content = project.getContent();
-        this.projectUrl = project.getProjectUrl();
-        this.images = images.stream()
-                .map(image -> new ImageRequestDto(image))
-                .collect(Collectors.toList());
-        this.members = members.stream()
-                .map(user -> ProjectMemberRequestDto.builder()
-                        .id(user.getId())
-                        .build())
-                .collect(Collectors.toList());
-    }
+//    @Builder
+//    public ProjectRequestDto(Project project, List<Image> images, List<ProjectMember> members) {
+//        this.thon = project.getThon();
+//        this.outPut = project.getOutPut();
+//        this.serviceName = project.getServiceName();
+//        this.ordinal = project.getOrdinal();
+//        this.univ = project.getUniv();
+//        this.startDate = project.getStartDate();
+//        this.endDate = project.getEndDate();
+//        this.tech = project.getTech();
+//        this.description = project.getDescription();
+//        this.content = project.getContent();
+//        this.projectUrl = project.getProjectUrl();
+//        this.images = images.stream()
+//                .map(image -> new ImageRequestDto(image))
+//                .collect(Collectors.toList());
+//        this.members = members.stream()
+//                .map(user -> ProjectMemberRequestDto.builder()
+//                        .id(user.getId())
+//                        .build())
+//                .collect(Collectors.toList());
+//    }
 
     public Project toEntity() {
         return Project.builder()

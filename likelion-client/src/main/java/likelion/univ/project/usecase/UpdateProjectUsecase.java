@@ -32,37 +32,16 @@ public class UpdateProjectUsecase {
 
         Project project = projectAdaptor.findById(projectId);
 
-        String thon = projectRequestDto.getThon();
-        Output outPut = projectRequestDto.getOutPut();
-        String serviceName = projectRequestDto.getServiceName();
-        long ordinal = projectRequestDto.getOrdinal();
-        String univ = projectRequestDto.getUniv();
-        LocalDate startDate = projectRequestDto.getStartDate();
-        LocalDate endDate = projectRequestDto.getEndDate();
-        String tech = projectRequestDto.getTech();
-        String description = projectRequestDto.getDescription();
-        String content = projectRequestDto.getContent();
-        String projectUrl = projectRequestDto.getProjectUrl();
-        List<Image> image = projectRequestDto.getImages().stream()
-                .map(imageRequestDto -> Image.builder()
-                        .name(imageRequestDto.getName())
-                        .saved(imageRequestDto.getSaved())
-                        .project(project)
-                        .build())
+        List<Image> image = projectRequestDto.getImageUrl().stream()
+                .map(imageUrl -> new Image(project, imageUrl))
                 .collect(Collectors.toList());
         List<User> members = projectRequestDto.getMembers().stream()
                 .map(member -> userAdaptor.findById(member.getId()))
                 .collect(Collectors.toList());
 
-        projectService.updateProject(projectId, thon, outPut, serviceName, ordinal, univ, startDate, endDate, tech, description, content, projectUrl);
+        projectService.updateProject(projectId, projectRequestDto.toEntity());
         projectImageService.updateImage(project, image);
         projectMemberService.updateProjectMember(project, members);
-
-//        List<Image> images = imageAdaptor.findByProject(project);
-//        List<User> users = projectMemberAdaptor.findByProject(project).stream()
-//                .map(projectMember -> projectMember.getUser())
-//                .map(user -> userAdaptor.findById(user.getId()))
-//                .collect(Collectors.toList());
 
         return ProjectIdResponseDto.of(projectId);
     }

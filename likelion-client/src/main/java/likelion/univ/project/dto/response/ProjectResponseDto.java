@@ -17,7 +17,7 @@ public class ProjectResponseDto {
 
     private String thon;
     private Output outPut;
-    private String service;
+    private String serviceName;
     private long ordinal;
     private String univ;
     private LocalDate startDate;
@@ -25,15 +25,15 @@ public class ProjectResponseDto {
     private String tech;
     private String description;
     private String content;
-    private String link;
-    private List<ImageResponseDto> images;
+    private String projectUrl;
+    private List<String> imageUrl;
     private List<ProjectMemberResponseDto> members;
 
     public static ProjectResponseDto of(Project project, List<Image> images, List<User> users) {
         return ProjectResponseDto.builder()
                 .thon(project.getThon())
                 .outPut(project.getOutPut())
-                .service(project.getServiceName())
+                .serviceName(project.getServiceName())
                 .ordinal(project.getOrdinal())
                 .univ(project.getUniv())
                 .startDate(project.getStartDate())
@@ -41,15 +41,15 @@ public class ProjectResponseDto {
                 .tech(project.getTech())
                 .description(project.getDescription())
                 .content(project.getContent())
-                .link(project.getProjectUrl())
-                .images(
+                .projectUrl(project.getProjectUrl())
+                .imageUrl(
                         images.stream()
-                                .map(image -> ImageResponseDto.of(image))
+                                .map(image -> image.getImageUrl())
                                 .collect(Collectors.toList())
                 )
                 .members(
                         users.stream()
-                                .map(user -> ProjectMemberResponseDto.of(user.getProfile().getName()))
+                                .map(user -> ProjectMemberResponseDto.of(user.getId(), user.getProfile().getName()))
                                 .collect(Collectors.toList())
                 )
                 .build();

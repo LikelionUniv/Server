@@ -66,17 +66,17 @@ public class Project extends BaseTimeEntity {
         this.projectUrl = projectUrl;
     }
 
-    public void update(String thon, Output output, String serviceName, long ordinal, String univ, LocalDate startDate, LocalDate endDate, String tech, String description, String content, String projectUrl) {
-        this.thon = thon;
-        this.outPut = output;
-        this.serviceName = serviceName;
-        this.ordinal = ordinal;
-        this.univ = univ;
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.tech = tech;
-        this.description = description;
-        this.content = content;
-        this.projectUrl = projectUrl;
+    public void update(Project updateProject) {
+        this.thon = updateProject.getThon();
+        this.outPut = updateProject.getOutPut();
+        this.serviceName = updateProject.getServiceName();
+        this.ordinal = updateProject.getOrdinal();
+        this.univ = updateProject.getUniv();
+        this.startDate = updateProject.getStartDate();
+        this.endDate = updateProject.getEndDate();
+        this.tech = updateProject.getTech();
+        this.description = updateProject.getDescription();
+        this.content = updateProject.getContent();
+        this.projectUrl = updateProject.getProjectUrl();
     }
 }

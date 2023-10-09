@@ -25,11 +25,8 @@ public class ProjectAdaptor {
         try {
             projectRepository.save(project);
         }catch(Exception e) {
-            System.out.println("message");
-            System.out.println(e.getMessage());
             throw new CreateProjectBadRequestException();
         }
-//        projectRepository.save(project);
         return project;
     }
 

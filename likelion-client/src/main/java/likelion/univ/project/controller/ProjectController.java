@@ -53,8 +53,8 @@ public class ProjectController {
     public SuccessResponse<List<ProjectResponseDto>> getProjectByOrdinal(
             @RequestParam(value = "pageNo", defaultValue = "1", required = false) int pageNo,
             @PathVariable Long ordinal) {
-        List<ProjectResponseDto> projectListBy = getProjectByUsecase.excute(ordinal,pageNo);
-        return SuccessResponse.of(projectListBy);
+        List<ProjectResponseDto> projectList = getProjectByUsecase.excute(ordinal,pageNo);
+        return SuccessResponse.of(projectList);
     }
 
     //--------- 프로젝트 등록 ------------//

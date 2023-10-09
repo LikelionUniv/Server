@@ -13,8 +13,4 @@ public class ProjectMemberRequestDto {
 
     private Long id;
 
-    @Builder
-    public ProjectMemberRequestDto(Long id) {
-        this.id = id;
-    }
 }

@@ -21,17 +21,11 @@ public class Image {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "project_id")
     private Project project;
-
-    //원본 파일명
-    private String name;
-
-    // 등록 파일명
-    private String saved;
+    private String imageUrl;
 
     @Builder
-    public Image(Project project, String name, String saved) {
+    public Image(Project project, String imageUrl) {
         this.project = project;
-        this.name = name;
-        this.saved = saved;
+        this.imageUrl = imageUrl;
     }
 }
