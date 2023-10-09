@@ -36,7 +36,7 @@ public class UpdateProjectUsecase {
                 .map(imageUrl -> new Image(project, imageUrl))
                 .collect(Collectors.toList());
         List<User> members = projectRequestDto.getMembers().stream()
-                .map(member -> userAdaptor.findById(member.getId()))
+                .map(member -> userAdaptor.findById(member))
                 .collect(Collectors.toList());
 
         projectService.updateProject(projectId, projectRequestDto.toEntity());

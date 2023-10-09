@@ -34,7 +34,7 @@ public class CreateProjectUsecase {
                         .collect(Collectors.toList()));
         projectMemberService.addMembers(project,
                 projectRequestDto.getMembers().stream()
-                .map(member -> userAdaptor.findById(member.getId()))
+                .map(member -> userAdaptor.findById(member))
                 .collect(Collectors.toList()));
 
         return ProjectIdResponseDto.of(id);
