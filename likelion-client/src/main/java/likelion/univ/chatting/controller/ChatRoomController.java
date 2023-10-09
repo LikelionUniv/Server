@@ -1,9 +1,9 @@
-package likelion.univ.controller;
+package likelion.univ.chatting.controller;
 
-
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import likelion.univ.model.ChatRoom;
-import likelion.univ.service.ChatRoomService;
+import likelion.univ.chatting.entity.ChatRoom;
+import likelion.univ.chatting.usecase.ChatRoomUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,9 +17,10 @@ import java.util.List;
 @RequestMapping("/chat")
 public class ChatRoomController {
 
-    private final ChatRoomService chatRoomService;
+    private final ChatRoomUseCase chatRoomUseCase;
 
     @GetMapping("/room")
+    @Operation(summary = "방 조회")
     public String rooms(Model model) {
         return "/chat/room";
     }
@@ -27,14 +28,15 @@ public class ChatRoomController {
     @GetMapping("/rooms")
     @ResponseBody
     public List<ChatRoom> room() {
-        return chatRoomService.findAllRoom();
+        return chatRoomUseCase.findAllRoom();
     }
 
     @PostMapping("/room")
     @ResponseBody
     public ChatRoom createRoom(@RequestParam String name) {
-        return chatRoomService.createChatRoom(name);
+        return chatRoomUseCase.createChatRoom(name);
     }
+    //public ChatRoom createRoom
 
     @GetMapping("/room/enter/{roomId}")
     public String roomDetail(Model model, @PathVariable String roomId) {
@@ -45,6 +47,6 @@ public class ChatRoomController {
     @GetMapping("/room/{roomId}")
     @ResponseBody
     public ChatRoom roomInfo(@PathVariable String roomId) {
-        return chatRoomService.findRoomById(roomId);
+        return chatRoomUseCase.findRoomById(roomId);
     }
 }

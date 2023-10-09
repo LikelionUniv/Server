@@ -12,7 +12,8 @@ dependencies {
 
     /* common 모듈 추가 */
     implementation project(':likelion-common')
-    implementation project(path: ':likelion-socket')
+
+
     testImplementation 'org.projectlombok:lombok:1.18.26'
 
 }

@@ -5,6 +5,7 @@
 //
 //import likelion.univ.model.ChatMessage;
 //
+//import likelion.univ.pubsub.RedisPublisher;
 //import likelion.univ.repo.ChatMessageRepository;
 //import likelion.univ.service.ChatMessageService;
 //import likelion.univ.service.ChatRoomService;

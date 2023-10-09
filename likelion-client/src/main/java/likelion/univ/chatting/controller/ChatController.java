@@ -1,17 +1,17 @@
-package likelion.univ.controller;
-
+package likelion.univ.chatting.controller;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
-import likelion.univ.model.ChatMessage;
-import likelion.univ.repo.ChatMessageRepository;
-import likelion.univ.service.ChatMessageService;
-import likelion.univ.service.ChatRoomService;
+import likelion.univ.chatting.entity.ChatMessage;
+import likelion.univ.chatting.repository.ChatMessageRepository;
+import likelion.univ.chatting.usecase.ChatMessageUseCase;
+import likelion.univ.chatting.usecase.ChatRoomUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -23,33 +23,27 @@ import java.util.List;
 @RequestMapping("/msg")
 public class ChatController {
 
+    @Autowired
+    private ChatMessageRepository chatMessageRepository;
     private final RedisPublisher redisPublisher;
-    private final ChatMessageService chatMessageService;
-    private final ChatRoomService chatRoomService;
+    private final ChatMessageUseCase chatMessageUseCase;
+    private final ChatRoomUseCase chatRoomUseCase;
 
     @MessageMapping("/chat/message")
     public void message(ChatMessage message) {
         if (ChatMessage.MessageType.ENTER.equals(message.getType())) {
-            chatRoomService.enterChatRoom(message.getRoomId());
+            chatRoomUseCase.enterChatRoom(message.getRoomId());
             message.setMessage(message.getSender() + "님이 입장하셨습니다.");
         }
         // Websocket에 발행된 메시지를 redis로 발행한다(publish)
-        redisPublisher.publish(chatRoomService.getTopic(message.getRoomId()), message);
+        redisPublisher.publish(chatRoomUseCase.getTopic(message.getRoomId()), message);
     }
-    @Autowired
-    private ChatMessageRepository chatMessageRepository;
+
     @GetMapping("/msg/all")
+    @ResponseBody
     public List<ChatMessage> getAllChatMessages() {
         return chatMessageRepository.findAll();
     }
-//    @GetMapping("/msg")
-//    public ChatMessageResponse getInfo(){
-//        Long chatId=1L;
-//        ChatMessage chatMessage =chatMessageRepository.findById(chatId).orElse(new ChatMessage());
-//        return new ChatMessageResponse(chatMessage.getId(),chatMessage.getType(),chatMessage.getRoomId(),chatMessage.getSender(),chatMessage.getMessage());
-
 }
-//    @ResponseBody
-//    public List<Message> msg() {return chatMessageService.findAllMsg();    }
 
 
