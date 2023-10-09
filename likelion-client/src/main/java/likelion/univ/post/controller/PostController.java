@@ -32,10 +32,13 @@ public class PostController {
     private final PostReadRepository postReadRepository;
 
     /* read */
-    @Operation(summary = "(커뮤니티) 카테고리별 posts 최신순 조회", description = "- page : 0 이상의 정수 \n- size : 양수")
+    @Operation(summary = "(커뮤니티) 카테고리별 posts 최신순 조회", description = "카테고리 params\n- maincatstr : 메인 카테고리 문자열(HQ_BOARD, FREE_BOARD, OVERFLOW)\n- subcatstr : 서브 카테고리 문자열(post 생성 참고)\n\n페이지네이션 params\n- page : 0 이상의 정수 \n- size : 양수")
     @GetMapping("")
-    public SuccessResponse<?> findCategorizedPosts(@RequestParam MainCategory mainCategory, @RequestParam SubCategory subCategory, @RequestParam Integer page, @RequestParam Integer size) {
+    public SuccessResponse<?> findCategorizedPosts(@RequestParam String maincatstr, @RequestParam String subcatstr, @RequestParam Integer page, @RequestParam Integer size) {
         PageRequest pageRequest = PageRequest.of(page, size);
+        MainCategory mainCategory = MainCategory.valueOf(maincatstr);
+        SubCategory subCategory = SubCategory.valueOf(subcatstr);
+
         List<PostDetailResponseDto> response = postReadRepository.findAll(mainCategory, subCategory, pageRequest);
         return SuccessResponse.of(response);
     }
