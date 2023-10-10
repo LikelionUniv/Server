@@ -3,11 +3,9 @@ package likelion.univ.auth.controller;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import likelion.univ.auth.dto.response.AccountTokenDto;
+import likelion.univ.auth.dto.response.AccountUserInfoDto;
 import likelion.univ.auth.dto.response.IdTokenDto;
-import likelion.univ.auth.usecase.LoginUseCase;
-import likelion.univ.auth.usecase.RefreshTokenUseCase;
-import likelion.univ.auth.usecase.RequestIdTokenUseCase;
-import likelion.univ.auth.usecase.SignUpUseCase;
+import likelion.univ.auth.usecase.*;
 import likelion.univ.auth.dto.request.SignUpRequestDto;
 import likelion.univ.response.SuccessResponse;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +21,7 @@ public class AuthController {
     private final RequestIdTokenUseCase requestIdTokenUseCase;
     private final SignUpUseCase signUpUseCase;
     private final RefreshTokenUseCase refreshTokenUseCase;
+    private final GetUserInfoUsecase getUserInfoUsecase;
 
     @Operation(summary = "id token 발급", description = "인가 코드로 id token을 발급받습니다.")
     @GetMapping("/{logintype}/idtoken")
@@ -51,6 +50,13 @@ public class AuthController {
             @RequestBody SignUpRequestDto signUpRequestDto){
         AccountTokenDto accountTokenDto = signUpUseCase.execute(loginType,idToken,signUpRequestDto);
         return SuccessResponse.of(accountTokenDto);
+    }
+
+    @Operation(summary = "유저 정보 조회", description = "간단한 유저정보를 조회합니다.")
+    @GetMapping("/userinfo")
+    public SuccessResponse<Object> getUserInfo(){
+        AccountUserInfoDto accountUserInfoDto = getUserInfoUsecase.execute();
+        return SuccessResponse.of(accountUserInfoDto);
     }
 
     @Operation(summary = "토큰 재발급", description = "refresh token으로 access token을 재발급합니다.")
