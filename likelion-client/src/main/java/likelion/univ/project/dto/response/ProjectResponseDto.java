@@ -15,6 +15,7 @@ import java.util.stream.Collectors;
 @Builder
 public class ProjectResponseDto {
 
+    private Long id;
     private String thon;
     private Output outPut;
     private String serviceName;
@@ -31,6 +32,7 @@ public class ProjectResponseDto {
 
     public static ProjectResponseDto of(Project project, List<Image> images, List<User> users) {
         return ProjectResponseDto.builder()
+                .id(project.getId())
                 .thon(project.getThon())
                 .outPut(project.getOutPut())
                 .serviceName(project.getServiceName())
