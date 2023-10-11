@@ -16,12 +16,6 @@ spring:
       hibernate:
         default_batch_fetch_size: 1000
 
-logging:
-  level:
-    org.springframework.orm.jpa: DEBUG
-    org.springframework.transaction: DEBUG
-  pattern:
-    console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
 
 --- ## dev 환경 설정
 spring:
@@ -29,12 +23,41 @@ spring:
     activate:
       on-profile: dev
 
+  jpa:
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
+
+logging:
+  level:
+    org.springframework.orm.jpa: DEBUG
+    org.springframework.transaction: DEBUG
+    org:
+      hibernate:
+        type:
+          descriptor:
+            sql: trace
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
+
 --- ## staging환경 설정
 spring:
   config:
     activate:
       on-profile: staging
 
+  jpa:
+    properties:
+      hibernate:
+        show_sql: false
+        format_sql: false
+
+logging:
+  level:
+    root: INFO
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
 --- ## prod 환경 설정
 spring:
   config:

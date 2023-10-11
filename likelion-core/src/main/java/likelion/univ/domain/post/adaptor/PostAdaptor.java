@@ -2,10 +2,11 @@ package likelion.univ.domain.post.adaptor;
 
 import likelion.univ.annotation.Adaptor;
 import likelion.univ.domain.post.entity.Post;
-//import likelion.univ.domain.community.post.repository.PostCustomRepository;
 import likelion.univ.domain.post.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 @Adaptor
 @RequiredArgsConstructor
@@ -27,6 +28,10 @@ public class PostAdaptor {
 
     public void delete(Post post) {
         postRepository.delete(post); //예외처리
+    }
+
+    public Page<Post> findAllByAuthor_Id(Long userId, Pageable pageable){
+        return postRepository.findAllByAuthor_Id(userId,pageable);
     }
 
 //    public List<Post> retrievePostPaging(Integer page, Integer limit) {

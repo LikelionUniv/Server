@@ -20,6 +20,8 @@ public class AuthInfo {
     private String email;
     @Enumerated(EnumType.STRING)
     private AccountStatus accountStatus;
+    // 01000000000 형태로
+    private String phoneNumber;
 
     @Enumerated(EnumType.STRING)
     private Role role;

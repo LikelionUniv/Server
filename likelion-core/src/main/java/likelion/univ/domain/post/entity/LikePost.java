@@ -15,8 +15,7 @@ public class LikePost extends BaseTimeEntity {
 
     @Id
     @GeneratedValue
-    @Column(name = "like_post_id")
-    private Long likeId;
+    private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)

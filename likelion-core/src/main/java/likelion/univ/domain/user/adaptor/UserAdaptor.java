@@ -19,6 +19,10 @@ public class UserAdaptor {
         return userRepository.findById(id)
                 .orElseThrow(()-> new UserNotFoundException());
     }
+    public User findByIdWithUniversity(Long id){
+        return userRepository.findByIdWithUniversity(id)
+                .orElseThrow(()-> new UserNotFoundException());
+    }
     public User findByEmail(String email){
         return userRepository.findByAuthInfoEmail(email)
                 .orElseThrow(()-> new UserNotFoundException());
