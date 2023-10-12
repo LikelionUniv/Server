@@ -43,7 +43,7 @@ public class PostController {
         return SuccessResponse.of(response);
     }
     @Operation(summary = "(마이페이지) 유저별 posts 최신순 조회", description = "유저Id를 param으로 넣어서, 유저별로 작성한 게시글을 최신순으로 조회 \n- page : 0 이상의 정수 \n- size : 양수")
-    @GetMapping("/author/{userId}")
+    @GetMapping("/mypage/{userId}")
     public SuccessResponse<?> findAuthorPosts(@PathVariable Long userId, @RequestParam Integer page, @RequestParam Integer size) {
         PageRequest pageRequest = PageRequest.of(page, size);
         List<PostDetailResponseDto> response = postReadRepository.findAuthorPosts(userId, pageRequest);
@@ -51,7 +51,7 @@ public class PostController {
     }
 
     @Operation(summary = "(마이페이지) 유저가 댓글을 단 posts 최신순 조회", description = "(로그인된 유저 기준 only) 댓글 단 posts 최신순 조회 \n- page : 0 이상의 정수 \n- size : 양수")
-    @GetMapping("/commented")
+    @GetMapping("/mypage/commented")
     public SuccessResponse<?> findCommentedPosts(@RequestParam Integer page, @RequestParam Integer size) {
         PageRequest pageRequest = PageRequest.of(page, size);
         List<PostDetailResponseDto> response = postReadRepository.findCommentedPosts(pageRequest);
@@ -59,7 +59,7 @@ public class PostController {
     }
 
     @Operation(summary = "(마이페이지) 유저가 좋아요한 posts 최신순 조회", description = "(로그인된 유저 기준 only) 좋아요를 누른 posts 최신순 조회 \n- page : 0 이상의 정수 \n- size : 양수")
-    @GetMapping("/liked")
+    @GetMapping("/mypage/liked")
     public SuccessResponse<?> findLikedPosts(@RequestParam Integer page, @RequestParam Integer size) {
         PageRequest pageRequest = PageRequest.of(page, size);
         List<PostDetailResponseDto> response = postReadRepository.findLikedPosts(pageRequest);
