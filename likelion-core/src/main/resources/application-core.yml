@@ -5,6 +5,11 @@ spring:
     url: jdbc:mysql://${MYSQL_HOST}:${MYSQL_PORT}/${MYSQL_NAME}
     username: ${MYSQL_USERNAME}
     password: ${MYSQL_PASSWORD}
+
+  data:
+    web:
+      pageable:
+        one-indexed-parameters: true
   jpa:
     show-sql: true
     database: mysql

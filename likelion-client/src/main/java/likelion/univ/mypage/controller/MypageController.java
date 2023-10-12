@@ -9,11 +9,15 @@ import likelion.univ.auth.usecase.LoginUseCase;
 import likelion.univ.auth.usecase.RefreshTokenUseCase;
 import likelion.univ.auth.usecase.RequestIdTokenUseCase;
 import likelion.univ.auth.usecase.SignUpUseCase;
+import likelion.univ.common.page.PageResponse;
+import likelion.univ.mypage.dto.response.MyPagePostsDto;
 import likelion.univ.mypage.dto.response.ProfileDetailsDto;
+import likelion.univ.mypage.usecase.GetMypagePostsUseCase;
 import likelion.univ.mypage.usecase.GetProfileUseCase;
 import likelion.univ.response.SuccessResponse;
 import lombok.RequiredArgsConstructor;
 import org.springdoc.api.annotations.ParameterObject;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
@@ -24,6 +28,7 @@ import org.springframework.web.bind.annotation.*;
 @Tag(name = "마이페이지", description = "마이페이지관련 API입니다.")
 public class MypageController {
     private final GetProfileUseCase getProfileUseCase;
+    private final GetMypagePostsUseCase getMypagePostsUseCase;
 
     @Operation(summary = "마이페이지 프로필 조회", description = "본인의 프로필 정보를 조회합니다.")
     @GetMapping("/profile")
@@ -35,8 +40,8 @@ public class MypageController {
     @Operation(summary = "내가쓴 게시글 조회", description = "작성한 게시글을 조회합니다.")
     @GetMapping("/posts")
     public SuccessResponse<Object> getMyPosts(@ParameterObject @PageableDefault(size = 6, page = 1) Pageable pageable){
-
-        return SuccessResponse.of();
+        PageResponse<MyPagePostsDto> myPagePostsPage = getMypagePostsUseCase.execute(pageable);
+        return SuccessResponse.of(myPagePostsPage);
     }
 
 //    @Operation(summary = "내가 참여한 프로젝트 조회", description = "참여한 프로젝트를 조회합니다.")

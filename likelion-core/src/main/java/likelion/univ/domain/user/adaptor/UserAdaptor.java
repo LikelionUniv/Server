@@ -21,11 +21,11 @@ public class UserAdaptor {
     }
     public User findByIdWithUniversity(Long id){
         return userRepository.findByIdWithUniversity(id)
-                .orElseThrow(()-> new UserNotFoundException());
+                .orElseThrow(() -> new UserNotFoundException());
     }
     public User findByEmail(String email){
         return userRepository.findByAuthInfoEmail(email)
-                .orElseThrow(()-> new UserNotFoundException());
+                .orElseThrow(() -> new UserNotFoundException());
     }
     public Boolean checkEmail(String email){
         return userRepository.existsByAuthInfoEmail(email);

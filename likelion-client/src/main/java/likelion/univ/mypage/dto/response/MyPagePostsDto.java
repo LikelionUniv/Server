@@ -14,16 +14,21 @@ public class MyPagePostsDto {
     private String title;
     private String body;
     private String thumbnail;
-    private Boolean isAuthor = true;
+    private Boolean isAuthor;
     private LocalDate createdDate;
+    private Long likeCount;
+    private Long commentCount;
 
-    public static MyPagePostsDto of(Post post){
+    public static MyPagePostsDto of(Post post, Long likeCount, Long commentCount){
         return MyPagePostsDto.builder()
                 .id(post.getId())
                 .title(post.getTitle())
                 .body(post.getBody())
                 .thumbnail(post.getThumbnail())
+                .isAuthor(true)
                 .createdDate(post.getCreatedDate().toLocalDate())
+                .likeCount(likeCount)
+                .commentCount(commentCount)
                 .build();
     }
 }
