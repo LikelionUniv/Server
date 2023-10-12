@@ -43,7 +43,7 @@ public class PostController {
         return SuccessResponse.of(response);
     }
     @Operation(summary = "(마이페이지) 유저별 posts 최신순 조회", description = "유저Id를 param으로 넣어서, 유저별로 작성한 게시글을 최신순으로 조회 \n- page : 0 이상의 정수 \n- size : 양수")
-    @GetMapping("/mypage/{userId}")
+    @GetMapping("/mypage/author/{userId}")
     public SuccessResponse<?> findAuthorPosts(@PathVariable Long userId, @RequestParam Integer page, @RequestParam Integer size) {
         PageRequest pageRequest = PageRequest.of(page, size);
         List<PostDetailResponseDto> response = postReadRepository.findAuthorPosts(userId, pageRequest);
