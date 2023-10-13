@@ -67,7 +67,6 @@ public class CommentDomainService {
     private Comment childCommentBy(CommentCreateChildServiceDto request) {
         Comment comment = Comment.builder()
                 .post(getPostFromParentComment(request))
-//                .post(postAdaptor.findById(request.getPostId()))
                 .author(userAdaptor.findById(request.getLoginUserId()))
                 .body(request.getBody())
                 .build();
