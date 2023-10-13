@@ -13,9 +13,6 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 public class CommentCreateChildRequestDto {
     @NotNull
-    @Schema(description = "게시글 id")
-    private Long postId;
-    @NotNull
     @Schema(description = "대댓글을 다는 댓글 id")
     private Long parentCommentId;
     @NotBlank

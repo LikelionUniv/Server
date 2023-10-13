@@ -9,7 +9,7 @@ import lombok.Data;
 @AllArgsConstructor
 public class CommentCreateChildServiceDto {
     private Long parentCommentId;
-    private Long postId;
+//    private Long postId;
     private Long loginUserId;
     private String body;
 }

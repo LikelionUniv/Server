@@ -22,7 +22,6 @@ public class CreateChildCommentUseCase {
     private CommentCreateChildServiceDto serviceDtoBy(CommentCreateChildRequestDto request) {
         return CommentCreateChildServiceDto.builder()
                 .parentCommentId(request.getParentCommentId())
-                .postId(request.getPostId())
                 .loginUserId(userUtils.getCurrentUserId())
                 .body(request.getBody())
                 .build();

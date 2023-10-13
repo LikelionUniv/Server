@@ -5,6 +5,7 @@ import likelion.univ.domain.comment.dto.*;
 import likelion.univ.domain.comment.entity.Comment;
 import likelion.univ.domain.comment.exception.NotAuthorizedException;
 import likelion.univ.domain.post.adaptor.PostAdaptor;
+import likelion.univ.domain.post.entity.Post;
 import likelion.univ.domain.user.adaptor.UserAdaptor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -65,13 +66,19 @@ public class CommentDomainService {
     }
     private Comment childCommentBy(CommentCreateChildServiceDto request) {
         Comment comment = Comment.builder()
-                .post(postAdaptor.findById(request.getPostId()))
+                .post(getPostFromParentComment(request))
+//                .post(postAdaptor.findById(request.getPostId()))
                 .author(userAdaptor.findById(request.getLoginUserId()))
                 .body(request.getBody())
                 .build();
         comment.setParent(parentCommentBy(request.getParentCommentId()));
         return comment;
     }
+
+    private Post getPostFromParentComment(CommentCreateChildServiceDto request) {
+        return commentAdaptor.findById(request.getParentCommentId()).getPost();
+    }
+
 
     private Comment parentCommentBy(Long parentCommentId) {
         return commentAdaptor.findById(parentCommentId);
