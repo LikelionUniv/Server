@@ -75,7 +75,9 @@ public class CommentDomainService {
     }
 
     private Post getPostFromParentComment(CommentCreateChildServiceDto request) {
-        return commentAdaptor.findById(request.getParentCommentId()).getPost();
+        Long parentCommentId = request.getParentCommentId();
+        Post post = commentAdaptor.findById(parentCommentId).getPost();
+        return post;
     }
 
 
