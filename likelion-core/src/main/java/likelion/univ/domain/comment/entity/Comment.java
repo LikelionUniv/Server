@@ -36,12 +36,12 @@ public class Comment extends BaseTimeEntity {
     private Comment parentComment;
 
     @OneToMany(mappedBy = "comment",
-            cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, orphanRemoval = true) // 안정성 체크해봐야됨
+            cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, orphanRemoval = true)
     private List<CommentLike> commentLikes = new ArrayList<>();
 
 
     @OneToMany(mappedBy = "parentComment",
-            cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, orphanRemoval = true) // 안정성 체크해봐야됨
+            cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, orphanRemoval = true)
     private List<Comment> childComments = new ArrayList<>();
 
     @Column(nullable = false, columnDefinition = "TEXT")

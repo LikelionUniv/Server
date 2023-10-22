@@ -120,6 +120,7 @@ public class PostReadRepositoryCustomImpl implements PostReadRepositoryCustom {
                 post.title,
                 post.body,
                 post.thumbnail,
+                post.postLikes.size(),
                 post.mainCategory,
                 post.subCategory,
                 post.createdDate,
