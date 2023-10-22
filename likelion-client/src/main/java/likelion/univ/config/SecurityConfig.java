@@ -41,9 +41,6 @@ public class SecurityConfig {
                 .antMatchers(SwaggerUrlPatterns)
                 .permitAll()
 //                .antMatchers("/v1/**").hasRole(ROLE_USER)
-/**                 .antMatchers("/v1/project/post").hasRole(ROLE_ADMIN) */
-/**                 .antMatchers("/v1/project/post").hasRole(ROLE_SUPER_ADMIN) */
-/**                 .antMatchers("/v1/project/post").hasRole(ROLE_CODEIT_ADMIN) */
 //                .anyRequest().authenticated();
                 .anyRequest().permitAll(); //임시
         return http.build();
