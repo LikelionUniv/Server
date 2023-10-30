@@ -19,7 +19,7 @@ import java.util.Optional;
 
 @UseCase
 @RequiredArgsConstructor
-public class GetMypagePostsUseCase {
+public class GetMyPostsUseCase {
 
     private final AuthentiatedUserUtils authentiatedUserUtils;
     private final PostAdaptor postAdaptor;

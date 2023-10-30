@@ -12,10 +12,7 @@ import org.springframework.data.domain.Pageable;
 @RequiredArgsConstructor
 public class PostAdaptor {
 
-    @Autowired
-    private PostRepository postRepository;
-//    @Autowired
-//    private PostCustomRepository postCustomRepository;
+    private final PostRepository postRepository;
 
 
     public void save(Post post) {
@@ -34,6 +31,9 @@ public class PostAdaptor {
         return postRepository.findAllByAuthor_Id(userId,pageable);
     }
 
+    public Page<Post> findByCommentAuthorId(Long userId, Pageable pageable){
+        return postRepository.findByCommentAuthorId(userId,pageable);
+    }
 //    public List<Post> retrievePostPaging(Integer page, Integer limit) {
 //        return postCustomRepository.pagingWithCoveringIndex(page, limit);
 //    }

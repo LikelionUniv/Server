@@ -31,4 +31,16 @@ public class MyPagePostsDto {
                 .commentCount(commentCount)
                 .build();
     }
+    public static MyPagePostsDto withAuthorOf(Post post, Long likeCount, Long commentCount, Boolean isAuthor){
+        return MyPagePostsDto.builder()
+                .id(post.getId())
+                .title(post.getTitle())
+                .body(post.getBody())
+                .thumbnail(post.getThumbnail())
+                .isAuthor(isAuthor)
+                .createdDate(post.getCreatedDate().toLocalDate())
+                .likeCount(likeCount)
+                .commentCount(commentCount)
+                .build();
+    }
 }
