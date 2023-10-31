@@ -32,8 +32,7 @@ public class PostCustomRepositoryImpl implements PostCustomRepository {
                 queryFactory
                         .select(post)
                         .from(post)
-                        .innerJoin(user)
-                        .on(post.author.id.eq(user.id))
+                        .innerJoin(post.author, user).fetchJoin()
                         .where(post.id.in(ids))
                         .offset(pageable.getOffset())
                         .orderBy(post.createdDate.desc())
