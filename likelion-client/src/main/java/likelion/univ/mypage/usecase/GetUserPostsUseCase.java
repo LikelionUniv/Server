@@ -6,7 +6,7 @@ import likelion.univ.domain.comment.adaptor.CommentAdaptor;
 import likelion.univ.domain.post.adaptor.LikePostAdaptor;
 import likelion.univ.domain.post.adaptor.PostAdaptor;
 import likelion.univ.domain.post.entity.Post;
-import likelion.univ.mypage.dto.response.MyPagePostsDto;
+import likelion.univ.mypage.dto.response.UserPagePostsDto;
 import likelion.univ.post.dao.PostCountInfoRedisDao;
 import likelion.univ.post.entity.PostCountInfo;
 import likelion.univ.post.service.PostCountInfoRedisService;
@@ -19,7 +19,7 @@ import java.util.Optional;
 
 @UseCase
 @RequiredArgsConstructor
-public class GetMyPostsUseCase {
+public class GetUserPostsUseCase {
 
     private final AuthentiatedUserUtils authentiatedUserUtils;
     private final PostAdaptor postAdaptor;
@@ -28,16 +28,18 @@ public class GetMyPostsUseCase {
     private final CommentAdaptor commentAdaptor;
     private final LikePostAdaptor likePostAdaptor;
 
-    public PageResponse<MyPagePostsDto> execute(Pageable pageable){
-        Long userId = authentiatedUserUtils.getCurrentUserId();
+    public PageResponse<UserPagePostsDto> execute(Long userId, Pageable pageable){
+        Long currentUserIdId = authentiatedUserUtils.getCurrentUserId();
         Page<Post> posts = postAdaptor.findAllByAuthor_Id(userId, pageable);
 
-        return PageResponse.of(posts.map(p-> createDto(p)));
+        return PageResponse.of(posts.map(p-> createDto(p, currentUserIdId)));
     }
 
-    private MyPagePostsDto createDto(Post post){
+    private UserPagePostsDto createDto(Post post, Long userId){
         PostCountInfo postCountInfo = getPostCountInfo(post.getId());
-        return MyPagePostsDto.of(post, postCountInfo.getLikeCount(), postCountInfo.getCommentCount());
+        if(post.getAuthor().getId().equals(userId))
+            return UserPagePostsDto.of(post, postCountInfo.getLikeCount(), postCountInfo.getCommentCount(),true);
+        else return UserPagePostsDto.of(post, postCountInfo.getLikeCount(), postCountInfo.getCommentCount(),false);
     }
 
     private PostCountInfo getPostCountInfo(Long postId){

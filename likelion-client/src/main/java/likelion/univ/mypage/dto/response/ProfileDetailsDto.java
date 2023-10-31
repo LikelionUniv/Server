@@ -17,8 +17,9 @@ public class ProfileDetailsDto {
     private Long followerNum;
     private Long followingNum;
     private String introduction;
+    private Boolean isMine;
 
-    public static ProfileDetailsDto of(User user, Long followerNum, Long followingNum){
+    public static ProfileDetailsDto of(User user, Boolean isMine,Long followerNum, Long followingNum){
         return ProfileDetailsDto.builder()
                 .profileImage(user.getProfile().getProfileImage())
                 .name(user.getProfile().getName())
@@ -30,6 +31,7 @@ public class ProfileDetailsDto {
                 .followerNum(followerNum)
                 .followingNum(followingNum)
                 .introduction(user.getProfile().getIntroduction())
+                .isMine(isMine)
                 .build();
     }
 }

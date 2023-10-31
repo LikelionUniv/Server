@@ -15,13 +15,15 @@ public class GetProfileUseCase {
     private final UserAdaptor userAdaptor;
     private final FolllowAdaptor folllowAdaptor;
 
-    public ProfileDetailsDto execute(){
-        Long userId = authentiatedUserUtils.getCurrentUserId();
+    public ProfileDetailsDto execute(Long userId){
+        Long currentUserId = authentiatedUserUtils.getCurrentUserId();
         User user = userAdaptor.findByIdWithUniversity(userId);
-        /*임시로 카운트쿼리로.. */
+        /* 임시로 카운트쿼리로.. */
         Long followerNum = folllowAdaptor.countByFolloweeId(userId);
         Long followingNum = folllowAdaptor.countByFollowerId(userId);
 
-        return ProfileDetailsDto.of(user, followerNum, followingNum);
+        if (userId.equals(currentUserId))
+            return ProfileDetailsDto.of(user, true, followerNum, followingNum);
+        else return ProfileDetailsDto.of(user, false, followerNum, followingNum);
     }
 }

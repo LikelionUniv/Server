@@ -3,9 +3,9 @@ package likelion.univ.mypage.controller;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import likelion.univ.common.page.PageResponse;
-import likelion.univ.mypage.dto.response.MyPagePostsDto;
+import likelion.univ.mypage.dto.response.UserPagePostsDto;
 import likelion.univ.mypage.dto.response.ProfileDetailsDto;
-import likelion.univ.mypage.usecase.GetMyPostsUseCase;
+import likelion.univ.mypage.usecase.GetUserPostsUseCase;
 import likelion.univ.mypage.usecase.GetPostsCommentedByMeUseCase;
 import likelion.univ.mypage.usecase.GetProfileUseCase;
 import likelion.univ.response.SuccessResponse;
@@ -17,30 +17,32 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(value = "/v1/mypage")
-@Tag(name = "마이페이지", description = "마이페이지관련 API입니다.")
-public class MypageController {
+@RequestMapping(value = "/v1/user")
+@Tag(name = "유저페이지", description = "유저페이지관련 API입니다.")
+public class UserController {
     private final GetProfileUseCase getProfileUseCase;
-    private final GetMyPostsUseCase getMyPostsUseCase;
+    private final GetUserPostsUseCase getMyPostsUseCase;
     private final GetPostsCommentedByMeUseCase getPostsCommentedByMeUseCase;
 
-    @Operation(summary = "마이페이지 프로필 조회", description = "본인의 프로필 정보를 조회합니다.")
-    @GetMapping("/profile")
-    public SuccessResponse<Object> getProfile(){
-        ProfileDetailsDto profileDetailsDto = getProfileUseCase.execute();
+    @Operation(summary = "유저페이지 프로필 조회", description = "해당 유저의 프로필 정보를 조회합니다.")
+    @GetMapping("/{userId}/profile")
+    public SuccessResponse<Object> getProfile(@PathVariable Long userId){
+        ProfileDetailsDto profileDetailsDto = getProfileUseCase.execute(userId);
         return SuccessResponse.of(profileDetailsDto);
     }
 
-    @Operation(summary = "내가쓴 게시글 조회", description = "작성한 게시글을 조회합니다.")
-    @GetMapping("/posts")
-    public SuccessResponse<Object> getMyPosts(@ParameterObject @PageableDefault(size = 6, page = 1) Pageable pageable){
-        PageResponse<MyPagePostsDto> myPagePostsPage = getMyPostsUseCase.execute(pageable);
+    @Operation(summary = "해당 유저가 쓴 게시글 조회", description = "해당 유저가 작성한 게시글을 조회합니다.")
+    @GetMapping("/{userId}/posts")
+    public SuccessResponse<Object> getMyPosts(@PathVariable Long userId,
+                                              @ParameterObject @PageableDefault(size = 6, page = 1) Pageable pageable){
+        PageResponse<UserPagePostsDto> myPagePostsPage = getMyPostsUseCase.execute(userId, pageable);
         return SuccessResponse.of(myPagePostsPage);
     }
-    @Operation(summary = "내가 댓글 쓴 게시글 조회", description = "댓글을 작성한 게시글을 조회합니다.")
-    @GetMapping("/comments")
-    public SuccessResponse<Object> getPostsCommentedByMe(@ParameterObject @PageableDefault(size = 6, page = 1) Pageable pageable){
-        PageResponse<MyPagePostsDto> myPagePostsPageCommentedByMe = getPostsCommentedByMeUseCase.execute(pageable);
+    @Operation(summary = "해당 유저가 댓글 쓴 게시글 조회", description = "해당 유저가 댓글을 작성한 게시글을 조회합니다.")
+    @GetMapping("/{userId}/comments")
+    public SuccessResponse<Object> getPostsCommentedByMe(@PathVariable Long userId,
+                                                         @ParameterObject @PageableDefault(size = 6, page = 1) Pageable pageable){
+        PageResponse<UserPagePostsDto> myPagePostsPageCommentedByMe = getPostsCommentedByMeUseCase.execute(userId, pageable);
         return SuccessResponse.of(myPagePostsPageCommentedByMe);
     }
 

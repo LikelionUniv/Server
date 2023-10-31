@@ -9,7 +9,7 @@ import java.time.LocalDate;
 
 @Getter
 @Builder
-public class MyPagePostsDto {
+public class UserPagePostsDto {
     private Long id;
     private String title;
     private String body;
@@ -19,20 +19,8 @@ public class MyPagePostsDto {
     private Long likeCount;
     private Long commentCount;
 
-    public static MyPagePostsDto of(Post post, Long likeCount, Long commentCount){
-        return MyPagePostsDto.builder()
-                .id(post.getId())
-                .title(post.getTitle())
-                .body(post.getBody())
-                .thumbnail(post.getThumbnail())
-                .isAuthor(true)
-                .createdDate(post.getCreatedDate().toLocalDate())
-                .likeCount(likeCount)
-                .commentCount(commentCount)
-                .build();
-    }
-    public static MyPagePostsDto withAuthorOf(Post post, Long likeCount, Long commentCount, Boolean isAuthor){
-        return MyPagePostsDto.builder()
+    public static UserPagePostsDto of(Post post, Long likeCount, Long commentCount, Boolean isAuthor){
+        return UserPagePostsDto.builder()
                 .id(post.getId())
                 .title(post.getTitle())
                 .body(post.getBody())
