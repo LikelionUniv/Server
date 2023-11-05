@@ -5,14 +5,14 @@ import likelion.univ.domain.like.postlike.dto.PostLikeCreateServiceDto;
 import likelion.univ.domain.like.postlike.dto.PostLikeResponseDto;
 import likelion.univ.domain.like.postlike.service.PostLikeDomainService;
 import likelion.univ.like.postlike.dto.PostLikeRequestDto;
-import likelion.univ.utils.AuthentiatedUserUtils;
+import likelion.univ.utils.AuthenticatedUserUtils;
 import lombok.RequiredArgsConstructor;
 
 @UseCase
 @RequiredArgsConstructor
 public class CreatePostLikeUseCase {
     private final PostLikeDomainService postLikeDomainService;
-    private final AuthentiatedUserUtils userUtils;
+    private final AuthenticatedUserUtils userUtils;
 
     public PostLikeResponseDto execute(PostLikeRequestDto postIdDto) {
         return postLikeDomainService.createLikePost(serviceDtoBy(postIdDto));

@@ -5,13 +5,13 @@ import likelion.univ.domain.like.commentlike.dto.CommentLikeResponseDto;
 import likelion.univ.domain.like.commentlike.dto.CommentLikeSwitchServiceDto;
 import likelion.univ.domain.like.commentlike.service.CommentLikeDomainService;
 import likelion.univ.response.SuccessResponse;
-import likelion.univ.utils.AuthentiatedUserUtils;
+import likelion.univ.utils.AuthenticatedUserUtils;
 import lombok.RequiredArgsConstructor;
 
 @UseCase
 @RequiredArgsConstructor
 public class SwitchCommentLikeUseCase {
-    private final AuthentiatedUserUtils userUtils;
+    private final AuthenticatedUserUtils userUtils;
     private final CommentLikeDomainService commentLikeDomainService;
 
     public SuccessResponse<?> execute(Long commentLikeId) {

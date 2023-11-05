@@ -6,13 +6,13 @@ import likelion.univ.domain.comment.dto.CommentCommandResponseDto;
 import likelion.univ.domain.comment.dto.CommentCreateParentServiceDto;
 import likelion.univ.domain.comment.service.CommentDomainService;
 import likelion.univ.response.SuccessResponse;
-import likelion.univ.utils.AuthentiatedUserUtils;
+import likelion.univ.utils.AuthenticatedUserUtils;
 import lombok.RequiredArgsConstructor;
 
 @UseCase
 @RequiredArgsConstructor
 public class CreateParentCommentUseCase {
-    private final AuthentiatedUserUtils userUtils;
+    private final AuthenticatedUserUtils userUtils;
     private final CommentDomainService commentDomainService;
 
     public SuccessResponse<?> execute(CommentCreateParentRequestDto createRequestDto) {

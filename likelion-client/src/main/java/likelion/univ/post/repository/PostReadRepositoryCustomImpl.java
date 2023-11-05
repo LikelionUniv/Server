@@ -1,11 +1,10 @@
 package likelion.univ.post.repository;
 
-import com.querydsl.core.types.dsl.BooleanExpression;
 import likelion.univ.domain.post.dto.response.PostDetailResponseDto;
 import likelion.univ.domain.post.dto.response.QPostDetailResponseDto;
 import likelion.univ.domain.post.entity.enums.MainCategory;
 import likelion.univ.domain.post.entity.enums.SubCategory;
-import likelion.univ.utils.AuthentiatedUserUtils;
+import likelion.univ.utils.AuthenticatedUserUtils;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.data.domain.Pageable;
@@ -24,7 +23,7 @@ import static likelion.univ.domain.user.entity.QUser.user;
 @RequiredArgsConstructor
 public class PostReadRepositoryCustomImpl implements PostReadRepositoryCustom {
     private final JPAQueryFactory queryFactory;
-    private final AuthentiatedUserUtils userUtils;
+    private final AuthenticatedUserUtils userUtils;
 
     @Override
     public List<PostDetailResponseDto> findAll(MainCategory mainCategory, SubCategory subCategory, Pageable pageable) {

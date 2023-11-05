@@ -5,7 +5,7 @@ import likelion.univ.domain.post.dto.response.PostCommandResponseDto;
 import likelion.univ.domain.post.dto.request.PostUpdateServiceDto;
 import likelion.univ.domain.post.service.PostDomainService;
 import likelion.univ.post.dto.PostUpdateRequestDto;
-import likelion.univ.utils.AuthentiatedUserUtils;
+import likelion.univ.utils.AuthenticatedUserUtils;
 import lombok.RequiredArgsConstructor;
 
 
@@ -13,7 +13,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class PostUpdateUseCase {
     private final PostDomainService postDomainService;
-    private final AuthentiatedUserUtils userUtils;
+    private final AuthenticatedUserUtils userUtils;
 
     public PostCommandResponseDto execute(Long postId, PostUpdateRequestDto request) {
         return postDomainService.editPost(buildDTO(postId, request));

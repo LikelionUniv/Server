@@ -42,5 +42,4 @@ public class UserDomainService {
     public List<User> findDynamicUsers(UserSearchCondition condition) {
         return userAdaptor.findDynamicUsers(condition);
     }
-
 }

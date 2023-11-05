@@ -10,7 +10,7 @@ import likelion.univ.auth.usecase.RequestIdTokenUseCase;
 import likelion.univ.auth.usecase.SignUpUseCase;
 import likelion.univ.auth.dto.request.SignUpRequestDto;
 import likelion.univ.response.SuccessResponse;
-import likelion.univ.utils.AuthentiatedUserUtils;
+import likelion.univ.utils.AuthenticatedUserUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,7 +24,7 @@ public class AuthController {
     private final RequestIdTokenUseCase requestIdTokenUseCase;
     private final SignUpUseCase signUpUseCase;
     private final RefreshTokenUseCase refreshTokenUseCase;
-    private final AuthentiatedUserUtils userUtils;
+    private final AuthenticatedUserUtils userUtils;
 
     @Operation(summary = "id token 발급", description = "인가 코드로 id token을 발급받습니다.")
     @GetMapping("/{logintype}/idtoken")

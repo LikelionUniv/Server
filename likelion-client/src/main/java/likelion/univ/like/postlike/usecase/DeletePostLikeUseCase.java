@@ -5,7 +5,7 @@ import likelion.univ.domain.like.postlike.dto.PostLikeDeleteServiceDto;
 import likelion.univ.domain.like.postlike.service.PostLikeDomainService;
 import likelion.univ.domain.post.adaptor.PostAdaptor;
 import likelion.univ.response.SuccessResponse;
-import likelion.univ.utils.AuthentiatedUserUtils;
+import likelion.univ.utils.AuthenticatedUserUtils;
 import lombok.RequiredArgsConstructor;
 
 @UseCase
@@ -13,7 +13,7 @@ import lombok.RequiredArgsConstructor;
 public class DeletePostLikeUseCase {
 
     private final PostLikeDomainService postLikeDomainService;
-    private final AuthentiatedUserUtils userUtils;
+    private final AuthenticatedUserUtils userUtils;
     private final PostAdaptor postAdaptor;
 
     public SuccessResponse<?> execute(Long postLikeId) {
