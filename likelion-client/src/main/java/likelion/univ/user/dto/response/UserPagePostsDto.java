@@ -1,4 +1,4 @@
-package likelion.univ.mypage.dto.response;
+package likelion.univ.user.dto.response;
 
 import likelion.univ.domain.post.entity.Post;
 import lombok.Builder;

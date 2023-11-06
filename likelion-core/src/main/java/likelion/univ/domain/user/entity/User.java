@@ -27,4 +27,7 @@ public class User extends BaseTimeEntity{
     @Embedded
     private AuthInfo authInfo;
 
+    public void editProfile(Profile profile){
+        this.profile = profile;
+    }
 }

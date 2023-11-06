@@ -1,13 +1,15 @@
-package likelion.univ.mypage.controller;
+package likelion.univ.user.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import likelion.univ.common.page.PageResponse;
-import likelion.univ.mypage.dto.response.UserPagePostsDto;
-import likelion.univ.mypage.dto.response.ProfileDetailsDto;
-import likelion.univ.mypage.usecase.GetUserPostsUseCase;
-import likelion.univ.mypage.usecase.GetPostsCommentedByMeUseCase;
-import likelion.univ.mypage.usecase.GetProfileUseCase;
+import likelion.univ.common.response.PageResponse;
+import likelion.univ.user.dto.request.ProfileEditRequestDto;
+import likelion.univ.user.dto.response.UserPagePostsDto;
+import likelion.univ.user.dto.response.ProfileDetailsDto;
+import likelion.univ.user.usecase.EditProfileUseCase;
+import likelion.univ.user.usecase.GetUserPostsUseCase;
+import likelion.univ.user.usecase.GetPostsCommentedByMeUseCase;
+import likelion.univ.user.usecase.GetProfileUseCase;
 import likelion.univ.response.SuccessResponse;
 import lombok.RequiredArgsConstructor;
 import org.springdoc.api.annotations.ParameterObject;
@@ -21,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 @Tag(name = "유저페이지", description = "유저페이지관련 API입니다.")
 public class UserController {
     private final GetProfileUseCase getProfileUseCase;
+    private final EditProfileUseCase editProfileUseCase;
     private final GetUserPostsUseCase getMyPostsUseCase;
     private final GetPostsCommentedByMeUseCase getPostsCommentedByMeUseCase;
 
@@ -29,6 +32,13 @@ public class UserController {
     public SuccessResponse<Object> getProfile(@PathVariable Long userId){
         ProfileDetailsDto profileDetailsDto = getProfileUseCase.execute(userId);
         return SuccessResponse.of(profileDetailsDto);
+    }
+    @Operation(summary = "유저페이지 프로필 수정", description = "해당 유저의 프로필 정보를 수정합니다.")
+    @PatchMapping("/{userId}/profile")
+    public SuccessResponse<Object> editProfile(@PathVariable Long userId,
+                                               @RequestBody ProfileEditRequestDto profileEditRequestDto){
+        editProfileUseCase.execute(userId,profileEditRequestDto);
+        return SuccessResponse.empty();
     }
 
     @Operation(summary = "해당 유저가 쓴 게시글 조회", description = "해당 유저가 작성한 게시글을 조회합니다.")

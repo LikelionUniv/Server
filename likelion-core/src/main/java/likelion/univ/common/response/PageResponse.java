@@ -1,4 +1,4 @@
-package likelion.univ.common.page;
+package likelion.univ.common.response;
 
 import lombok.Builder;
 import lombok.Getter;

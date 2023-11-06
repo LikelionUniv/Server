@@ -1,12 +1,12 @@
-package likelion.univ.mypage.usecase;
+package likelion.univ.user.usecase;
 
 import likelion.univ.annotation.UseCase;
-import likelion.univ.common.page.PageResponse;
+import likelion.univ.common.response.PageResponse;
 import likelion.univ.domain.comment.adaptor.CommentAdaptor;
 import likelion.univ.domain.post.adaptor.LikePostAdaptor;
 import likelion.univ.domain.post.adaptor.PostAdaptor;
 import likelion.univ.domain.post.entity.Post;
-import likelion.univ.mypage.dto.response.UserPagePostsDto;
+import likelion.univ.user.dto.response.UserPagePostsDto;
 import likelion.univ.post.dao.PostCountInfoRedisDao;
 import likelion.univ.post.entity.PostCountInfo;
 import likelion.univ.post.service.PostCountInfoRedisService;

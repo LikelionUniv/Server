@@ -1,10 +1,10 @@
-package likelion.univ.mypage.usecase;
+package likelion.univ.user.usecase;
 
 import likelion.univ.annotation.UseCase;
 import likelion.univ.domain.follow.adaptor.FolllowAdaptor;
 import likelion.univ.domain.user.adaptor.UserAdaptor;
 import likelion.univ.domain.user.entity.User;
-import likelion.univ.mypage.dto.response.ProfileDetailsDto;
+import likelion.univ.user.dto.response.ProfileDetailsDto;
 import likelion.univ.utils.AuthentiatedUserUtils;
 import lombok.RequiredArgsConstructor;
 
