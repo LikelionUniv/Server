@@ -14,8 +14,7 @@ import javax.persistence.*;
 public class ProjectMember {
 
     @Id
-    @GeneratedValue
-    @Column(name = "project_member_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)

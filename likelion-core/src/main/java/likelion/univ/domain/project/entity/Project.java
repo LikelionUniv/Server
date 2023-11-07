@@ -21,7 +21,6 @@ public class Project extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="project_id")
     private long id;
 
     private String thon;
@@ -57,13 +56,16 @@ public class Project extends BaseTimeEntity {
     private String productionUrl;
 
     @OneToMany(mappedBy="project", cascade = CascadeType.ALL)
+    @JoinColumn(insertable = false, updatable = false)
     private List<ProjectMember> projectMembers = new ArrayList<>();
 
     @OneToMany(mappedBy="project", cascade = CascadeType.ALL)
+    @JoinColumn(insertable = false, updatable = false)
     private List<Image> images = new ArrayList<>();
 
     @OneToMany(mappedBy="project", cascade = CascadeType.ALL)
-    private List<ProjectTech> techList = new ArrayList<>();
+    @JoinColumn(insertable = false, updatable = false)
+    private List<ProjectTech> teches = new ArrayList<>();
 
     @Builder
     public Project(String thon, Output outPut, String serviceName, long ordinal, University univ, LocalDate startDate, LocalDate endDate, String tech, String description, String content, String productionUrl) {
