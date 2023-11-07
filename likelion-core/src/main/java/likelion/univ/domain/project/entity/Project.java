@@ -2,6 +2,7 @@ package likelion.univ.domain.project.entity;
 
 import likelion.univ.common.entity.BaseTimeEntity;
 import likelion.univ.domain.project.entity.enums.Output;
+import likelion.univ.domain.university.entity.University;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -10,6 +11,8 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -31,7 +34,9 @@ public class Project extends BaseTimeEntity {
 
     private long ordinal; //기수
 
-    private String univ; // University DB와 연결?
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "university_id")
+    private University univ;
 
     @Column(nullable = false)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
@@ -49,34 +54,14 @@ public class Project extends BaseTimeEntity {
     @Column(columnDefinition = "Text")
     private String content;
 
-    private String projectUrl;
+    private String productionUrl;
 
-    @Builder
-    public Project(String thon, Output outPut, String serviceName, long ordinal, String univ, LocalDate startDate, LocalDate endDate, String tech, String description, String content, String projectUrl) {
-        this.thon = thon;
-        this.outPut = outPut;
-        this.serviceName = serviceName;
-        this.ordinal = ordinal;
-        this.univ = univ;
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.tech = tech;
-        this.description = description;
-        this.content = content;
-        this.projectUrl = projectUrl;
-    }
+    @OneToMany(mappedBy="project", cascade = CascadeType.ALL)
+    private List<ProjectMember> projectMembers = new ArrayList<>();
 
-    public void update(Project updateProject) {
-        this.thon = updateProject.getThon();
-        this.outPut = updateProject.getOutPut();
-        this.serviceName = updateProject.getServiceName();
-        this.ordinal = updateProject.getOrdinal();
-        this.univ = updateProject.getUniv();
-        this.startDate = updateProject.getStartDate();
-        this.endDate = updateProject.getEndDate();
-        this.tech = updateProject.getTech();
-        this.description = updateProject.getDescription();
-        this.content = updateProject.getContent();
-        this.projectUrl = updateProject.getProjectUrl();
-    }
+    @OneToMany(mappedBy="project", cascade = CascadeType.ALL)
+    private List<Image> images = new ArrayList<>();
+
+    @OneToMany(mappedBy="project", cascade = CascadeType.ALL)
+    private List<ProjectTech> techList = new ArrayList<>();
 }
