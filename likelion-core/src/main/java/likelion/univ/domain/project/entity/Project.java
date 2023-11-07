@@ -64,4 +64,19 @@ public class Project extends BaseTimeEntity {
 
     @OneToMany(mappedBy="project", cascade = CascadeType.ALL)
     private List<ProjectTech> techList = new ArrayList<>();
+
+    @Builder
+    public Project(String thon, Output outPut, String serviceName, long ordinal, University univ, LocalDate startDate, LocalDate endDate, String tech, String description, String content, String productionUrl) {
+        this.thon = thon;
+        this.outPut = outPut;
+        this.serviceName = serviceName;
+        this.ordinal = ordinal;
+        this.univ = univ;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.tech = tech;
+        this.description = description;
+        this.content = content;
+        this.productionUrl = productionUrl;
+    }
 }
