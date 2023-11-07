@@ -53,16 +53,16 @@ public class Project extends BaseTimeEntity {
 
     private String productionUrl;
 
-    @OneToMany(mappedBy="project", cascade = CascadeType.ALL)
-    @JoinColumn(insertable = false, updatable = false)
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name="project_id", insertable = false, updatable = false)
     private List<ProjectMember> projectMembers = new ArrayList<>();
 
-    @OneToMany(mappedBy="project", cascade = CascadeType.ALL)
-    @JoinColumn(insertable = false, updatable = false)
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name="project_id", insertable = false, updatable = false)
     private List<Image> images = new ArrayList<>();
 
-    @OneToMany(mappedBy="project", cascade = CascadeType.ALL)
-    @JoinColumn(insertable = false, updatable = false)
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name="project_id", insertable = false, updatable = false)
     private List<ProjectTech> teches = new ArrayList<>();
 
     @Builder
