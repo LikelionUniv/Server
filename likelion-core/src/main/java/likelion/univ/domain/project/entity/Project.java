@@ -45,8 +45,6 @@ public class Project extends BaseTimeEntity {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate endDate;
 
-    private String tech;
-
     @Column(length = 100)
     private String description;
 
@@ -68,7 +66,7 @@ public class Project extends BaseTimeEntity {
     private List<ProjectTech> teches = new ArrayList<>();
 
     @Builder
-    public Project(String thon, Output outPut, String serviceName, long ordinal, University univ, LocalDate startDate, LocalDate endDate, String tech, String description, String content, String productionUrl) {
+    public Project(String thon, Output outPut, String serviceName, long ordinal, University univ, LocalDate startDate, LocalDate endDate, String description, String content, String productionUrl) {
         this.thon = thon;
         this.outPut = outPut;
         this.serviceName = serviceName;
@@ -76,10 +74,13 @@ public class Project extends BaseTimeEntity {
         this.univ = univ;
         this.startDate = startDate;
         this.endDate = endDate;
-        this.tech = tech;
         this.description = description;
         this.content = content;
         this.productionUrl = productionUrl;
+    }
+
+    public void updateUniv(University univ) {
+        this.univ = univ;
     }
 
     public void update(Project updateProject) {
@@ -90,7 +91,6 @@ public class Project extends BaseTimeEntity {
         this.univ = updateProject.getUniv();
         this.startDate = updateProject.getStartDate();
         this.endDate = updateProject.getEndDate();
-        this.tech = updateProject.getTech();
         this.description = updateProject.getDescription();
         this.content = updateProject.getContent();
         this.productionUrl = updateProject.getProductionUrl();
