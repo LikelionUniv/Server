@@ -79,4 +79,18 @@ public class Project extends BaseTimeEntity {
         this.content = content;
         this.productionUrl = productionUrl;
     }
+
+    public void update(Project updateProject) {
+        this.thon = updateProject.getThon();
+        this.outPut = updateProject.getOutPut();
+        this.serviceName = updateProject.getServiceName();
+        this.ordinal = updateProject.getOrdinal();
+        this.univ = updateProject.getUniv();
+        this.startDate = updateProject.getStartDate();
+        this.endDate = updateProject.getEndDate();
+        this.tech = updateProject.getTech();
+        this.description = updateProject.getDescription();
+        this.content = updateProject.getContent();
+        this.productionUrl = updateProject.getProductionUrl();
+    }
 }
