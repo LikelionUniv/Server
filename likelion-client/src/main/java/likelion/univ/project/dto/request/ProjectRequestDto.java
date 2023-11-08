@@ -20,7 +20,7 @@ import java.util.List;
 public class ProjectRequestDto {
 
     @NotBlank
-    private String thon;
+    private String activity;
 
     @NotBlank
     private Output outPut;
@@ -39,28 +39,25 @@ public class ProjectRequestDto {
     @NotBlank
     private LocalDate endDate;
 
-    @NotNull
-    private String tech;
-
     private String description;
     private String content;
-    private String projectUrl;
+    private String productionUrl;
+    @NotNull
+    private List<String> teches;
     private List<String> imageUrl;
     private List<Long> members;
 
     public Project toEntity() {
         return Project.builder()
-                .thon(thon)
+                .activity(activity)
                 .outPut(outPut)
                 .serviceName(serviceName)
                 .ordinal(ordinal)
-                .univ(univ)
                 .startDate(startDate)
                 .endDate(endDate)
-                .tech(tech)
                 .description(description)
                 .content(content)
-                .projectUrl(projectUrl)
+                .productionUrl(productionUrl)
                 .build();
     }
 

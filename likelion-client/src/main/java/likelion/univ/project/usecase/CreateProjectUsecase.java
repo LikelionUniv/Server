@@ -7,6 +7,7 @@ import likelion.univ.domain.project.entity.Project;
 import likelion.univ.domain.project.service.ProjectImageService;
 import likelion.univ.domain.project.service.ProjectMemberService;
 import likelion.univ.domain.project.service.ProjectService;
+import likelion.univ.domain.university.adaptor.UniversityAdaptor;
 import likelion.univ.domain.user.adaptor.UserAdaptor;
 import likelion.univ.domain.user.entity.Role;
 import likelion.univ.domain.user.entity.User;
@@ -28,6 +29,7 @@ public class CreateProjectUsecase {
     private final ProjectMemberService projectMemberService;
     private final UserAdaptor userAdaptor;
     private final ProjectAdaptor projectAdaptor;
+    private final UniversityAdaptor universityAdaptor;
 
     public ProjectIdResponseDto excute(ProjectRequestDto projectRequestDto) {
 
@@ -36,7 +38,10 @@ public class CreateProjectUsecase {
             throw new NotAdminForbiddenException();
         }
 
-        Project createdProject = projectService.createProject(projectRequestDto.toEntity());
+        Project request = projectRequestDto.toEntity();
+        request.updateUniv(universityAdaptor.findByName(projectRequestDto.getUniv()));
+
+        Project createdProject = projectService.createProject(request);
         Long id = createdProject.getId();
         Project project = projectAdaptor.findById(id);
         projectImageService.addImage(

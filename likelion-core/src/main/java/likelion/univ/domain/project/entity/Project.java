@@ -23,7 +23,7 @@ public class Project extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    private String thon;
+    private String activity;
 
     @Enumerated(EnumType.STRING)
     private Output outPut;
@@ -66,8 +66,8 @@ public class Project extends BaseTimeEntity {
     private List<ProjectTech> teches = new ArrayList<>();
 
     @Builder
-    public Project(String thon, Output outPut, String serviceName, long ordinal, University univ, LocalDate startDate, LocalDate endDate, String description, String content, String productionUrl) {
-        this.thon = thon;
+    public Project(String activity, Output outPut, String serviceName, long ordinal, University univ, LocalDate startDate, LocalDate endDate, String description, String content, String productionUrl) {
+        this.activity = activity;
         this.outPut = outPut;
         this.serviceName = serviceName;
         this.ordinal = ordinal;
@@ -84,7 +84,7 @@ public class Project extends BaseTimeEntity {
     }
 
     public void update(Project updateProject) {
-        this.thon = updateProject.getThon();
+        this.activity = updateProject.getActivity();
         this.outPut = updateProject.getOutPut();
         this.serviceName = updateProject.getServiceName();
         this.ordinal = updateProject.getOrdinal();
