@@ -3,10 +3,11 @@ package likelion.univ.domain.user.adaptor;
 import likelion.univ.annotation.Adaptor;
 import likelion.univ.domain.user.entity.User;
 import likelion.univ.domain.user.exception.UserNotFoundException;
-import likelion.univ.domain.user.repository.UserQueryRepository;
 import likelion.univ.domain.user.repository.UserRepository;
 import likelion.univ.domain.user.repository.searchcondition.UserSearchCondition;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 
 import java.util.List;
 
@@ -14,7 +15,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserAdaptor {
     private final UserRepository userRepository;
-    private final UserQueryRepository userQueryRepository;
     public User findById(Long id){
         return userRepository.findById(id)
                 .orElseThrow(()-> new UserNotFoundException());
@@ -37,6 +37,15 @@ public class UserAdaptor {
         return userRepository.findAll();
     }
     public List<User> findDynamicUsers(UserSearchCondition condition) {
-        return userQueryRepository.findDynamicUsers(condition);
+        return userRepository.findDynamicUsers(condition);
+    }
+    public Slice<User> findFollowingUsersByFollowerID(Long userId, Pageable pageable){
+        return userRepository.findFollowingUsersByFollowerID(userId, pageable);
+    }
+    public Slice<User> findFollowerUsersByFollowingID(Long userId, Pageable pageable){
+        return userRepository.findFollowerUsersByFollowingID(userId, pageable);
+    }
+    public List<User> findMyFollowingUsersByFollowingIdIn(Long follwerId, List<Long> followingIdList){
+        return userRepository.findMyFollowingUsersByFollowingIdIn(follwerId, followingIdList);
     }
 }

@@ -17,7 +17,6 @@ import static likelion.univ.domain.post.entity.QPost.post;
 import static likelion.univ.domain.user.entity.QUser.user;
 
 @RequiredArgsConstructor
-@Repository
 public class PostCustomRepositoryImpl implements PostCustomRepository {
 
     private final JPAQueryFactory queryFactory;

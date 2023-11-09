@@ -1,0 +1,93 @@
+package likelion.univ.domain.user.repository.impl;
+
+import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.jpa.impl.JPAQueryFactory;
+import likelion.univ.common.processor.ConvertSliceProcessor;
+import likelion.univ.domain.user.entity.Part;
+import likelion.univ.domain.user.entity.User;
+import likelion.univ.domain.user.repository.UserCustomRepository;
+import likelion.univ.domain.user.repository.searchcondition.UserSearchCondition;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
+import org.springframework.util.StringUtils;
+
+import java.util.List;
+
+import static likelion.univ.domain.follow.entity.QFollow.follow;
+import static likelion.univ.domain.user.entity.QUser.user;
+
+@RequiredArgsConstructor
+public class UserCustomRepositoryImpl implements UserCustomRepository {
+    private final JPAQueryFactory queryFactory;
+    private final ConvertSliceProcessor convertSliceProcessor;
+
+    @Override
+    public List<User> findDynamicUsers(UserSearchCondition condition) {
+        return queryFactory
+                .selectFrom(user)
+                .where(
+                        containsName(condition.getName()),
+                        eqUniversity(condition.getUniversity()),
+                        eqPart(condition.getPart())
+                )
+                .fetch();
+    }
+
+    private BooleanExpression containsName(String searchName) {
+        return StringUtils.hasText(searchName) ? user.profile.name.contains(searchName) : null;
+    }
+
+    private BooleanExpression eqUniversity(String searchUniversity) {
+        return searchUniversity != null ? user.universityInfo.university.name.eq(searchUniversity) : null;
+    }
+
+    private BooleanExpression eqPart(String searchPart) {
+        return searchPart != null ? user.profile.part.eq(Part.valueOf(searchPart)) : null;
+    }
+
+
+    @Override
+    public Slice<User> findFollowingUsersByFollowerID(Long followerId, Pageable pageable){
+        List<User> users =
+                queryFactory
+                        .select(follow.following)
+                        .from(follow)
+                        .innerJoin(follow.following, user)
+                        .where(follow.follower.id.eq(followerId))
+                        .offset(pageable.getOffset())
+                        .orderBy(user.createdDate.desc())
+                        .limit(pageable.getPageSize() + 1)
+                        .fetch();
+
+        return convertSliceProcessor.execute(users, pageable);
+    }
+    @Override
+    public Slice<User> findFollowerUsersByFollowingID(Long followingId, Pageable pageable){
+        List<User> users =
+                queryFactory
+                        .select(user)
+                        .from(follow)
+                        .innerJoin(follow.follower, user)
+                        .where(follow.following.id.eq(followingId))
+                        .offset(pageable.getOffset())
+                        .orderBy(user.createdDate.desc())
+                        .limit(pageable.getPageSize() + 1)
+                        .fetch();
+
+        return convertSliceProcessor.execute(users, pageable);
+    }
+
+    @Override
+    public List<User> findMyFollowingUsersByFollowingIdIn(Long followerId, List<Long> followingIdList){
+        List<User> users =
+                queryFactory
+                        .select(user)
+                        .from(follow)
+                        .innerJoin(follow.following, user)
+                        .where(follow.follower.id.eq(followerId)
+                                .and(follow.following.id.in(followingIdList)))
+                        .fetch();
+        return users;
+    }
+}

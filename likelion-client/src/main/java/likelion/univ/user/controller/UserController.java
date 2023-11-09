@@ -3,13 +3,12 @@ package likelion.univ.user.controller;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import likelion.univ.common.response.PageResponse;
+import likelion.univ.common.response.SliceResponse;
 import likelion.univ.user.dto.request.ProfileEditRequestDto;
+import likelion.univ.user.dto.response.FollowUserInfoDto;
 import likelion.univ.user.dto.response.UserPagePostsDto;
 import likelion.univ.user.dto.response.ProfileDetailsDto;
-import likelion.univ.user.usecase.EditProfileUseCase;
-import likelion.univ.user.usecase.GetUserPostsUseCase;
-import likelion.univ.user.usecase.GetPostsCommentedByMeUseCase;
-import likelion.univ.user.usecase.GetProfileUseCase;
+import likelion.univ.user.usecase.*;
 import likelion.univ.response.SuccessResponse;
 import lombok.RequiredArgsConstructor;
 import org.springdoc.api.annotations.ParameterObject;
@@ -26,6 +25,7 @@ public class UserController {
     private final EditProfileUseCase editProfileUseCase;
     private final GetUserPostsUseCase getMyPostsUseCase;
     private final GetPostsCommentedByMeUseCase getPostsCommentedByMeUseCase;
+    private final GetFollowInfoUseCase getFollowingListUseCase;
 
     @Operation(summary = "유저페이지 프로필 조회", description = "해당 유저의 프로필 정보를 조회합니다.")
     @GetMapping("/{userId}/profile")
@@ -33,6 +33,7 @@ public class UserController {
         ProfileDetailsDto profileDetailsDto = getProfileUseCase.execute(userId);
         return SuccessResponse.of(profileDetailsDto);
     }
+
     @Operation(summary = "유저페이지 프로필 수정", description = "해당 유저의 프로필 정보를 수정합니다.")
     @PatchMapping("/{userId}/profile")
     public SuccessResponse<Object> editProfile(@PathVariable Long userId,
@@ -41,6 +42,21 @@ public class UserController {
         return SuccessResponse.empty();
     }
 
+    @Operation(summary = "팔로잉 목록 조회", description = "해당 유저의 팔로잉 목록을 조회합니다.")
+    @GetMapping("/{userId}/following")
+    public SuccessResponse<Object> getFollowingList(@PathVariable Long userId,
+                                                    @ParameterObject @PageableDefault(size = 4, page = 1) Pageable pageable){
+        SliceResponse<FollowUserInfoDto> followingUsers = getFollowingListUseCase.executeForFollowing(userId,pageable);
+        return SuccessResponse.of(followingUsers);
+    }
+
+    @Operation(summary = "팔로워 목록 조회", description = "해당 유저의 팔로워 목록을 조회합니다.")
+    @GetMapping("/{userId}/follower")
+    public SuccessResponse<Object> getFollowerList(@PathVariable Long userId,
+                                                   @ParameterObject @PageableDefault(size = 4, page = 1) Pageable pageable){
+        SliceResponse<FollowUserInfoDto> followerUsers = getFollowingListUseCase.executeForFollower(userId,pageable);
+        return SuccessResponse.of(followerUsers);
+    }
     @Operation(summary = "해당 유저가 쓴 게시글 조회", description = "해당 유저가 작성한 게시글을 조회합니다.")
     @GetMapping("/{userId}/posts")
     public SuccessResponse<Object> getMyPosts(@PathVariable Long userId,
@@ -48,6 +64,7 @@ public class UserController {
         PageResponse<UserPagePostsDto> myPagePostsPage = getMyPostsUseCase.execute(userId, pageable);
         return SuccessResponse.of(myPagePostsPage);
     }
+
     @Operation(summary = "해당 유저가 댓글 쓴 게시글 조회", description = "해당 유저가 댓글을 작성한 게시글을 조회합니다.")
     @GetMapping("/{userId}/comments")
     public SuccessResponse<Object> getPostsCommentedByMe(@PathVariable Long userId,
