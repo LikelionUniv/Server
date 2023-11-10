@@ -4,10 +4,10 @@ import likelion.univ.annotation.UseCase;
 import likelion.univ.domain.follow.adaptor.FollowAdaptor;
 import likelion.univ.domain.user.adaptor.UserAdaptor;
 import likelion.univ.domain.user.entity.User;
-import likelion.univ.user.dao.UserFollowNumRedisDao;
+import likelion.univ.follow.dao.FollowNumRedisDao;
 import likelion.univ.user.dto.response.ProfileDetailsDto;
-import likelion.univ.user.entity.UserFollowNum;
-import likelion.univ.user.service.UserFollowNumRedisService;
+import likelion.univ.follow.entity.FollowNum;
+import likelion.univ.follow.service.FollowNumRedisService;
 import likelion.univ.utils.AuthentiatedUserUtils;
 import lombok.RequiredArgsConstructor;
 
@@ -18,8 +18,8 @@ import java.util.Optional;
 public class GetProfileUseCase {
     private final AuthentiatedUserUtils authentiatedUserUtils;
     private final UserAdaptor userAdaptor;
-    private final UserFollowNumRedisDao userFollowNumRedisDao;
-    private final UserFollowNumRedisService userFollowNumRedisService;
+    private final FollowNumRedisDao followNumRedisDao;
+    private final FollowNumRedisService followNumRedisService;
     private final FollowAdaptor followAdaptor;
 
     public ProfileDetailsDto execute(Long userId){
@@ -30,19 +30,19 @@ public class GetProfileUseCase {
     }
 
     private ProfileDetailsDto createDto(User user, Long currentUserId){
-        UserFollowNum userFollowNum = getUserFollowNum(user.getId());
+        FollowNum followNum = getUserFollowNum(user.getId());
 
         if (user.getId().equals(currentUserId))
-            return ProfileDetailsDto.of(user, true, userFollowNum.getFollowerNum(), userFollowNum.getFollowingNum());
-        else return ProfileDetailsDto.of(user, false, userFollowNum.getFollowerNum(), userFollowNum.getFollowingNum());
+            return ProfileDetailsDto.of(user, true, followNum.getFollowerNum(), followNum.getFollowingNum());
+        else return ProfileDetailsDto.of(user, false, followNum.getFollowerNum(), followNum.getFollowingNum());
     }
 
-    private UserFollowNum getUserFollowNum(Long userId){
-        Optional<UserFollowNum> userFollowNum = userFollowNumRedisDao.findById(userId);
+    private FollowNum getUserFollowNum(Long userId){
+        Optional<FollowNum> userFollowNum = followNumRedisDao.findById(userId);
         if(userFollowNum.isEmpty()){
             Long followerNum = followAdaptor.countByFollowingId(userId);
             Long followingNum = followAdaptor.countByFollowerId(userId);
-            return userFollowNumRedisService.save(userId, followerNum, followingNum);
+            return followNumRedisService.save(userId, followerNum, followingNum);
         }else return userFollowNum.get();
     }
 }

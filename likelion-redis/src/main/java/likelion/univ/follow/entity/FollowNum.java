@@ -1,4 +1,4 @@
-package likelion.univ.user.entity;
+package likelion.univ.follow.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class UserFollowNum {
+public class FollowNum {
     private Long followerNum;
     private Long followingNum;
 }

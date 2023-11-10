@@ -1,12 +1,9 @@
 package likelion.univ.domain.follow.adaptor;
 
 import likelion.univ.annotation.Adaptor;
-import likelion.univ.domain.follow.entity.Follow;
+import likelion.univ.domain.follow.exception.AlreadyFollowingUserException;
 import likelion.univ.domain.follow.repository.FollowRepository;
-import likelion.univ.domain.user.entity.User;
 import lombok.RequiredArgsConstructor;
-
-import java.util.List;
 
 @Adaptor
 @RequiredArgsConstructor
@@ -19,4 +16,9 @@ public class FollowAdaptor {
     public Long countByFollowingId(Long followingId){
         return followRepository.countByFollowingId(followingId);
     }
+    public void save(Long currentUserId, Long userId) {
+        try { followRepository.save(currentUserId,userId);}
+        catch(Exception e) { throw new AlreadyFollowingUserException(); }
+    }
+    public void delete(Long currentUserId, Long userId) { followRepository.delete(currentUserId,userId);}
 }

@@ -11,6 +11,7 @@ import javax.persistence.*;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
+@Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"follower_id", "following_id"})})
 public class Follow extends BaseTimeEntity {
 
     @Id

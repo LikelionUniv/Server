@@ -10,6 +10,6 @@ public interface UserRepository extends JpaRepository<User,Long>, UserCustomRepo
     Optional<User> findByAuthInfoEmail(String email);
     Boolean existsByAuthInfoEmail(String email);
 
-    @Query("SELECT u FROM User u join fetch u.universityInfo.university")
+    @Query("SELECT u FROM User u join fetch u.universityInfo.university where u.id = :id ")
     Optional<User> findByIdWithUniversity(Long id);
 }
