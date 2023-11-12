@@ -23,7 +23,7 @@ public class SuperAdminController {
     private final DeleteUserUseCase deleteUserUseCase;
     private final FindAllUserUseCase findAllUserUseCase;
     private final UpdateUserUseCase updateUserUseCase;
-    private final FindAllByUnivUseCase findAllByUnivUseCase;
+    private final FindAllByUnivNameUseCase findAllByUnivNameUseCase;
     private final FindUserUseCase findUserUseCase;
 
 
@@ -40,23 +40,23 @@ public class SuperAdminController {
 
     @Operation(summary = "특정 멤버 조회")
     @GetMapping("/user/{userId}")
-    public SuccessResponse<Object> findUserById(@PathVariable Long userId){
+    public SuccessResponse<Object> findUserById(@PathVariable("userId") Long userId){
         UserInfoResponseDto response = findUserUseCase.excute(userId);
 
         return SuccessResponse.of(response);
     }
 
     @Operation(summary = "특정 학교 멤버 다건 조회")
-    @GetMapping("/univ/{univName}/users")
-    public SuccessResponse<Object> findUsersByUniv(@PathVariable String univName){
+    @GetMapping("/users")
+    public SuccessResponse<Object> findUsersByUniv(@RequestParam String univName){
 
-        List<UserInfoResponseDto> response = findAllByUnivUseCase.excute(univName);
+        List<UserInfoResponseDto> response = findAllByUnivNameUseCase.excute(univName);
 
         return SuccessResponse.of(response);
     }
 
     @Operation(summary = "특정 멤버 수정")
-    @PatchMapping("/{univId}/user/{userId}")
+    @PatchMapping("/user/{userId}")
     public SuccessResponse<Object> updateUser(@PathVariable("userId")Long userId,
                                               @RequestBody UpdateUserRequestDto updateUserRequestDto){
 
@@ -65,7 +65,7 @@ public class SuperAdminController {
     }
 
     @Operation(summary = "특정 멤버 삭제")
-    @DeleteMapping("/{univId}/user/{userId}")
+    @DeleteMapping("/user/{userId}")
     public SuccessResponse<Object> deleteUser(@PathVariable("userId")Long userId){
 
         UserInfoResponseDto response = deleteUserUseCase.excute(userId);

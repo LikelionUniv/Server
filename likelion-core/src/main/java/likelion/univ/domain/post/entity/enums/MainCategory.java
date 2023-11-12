@@ -6,11 +6,9 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor
 public enum MainCategory {
-    BOARD("MAINCATEGORY_MAIN", "멋대중앙"),
-    HOMEWORK("MAINCATEGORY_FREEBOARD", "자유게시판"),
-    PROJECT("MAINCATEGORY_OVERFLOW", "멋사오버플로우");
+    HQ_BOARD("멋대 중앙"),
+    FREE_BOARD("자유게시판"),
+    OVERFLOW("멋사 오버플로우");
 
-
-    private final String key;
-    private final String title;
+    private final String value;
 }

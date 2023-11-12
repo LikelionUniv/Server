@@ -8,19 +8,27 @@ dependencies {
         api는 다른 모듈에서 이 라이브러리를 사용할때(직접적으로) 적용
         두번 컴파일 되므로 없는게 의존성 낮추는 가장 좋은 방법
      */
-    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    api 'org.springframework.boot:spring-boot-starter-data-jpa'
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.8.1'
+    runtimeOnly 'com.h2database:h2'
     implementation group: 'com.mysql', name: 'mysql-connector-j'
     // Querydsl
     implementation 'com.querydsl:querydsl-jpa'
     implementation 'com.querydsl:querydsl-core'
     implementation project(path: ':likelion-common')
-    // Querydsl JPAAnnotationProcessor 사용 지정
+
+      // Querydsl
+    api 'com.querydsl:querydsl-jpa'
+    api 'com.querydsl:querydsl-core'
+
     annotationProcessor "com.querydsl:querydsl-apt:${dependencyManagement.importedProperties['querydsl.version']}:jpa"
     annotationProcessor("jakarta.persistence:jakarta.persistence-api") // java.lang.NoClassDefFoundError(javax.annotation.Entity) 발생 대응
     annotationProcessor("jakarta.annotation:jakarta.annotation-api") // java.lang.NoClassDefFoundError (javax.annotation.Generated) 발생 대응
 
+
     /* common 모듈 추가 */
     implementation project(':likelion-common')
+    implementation project(path: ':likelion-common')
 }
 
 clean {
@@ -38,3 +46,4 @@ bootJar {
 jar {
     enabled = true
 }
+

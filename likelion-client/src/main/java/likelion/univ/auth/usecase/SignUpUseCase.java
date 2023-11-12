@@ -28,8 +28,7 @@ public class SignUpUseCase {
                                    SignUpRequestDto signUpRequestDto){
         UserInfoFromIdToken userInfo = loginByIdTokenProcessor.execute(loginType, idToken);
         if (!userAdaptor.checkEmail(userInfo.getEmail())){
-            Profile profile = Profile.profileForSignUp(userInfo.getNickname(),
-                    userInfo.getProfileImage());
+            Profile profile = Profile.fromName(signUpRequestDto.getName());
 
             University university = universityAdaptor.findByName(signUpRequestDto.getUniversityName());
             UniversityInfo universityInfo = UniversityInfo.universityInfoForSignUp(university,

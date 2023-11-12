@@ -17,11 +17,6 @@ public class UpdateUserUseCase {
     private final UserDomainService userDomainService;
 
 
-    /*
-    * 회원 정보 수정
-    * GLOBAL_500
-    * 서버 내부에서 알 수 없는 오류가 발생했습니다.
-     */
     public UserInfoResponseDto excute(Long userId, UpdateUserRequestDto updateUserRequestDto){
         User user = userAdaptor.findById(userId);
         userDomainService.updateUser(user, updateUserRequestDto.getName(),

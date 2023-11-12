@@ -1,27 +1,26 @@
 package likelion.univ.post.usecase;
 
 import likelion.univ.annotation.UseCase;
-import likelion.univ.post.dto.PostRequestDTO;
-import likelion.univ.domain.post.dto.PostServiceDTO;
-import likelion.univ.domain.post.service.PostService;
+import likelion.univ.domain.post.dto.request.PostDeleteServiceDto;
+import likelion.univ.domain.post.service.PostDomainService;
+import likelion.univ.utils.AuthentiatedUserUtils;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 
 @UseCase
 @RequiredArgsConstructor
 public class PostDeleteUseCase {
+    private final PostDomainService postDomainService;
+    private final AuthentiatedUserUtils userUtils;
 
-    @Autowired
-    private PostService postService;
-
-    public void execute(PostRequestDTO.Delete request) {
-        postService.deletePost(buildDTO(request));
+    public void execute(Long postId) {
+        postDomainService.deletePost(serviceDtoBy(postId));
         return ;
     }
 
-    PostServiceDTO.DeleteRequest buildDTO(PostRequestDTO.Delete request) {
-        return PostServiceDTO.DeleteRequest.builder()
-                .postId(request.getPostId())
+    private PostDeleteServiceDto serviceDtoBy(Long postId) {
+        return PostDeleteServiceDto.builder()
+                .postId(postId)
+                .loginUserId(userUtils.getCurrentUserId())
                 .build();
     }
 }

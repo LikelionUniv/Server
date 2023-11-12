@@ -11,8 +11,6 @@ public enum Part {
     PM("기획"),
     DESIGNER("디자인"),
     PM_DESIGNER("기획/디자인");
-
     private String value;
-
 
 }

@@ -26,11 +26,12 @@ public class SwaggerConfig {
         Server server = new Server().url(contextPath);
         return new OpenAPI()
                 .servers(List.of(server))
-                // Security 인증 컴포넌트 설정
-                .components(new Components().addSecuritySchemes("Authorization(accessToken)", securityScheme()))
+                .info(info())
                 // 인증 전역설정
                 .addSecurityItem(securityItem())
-                .info(info());
+                // Security 인증 컴포넌트 설정
+                .components(new Components()
+                        .addSecuritySchemes("Authorization(accessToken)", securityScheme()));
     }
     @Bean
     public ModelResolver modelResolver(ObjectMapper objectMapper) {
@@ -65,7 +66,7 @@ public class SwaggerConfig {
     // Security 요청 설정
     private SecurityRequirement securityItem(){
         SecurityRequirement securityItem = new SecurityRequirement();
-        securityItem.addList("Authorization");
+        securityItem.addList("Authorization(accessToken)");
         return securityItem;
     }
 }

@@ -1,8 +1,11 @@
 package likelion.univ.domain.comment.service;
 
 import likelion.univ.domain.comment.adaptor.CommentAdaptor;
+import likelion.univ.domain.comment.dto.*;
 import likelion.univ.domain.comment.entity.Comment;
-import likelion.univ.domain.comment.dto.CommentServiceDto;
+import likelion.univ.domain.comment.exception.NotAuthorizedException;
+import likelion.univ.domain.post.adaptor.PostAdaptor;
+import likelion.univ.domain.user.adaptor.UserAdaptor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,53 +15,84 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class CommentDomainService {
     private final CommentAdaptor commentAdaptor;
+    private final PostAdaptor postAdaptor;
+    private final UserAdaptor userAdaptor;
 
-    public CommentServiceDto.CommandResponse createParentComment(CommentServiceDto.CreateParentCommentRequest createParentCommentRequest) {
-        Comment parent = buildParentComment(createParentCommentRequest);
-        Comment saveComment = commentAdaptor.save(parent);
-
-        return CommentServiceDto.CommandResponse.of(saveComment);
+    public CommentCommandResponseDto createParentComment(CommentCreateParentServiceDto request) {
+        Comment parentComment = parentCommentBy(request);
+        Long savedId = commentAdaptor.save(parentComment);
+        return CommentCommandResponseDto.of(savedId);
     }
 
 
-    public CommentServiceDto.CommandResponse createChildComment(CommentServiceDto.CreateChildCommentRequest createChildCommentRequest) {
-        Comment child = buildChildComment(createChildCommentRequest);
-        Comment saveComment = commentAdaptor.save(child);
-        return CommentServiceDto.CommandResponse.of(saveComment);
+    public CommentCommandResponseDto createChildComment(CommentCreateChildServiceDto request) {
+        Comment childComment = childCommentBy(request);
+        Long savedId = commentAdaptor.save(childComment);
+        return CommentCommandResponseDto.of(savedId);
     }
 
 
-    public CommentServiceDto.CommandResponse editCommentBody(CommentServiceDto.EditCommentRequest editCommentRequest) {
-        Comment findComment = commentAdaptor.findById(editCommentRequest.getId());
-        Comment editComment = findComment.editBody(editCommentRequest.getBody());
-        return CommentServiceDto.CommandResponse.of(editComment);
+    public CommentCommandResponseDto updateCommentBody(CommentUpdateServiceDto request) {
+        if (isAuthorized(request)) {
+            Comment findComment = commentAdaptor.findById(request.getCommentId());
+            Long updatedId = findComment.updateBody(request.getBody());
+            return CommentCommandResponseDto.of(updatedId);
+        }
+        throw new NotAuthorizedException();
     }
 
-    public CommentServiceDto.CommandResponse deleteCommentSoft(CommentServiceDto.DeleteCommentRequest deleteCommentRequest) {
-        Comment findComment = commentAdaptor.findById(deleteCommentRequest.getId());
-        Comment deleteComment = findComment.delete();
-        return CommentServiceDto.CommandResponse.of(deleteComment);
+    public CommentCommandResponseDto deleteCommentSoft(CommentDeleteServiceDto request) {
+        if (isAuthorized(request)) {
+            Comment findComment = commentAdaptor.findById(request.getCommentId());
+            Long deletedId = findComment.softDelete();
+            return CommentCommandResponseDto.of(deletedId);
+        }
+        throw new NotAuthorizedException();
     }
 
-    public void deleteCommentHard(CommentServiceDto.DeleteCommentRequest deleteCommentRequest) {
-        Comment findComment = commentAdaptor.findById(deleteCommentRequest.getId());
+    public void deleteCommentHard(CommentDeleteServiceDto request) {
+        Comment findComment = commentAdaptor.findById(request.getCommentId());
         commentAdaptor.delete(findComment);
     }
 
     /* --------------- 내부 편의 메서드 --------------- */
-    private static Comment buildParentComment(CommentServiceDto.CreateParentCommentRequest createParentCommentRequest) {
+    private Comment parentCommentBy(CommentCreateParentServiceDto request) {
         return Comment.builder()
-                .post(createParentCommentRequest.getPost())
-                .author(createParentCommentRequest.getUser())
-                .body(createParentCommentRequest.getBody())
+                .post(postAdaptor.findById(request.getPostId()))
+                .author(userAdaptor.findById(request.getLoginUserId()))
+                .body(request.getBody())
                 .build();
     }
-    private static Comment buildChildComment(CommentServiceDto.CreateChildCommentRequest createChildCommentRequest) {
-        return Comment.builder()
-                .post(createChildCommentRequest.getPost())
-                .author(createChildCommentRequest.getUser())
-                .body(createChildCommentRequest.getBody())
+    private Comment childCommentBy(CommentCreateChildServiceDto request) {
+        Comment comment = Comment.builder()
+                .post(postAdaptor.findById(request.getPostId()))
+                .author(userAdaptor.findById(request.getLoginUserId()))
+                .body(request.getBody())
                 .build();
+        comment.setParent(parentCommentBy(request.getParentCommentId()));
+        return comment;
+    }
+
+    private Comment parentCommentBy(Long parentCommentId) {
+        return commentAdaptor.findById(parentCommentId);
+    }
+
+    private boolean isAuthorized(CommentUpdateServiceDto request) {
+        Long commentId = request.getCommentId();
+        Long authorId = getAuthorId(commentId);
+        Long loginUserId = request.getLoginUserId();
+        return authorId.equals(loginUserId);
+    }
+
+    private boolean isAuthorized(CommentDeleteServiceDto request) {
+        Long commentId = request.getCommentId();
+        Long authorId = getAuthorId(commentId);
+        Long loginUserId = request.getLoginUserId();
+        return authorId.equals(loginUserId);
+    }
+
+    private Long getAuthorId(Long commentId) {
+        return commentAdaptor.findById(commentId).getAuthor().getId();
     }
 
 }

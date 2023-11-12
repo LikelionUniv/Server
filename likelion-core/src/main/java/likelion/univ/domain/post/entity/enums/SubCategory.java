@@ -8,17 +8,25 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor
 public enum SubCategory {
-     NOTICE("SUBCATEGORY_NOTICE", "공지"),
-     QNA("SUBCATEGORY_QNA", "질의응답"),
-     FREEBOARD("SUBCATEGORY_INFO", "정보공유"),
-     FRONTEND("SUBCATEGORY_FRONTEND", "프론트"),
-     BACKEND("SUBCATEGORY_BACKEND", "백엔드"),
-     DESIGN("SUBCATEGORY_DESIGN", "디자인"),
-     PROJECT("SUBCATEGORY_PROJECT", "프로젝트");
+     // HQ
+     NOTICE("공지사항"),
+     QNA("질문건의"),
+     HQ_INFO("중앙정보공유"),
 
+     // board
+     FREE_INFO("멋대정보공유"),
+     GET_MEMBER("팀원 모집"),
+     GET_PROJECT("프로젝트 모집"),
+     SHOWOFF("프로젝트 자랑"),
 
-     private final String key;
-     private final String title;
+     // overflow
+     FRONTEND("프론트"),
+     BACKEND("백엔드"),
+     PM("기획"),
+     UXUI("디자인"),
+     ETC("기타");
+
+     private final String value;
 
 }
 

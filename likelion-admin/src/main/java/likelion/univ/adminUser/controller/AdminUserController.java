@@ -5,7 +5,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import likelion.univ.adminUser.dto.request.UpdateUserRequestDto;
 import likelion.univ.adminUser.dto.response.UserInfoResponseDto;
 import likelion.univ.adminUser.usecase.DeleteUserUseCase;
-import likelion.univ.adminUser.usecase.FindAllByUnivIdUseCase;
+import likelion.univ.adminUser.usecase.FindAllByUnivAdminUseCase;
 import likelion.univ.adminUser.usecase.UpdateUserUseCase;
 import likelion.univ.response.SuccessResponse;
 import lombok.RequiredArgsConstructor;
@@ -16,19 +16,19 @@ import java.util.List;
 
 @Slf4j
 @RestController
-@RequestMapping(value = "/v1/univAdmin/{univId}")
+@RequestMapping(value = "/v1/univAdmin")
 @RequiredArgsConstructor
 @Tag(name = "UnivAdmin", description = "학교 대표 API")
 public class AdminUserController {
 
     private final UpdateUserUseCase updateUserUseCase;
     private final DeleteUserUseCase deleteUserUseCase;
-    private final FindAllByUnivIdUseCase findAllByUnivIdUseCase;
+    private final FindAllByUnivAdminUseCase findAllByUnivAdminUseCase;
 
     @Operation(summary = "우리 학교 동아리 멤버 전체 조회")
     @GetMapping("/users")
-    public SuccessResponse<Object> findUsersByUnivOfUser(@PathVariable Long univId){
-        List<UserInfoResponseDto> response = findAllByUnivIdUseCase.excute(univId);
+    public SuccessResponse<Object> findUsersByUnivOfUser(Long univId){
+        List<UserInfoResponseDto> response = findAllByUnivAdminUseCase.excute();
         return SuccessResponse.of(response);
     }
 

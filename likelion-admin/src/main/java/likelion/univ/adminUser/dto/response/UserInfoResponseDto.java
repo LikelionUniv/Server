@@ -16,10 +16,11 @@ public class UserInfoResponseDto {
     private Part part;
     private Long ordinal;
 
+
     public static UserInfoResponseDto of(User user){
-        return UserInfoResponseDto.builder()
-                .name(user.getProfile().getName())
+        return new UserInfoResponseDtoBuilder()
                 .id(user.getId())
+                .name(user.getProfile().getName())
                 .major(user.getUniversityInfo().getMajor())
                 .part(user.getProfile().getPart())
                 .ordinal(user.getUniversityInfo().getOrdinal())
