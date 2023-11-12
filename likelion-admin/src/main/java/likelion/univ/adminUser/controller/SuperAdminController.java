@@ -47,7 +47,7 @@ public class SuperAdminController {
     }
 
     @Operation(summary = "특정 학교 멤버 다건 조회")
-    @GetMapping("/users")
+    @GetMapping("/univ/users")
     public SuccessResponse<Object> findUsersByUniv(@RequestParam String univName){
 
         List<UserInfoResponseDto> response = findAllByUnivNameUseCase.excute(univName);

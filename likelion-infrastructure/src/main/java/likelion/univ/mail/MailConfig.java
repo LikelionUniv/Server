@@ -28,19 +28,28 @@ public class MailConfig {
 
     @Value("${mail.password}")
     private String password;
-
+    @Value("${mail.debug}")
+    private boolean debug;
+    @Value("${mail.transport.protocol}")
+    private String protocol;
+    @Value("${mail.default.encoding}")
+    private String encoding;
 
     @Bean
     public JavaMailSender javaMailSender(){
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
         Properties properties = new Properties();
+        properties.put("mail.transport.protocol", protocol);
         properties.put("mail.smtp.auth", auth);
         properties.put("mail.smtp.starttls.enable", starttls);
+        properties.put("mail.smtp.debug", debug);
 
         mailSender.setHost(host);
         mailSender.setUsername(username);
         mailSender.setPassword(password);
         mailSender.setPort(port);
+        mailSender.setJavaMailProperties(properties);
+        mailSender.setDefaultEncoding(encoding);
 
         return mailSender;
     }
