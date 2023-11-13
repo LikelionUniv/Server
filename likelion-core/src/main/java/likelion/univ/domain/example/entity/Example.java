@@ -15,7 +15,6 @@ public class Example extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "example_id")
     private Long id;
 
     @Column(nullable = false)

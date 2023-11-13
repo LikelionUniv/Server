@@ -9,4 +9,5 @@ import java.util.Optional;
 
 public interface PostLikeRepository extends JpaRepository<PostLike,Long> {
     Optional<PostLike> findByPostAndAuthor(Post post, User author);
+    Long countByPostId(Long postId);
 }

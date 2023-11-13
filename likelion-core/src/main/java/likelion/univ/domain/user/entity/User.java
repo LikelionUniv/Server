@@ -9,12 +9,11 @@ import javax.persistence.*;
 @Builder
 @AllArgsConstructor
 @Entity
-@Table(name="users", uniqueConstraints = {@UniqueConstraint(columnNames = {"email", "loginType"})})
+@Table(name="user", uniqueConstraints = {@UniqueConstraint(columnNames = {"email", "loginType"})})
 public class User extends BaseTimeEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_id")
     private Long id;
 
     @Embedded
@@ -26,4 +25,7 @@ public class User extends BaseTimeEntity{
     @Embedded
     private AuthInfo authInfo;
 
+    public void editProfile(Profile profile){
+        this.profile = profile;
+    }
 }

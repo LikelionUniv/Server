@@ -28,4 +28,7 @@ public class PostLikeAdaptor {
     public PostLike findById(Long postLikeId) {
         return postLikeRepository.findById(postLikeId).orElseThrow(() -> new PostLikeNotFoundException());
     }
+    public Long countByPostId(Long postId){
+        return postLikeRepository.countByPostId(postId);
+    }
 }

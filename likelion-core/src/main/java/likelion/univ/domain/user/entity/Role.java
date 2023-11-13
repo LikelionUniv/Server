@@ -8,11 +8,10 @@ import lombok.Getter;
 public enum Role {
 
     GUEST("GUEST"),
-    USER("USER"),
-    MANAGER("MANAGER"),
-    ADMIN("ADMIN"),
-    CODEIT_ADMIN("CODEIT_ADMIN"),
-    SUPER_ADMIN("SUPER_ADMIN");
+    USER("USER"), /* 아기사자 */
+    MANAGER("MANAGER"), /* 운영진 */
+    UNIVERSITY_ADMIN("UNIVERSITY_ADMIN"), /* 대학대표 (대학관리자) */
+    SUPER_ADMIN("SUPER_ADMIN"); /* 총관리자 */
 
     private String value;
 }
