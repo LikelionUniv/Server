@@ -8,6 +8,7 @@ import likelion.univ.user.dto.request.ProfileEditRequestDto;
 import likelion.univ.user.dto.response.FollowUserInfoDto;
 import likelion.univ.user.dto.response.UserPagePostsDto;
 import likelion.univ.user.dto.response.ProfileDetailsDto;
+import likelion.univ.user.dto.response.UserSearchResultDto;
 import likelion.univ.user.usecase.*;
 import likelion.univ.response.SuccessResponse;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +27,7 @@ public class UserController {
     private final GetUserPostsUseCase getMyPostsUseCase;
     private final GetPostsCommentedByMeUseCase getPostsCommentedByMeUseCase;
     private final GetFollowInfoUseCase getFollowingListUseCase;
+    private final SearchUserByNameUseCase searchUserByNameUseCase;
 
     @Operation(summary = "유저페이지 프로필 조회", description = "해당 유저의 프로필 정보를 조회합니다.")
     @GetMapping("/{userId}/profile")
@@ -72,6 +74,15 @@ public class UserController {
         PageResponse<UserPagePostsDto> myPagePostsPageCommentedByMe = getPostsCommentedByMeUseCase.execute(userId, pageable);
         return SuccessResponse.of(myPagePostsPageCommentedByMe);
     }
+
+    @Operation(summary = "유저 검색 (Simple Data) (project page)", description = "이름으로 유저를 검색합니다. (프로젝트 페이지 모달)")
+    @GetMapping("/search")
+    public SuccessResponse<Object> searchUser(@RequestParam(required = false) String name,
+                                                         @ParameterObject @PageableDefault(size = 4, page = 1) Pageable pageable){
+        SliceResponse<UserSearchResultDto> searchedUsers = searchUserByNameUseCase.execute(name, pageable);
+        return SuccessResponse.of(searchedUsers);
+    }
+
 
 //    @Operation(summary = "내가 참여한 프로젝트 조회", description = "참여한 프로젝트를 조회합니다.")
 //    @GetMapping("/projects")

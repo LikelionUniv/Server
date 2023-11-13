@@ -11,5 +11,6 @@ public interface UserCustomRepository {
     List<User> findDynamicUsers(UserSearchCondition condition);
     Slice<User> findFollowingUsersByFollowerID(Long userId, Pageable pageable);
     Slice<User> findFollowerUsersByFollowingID(Long userId, Pageable pageable);
+    Slice<User> searchByName(String name, Pageable pageable);
     List<User> findMyFollowingUsersByFollowingIdIn(Long followerId, List<Long> followingIdList);
 }

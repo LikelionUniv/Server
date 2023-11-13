@@ -1,6 +1,8 @@
 package likelion.univ.domain.user.repository.impl;
 
 import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.core.types.dsl.CaseBuilder;
+import com.querydsl.core.types.dsl.NumberExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import likelion.univ.common.processor.ConvertSliceProcessor;
 import likelion.univ.domain.user.entity.Part;
@@ -15,6 +17,7 @@ import org.springframework.util.StringUtils;
 import java.util.List;
 
 import static likelion.univ.domain.follow.entity.QFollow.follow;
+import static likelion.univ.domain.university.entity.QUniversity.university;
 import static likelion.univ.domain.user.entity.QUser.user;
 
 @RequiredArgsConstructor
@@ -89,5 +92,28 @@ public class UserCustomRepositoryImpl implements UserCustomRepository {
                                 .and(follow.following.id.in(followingIdList)))
                         .fetch();
         return users;
+    }
+    @Override
+    public Slice<User> searchByName(String name, Pageable pageable){
+        NumberExpression<Integer> partOrder = new CaseBuilder()
+                .when(user.profile.part.eq(Part.PM)).then(1)
+                .when(user.profile.part.eq(Part.DESIGNER)).then(2)
+                .when(user.profile.part.eq(Part.PM_DESIGNER)).then(3)
+                .when(user.profile.part.eq(Part.FRONTEND)).then(4)
+                .when(user.profile.part.eq(Part.BACKEND)).then(5)
+                .otherwise(6);
+
+        List<User> users =
+                queryFactory
+                        .select(user)
+                        .from(user)
+                        .innerJoin(user.universityInfo.university, university).fetchJoin()
+                        .where(containsName(name))
+                        .offset(pageable.getOffset())
+                        .orderBy(partOrder.asc(), user.profile.name.asc())
+                        .limit(pageable.getPageSize() + 1)
+                        .fetch();
+
+        return convertSliceProcessor.execute(users, pageable);
     }
 }

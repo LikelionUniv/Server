@@ -22,7 +22,7 @@ public class ProfileEditRequestDto {
     private String profileImage;
 
     @NotNull
-    @Schema(description = "트랙(파트)", example = "BACKEND", required = true)
+    @Schema(description = "트랙(파트)", example = "BACKEND", required = true, enumAsRef = true)
     private Part part;
 
     public Profile toProfile(){

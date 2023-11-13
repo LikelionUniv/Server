@@ -48,4 +48,7 @@ public class UserAdaptor {
     public List<User> findMyFollowingUsersByFollowingIdIn(Long follwerId, List<Long> followingIdList){
         return userRepository.findMyFollowingUsersByFollowingIdIn(follwerId, followingIdList);
     }
+    public Slice<User> searchByName(String name, Pageable pageable){
+        return userRepository.searchByName(name, pageable);
+    }
 }
