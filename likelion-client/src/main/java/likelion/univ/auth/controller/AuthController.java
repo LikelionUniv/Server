@@ -8,6 +8,7 @@ import likelion.univ.auth.dto.response.IdTokenDto;
 import likelion.univ.auth.usecase.*;
 import likelion.univ.auth.dto.request.SignUpRequestDto;
 import likelion.univ.response.SuccessResponse;
+import likelion.univ.utils.AuthentiatedUserUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 

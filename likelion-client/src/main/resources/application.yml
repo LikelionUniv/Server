@@ -30,6 +30,7 @@ spring:
     activate:
       on-profile: dev
 
+
 --- ## staging환경 설정
 spring:
   config:

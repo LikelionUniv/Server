@@ -3,7 +3,7 @@ package likelion.univ.user.usecase;
 import likelion.univ.annotation.UseCase;
 import likelion.univ.common.response.PageResponse;
 import likelion.univ.domain.comment.adaptor.CommentAdaptor;
-import likelion.univ.domain.post.adaptor.LikePostAdaptor;
+import likelion.univ.domain.like.postlike.adaptor.PostLikeAdaptor;
 import likelion.univ.domain.post.adaptor.PostAdaptor;
 import likelion.univ.domain.post.entity.Post;
 import likelion.univ.user.dto.response.UserPagePostsDto;
@@ -25,7 +25,7 @@ public class GetPostsCommentedByMeUseCase {
     private final PostCountInfoRedisDao postCountInfoRedisDao;
     private final PostCountInfoRedisService postCountInfoRedisService;
     private final CommentAdaptor commentAdaptor;
-    private final LikePostAdaptor likePostAdaptor;
+    private final PostLikeAdaptor postLikeAdaptor;
 
     public PageResponse<UserPagePostsDto> execute(Long userId, Pageable pageable){
         Long currentUserId = authentiatedUserUtils.getCurrentUserId();
@@ -45,7 +45,7 @@ public class GetPostsCommentedByMeUseCase {
         Optional<PostCountInfo> postCountInfo = postCountInfoRedisDao.findById(postId);
         if(postCountInfo.isEmpty()){
             Long commentCount = commentAdaptor.countByPostId(postId);
-            Long likeCount = likePostAdaptor.countByPostId(postId);
+            Long likeCount = postLikeAdaptor.countByPostId(postId);
             return postCountInfoRedisService.save(postId, commentCount, likeCount);
         }else return postCountInfo.get();
     }

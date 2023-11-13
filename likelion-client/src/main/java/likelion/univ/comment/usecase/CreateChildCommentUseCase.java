@@ -1,32 +1,30 @@
 package likelion.univ.comment.usecase;
 
 import likelion.univ.annotation.UseCase;
-import likelion.univ.comment.dto.CommentRequestDto;
-import likelion.univ.domain.comment.adaptor.CommentAdaptor;
-import likelion.univ.domain.comment.dto.CommentServiceDto;
+import likelion.univ.comment.dto.CommentCreateChildRequestDto;
+import likelion.univ.domain.comment.dto.CommentCommandResponseDto;
+import likelion.univ.domain.comment.dto.CommentCreateChildServiceDto;
 import likelion.univ.domain.comment.service.CommentDomainService;
-import likelion.univ.domain.post.adaptor.PostAdaptor;
-import likelion.univ.domain.user.adaptor.UserAdaptor;
+import likelion.univ.response.SuccessResponse;
+import likelion.univ.utils.AuthentiatedUserUtils;
 import lombok.RequiredArgsConstructor;
 
 @UseCase
 @RequiredArgsConstructor
 public class CreateChildCommentUseCase {
-    private final CommentAdaptor commentAdaptor;
-    private final PostAdaptor postAdaptor;
-    private final UserAdaptor userAdaptor;
+    private final AuthentiatedUserUtils userUtils;
     private final CommentDomainService commentDomainService;
 
-    public CommentServiceDto.CommandResponse execute(CommentRequestDto.CreateChild createRequest) {
-        CommentServiceDto.CreateChildCommentRequest createServiceDto = buildServiceDtoBy(createRequest);
-        return commentDomainService.createChildComment(createServiceDto);
+    public SuccessResponse<?> execute(CommentCreateChildRequestDto request) {
+        CommentCommandResponseDto response = commentDomainService.createChildComment(serviceDtoBy(request));
+        return SuccessResponse.of(response);
     }
-    private CommentServiceDto.CreateChildCommentRequest buildServiceDtoBy(CommentRequestDto.CreateChild createRequest) {
-        return CommentServiceDto.CreateChildCommentRequest.builder()
-                .parent(commentAdaptor.findById(createRequest.getParentId()))
-                .post(postAdaptor.findById(createRequest.getPostId()))
-                .user(userAdaptor.findById(createRequest.getUserId()))
-                .body(createRequest.getBody())
+    private CommentCreateChildServiceDto serviceDtoBy(CommentCreateChildRequestDto request) {
+        return CommentCreateChildServiceDto.builder()
+                .parentCommentId(request.getParentCommentId())
+                .postId(request.getPostId())
+                .loginUserId(userUtils.getCurrentUserId())
+                .body(request.getBody())
                 .build();
     }
 }

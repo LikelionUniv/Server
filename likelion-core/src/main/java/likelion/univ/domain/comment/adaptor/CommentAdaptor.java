@@ -15,8 +15,8 @@ import java.util.List;
 public class CommentAdaptor {
     private final CommentRepository commentRepository;
 
-    public Comment save(Comment comment) {
-        return commentRepository.save(comment);
+    public Long save(Comment comment) {
+        return commentRepository.save(comment).getId();
     }
 
     public Comment findById(Long id) {

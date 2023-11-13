@@ -1,29 +1,29 @@
 package likelion.univ.comment.usecase;
 
 import likelion.univ.annotation.UseCase;
-import likelion.univ.comment.dto.CommentRequestDto;
-import likelion.univ.domain.comment.dto.CommentServiceDto;
+import likelion.univ.comment.dto.CommentCreateParentRequestDto;
+import likelion.univ.domain.comment.dto.CommentCommandResponseDto;
+import likelion.univ.domain.comment.dto.CommentCreateParentServiceDto;
 import likelion.univ.domain.comment.service.CommentDomainService;
-import likelion.univ.domain.post.adaptor.PostAdaptor;
-import likelion.univ.domain.user.adaptor.UserAdaptor;
+import likelion.univ.response.SuccessResponse;
+import likelion.univ.utils.AuthentiatedUserUtils;
 import lombok.RequiredArgsConstructor;
 
 @UseCase
 @RequiredArgsConstructor
 public class CreateParentCommentUseCase {
-    private final PostAdaptor postAdaptor;
-    private final UserAdaptor userAdaptor;
+    private final AuthentiatedUserUtils userUtils;
     private final CommentDomainService commentDomainService;
 
-    public CommentServiceDto.CommandResponse execute(CommentRequestDto.CreateParent createRequestDto) {
-        CommentServiceDto.CreateParentCommentRequest createServiceDto = buildServiceDtoBy(createRequestDto);
-        return commentDomainService.createParentComment(createServiceDto);
+    public SuccessResponse<?> execute(CommentCreateParentRequestDto createRequestDto) {
+        CommentCommandResponseDto response = commentDomainService.createParentComment(serviceDtoBy(createRequestDto));
+        return SuccessResponse.of(response);
     }
 
-    private CommentServiceDto.CreateParentCommentRequest buildServiceDtoBy(CommentRequestDto.CreateParent createParentRequest) {
-        return CommentServiceDto.CreateParentCommentRequest.builder()
-                .post(postAdaptor.findById(createParentRequest.getPostId()))
-                .user(userAdaptor.findById(createParentRequest.getUserId()))
+    private CommentCreateParentServiceDto serviceDtoBy(CommentCreateParentRequestDto createParentRequest) {
+        return CommentCreateParentServiceDto.builder()
+                .postId(createParentRequest.getPostId())
+                .loginUserId(userUtils.getCurrentUserId())
                 .body(createParentRequest.getBody())
                 .build();
     }

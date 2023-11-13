@@ -4,23 +4,22 @@ import likelion.univ.annotation.Adaptor;
 import likelion.univ.domain.post.entity.Post;
 import likelion.univ.domain.post.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import likelion.univ.domain.post.exception.PostNotFoudException;
 
 @Adaptor
 @RequiredArgsConstructor
 public class PostAdaptor {
-
     private final PostRepository postRepository;
 
-
-    public void save(Post post) {
-        postRepository.save(post);
+    public Long save(Post post) {
+        Post savedPost = postRepository.save(post);
+        return savedPost.getId();
     }
 
     public Post findById(Long id) {
-        return postRepository.findById(id).get(); //예외처리
+        return postRepository.findById(id).orElseThrow(() -> new PostNotFoudException());
     }
 
     public void delete(Post post) {
