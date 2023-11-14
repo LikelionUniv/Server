@@ -34,6 +34,12 @@ public class UserDomainService {
                 .build();
         return userAdaptor.save(user);
     }
+    @Transactional
+    public User editProfile(Long userId, Profile profile){
+        User user = userAdaptor.findById(userId);
+        user.editProfile(profile);
+        return user;
+    }
 
     public User findByEmail(String email) {
         return userAdaptor.findByEmail(email);

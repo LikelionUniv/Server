@@ -14,7 +14,6 @@ public class University extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "university_id")
     private Long id;
     @Column(unique = true)
     private String name;

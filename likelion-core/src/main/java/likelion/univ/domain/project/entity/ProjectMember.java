@@ -15,7 +15,6 @@ public class ProjectMember {
 
     @Id
     @GeneratedValue
-    @Column(name = "projectMember_id")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)

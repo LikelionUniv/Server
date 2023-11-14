@@ -1,5 +1,6 @@
 package likelion.univ.post.repository;
 
+import com.querydsl.jpa.impl.JPAQueryFactory;
 import likelion.univ.domain.post.dto.response.PostDetailResponseDto;
 import likelion.univ.domain.post.dto.response.QPostDetailResponseDto;
 import likelion.univ.domain.post.entity.enums.MainCategory;
@@ -8,7 +9,6 @@ import likelion.univ.utils.AuthenticatedUserUtils;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.data.domain.Pageable;
-import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

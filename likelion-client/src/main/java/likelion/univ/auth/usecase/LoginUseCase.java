@@ -2,8 +2,8 @@ package likelion.univ.auth.usecase;
 
 import likelion.univ.annotation.UseCase;
 import likelion.univ.auth.dto.response.AccountTokenDto;
-import likelion.univ.auth.usecase.processor.GenerateAccountTokenProcessor;
-import likelion.univ.auth.usecase.processor.LoginByIdTokenProcessor;
+import likelion.univ.auth.processor.GenerateAccountTokenProcessor;
+import likelion.univ.auth.processor.LoginByIdTokenProcessor;
 import likelion.univ.domain.user.adaptor.UserAdaptor;
 import likelion.univ.domain.user.entity.LoginType;
 import likelion.univ.domain.user.entity.User;
