@@ -30,7 +30,7 @@ public class PostCustomRepositoryImpl implements PostCustomRepository {
 
     @Override
     public Page<Post> findByPostLikeAuthorId(Long userId, Pageable pageable){
-        List<Long> ids = getCoveringIndexByComment(postLike.author.id.eq(userId));
+        List<Long> ids = getCoveringIndexByPostLike(postLike.author.id.eq(userId));
         return findByCoveringIndex(ids, pageable);
     }
 
