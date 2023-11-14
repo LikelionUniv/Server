@@ -18,7 +18,6 @@ public class Project extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="project_id")
     private long id;
 
     private String thon;

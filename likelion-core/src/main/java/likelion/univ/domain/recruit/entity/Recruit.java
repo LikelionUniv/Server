@@ -19,7 +19,6 @@ public class Recruit extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "recruit_id")
     private Long id;
 
     private String name;

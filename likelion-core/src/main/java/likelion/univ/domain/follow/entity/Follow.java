@@ -11,11 +11,11 @@ import javax.persistence.*;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
+@Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"follower_id", "following_id"})})
 public class Follow extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "follow_id")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -23,8 +23,8 @@ public class Follow extends BaseTimeEntity {
     private User follower;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "followee_id")
-    private User followee;
+    @JoinColumn(name = "following_id")
+    private User following;
 
 
 }

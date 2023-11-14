@@ -20,7 +20,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/v1/community/comments")
-@Tag(name = "댓글", description = "댓글 API")
+@Tag(name = "댓글", description = "커뮤니티 APIs")
 public class CommentController {
     private final CreateParentCommentUseCase createParentCommentUseCase;
     private final CreateChildCommentUseCase createChildCommentUseCase;

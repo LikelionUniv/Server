@@ -1,6 +1,6 @@
 package likelion.univ.post.repository;
 
-import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.jpa.impl.JPAQueryFactory;
 import likelion.univ.domain.post.dto.response.PostDetailResponseDto;
 import likelion.univ.domain.post.dto.response.QPostDetailResponseDto;
 import likelion.univ.domain.post.entity.enums.MainCategory;
@@ -9,7 +9,6 @@ import likelion.univ.utils.AuthentiatedUserUtils;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.data.domain.Pageable;
-import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -120,6 +119,7 @@ public class PostReadRepositoryCustomImpl implements PostReadRepositoryCustom {
                 post.title,
                 post.body,
                 post.thumbnail,
+                post.postLikes.size(),
                 post.mainCategory,
                 post.subCategory,
                 post.createdDate,
