@@ -4,7 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 
-import static likelion.univ.domain.user.entity.AccountStatus.MEMBER;
+import static likelion.univ.domain.user.entity.AccountStatus.ACTIVE;
 import static likelion.univ.domain.user.entity.Role.GUEST;
 
 @Embeddable
@@ -20,6 +20,8 @@ public class AuthInfo {
     private String email;
     @Enumerated(EnumType.STRING)
     private AccountStatus accountStatus;
+    // 01000000000 형태로
+    private String phoneNumber;
 
     @Enumerated(EnumType.STRING)
     private Role role;
@@ -28,7 +30,7 @@ public class AuthInfo {
         return AuthInfo.builder()
                 .loginType(loginType)
                 .email(email)
-                .accountStatus(MEMBER)
+                .accountStatus(ACTIVE)
                 .role(GUEST)
                 .build();
     }

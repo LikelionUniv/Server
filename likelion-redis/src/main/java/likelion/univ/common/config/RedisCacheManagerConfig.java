@@ -46,7 +46,6 @@ public class RedisCacheManagerConfig {
         Map<String, RedisCacheConfiguration> customConfigurationMap = new HashMap<>();
         customConfigurationMap.put(KAKAO_PUBLIC_KEYS, redisCacheConfiguration.entryTtl(Duration.ofDays(1L)));
         customConfigurationMap.put(GOOGLE_PUBLIC_KEYS, redisCacheConfiguration.entryTtl(Duration.ofDays(1L)));
-        customConfigurationMap.put(REFRESH_TOKEN, redisCacheConfiguration.entryTtl(Duration.ofDays(14L)));
         return customConfigurationMap;
     }
 }

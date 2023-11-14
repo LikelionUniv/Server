@@ -7,11 +7,6 @@ spring:
       - infrastructure
       - security
       - redis
-#  data:
-#    web:
-#      pageable: ##페이징
-#        default-page-size: 5 #기획에 따라 5페이지가 기본
-#        one-indexed-parameters: true #1페이지부터 시작, default:0페이지 # 황제철의견 : 동작원리가 안보이는데 이게 원하는대로 동작하고 있지 않는 것 같아요. 원하는 효과가 간단해서 일단 그냥 로직에 포함하겠습니다.
 
 server:
   servlet:
@@ -19,7 +14,6 @@ server:
 
 springdoc:
   default-consumes-media-type: application/json;charset=UTF-8
-  default-produces-media-type: application/json;charset=UTF-8
   api-docs:
     enabled: ${SWAGGER_ENABLED}
     path: '/swagger'
