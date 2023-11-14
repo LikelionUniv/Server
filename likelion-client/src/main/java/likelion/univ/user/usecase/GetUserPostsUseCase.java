@@ -11,7 +11,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import java.util.Optional;
 
 @UseCase
 @RequiredArgsConstructor
@@ -24,8 +23,6 @@ public class GetUserPostsUseCase {
     public PageResponse<UserPagePostsDto> execute(Long userId, Pageable pageable){
         Long currentUserIdId = authentiatedUserUtils.getCurrentUserId();
         Page<Post> posts = postAdaptor.findAllByAuthor_Id(userId, pageable);
-
-
         return PageResponse.of(posts.map(p-> UserPagePostsDto.of(p, currentUserIdId,
                 getOrCreatePostCountInfoProcessor.execute(p.getId()))));
     }

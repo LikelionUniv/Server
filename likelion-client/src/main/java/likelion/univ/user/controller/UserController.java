@@ -62,11 +62,12 @@ public class UserController {
     }
     @Operation(summary = "해당 유저가 쓴 게시글 조회", description = "해당 유저가 작성한 게시글을 조회합니다.")
     @GetMapping("/{userId}/posts")
-    public SuccessResponse<Object> getMyPosts(@PathVariable Long userId,
+    public SuccessResponse<Object> getPostsWritedByUser(@PathVariable Long userId,
                                               @ParameterObject @PageableDefault(size = 6, page = 1) Pageable pageable){
         PageResponse<UserPagePostsDto> myPagePostsPage = getMyPostsUseCase.execute(userId, pageable);
         return SuccessResponse.of(myPagePostsPage);
     }
+
     @Operation(summary = "해당 유저가 좋아요 누른 게시글 조회", description = "해당 유저가 좋아요를 누른 게시글을 조회합니다.")
     @GetMapping("/{userId}/posts/like")
     public SuccessResponse<Object> getPostsLikedByUser(@PathVariable Long userId,
@@ -83,8 +84,6 @@ public class UserController {
         PageResponse<UserPagePostsDto> myPagePostsPageCommentedByUser = getPostsCommentedByMeUseCase.execute(userId, pageable);
         return SuccessResponse.of(myPagePostsPageCommentedByUser);
     }
-
-
     @Operation(summary = "유저 검색 (Simple Data) (project page)", description = "이름으로 유저를 검색합니다. (프로젝트 페이지 모달)")
     @GetMapping("/search")
     public SuccessResponse<Object> searchUser(@RequestParam(required = false) String name,
