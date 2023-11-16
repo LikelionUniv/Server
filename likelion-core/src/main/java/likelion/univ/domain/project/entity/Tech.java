@@ -1,6 +1,7 @@
 package likelion.univ.domain.project.entity;
 
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -19,4 +20,10 @@ public class Tech {
     private Long id;
 
     private String techName;
+
+    @Builder
+    public Tech(String techName){
+        this.techName = techName;
+
+    }
 }
