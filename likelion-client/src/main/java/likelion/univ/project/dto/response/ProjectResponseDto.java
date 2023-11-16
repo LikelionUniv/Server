@@ -2,7 +2,6 @@ package likelion.univ.project.dto.response;
 
 import likelion.univ.domain.project.entity.Image;
 import likelion.univ.domain.project.entity.Project;
-import likelion.univ.domain.project.entity.ProjectTech;
 import likelion.univ.domain.project.entity.Tech;
 import likelion.univ.domain.project.entity.enums.Output;
 import likelion.univ.domain.university.entity.University;

@@ -6,5 +6,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface TechRepository extends JpaRepository<Tech, Long> {
-    public List<Tech> findTechByTechName(String techName);
+    List<Tech> findTechByTechName(String techName);
 }
