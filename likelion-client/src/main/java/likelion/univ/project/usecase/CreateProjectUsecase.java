@@ -7,6 +7,7 @@ import likelion.univ.domain.project.entity.Project;
 import likelion.univ.domain.project.service.ProjectImageService;
 import likelion.univ.domain.project.service.ProjectMemberService;
 import likelion.univ.domain.project.service.ProjectService;
+import likelion.univ.domain.project.service.ProjectTechService;
 import likelion.univ.domain.university.adaptor.UniversityAdaptor;
 import likelion.univ.domain.user.adaptor.UserAdaptor;
 import likelion.univ.domain.user.entity.Role;
@@ -17,6 +18,7 @@ import likelion.univ.project.dto.response.ProjectIdResponseDto;
 import likelion.univ.utils.AuthentiatedUserUtils;
 import lombok.RequiredArgsConstructor;
 
+import java.util.List;
 import java.util.stream.Collectors;
 
 @UseCase
@@ -25,6 +27,7 @@ public class CreateProjectUsecase {
 
     private final AuthentiatedUserUtils authentiatedUserUtils;
     private final ProjectService projectService;
+    private final ProjectTechService projectTechService;
     private final ProjectImageService projectImageService;
     private final ProjectMemberService projectMemberService;
     private final UserAdaptor userAdaptor;
@@ -44,6 +47,8 @@ public class CreateProjectUsecase {
         Project createdProject = projectService.createProject(request);
         Long id = createdProject.getId();
         Project project = projectAdaptor.findById(id);
+        List<String> techNames = projectRequestDto.getProjectTeches();
+        projectTechService.addProjectTech(project, techNames);
         projectImageService.addImage(
                 projectRequestDto.getImageUrl().stream()
                         .map(imageUrl -> new Image(project, imageUrl))
