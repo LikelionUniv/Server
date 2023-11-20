@@ -10,6 +10,7 @@ import likelion.univ.domain.project.service.ProjectImageService;
 import likelion.univ.domain.project.service.ProjectMemberService;
 import likelion.univ.domain.project.service.ProjectService;
 import likelion.univ.domain.project.service.ProjectTechService;
+import likelion.univ.domain.university.adaptor.UniversityAdaptor;
 import likelion.univ.domain.user.adaptor.UserAdaptor;
 import likelion.univ.domain.user.entity.User;
 import likelion.univ.project.dto.request.ProjectRequestDto;
@@ -30,6 +31,7 @@ public class UpdateProjectUsecase {
     private final ProjectAdaptor projectAdaptor;
     private final ProjectTechAdaptor projectTechAdaptor;
     private final UserAdaptor userAdaptor;
+    private final UniversityAdaptor universityAdaptor;
 
     public ProjectIdResponseDto excute(Long projectId, ProjectRequestDto projectRequestDto) {
 
@@ -46,8 +48,11 @@ public class UpdateProjectUsecase {
                 .map(member -> userAdaptor.findById(member))
                 .collect(Collectors.toList());
 
-        projectService.updateProject(projectId, projectRequestDto.toEntity());
-       projectTechService.updateProjectTech(project,techList);
+        Project editProject = projectRequestDto.toEntity();
+        editProject.updateUniv(universityAdaptor.findByName(projectRequestDto.getUniv()));
+
+        projectService.updateProject(projectId, editProject);
+        projectTechService.updateProjectTech(project,techList);
         projectImageService.updateImage(project, image);
         projectMemberService.updateProjectMember(project, members);
 
