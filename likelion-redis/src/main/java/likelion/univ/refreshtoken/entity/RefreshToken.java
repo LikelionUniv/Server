@@ -13,7 +13,6 @@ import javax.persistence.GeneratedValue;
 @Builder
 public class RefreshToken {
 
-
     private Long userId;
     private String token;
 }

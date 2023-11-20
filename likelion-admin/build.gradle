@@ -1,17 +1,9 @@
-plugins {
-    id 'java'
-}
-
-group = 'likelion.univ'
-version = '0.0.1-SNAPSHOT'
-
-repositories {
-    mavenCentral()
-}
-
 dependencies {
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 51497509e432a26e57f31debfb42a2364d4d2484
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     testImplementation platform('org.junit:junit-bom:5.9.1')
     testImplementation 'org.junit.jupiter:junit-jupiter'

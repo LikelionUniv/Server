@@ -1,4 +1,4 @@
-package likelion.univ.auth.usecase.processor;
+package likelion.univ.auth.processor;
 
 import likelion.univ.annotation.Processor;
 import likelion.univ.feign.oauth.google.RequestGooglePublicKeysClient;

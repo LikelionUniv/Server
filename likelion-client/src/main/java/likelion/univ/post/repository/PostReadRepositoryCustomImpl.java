@@ -1,6 +1,10 @@
 package likelion.univ.post.repository;
 
+<<<<<<< HEAD
 import com.querydsl.core.types.dsl.BooleanExpression;
+=======
+import com.querydsl.jpa.impl.JPAQueryFactory;
+>>>>>>> 51497509e432a26e57f31debfb42a2364d4d2484
 import likelion.univ.domain.post.dto.response.PostDetailResponseDto;
 import likelion.univ.domain.post.dto.response.QPostDetailResponseDto;
 import likelion.univ.domain.post.entity.enums.MainCategory;
@@ -9,7 +13,10 @@ import likelion.univ.utils.AuthentiatedUserUtils;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.data.domain.Pageable;
+<<<<<<< HEAD
 import com.querydsl.jpa.impl.JPAQueryFactory;
+=======
+>>>>>>> 51497509e432a26e57f31debfb42a2364d4d2484
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

@@ -20,7 +20,10 @@ import java.util.List;
 public class Post extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+<<<<<<< HEAD
     @Column(name = "post_id")
+=======
+>>>>>>> 51497509e432a26e57f31debfb42a2364d4d2484
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
