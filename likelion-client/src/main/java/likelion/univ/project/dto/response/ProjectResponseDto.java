@@ -39,7 +39,7 @@ public class ProjectResponseDto {
                 .outPut(project.getOutPut())
                 .serviceName(project.getServiceName())
                 .ordinal(project.getOrdinal())
-               //.univ(project.getUniv())
+               .univ(project.getUniv().getName())
                 .startDate(project.getStartDate())
                 .endDate(project.getEndDate())
                 .description(project.getDescription())

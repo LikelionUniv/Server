@@ -8,6 +8,7 @@ import likelion.univ.domain.project.adapter.ProjectTechAdaptor;
 import likelion.univ.domain.project.entity.Image;
 import likelion.univ.domain.project.entity.Project;
 import likelion.univ.domain.project.entity.Tech;
+import likelion.univ.domain.university.adaptor.UniversityAdaptor;
 import likelion.univ.domain.user.adaptor.UserAdaptor;
 import likelion.univ.domain.user.entity.User;
 import likelion.univ.project.dto.response.ProjectResponseDto;
@@ -26,11 +27,13 @@ public class GetAllPorjectUsecase {
     private final ProjectImageAdaptor projectImageAdaptor;
     private final ProjectMemberAdaptor projectMemberAdaptor;
     private final UserAdaptor userAdaptor;
+    private final UniversityAdaptor universityAdaptor;
 
     public List<ProjectResponseDto> excute(int pageNo) {
         List<Project> projects = projectAdaptor.findAll(pageNo);
         List<ProjectResponseDto> projectResponseDtos = new ArrayList<>();
         for(Project project : projects) {
+            project.updateUniv(universityAdaptor.findById(project.getUniv().getId()));
             List<Tech> projectTeches = projectTechAdaptor.findByProject(project).stream()
                     .map(projectTech -> projectTech.getTech())
                     .map(tech -> projectTechAdaptor.findById(tech.getId()))
