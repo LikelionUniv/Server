@@ -95,10 +95,5 @@ logging:
     org.springframework.orm.jpa: DEBUG
     org.springframework.transaction: DEBUG
   pattern:
-<<<<<<< HEAD
-    console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
-=======
     console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
 
-
->>>>>>> 51497509e432a26e57f31debfb42a2364d4d2484

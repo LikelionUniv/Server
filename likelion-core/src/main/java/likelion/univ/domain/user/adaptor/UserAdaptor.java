@@ -6,14 +6,11 @@ import likelion.univ.domain.user.exception.UserNotFoundException;
 import likelion.univ.domain.user.repository.UserRepository;
 import likelion.univ.domain.user.repository.searchcondition.UserSearchCondition;
 import lombok.RequiredArgsConstructor;
-<<<<<<< HEAD
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
-=======
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
->>>>>>> 51497509e432a26e57f31debfb42a2364d4d2484
 
 import java.util.List;
 
@@ -21,11 +18,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserAdaptor {
     private final UserRepository userRepository;
-<<<<<<< HEAD
 
-    private final UserQueryRepository userQueryRepository;
-=======
->>>>>>> 51497509e432a26e57f31debfb42a2364d4d2484
     public User findById(Long id){
         return userRepository.findById(id)
                 .orElseThrow(()-> new UserNotFoundException());

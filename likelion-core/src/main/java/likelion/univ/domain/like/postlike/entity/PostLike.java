@@ -16,10 +16,6 @@ import javax.persistence.*;
 @Builder
 public class PostLike {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-<<<<<<< HEAD:likelion-core/src/main/java/likelion/univ/domain/like/postlike/entity/PostLike.java
-    @Column(name = "like_post_id")
-=======
->>>>>>> 51497509e432a26e57f31debfb42a2364d4d2484:likelion-core/src/main/java/likelion/univ/domain/post/entity/LikePost.java
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
