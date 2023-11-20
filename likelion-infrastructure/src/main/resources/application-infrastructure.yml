@@ -14,26 +14,6 @@ google:
   app-key: ${GOOGLE_API_KEY}
   scope: ${GOOGLE_SCOPE}
 
- ## NCP 문자 메시지 전송
-ncp:
-  sms:
-    serviceId: ${SERVICE_ID}
-    accessKey: ${ACCESS_KEY}
-    secretKey: ${SECRET_KEY}
-    phoneNum: ${PHONE_NUM}
-
-## GMAIL 메일 전송
-mail:
-  host: ${GMAIL_HOST}
-  port: ${PORT}
-  username : ${SENDER_EMAIL}
-  password : ${APP_KEY}
-  properties:
-    mail:
-      smtp:
-        auth: ${AUTH}
-        starttls:
-          enable: ${ENABLE}
 cloud:
   aws:
     s3:
@@ -46,7 +26,28 @@ cloud:
       auto: false
     credentials:
       instanceProfile: true
-
+ncp:
+  sms:
+    serviceId: ${NCP_SERVICEID}
+    accessKey: ${NCP_ACCESSKEY}
+    secretKey: ${NCP_SECRETKEY}
+    phoneNum: ${NCP_PHONENUM}
+mail:
+  host: ${MAIL_HOST}
+  port: ${MAIL_PORT}
+  username: ${MAIL_USERNAME}
+  password: ${MAIL_PASSWORD}
+  properties:
+    mail:
+      smtp:
+        auth: ${MAIL_AUTH}
+        starttls:
+          enable: ${MAIL_ENABLE}
+  debug : ${MAIL_DEBUG}
+  default:
+    encoding : ${MAIL_ENCODING}
+  transport :
+    protocol : ${MAIL_PROTOCOL}
 --- ## dev 환경 설정
 spring:
   config:

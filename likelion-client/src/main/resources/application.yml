@@ -7,10 +7,6 @@ spring:
       - infrastructure
       - security
       - redis
-  data:
-    web:
-      pageable: ##페이징
-        one-indexed-parameters: true #1페이지부터 시작, default:0페이지
 
 server:
   servlet:
@@ -18,7 +14,6 @@ server:
 
 springdoc:
   default-consumes-media-type: application/json;charset=UTF-8
-  default-produces-media-type: application/json;charset=UTF-8
   api-docs:
     enabled: ${SWAGGER_ENABLED}
     path: '/swagger'
@@ -34,6 +29,7 @@ spring:
   config:
     activate:
       on-profile: dev
+
 
 --- ## staging환경 설정
 spring:
