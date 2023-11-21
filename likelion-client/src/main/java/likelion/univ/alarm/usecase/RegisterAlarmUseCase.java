@@ -14,8 +14,7 @@ public class RegisterAlarmUseCase {
     private final AlarmDomainService alarmDomainService;
 
     public void execute(Long ordinal, AlarmRegisterRequestDto alarmRegisterRequestDto){
-        alarmAdaptor.existsByOrdinalAndEmailAndAlarmType(ordinal,
-                alarmRegisterRequestDto.getEmail(), alarmRegisterRequestDto.getAlarmType());
+        alarmAdaptor.existsByOrdinalAndEmailAndAlarmType(ordinal, alarmRegisterRequestDto.getEmail());
         Alarm newAlarm = AlarmRegisterRequestDto.toEntity(ordinal, alarmRegisterRequestDto);
         alarmDomainService.createAlarm(newAlarm);
     }

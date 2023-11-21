@@ -21,8 +21,5 @@ public class Alarm extends BaseTimeEntity {
     private String email;
 
     @Enumerated(EnumType.STRING)
-    private AlarmType alarmType;
-
-    @Enumerated(EnumType.STRING)
     private SendStatus sendStatus;
 }
