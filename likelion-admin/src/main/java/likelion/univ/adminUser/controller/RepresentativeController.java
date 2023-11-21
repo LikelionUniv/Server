@@ -7,12 +7,12 @@ import likelion.univ.adminUser.dto.response.UserInfoResponseDto;
 import likelion.univ.adminUser.usecase.DeleteUserUseCase;
 import likelion.univ.adminUser.usecase.FindAllByUnivAdminUseCase;
 import likelion.univ.adminUser.usecase.UpdateUserUseCase;
+import likelion.univ.common.response.SliceResponse;
 import likelion.univ.response.SuccessResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Slice;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @Slf4j
 @RestController
@@ -27,8 +27,9 @@ public class RepresentativeController {
 
     @Operation(summary = "우리 학교 동아리 멤버 전체 조회")
     @GetMapping("/users")
-    public SuccessResponse<Object> findUsersByUnivOfUser(Long univId){
-        List<UserInfoResponseDto> response = findAllByUnivAdminUseCase.excute();
+    public SuccessResponse<Object> findUsersByUnivOfUser(){
+        Slice<UserInfoResponseDto> slice = findAllByUnivAdminUseCase.execute();
+        SliceResponse<UserInfoResponseDto> response = SliceResponse.of(slice);
         return SuccessResponse.of(response);
     }
 
@@ -38,7 +39,7 @@ public class RepresentativeController {
     public SuccessResponse<Object> updateUser(@PathVariable("userId")Long userId,
                                               @RequestBody UpdateUserRequestDto updateUserRequestDto){
 
-        UserInfoResponseDto response = updateUserUseCase.excute(userId, updateUserRequestDto);
+        UserInfoResponseDto response = updateUserUseCase.execute(userId, updateUserRequestDto);
         return SuccessResponse.of(response);
     }
 
@@ -47,7 +48,7 @@ public class RepresentativeController {
     @DeleteMapping("/users/{userId}")
     public SuccessResponse<Object> deleteUser(@PathVariable("userId")Long userId){
 
-        deleteUserUseCase.excute(userId);
+        deleteUserUseCase.execute(userId);
         return SuccessResponse.empty();
     }
 

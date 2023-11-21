@@ -15,7 +15,7 @@ public class FindAllByUnivNameUseCase {
 
     private final UserAdaptor userAdaptor;
 
-    public List<UserInfoResponseDto> excute(String univName) {
+    public List<UserInfoResponseDto> execute(String univName) {
         List<User> users = userAdaptor.findAllByUniversityName(univName);
         return users.stream().map(UserInfoResponseDto::of).collect(Collectors.toList());
 

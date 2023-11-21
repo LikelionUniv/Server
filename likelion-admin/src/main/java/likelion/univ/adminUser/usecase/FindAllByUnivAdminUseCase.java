@@ -8,7 +8,9 @@ import likelion.univ.utils.AuthentiatedUserUtils;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
+import org.springframework.data.domain.Slice;
 import java.util.stream.Collectors;
+import org.springframework.data.domain.SliceImpl;
 
 @UseCase
 @RequiredArgsConstructor
@@ -17,11 +19,12 @@ public class FindAllByUnivAdminUseCase {
     private final UserAdaptor userAdaptor;
     private final AuthentiatedUserUtils authentiatedUserUtils;
 
-    public List<UserInfoResponseDto> excute() {
+    public Slice<UserInfoResponseDto> execute() {
         User user = authentiatedUserUtils.getCurrentUser();
 
         List<User> users = userAdaptor.findUsersByUniversityId(user.getUniversityInfo().getUniversity().getId());
-        return users.stream().map(UserInfoResponseDto::of).collect(Collectors.toList());
+        List<UserInfoResponseDto> userInfoList = users.stream().map(UserInfoResponseDto::of).collect(Collectors.toList());
+        return new SliceImpl<>(userInfoList);
 
     }
 }

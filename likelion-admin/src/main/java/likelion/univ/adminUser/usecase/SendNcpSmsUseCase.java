@@ -19,12 +19,12 @@ public class SendNcpSmsUseCase {
     private final SendNcpSms sendNcpSms;
     private final UserAdaptor userAdaptor;
 
-    public void excute(NcpSmsRequestDto ncpSmsRequestDto)
+    public void execute(NcpSmsRequestDto ncpSmsRequestDto)
             throws UnsupportedEncodingException, NoSuchAlgorithmException, InvalidKeyException {
         List<User> users = userAdaptor.findAllUser();
         List<String> toPhoneNums = new ArrayList<>();
         for(User user : users){
-            toPhoneNums.add(user.getProfile().getPhoneNumber() );
+            toPhoneNums.add(user.getAuthInfo().getPhoneNumber());
         }
         sendNcpSms.sendNcpSms(ncpSmsRequestDto.getContent(),toPhoneNums);
 

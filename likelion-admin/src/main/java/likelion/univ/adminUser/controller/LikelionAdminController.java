@@ -30,7 +30,7 @@ public class LikelionAdminController {
     @Operation(summary = "이메일 전송")
     @PostMapping(value = "/email", consumes = "multipart/form-data")
     public SuccessResponse<Object> sendEmail(SendMailRequestDto sendMailRequestDto)throws IOException {
-        sendEmailUseCase.excute(sendMailRequestDto);
+        sendEmailUseCase.execute(sendMailRequestDto);
         return SuccessResponse.empty();
     }
 
@@ -38,7 +38,7 @@ public class LikelionAdminController {
     @PostMapping(value="/messenger")
     public SuccessResponse<Object> sendMessenger(@RequestBody NcpSmsRequestDto ncpSmsRequestDto)
             throws UnsupportedEncodingException, NoSuchAlgorithmException, InvalidKeyException {
-        sendNcpSmsUseCase.excute(ncpSmsRequestDto);
+        sendNcpSmsUseCase.execute(ncpSmsRequestDto);
         return SuccessResponse.empty();
     }
 

@@ -12,7 +12,7 @@ public class FindUserUseCase {
 
     private final UserAdaptor userAdaptor;
 
-    public UserInfoResponseDto excute(Long userId){
+    public UserInfoResponseDto execute(Long userId){
         User user = userAdaptor.findById(userId);
         return UserInfoResponseDto.of(user);
 

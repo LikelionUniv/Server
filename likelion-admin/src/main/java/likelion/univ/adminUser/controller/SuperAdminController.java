@@ -33,7 +33,7 @@ public class SuperAdminController {
     @GetMapping("/users")
     public SuccessResponse<Object> findAllUser(@RequestParam int pageNum){
 
-        List<UserInfoResponseDto> response = findAllUserUseCase.excute(pageNum);
+        List<UserInfoResponseDto> response = findAllUserUseCase.execute(pageNum);
 
         return SuccessResponse.of(response);
     }
@@ -41,7 +41,7 @@ public class SuperAdminController {
     @Operation(summary = "특정 멤버 조회")
     @GetMapping("/user/{userId}")
     public SuccessResponse<Object> findUserById(@PathVariable("userId") Long userId){
-        UserInfoResponseDto response = findUserUseCase.excute(userId);
+        UserInfoResponseDto response = findUserUseCase.execute(userId);
 
         return SuccessResponse.of(response);
     }
@@ -50,7 +50,7 @@ public class SuperAdminController {
     @GetMapping("/univ/users")
     public SuccessResponse<Object> findUsersByUniv(@RequestParam String univName){
 
-        List<UserInfoResponseDto> response = findAllByUnivNameUseCase.excute(univName);
+        List<UserInfoResponseDto> response = findAllByUnivNameUseCase.execute(univName);
 
         return SuccessResponse.of(response);
     }
@@ -60,7 +60,7 @@ public class SuperAdminController {
     public SuccessResponse<Object> updateUser(@PathVariable("userId")Long userId,
                                               @RequestBody UpdateUserRequestDto updateUserRequestDto){
 
-        UserInfoResponseDto response = updateUserUseCase.excute(userId, updateUserRequestDto);
+        UserInfoResponseDto response = updateUserUseCase.execute(userId, updateUserRequestDto);
         return SuccessResponse.of(response);
     }
 
@@ -68,7 +68,7 @@ public class SuperAdminController {
     @DeleteMapping("/user/{userId}")
     public SuccessResponse<Object> deleteUser(@PathVariable("userId")Long userId){
 
-        UserInfoResponseDto response = deleteUserUseCase.excute(userId);
+        UserInfoResponseDto response = deleteUserUseCase.execute(userId);
         return SuccessResponse.of(response);
 
 }

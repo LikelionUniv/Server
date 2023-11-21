@@ -22,7 +22,7 @@ public class SendEmailUseCase {
     private final UserAdaptor userAdaptor;
 
     @SneakyThrows
-    public void excute(SendMailRequestDto sendMailRequestDto) throws IOException {
+    public void execute(SendMailRequestDto sendMailRequestDto) throws IOException {
 
         List<User> users = userAdaptor.findAllUser();
         List<String> toAddress = new ArrayList<>();

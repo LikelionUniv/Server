@@ -2,7 +2,6 @@ package likelion.univ.adminUser.usecase;
 
 import likelion.univ.adminUser.dto.response.UserInfoResponseDto;
 import likelion.univ.annotation.UseCase;
-import likelion.univ.domain.user.adaptor.UserAdaptor;
 import likelion.univ.domain.user.entity.User;
 import likelion.univ.domain.user.service.UserDomainService;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +16,7 @@ public class FindAllUserUseCase {
     private final UserDomainService userDomainService;
 
 
-    public List<UserInfoResponseDto> excute(int pageNum){
+    public List<UserInfoResponseDto> execute(int pageNum){
         Page<User> users = userDomainService.findAllUser(pageNum);
         return users.stream().map(UserInfoResponseDto::of).collect(Collectors.toList());
 
