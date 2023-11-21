@@ -11,7 +11,7 @@ import javax.validation.constraints.NotBlank;
 import java.util.List;
 
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 @AllArgsConstructor
 public class SendMailRequestDto {
     @NotBlank

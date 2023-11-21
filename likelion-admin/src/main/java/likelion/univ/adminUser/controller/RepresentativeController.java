@@ -19,7 +19,7 @@ import java.util.List;
 @RequestMapping(value = "/v1/univAdmin")
 @RequiredArgsConstructor
 @Tag(name = "UnivAdmin", description = "학교 대표 API")
-public class AdminUserController {
+public class RepresentativeController {
 
     private final UpdateUserUseCase updateUserUseCase;
     private final DeleteUserUseCase deleteUserUseCase;
@@ -34,7 +34,7 @@ public class AdminUserController {
 
 
     @Operation(summary = "우리 학교 동아리 특정 멤버 수정")
-    @PatchMapping("/user/{userId}")
+    @PatchMapping("/users/{userId}")
     public SuccessResponse<Object> updateUser(@PathVariable("userId")Long userId,
                                               @RequestBody UpdateUserRequestDto updateUserRequestDto){
 
@@ -44,7 +44,7 @@ public class AdminUserController {
 
 
     @Operation(summary = "우리 학교 동아리 특정 멤버 삭제")
-    @DeleteMapping("/user/{userId}")
+    @DeleteMapping("/users/{userId}")
     public SuccessResponse<Object> deleteUser(@PathVariable("userId")Long userId){
 
         deleteUserUseCase.excute(userId);

@@ -2,7 +2,7 @@ package likelion.univ.adminUser.dto.request;
 
 import lombok.*;
 
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
 @AllArgsConstructor
 public class NcpSmsRequestDto {

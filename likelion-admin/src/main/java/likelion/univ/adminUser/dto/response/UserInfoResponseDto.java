@@ -1,6 +1,7 @@
 package likelion.univ.adminUser.dto.response;
 
 import likelion.univ.domain.user.entity.Part;
+import likelion.univ.domain.user.entity.Role;
 import likelion.univ.domain.user.entity.User;
 import lombok.*;
 
@@ -15,6 +16,7 @@ public class UserInfoResponseDto {
     private String major;
     private Part part;
     private Long ordinal;
+    private Role role;
 
 
     public static UserInfoResponseDto of(User user){
@@ -25,6 +27,7 @@ public class UserInfoResponseDto {
                 .part(user.getProfile().getPart())
                 .ordinal(user.getUniversityInfo().getOrdinal())
                 .email(user.getAuthInfo().getEmail())
+                .role(user.getAuthInfo().getRole())
                 .build();
     }
 }

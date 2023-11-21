@@ -68,10 +68,4 @@ public class AuthController {
         AccountTokenDto accountTokenDto = refreshTokenUseCase.execute(refreshToken);
         return SuccessResponse.of(accountTokenDto);
     }
-
-    @Operation(summary = "로그인 유저 Id 반환", description = "(for client only) 로그인 중인 유저의 Id를 얻습니다.")
-    @GetMapping("/loginuserid")
-    public SuccessResponse<?> getLoginUserId() {
-        return SuccessResponse.of(userUtils.getCurrentUserId());
-    }
 }
