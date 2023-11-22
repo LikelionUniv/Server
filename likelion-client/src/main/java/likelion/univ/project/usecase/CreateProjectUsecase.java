@@ -42,7 +42,8 @@ public class CreateProjectUsecase {
         }
 
         Project request = projectRequestDto.toEntity();
-        request.updateUniv(universityAdaptor.findByName(projectRequestDto.getUniv()));
+        if(!projectRequestDto.getUniv().isEmpty())
+            request.updateUniv(universityAdaptor.findByName(projectRequestDto.getUniv()));
 
         Project createdProject = projectService.createProject(request);
         Long id = createdProject.getId();

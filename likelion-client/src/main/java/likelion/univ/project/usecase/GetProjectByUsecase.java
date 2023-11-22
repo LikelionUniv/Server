@@ -40,8 +40,10 @@ public class GetProjectByUsecase {
 
     public List<ProjectResponseDto> getProjectResponseDtos(List<Project> projects) {
         List<ProjectResponseDto> projectResponseDtos = new ArrayList<>();
+        String univ = null;
         for(Project project : projects) {
-            project.updateUniv(universityAdaptor.findById(project.getUniv().getId()));
+            if(project.getUniv() != null)
+                univ = universityAdaptor.findById(project.getUniv().getId()).getName();
             List<Tech> projectTeches = projectTechAdaptor.findByProject(project).stream()
                     .map(projectTech -> projectTech.getTech())
                     .map(tech -> projectTechAdaptor.findById(tech.getId()))
@@ -51,7 +53,7 @@ public class GetProjectByUsecase {
                     .map(projectMember -> projectMember.getUser())
                     .map(user -> userAdaptor.findById(user.getId()))
                     .collect(Collectors.toList());
-            projectResponseDtos.add(ProjectResponseDto.of(project, projectTeches, images, users));
+            projectResponseDtos.add(ProjectResponseDto.of(project, univ, projectTeches, images, users));
         }
         return projectResponseDtos;
     }

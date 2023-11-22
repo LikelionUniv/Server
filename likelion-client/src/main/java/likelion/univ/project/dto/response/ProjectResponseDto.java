@@ -32,14 +32,14 @@ public class ProjectResponseDto {
     private List<String> imageUrl;
     private List<ProjectMemberResponseDto> members;
 
-    public static ProjectResponseDto of(Project project, List<Tech> projectTeches, List<Image> images, List<User> users) {
+    public static ProjectResponseDto of(Project project, String univ, List<Tech> projectTeches, List<Image> images, List<User> users) {
         return ProjectResponseDto.builder()
                 .id(project.getId())
                 .activity(project.getActivity())
                 .outPut(project.getOutPut())
                 .serviceName(project.getServiceName())
                 .ordinal(project.getOrdinal())
-               .univ(project.getUniv().getName())
+                .univ(univ)
                 .startDate(project.getStartDate())
                 .endDate(project.getEndDate())
                 .description(project.getDescription())

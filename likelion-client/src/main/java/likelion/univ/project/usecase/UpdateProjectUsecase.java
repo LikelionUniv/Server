@@ -49,7 +49,10 @@ public class UpdateProjectUsecase {
                 .collect(Collectors.toList());
 
         Project editProject = projectRequestDto.toEntity();
-        editProject.updateUniv(universityAdaptor.findByName(projectRequestDto.getUniv()));
+        if(!projectRequestDto.getUniv().isEmpty())
+            editProject.updateUniv(universityAdaptor.findByName(projectRequestDto.getUniv()));
+        else
+            editProject.updateUniv(null);
 
         projectService.updateProject(projectId, editProject);
         projectTechService.updateProjectTech(project,techList);
