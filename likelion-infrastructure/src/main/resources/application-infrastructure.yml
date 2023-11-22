@@ -26,28 +26,7 @@ cloud:
       auto: false
     credentials:
       instanceProfile: true
-ncp:
-  sms:
-    serviceId: ${NCP_SERVICEID}
-    accessKey: ${NCP_ACCESSKEY}
-    secretKey: ${NCP_SECRETKEY}
-    phoneNum: ${NCP_PHONENUM}
-mail:
-  host: ${MAIL_HOST}
-  port: ${MAIL_PORT}
-  username: ${MAIL_USERNAME}
-  password: ${MAIL_PASSWORD}
-  properties:
-    mail:
-      smtp:
-        auth: ${MAIL_AUTH}
-        starttls:
-          enable: ${MAIL_ENABLE}
-  debug : ${MAIL_DEBUG}
-  default:
-    encoding : ${MAIL_ENCODING}
-  transport :
-    protocol : ${MAIL_PROTOCOL}
+
 --- ## dev 환경 설정
 spring:
   config:
