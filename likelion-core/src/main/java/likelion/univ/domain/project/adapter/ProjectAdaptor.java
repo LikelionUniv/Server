@@ -10,6 +10,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Adaptor
@@ -22,6 +23,11 @@ public class ProjectAdaptor {
     }
 
     public Project save(Project project){
+        LocalDate startDate = project.getStartDate();
+        LocalDate endDate = project.getEndDate();
+        if(startDate.isEqual(endDate) || startDate.isAfter(endDate)){
+            throw new CreateProjectBadRequestException();
+        }
         try {
             projectRepository.save(project);
         }catch(Exception e) {
