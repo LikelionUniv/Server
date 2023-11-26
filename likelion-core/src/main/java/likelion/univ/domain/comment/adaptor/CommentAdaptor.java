@@ -1,9 +1,9 @@
 package likelion.univ.domain.comment.adaptor;
 
 import likelion.univ.annotation.Adaptor;
-import likelion.univ.domain.comment.repository.CommentRepository;
 import likelion.univ.domain.comment.entity.Comment;
 import likelion.univ.domain.comment.exception.CommentNotFoundException;
+import likelion.univ.domain.comment.repository.CommentRepository;
 import likelion.univ.domain.post.entity.Post;
 import lombok.RequiredArgsConstructor;
 

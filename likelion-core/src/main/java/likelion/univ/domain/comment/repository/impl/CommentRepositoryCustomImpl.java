@@ -3,7 +3,7 @@ package likelion.univ.domain.comment.repository.impl;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import likelion.univ.domain.comment.dto.CommentDetailResponseDto;
 import likelion.univ.domain.comment.dto.QCommentDetailResponseDto;
-import likelion.univ.domain.comment.repository.CommentReadRepositoryCustom;
+import likelion.univ.domain.comment.repository.CommentRepositoryCustom;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -14,7 +14,7 @@ import static likelion.univ.domain.user.entity.QUser.user;
 
 @Repository
 @RequiredArgsConstructor
-public class CommentReadRepositoryCustomImpl implements CommentReadRepositoryCustom {
+public class CommentRepositoryCustomImpl implements CommentRepositoryCustom {
         private final JPAQueryFactory queryFactory;
 
         @Override

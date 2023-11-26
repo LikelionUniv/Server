@@ -5,9 +5,9 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import likelion.univ.comment.dto.CommentCreateChildRequestDto;
 import likelion.univ.comment.dto.CommentCreateParentRequestDto;
 import likelion.univ.comment.dto.CommentUpdateRequestDto;
-import likelion.univ.domain.comment.repository.CommentReadRepository;
 import likelion.univ.comment.usecase.*;
 import likelion.univ.domain.comment.dto.CommentDetailResponseDto;
+import likelion.univ.domain.comment.repository.CommentRepository;
 import likelion.univ.response.SuccessResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,7 +27,7 @@ public class CommentController {
     private final UpdateCommentUseCase updateCommentUseCase;
     private final SoftDeleteCommentUseCase softDeleteCommentUseCase;
     private final HardDeleteCommentUseCase hardDeleteCommentUseCase;
-    private final CommentReadRepository commentReadRepository;
+    private final CommentRepository commentReadRepository;
 
     /* read */
     @Operation(summary = "댓글 조회", description = "게시글에 대한 댓글을 최신순으로 조회합니다.")

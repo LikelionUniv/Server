@@ -4,6 +4,6 @@ import likelion.univ.domain.comment.dto.CommentDetailResponseDto;
 
 import java.util.List;
 
-public interface CommentReadRepositoryCustom {
+public interface CommentRepositoryCustom {
     List<CommentDetailResponseDto> findAll(Long postId);
 }
