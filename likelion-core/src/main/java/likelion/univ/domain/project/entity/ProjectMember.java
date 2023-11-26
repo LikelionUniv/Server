@@ -14,7 +14,7 @@ import javax.persistence.*;
 public class ProjectMember {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(access = AccessLevel.PROTECTED)
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
