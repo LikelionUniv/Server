@@ -3,6 +3,7 @@ package likelion.univ.domain.project.entity;
 import likelion.univ.common.entity.BaseTimeEntity;
 import likelion.univ.domain.project.entity.enums.Output;
 import likelion.univ.domain.university.entity.University;
+import likelion.univ.domain.user.entity.User;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -22,6 +23,10 @@ public class Project extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User author;
 
     private String activity;
 
@@ -77,6 +82,10 @@ public class Project extends BaseTimeEntity {
         this.description = description;
         this.content = content;
         this.productionUrl = productionUrl;
+    }
+
+    public void updateAuthor(User user) {
+        this.author = user;
     }
 
     public void updateUniv(University univ) {

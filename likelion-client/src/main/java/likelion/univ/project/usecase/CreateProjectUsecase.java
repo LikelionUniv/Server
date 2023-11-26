@@ -42,6 +42,7 @@ public class CreateProjectUsecase {
         }
 
         Project request = projectRequestDto.toEntity();
+        request.updateAuthor(user);
         if(!projectRequestDto.getUniv().isEmpty())
             request.updateUniv(universityAdaptor.findByName(projectRequestDto.getUniv()));
 
