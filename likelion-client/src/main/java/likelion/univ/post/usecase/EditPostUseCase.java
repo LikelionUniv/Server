@@ -11,7 +11,7 @@ import lombok.RequiredArgsConstructor;
 
 @UseCase
 @RequiredArgsConstructor
-public class PostUpdateUseCase {
+public class EditPostUseCase {
     private final PostDomainService postDomainService;
     private final AuthenticatedUserUtils userUtils;
 

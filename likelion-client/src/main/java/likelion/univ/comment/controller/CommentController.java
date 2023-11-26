@@ -5,7 +5,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import likelion.univ.comment.dto.CommentCreateChildRequestDto;
 import likelion.univ.comment.dto.CommentCreateParentRequestDto;
 import likelion.univ.comment.dto.CommentUpdateRequestDto;
-import likelion.univ.comment.repository.CommentReadRepository;
+import likelion.univ.domain.comment.repository.CommentReadRepository;
 import likelion.univ.comment.usecase.*;
 import likelion.univ.domain.comment.dto.CommentDetailResponseDto;
 import likelion.univ.response.SuccessResponse;

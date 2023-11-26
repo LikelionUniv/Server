@@ -1,4 +1,4 @@
-package likelion.univ.comment.repository;
+package likelion.univ.domain.comment.repository;
 
 import likelion.univ.domain.comment.dto.CommentDetailResponseDto;
 

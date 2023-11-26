@@ -1,12 +1,17 @@
 package likelion.univ.domain.post.adaptor;
 
 import likelion.univ.annotation.Adaptor;
+import likelion.univ.domain.post.dto.response.PostDetailResponseDto;
 import likelion.univ.domain.post.entity.Post;
+import likelion.univ.domain.post.entity.enums.MainCategory;
+import likelion.univ.domain.post.entity.enums.SubCategory;
 import likelion.univ.domain.post.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import likelion.univ.domain.post.exception.PostNotFoudException;
+
+import java.util.List;
 
 @Adaptor
 @RequiredArgsConstructor
@@ -23,7 +28,7 @@ public class PostAdaptor {
     }
 
     public void delete(Post post) {
-        postRepository.delete(post); //예외처리
+        postRepository.delete(post);
     }
 
     public Page<Post> findAllByAuthor_Id(Long userId, Pageable pageable){
@@ -33,8 +38,24 @@ public class PostAdaptor {
     public Page<Post> findByCommentAuthorId(Long userId, Pageable pageable){
         return postRepository.findByCommentAuthorId(userId,pageable);
     }
+    public List<PostDetailResponseDto> findLikedPosts(Long userId, Pageable pageable) {
+        return postRepository.findLikedPosts(userId, pageable);
+    }
+
+    public List<PostDetailResponseDto> findCommentedPosts(Long userId, Pageable pageable) {
+        return postRepository.findCommentedPosts(userId, pageable);
+    }
 
     public Page<Post> findByPostLikeAuthorId(Long userId, Pageable pageable){
         return postRepository.findByPostLikeAuthorId(userId,pageable);
     }
+
+    public List<PostDetailResponseDto> findAllByCategories(MainCategory mainCategory, SubCategory subCategory, Pageable pageable) {
+        return postRepository.findAllByCategories(mainCategory, subCategory, pageable);
+    }
+
+    public List<PostDetailResponseDto> findPostsByAuthorId(Long userId, Pageable pageable) {
+        return postRepository.findPostsByAuthorId(userId, pageable);
+    }
+
 }

@@ -11,7 +11,7 @@ import likelion.univ.domain.like.postlike.adaptor.PostLikeAdaptor;
 import likelion.univ.post.dao.PostCountInfoRedisDao;
 import likelion.univ.post.entity.PostCountInfo;
 import likelion.univ.post.service.PostCountInfoRedisService;
-import likelion.univ.utils.AuthentiatedUserUtils;
+import likelion.univ.utils.AuthenticatedUserUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -20,7 +20,7 @@ import java.util.Optional;
 @UseCase
 @RequiredArgsConstructor
 public class GetPostsCommentedByMeUseCase {
-    private final AuthentiatedUserUtils authentiatedUserUtils;
+    private final AuthenticatedUserUtils authentiatedUserUtils;
     private final PostAdaptor postAdaptor;
     private final GetOrCreatePostCountInfoProcessor getOrCreatePostCountInfoProcessor;
 

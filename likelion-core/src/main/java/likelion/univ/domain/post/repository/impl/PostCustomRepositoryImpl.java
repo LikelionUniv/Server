@@ -2,7 +2,11 @@ package likelion.univ.domain.post.repository.impl;
 
 import com.querydsl.core.types.Predicate;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import likelion.univ.domain.post.dto.response.PostDetailResponseDto;
+import likelion.univ.domain.post.dto.response.QPostDetailResponseDto;
 import likelion.univ.domain.post.entity.Post;
+import likelion.univ.domain.post.entity.enums.MainCategory;
+import likelion.univ.domain.post.entity.enums.SubCategory;
 import likelion.univ.domain.post.repository.PostCustomRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -54,4 +58,102 @@ public class PostCustomRepositoryImpl implements PostCustomRepository {
 
         return new PageImpl<>(posts, pageable, ids.size());
     }
+
+    @Override
+    public List<PostDetailResponseDto> findAllByCategories(MainCategory mainCategory, SubCategory subCategory, Pageable pageable) {
+        return queryFactory
+                .select(postDetailResponseDto())
+                .from(post)
+                .join(post.author, user)
+                .where(
+                        post.mainCategory.eq(mainCategory),
+                        post.subCategory.eq(subCategory)
+                )
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .orderBy(post.createdDate.desc())
+                .fetch();
+    }
+
+    @Override
+    public List<PostDetailResponseDto> findPostsByAuthorId(Long userId, Pageable pageable) {
+
+        return queryFactory
+                .select(postDetailResponseDto())
+                .from(post)
+                .join(post.author, user)
+                .where(
+                        post.author.id.eq(userId)
+                )
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .orderBy(post.createdDate.desc())
+                .fetch();
+    }
+
+
+    @Override
+    public List<PostDetailResponseDto> findCommentedPosts(Long loginUserId, Pageable pageable) {
+
+        List<Long> postIds = queryFactory
+                .select(comment.post.id)
+                .from(comment)
+                .join(comment.post, post)
+                .where(
+                        comment.author.id.eq(loginUserId),
+                        comment.isDeleted.isFalse()
+                )
+                .fetch();
+        return queryFactory
+                .select(postDetailResponseDto())
+                .from(post)
+                .innerJoin(post.author, user)
+                .where(
+                        post.id.in(postIds)
+                )
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .orderBy(post.createdDate.desc())
+                .fetch();
+    }
+
+    @Override
+    public List<PostDetailResponseDto> findLikedPosts(Long loginUserId, Pageable pageable) {
+
+        List<Long> postIds = queryFactory
+                .select(postLike.post.id)
+                .from(postLike)
+                .join(postLike.post, post)
+                .where(
+                        postLike.author.id.eq(loginUserId)
+                )
+                .fetch();
+        return queryFactory
+                .select(postDetailResponseDto())
+                .from(post)
+                .innerJoin(post.author, user)
+                .where(
+                        post.id.in(postIds)
+                )
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .orderBy(post.createdDate.desc())
+                .fetch();
+    }
+
+    private static QPostDetailResponseDto postDetailResponseDto() {
+        return new QPostDetailResponseDto(
+                post.id,
+                post.author.id,
+                post.author.profile.name,
+                post.title,
+                post.body,
+                post.thumbnail,
+                post.postLikes.size(),
+                post.mainCategory,
+                post.subCategory,
+                post.createdDate,
+                post.modifiedDate);
+    }
+
 }

@@ -1,11 +1,10 @@
-package likelion.univ.comment.repository;
+package likelion.univ.domain.comment.repository.impl;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import likelion.univ.domain.comment.dto.CommentDetailResponseDto;
 import likelion.univ.domain.comment.dto.QCommentDetailResponseDto;
-import likelion.univ.utils.AuthenticatedUserUtils;
+import likelion.univ.domain.comment.repository.CommentReadRepositoryCustom;
 import lombok.RequiredArgsConstructor;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -17,7 +16,6 @@ import static likelion.univ.domain.user.entity.QUser.user;
 @RequiredArgsConstructor
 public class CommentReadRepositoryCustomImpl implements CommentReadRepositoryCustom {
         private final JPAQueryFactory queryFactory;
-        private final AuthenticatedUserUtils userUtils;
 
         @Override
         public List<CommentDetailResponseDto> findAll(Long postId) {
@@ -31,7 +29,6 @@ public class CommentReadRepositoryCustomImpl implements CommentReadRepositoryCus
                         .fetch();
         }
 
-        @NotNull
         private static QCommentDetailResponseDto commentDetailResponseDto() {
                 return new QCommentDetailResponseDto(
                         comment.id,

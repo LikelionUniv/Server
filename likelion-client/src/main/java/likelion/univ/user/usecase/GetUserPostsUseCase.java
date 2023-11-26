@@ -6,7 +6,7 @@ import likelion.univ.domain.post.adaptor.PostAdaptor;
 import likelion.univ.domain.post.entity.Post;
 import likelion.univ.post.processor.GetOrCreatePostCountInfoProcessor;
 import likelion.univ.user.dto.response.UserPagePostsDto;
-import likelion.univ.utils.AuthentiatedUserUtils;
+import likelion.univ.utils.AuthenticatedUserUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -16,7 +16,7 @@ import org.springframework.data.domain.Pageable;
 @RequiredArgsConstructor
 public class GetUserPostsUseCase {
 
-    private final AuthentiatedUserUtils authentiatedUserUtils;
+    private final AuthenticatedUserUtils authentiatedUserUtils;
     private final PostAdaptor postAdaptor;
     private final GetOrCreatePostCountInfoProcessor getOrCreatePostCountInfoProcessor;
 

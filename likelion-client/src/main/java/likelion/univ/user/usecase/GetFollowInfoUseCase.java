@@ -5,7 +5,7 @@ import likelion.univ.common.response.SliceResponse;
 import likelion.univ.domain.user.adaptor.UserAdaptor;
 import likelion.univ.domain.user.entity.User;
 import likelion.univ.user.dto.response.FollowUserInfoDto;
-import likelion.univ.utils.AuthentiatedUserUtils;
+import likelion.univ.utils.AuthenticatedUserUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
@@ -15,7 +15,7 @@ import java.util.List;
 @UseCase
 @RequiredArgsConstructor
 public class GetFollowInfoUseCase {
-    private final AuthentiatedUserUtils authentiatedUserUtils;
+    private final AuthenticatedUserUtils authentiatedUserUtils;
     private final UserAdaptor userAdaptor;
 
     public SliceResponse<FollowUserInfoDto> executeForFollowing(Long userId, Pageable pageable){
