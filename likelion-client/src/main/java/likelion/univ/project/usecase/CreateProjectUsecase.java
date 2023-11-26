@@ -37,7 +37,7 @@ public class CreateProjectUsecase {
     public ProjectIdResponseDto excute(ProjectRequestDto projectRequestDto) {
 
         User user = authentiatedUserUtils.getCurrentUser();
-        if(user.getAuthInfo().getRole() != Role.ADMIN) {
+        if(user.getAuthInfo().getRole() != Role.UNIVERSITY_ADMIN) {
             throw new NotAdminForbiddenException();
         }
 
