@@ -2,7 +2,7 @@ package likelion.univ.auth.usecase;
 
 import likelion.univ.annotation.UseCase;
 import likelion.univ.auth.dto.response.AccountTokenDto;
-import likelion.univ.auth.usecase.processor.GenerateAccountTokenProcessor;
+import likelion.univ.auth.processor.GenerateAccountTokenProcessor;
 import likelion.univ.domain.user.adaptor.UserAdaptor;
 import likelion.univ.domain.user.entity.User;
 import likelion.univ.exception.InvalidTokenException;
