@@ -2,7 +2,9 @@ package likelion.univ.project.dto.response;
 
 import likelion.univ.domain.project.entity.Image;
 import likelion.univ.domain.project.entity.Project;
+import likelion.univ.domain.project.entity.Tech;
 import likelion.univ.domain.project.entity.enums.Output;
+import likelion.univ.domain.university.entity.University;
 import likelion.univ.domain.user.entity.User;
 import lombok.Builder;
 import lombok.Data;
@@ -15,41 +17,46 @@ import java.util.stream.Collectors;
 @Builder
 public class ProjectResponseDto {
 
-    private String thon;
+    private Long id;
+    private String activity;
     private Output outPut;
-    private String service;
+    private String serviceName;
     private long ordinal;
     private String univ;
     private LocalDate startDate;
     private LocalDate endDate;
-    private String tech;
     private String description;
     private String content;
-    private String link;
-    private List<ImageResponseDto> images;
+    private String productionUrl;
+    private List<String> projectTech;
+    private List<String> imageUrl;
     private List<ProjectMemberResponseDto> members;
 
-    public static ProjectResponseDto of(Project project, List<Image> images, List<User> users) {
+    public static ProjectResponseDto of(Project project, String univ, List<Tech> projectTeches, List<Image> images, List<User> users) {
         return ProjectResponseDto.builder()
-                .thon(project.getThon())
+                .id(project.getId())
+                .activity(project.getActivity())
                 .outPut(project.getOutPut())
-                .service(project.getServiceName())
+                .serviceName(project.getServiceName())
                 .ordinal(project.getOrdinal())
-                .univ(project.getUniv())
+                .univ(univ)
                 .startDate(project.getStartDate())
                 .endDate(project.getEndDate())
-                .tech(project.getTech())
                 .description(project.getDescription())
                 .content(project.getContent())
-                .link(project.getProjectUrl())
-                .images(
+                .productionUrl(project.getProductionUrl())
+                .projectTech(
+                        projectTeches.stream()
+                                .map(tech -> tech.getTechName())
+                                .collect(Collectors.toList()))
+                .imageUrl(
                         images.stream()
-                                .map(image -> ImageResponseDto.of(image))
+                                .map(image -> image.getImageUrl())
                                 .collect(Collectors.toList())
                 )
                 .members(
                         users.stream()
-                                .map(user -> ProjectMemberResponseDto.of(user.getProfile().getName()))
+                                .map(user -> ProjectMemberResponseDto.of(user.getId(), user.getProfile().getName()))
                                 .collect(Collectors.toList())
                 )
                 .build();

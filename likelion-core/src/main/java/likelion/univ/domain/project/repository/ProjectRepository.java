@@ -10,10 +10,10 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface ProjectRepository extends JpaRepository<Project, Long> {
-    Page<Project> findByOrdinal(int ordinal, Pageable pageable);
+    Page<Project> findByOrdinal(Long ordinal, Pageable pageable);
 
     @Query("SELECT p FROM Project p WHERE p.ordinal <= :ordinal ORDER BY p.ordinal DESC")
-    List<Project> findArchivePosts(@Param("ordinal") int ordinal);
+    List<Project> findArchivePosts(@Param("ordinal") Long ordinal, Pageable pageable);
 
     @Query("SELECT MAX(p.ordinal) FROM Project p")
     int findLatestOrdinal();

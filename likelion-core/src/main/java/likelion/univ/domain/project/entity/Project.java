@@ -2,6 +2,8 @@ package likelion.univ.domain.project.entity;
 
 import likelion.univ.common.entity.BaseTimeEntity;
 import likelion.univ.domain.project.entity.enums.Output;
+import likelion.univ.domain.university.entity.University;
+import likelion.univ.domain.user.entity.User;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -10,6 +12,8 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -20,7 +24,11 @@ public class Project extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    private String thon;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User author;
+
+    private String activity;
 
     @Enumerated(EnumType.STRING)
     private Output outPut;
@@ -30,7 +38,9 @@ public class Project extends BaseTimeEntity {
 
     private long ordinal; //기수
 
-    private String univ; // University DB와 연결?
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "university_id")
+    private University univ;
 
     @Column(nullable = false)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
@@ -40,42 +50,58 @@ public class Project extends BaseTimeEntity {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate endDate;
 
-    private String tech;
-
     @Column(length = 100)
     private String description;
 
     @Column(columnDefinition = "Text")
     private String content;
 
-    private String projectUrl;
+    private String productionUrl;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name="project_id", insertable = false, updatable = false)
+    private List<ProjectMember> projectMembers = new ArrayList<>();
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name="project_id", insertable = false, updatable = false)
+    private List<Image> images = new ArrayList<>();
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name="project_id", insertable = false, updatable = false)
+    private List<ProjectTech> teches = new ArrayList<>();
 
     @Builder
-    public Project(String thon, Output outPut, String serviceName, long ordinal, String univ, LocalDate startDate, LocalDate endDate, String tech, String description, String content, String projectUrl) {
-        this.thon = thon;
+    public Project(String activity, Output outPut, String serviceName, long ordinal, University univ, LocalDate startDate, LocalDate endDate, String description, String content, String productionUrl) {
+        this.activity = activity;
         this.outPut = outPut;
         this.serviceName = serviceName;
         this.ordinal = ordinal;
         this.univ = univ;
         this.startDate = startDate;
         this.endDate = endDate;
-        this.tech = tech;
         this.description = description;
         this.content = content;
-        this.projectUrl = projectUrl;
+        this.productionUrl = productionUrl;
     }
 
-    public void update(String thon, Output output, String serviceName, long ordinal, String univ, LocalDate startDate, LocalDate endDate, String tech, String description, String content, String projectUrl) {
-        this.thon = thon;
-        this.outPut = output;
-        this.serviceName = serviceName;
-        this.ordinal = ordinal;
+    public void updateAuthor(User user) {
+        this.author = user;
+    }
+
+    public void updateUniv(University univ) {
         this.univ = univ;
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.tech = tech;
-        this.description = description;
-        this.content = content;
-        this.projectUrl = projectUrl;
+    }
+
+    public void update(Project updateProject) {
+        this.activity = updateProject.getActivity();
+        this.outPut = updateProject.getOutPut();
+        this.serviceName = updateProject.getServiceName();
+        this.ordinal = updateProject.getOrdinal();
+        this.univ = updateProject.getUniv();
+        this.startDate = updateProject.getStartDate();
+        this.endDate = updateProject.getEndDate();
+        this.description = updateProject.getDescription();
+        this.content = updateProject.getContent();
+        this.productionUrl = updateProject.getProductionUrl();
     }
 }

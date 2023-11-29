@@ -1,6 +1,5 @@
 package likelion.univ.domain.project.entity;
 
-
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -10,21 +9,23 @@ import javax.persistence.*;
 
 @Entity
 @Getter
-@NoArgsConstructor(access =  AccessLevel.PROTECTED)
-public class Image {
-
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+public class ProjectTech {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "project_id")
     private Project project;
-    private String imageUrl;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "tech_id")
+    private Tech tech;
 
     @Builder
-    public Image(Project project, String imageUrl) {
+    public ProjectTech(Project project, Tech tech) {
         this.project = project;
-        this.imageUrl = imageUrl;
+        this.tech = tech;
     }
 }
