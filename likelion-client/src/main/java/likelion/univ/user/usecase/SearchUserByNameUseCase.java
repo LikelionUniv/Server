@@ -15,7 +15,6 @@ public class SearchUserByNameUseCase {
     private final UserAdaptor userAdaptor;
 
     public SliceResponse execute(String name, Pageable pageable){
-        System.out.println(name);
         Slice<User> userSlice = userAdaptor.searchByName(name, pageable);
         return SliceResponse.of(userSlice.map(u -> UserSearchResultDto.of(u)));
     }
