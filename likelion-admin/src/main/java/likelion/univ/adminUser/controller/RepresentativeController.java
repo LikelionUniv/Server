@@ -29,8 +29,7 @@ public class RepresentativeController {
     @Operation(summary = "우리 학교 동아리 멤버 전체 조회")
     @GetMapping("/users")
     public SuccessResponse<Object> findUsersByUnivOfUser(Pageable pageable){
-        Slice<UserInfoResponseDto> slice = findAllByUnivAdminUseCase.execute(pageable);
-        SliceResponse<UserInfoResponseDto> response = SliceResponse.of(slice);
+        SliceResponse<UserInfoResponseDto> response = findAllByUnivAdminUseCase.execute(pageable);
         return SuccessResponse.of(response);
     }
 

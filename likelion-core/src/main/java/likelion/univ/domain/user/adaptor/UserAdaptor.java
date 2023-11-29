@@ -42,8 +42,8 @@ public class UserAdaptor {
         userRepository.delete(user);
     }
 
-    public List<User> findUsersByUniversityId(Long id, Pageable pageable) {
-        return userRepository.findByUniversityInfoUniversityId(id, pageable).getContent();
+    public Slice<User> findUsersByUniversityId(Long id, Pageable pageable) {
+        return userRepository.findByUniversityInfoUniversityId(id, pageable);
     }
 
 
