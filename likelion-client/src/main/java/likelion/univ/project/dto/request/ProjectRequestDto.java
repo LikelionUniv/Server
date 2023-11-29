@@ -1,16 +1,15 @@
 package likelion.univ.project.dto.request;
 
-import likelion.univ.domain.project.entity.Image;
+import io.swagger.v3.oas.annotations.media.Schema;
 import likelion.univ.domain.project.entity.Project;
-import likelion.univ.domain.project.entity.ProjectMember;
 import likelion.univ.domain.project.entity.enums.Output;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import likelion.univ.domain.university.entity.University;
+import lombok.*;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * thumnail 제외
@@ -18,57 +17,66 @@ import java.util.stream.Collectors;
 
 @Getter
 @NoArgsConstructor
+@AllArgsConstructor
+@Data
 public class ProjectRequestDto {
-    private String thon;
-    private Output outPut;
-    private String serviceName;
-    private long ordinal;
-    private String univ;
-    private LocalDate startDate;
-    private LocalDate endDate;
-    private String tech;
-    private String description;
-    private String content;
-    private String projectUrl;
-    private List<ImageRequestDto> images;
-    private List<ProjectMemberRequestDto> members;
 
-    @Builder
-    public ProjectRequestDto(Project project, List<Image> images, List<ProjectMember> members) {
-        this.thon = project.getThon();
-        this.outPut = project.getOutPut();
-        this.serviceName = project.getServiceName();
-        this.ordinal = project.getOrdinal();
-        this.univ = project.getUniv();
-        this.startDate = project.getStartDate();
-        this.endDate = project.getEndDate();
-        this.tech = project.getTech();
-        this.description = project.getDescription();
-        this.content = project.getContent();
-        this.projectUrl = project.getProjectUrl();
-        this.images = images.stream()
-                .map(image -> new ImageRequestDto(image))
-                .collect(Collectors.toList());
-        this.members = members.stream()
-                .map(user -> ProjectMemberRequestDto.builder()
-                        .id(user.getId())
-                        .build())
-                .collect(Collectors.toList());
-    }
+    @NotBlank
+    @Schema(example = "해커톤")
+    private String activity;
+
+    @NotBlank
+    @Schema(example = "WEB")
+    private Output outPut;
+
+    @NotBlank
+    @Schema(example = "Likelion Univ프로젝트")
+    private String serviceName;
+
+    @NotBlank
+    @Schema(example = "11")
+    private long ordinal;
+
+    @Schema(example = "홍익대학교")
+    private String univ;
+
+    @NotBlank
+    @Schema(example = "2023-10-10")
+    private LocalDate startDate;
+
+    @NotBlank
+    @Schema(example = "2023-11-14")
+    private LocalDate endDate;
+
+    @Schema(example = "Likelion Univ 1기 프로젝트입니다.")
+    private String description;
+
+    @Schema(example = "멋쟁이사자처럼 프로젝트를 진행하고 있습니다.")
+    private String content;
+
+    @Schema(example = "www.likelionuniv.com")
+    private String productionUrl;
+
+    @NotNull
+    @Schema(example = "스프링부트,리액트")
+    private List<String> projectTeches;
+
+    private List<String> imageUrl;
+
+    @Schema(example = "1")
+    private List<Long> members;
 
     public Project toEntity() {
         return Project.builder()
-                .thon(thon)
+                .activity(activity)
                 .outPut(outPut)
                 .serviceName(serviceName)
                 .ordinal(ordinal)
-                .univ(univ)
                 .startDate(startDate)
                 .endDate(endDate)
-                .tech(tech)
                 .description(description)
                 .content(content)
-                .projectUrl(projectUrl)
+                .productionUrl(productionUrl)
                 .build();
     }
 
