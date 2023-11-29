@@ -38,24 +38,14 @@ public class UserAdaptor {
         return userRepository.save(user);
     }
 
-    public Page<User> findAllUser(int pageNum){
-        return userRepository.findAll(PageRequest.of(pageNum,10, Sort.by("profile.name").ascending()));
-    }
-    public List<User> findAllUser(){
-        return userRepository.findAll();
-    }
-
     public void delete(User user){
         userRepository.delete(user);
     }
 
-    public List<User> findUsersByUniversityId(Long id) {
-        return userRepository.findByUniversityInfoUniversityId(id);
+    public List<User> findUsersByUniversityId(Long id, Pageable pageable) {
+        return userRepository.findByUniversityInfoUniversityId(id, pageable).getContent();
     }
 
-    public List<User> findAllByUniversityName(String univName) {
-        return userRepository.findByUniversityInfoUniversityName(univName);
-    }
 
     public List<User> findAll() {
         return userRepository.findAll();

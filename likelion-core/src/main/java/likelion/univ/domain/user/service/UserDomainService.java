@@ -58,9 +58,6 @@ public class UserDomainService {
         userAdaptor.delete(user);
     }
 
-    public Page<User> findAllUser(int pageNum){
-         return userAdaptor.findAllUser(pageNum);
-    }
 
     public List<User> findDynamicUsers(UserSearchCondition condition) {
         return userAdaptor.findDynamicUsers(condition);

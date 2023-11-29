@@ -11,6 +11,7 @@ import likelion.univ.common.response.SliceResponse;
 import likelion.univ.response.SuccessResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,8 +28,8 @@ public class RepresentativeController {
 
     @Operation(summary = "우리 학교 동아리 멤버 전체 조회")
     @GetMapping("/users")
-    public SuccessResponse<Object> findUsersByUnivOfUser(){
-        Slice<UserInfoResponseDto> slice = findAllByUnivAdminUseCase.execute();
+    public SuccessResponse<Object> findUsersByUnivOfUser(Pageable pageable){
+        Slice<UserInfoResponseDto> slice = findAllByUnivAdminUseCase.execute(pageable);
         SliceResponse<UserInfoResponseDto> response = SliceResponse.of(slice);
         return SuccessResponse.of(response);
     }
