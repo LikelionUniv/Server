@@ -66,7 +66,7 @@ public class ProjectController {
     }
 
     //-----------프로젝트 수정 --------//
-    @PatchMapping("/{projectId}/edit")
+    @PatchMapping("/{projectId}")
     @Operation(summary = "프로젝트 수정", description = "프로젝트의 내용을 수정하였습니다.")
     public SuccessResponse<ProjectIdResponseDto> updateProject(@PathVariable("projectId") Long projectId, @Valid @RequestBody ProjectRequestDto projectRequestDto) {
         ProjectIdResponseDto projectIdResponseDto = updateProjectUsecase.excute(projectId, projectRequestDto);
@@ -74,7 +74,7 @@ public class ProjectController {
     }
 
     //-----------프로젝트 삭제 --------//
-    @DeleteMapping("/{projectId}/delete")
+    @DeleteMapping("/{projectId}")
     @Operation(summary = "프로젝트 삭제", description = "프로젝트를 삭제했습니다.")
     public SuccessResponse<Objects> deleteProject(@PathVariable("projectId") Long projectId) {
         deleteProjectUsecase.excute(projectId);
