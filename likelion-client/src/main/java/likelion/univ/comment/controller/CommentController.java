@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/v1/community/comments")
+@RequestMapping("/v1/community")
 @Tag(name = "댓글", description = "커뮤니티 APIs")
 public class CommentController {
     private final CreateParentCommentUseCase createParentCommentUseCase;
@@ -27,15 +27,15 @@ public class CommentController {
 
     /* command */
     @Operation(summary = "댓글 작성", description = "부모 댓글을 생성합니다.")
-    @PostMapping("/parent")
+    @PostMapping("/comments/parent")
     public SuccessResponse<?> createParentComment(@RequestParam Long postId, @RequestBody CommentCreateParentRequestDto request) {
         return createParentCommentUseCase.execute(postId, request);
     }
 
     @Operation(summary = "대댓글 작성", description = "자식 댓글을 생성합니다.")
-    @PostMapping("/child")
-    public SuccessResponse<?> createChildComment(@RequestParam Long postId, @RequestBody CommentCreateChildRequestDto request) {
-        return createChildCommentUseCase.execute(postId, request);
+    @PostMapping("/comments/{parentCommentId}/child")
+    public SuccessResponse<?> createChildComment(@PathVariable Long parentCommentId, @RequestBody CommentCreateChildRequestDto request) {
+        return createChildCommentUseCase.execute(parentCommentId, request);
     }
 
     @Operation(summary = "댓글 내용 수정", description = "댓글의 내용(body only)을 수정합니다.")

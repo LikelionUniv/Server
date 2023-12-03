@@ -4,11 +4,9 @@ import com.querydsl.core.annotations.QueryProjection;
 import likelion.univ.domain.post.entity.enums.MainCategory;
 import likelion.univ.domain.post.entity.enums.SubCategory;
 import lombok.Builder;
-import lombok.Data;
 
 import java.time.LocalDateTime;
 
-@Data
 @Builder
 public record PostSimpleResponseDto(
     Long postId,

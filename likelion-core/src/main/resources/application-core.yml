@@ -1,26 +1,26 @@
 ## 공통 설정
 spring:
-#  datasource:
-#    driver-class-name: com.mysql.cj.jdbc.Driver
-#    url: jdbc:mysql://${MYSQL_HOST}:${MYSQL_PORT}/${MYSQL_NAME}
-#    username: ${MYSQL_USERNAME}
-#    password: ${MYSQL_PASSWORD}
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://${MYSQL_HOST}:${MYSQL_PORT}/${MYSQL_NAME}
+    username: ${MYSQL_USERNAME}
+    password: ${MYSQL_PASSWORD}
 
   data:
     web:
       pageable:
         one-indexed-parameters: true
-#  jpa:
-#    show-sql: true
-#    database: mysql
-#    open-in-view: false
-#    hibernate:
-#      ddl-auto: none  #create update none
-#    properties:
-#      dialect: org.hibernate.dialect.MySQL8Dialect
-#      hibernate:
-#        default_batch_fetch_size: 1000
-#        format_sql: true
+  jpa:
+    show-sql: true
+    database: mysql
+    open-in-view: false
+    hibernate:
+      ddl-auto: none  #create update none
+    properties:
+      dialect: org.hibernate.dialect.MySQL8Dialect
+      hibernate:
+        default_batch_fetch_size: 1000
+        format_sql: true
 
 
 --- ## dev 환경 설정
@@ -89,8 +89,9 @@ spring:
       hibernate:
         default_batch_fetch_size: 1000
         format_sql: true
+    database: h2
 
-logging:
+  logging:
   level:
     org.springframework.orm.jpa: DEBUG
     org.springframework.transaction: DEBUG

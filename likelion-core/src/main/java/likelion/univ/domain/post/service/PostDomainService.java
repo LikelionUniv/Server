@@ -1,6 +1,7 @@
 package likelion.univ.domain.post.service;
 
 import likelion.univ.domain.comment.adaptor.CommentAdaptor;
+import likelion.univ.domain.comment.dto.CommentDetailResponseDto;
 import likelion.univ.domain.comment.dto.ParentCommentDetailResponseDto;
 import likelion.univ.domain.comment.entity.Comment;
 import likelion.univ.domain.follow.adaptor.FollowAdaptor;
@@ -38,8 +39,8 @@ public class PostDomainService {
         Long postId = serviceDto.postId();
         Long loginUserId = serviceDto.loginUserId();
         User loginUser = userAdaptor.findById(loginUserId);
-        List<Comment> comments = commentAdaptor.findCommentsByPostId(postId);
-        List<ParentCommentDetailResponseDto> commentsDto = comments.stream().map(c -> ParentCommentDetailResponseDto.of(c, loginUser)).toList();
+        /* 문제의 구간 */
+        List<CommentDetailResponseDto> comments = commentAdaptor.findCommentsByPostId(postId, loginUserId);
 
         Post post = postAdaptor.findById(postId);
         User author = post.getAuthor();
@@ -58,7 +59,7 @@ public class PostDomainService {
                 .isLikedPost(isLikedPost)
                 .title(post.getTitle())
                 .body(post.getBody())
-                .comments(commentsDto)
+                .comments(comments)
                 .build();
     }
 

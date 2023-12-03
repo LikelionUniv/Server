@@ -36,6 +36,7 @@ public class Post extends BaseTimeEntity {
 
     @OneToMany(mappedBy = "post",
             cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, orphanRemoval = true)
+    @Builder.Default
     private List<PostLike> postLikes = new ArrayList();
 
     @Enumerated(EnumType.STRING)

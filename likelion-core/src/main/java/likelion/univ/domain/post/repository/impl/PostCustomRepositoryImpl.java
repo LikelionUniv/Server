@@ -1,6 +1,7 @@
 package likelion.univ.domain.post.repository.impl;
 
 import com.querydsl.core.types.Predicate;
+import com.querydsl.core.types.dsl.NumberExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import likelion.univ.domain.post.dto.response.PostSimpleResponseDto;
 import likelion.univ.domain.post.dto.response.QPostSimpleResponseDto;
@@ -132,6 +133,7 @@ public class PostCustomRepositoryImpl implements PostCustomRepository {
                 .select(postSimpleResponseDto())
                 .from(post)
                 .innerJoin(post.author, user)
+                .leftJoin(post, comment.post)
                 .where(
                         post.id.in(postIds)
                 )
@@ -146,14 +148,15 @@ public class PostCustomRepositoryImpl implements PostCustomRepository {
                 post.id,
                 post.author.id,
                 post.author.profile.name,
+                post.author.profile.profileImage,
                 post.title,
                 post.body,
                 post.thumbnail,
                 post.postLikes.size(),
+                comment.count().intValue(),
                 post.mainCategory,
                 post.subCategory,
-                post.createdDate,
-                post.modifiedDate);
+                post.createdDate);
     }
 
 }

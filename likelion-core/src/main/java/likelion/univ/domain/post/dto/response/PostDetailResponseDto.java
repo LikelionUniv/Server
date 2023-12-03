@@ -1,7 +1,9 @@
 package likelion.univ.domain.post.dto.response;
 
 import com.querydsl.core.annotations.QueryProjection;
+import likelion.univ.domain.comment.dto.CommentDetailResponseDto;
 import likelion.univ.domain.comment.dto.ParentCommentDetailResponseDto;
+import likelion.univ.domain.comment.entity.Comment;
 import lombok.Builder;
 
 import java.util.List;
@@ -17,10 +19,11 @@ public record PostDetailResponseDto(
         Boolean isLikedPost, // 내가 좋아요 한 게시글인지
         String title,
         String body,
-        List<ParentCommentDetailResponseDto> comments
+        List<CommentDetailResponseDto> comments
 ) {
     @Builder
-    public PostDetailResponseDto(Long postId, Long authorId, String authorName, String authorProfileImageUrl, String universityName, Boolean isMyPost, Boolean hasFollowedAuthor, Boolean isLikedPost, String title, String body, List<ParentCommentDetailResponseDto> comments) {
+    @QueryProjection
+    public PostDetailResponseDto(Long postId, Long authorId, String authorName, String authorProfileImageUrl, String universityName, Boolean isMyPost, Boolean hasFollowedAuthor, Boolean isLikedPost, String title, String body, List<CommentDetailResponseDto> comments) {
         this.postId = postId;
         this.authorId = authorId;
         this.authorName = authorName;

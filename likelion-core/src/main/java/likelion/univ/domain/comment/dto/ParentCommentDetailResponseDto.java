@@ -20,10 +20,10 @@ public record ParentCommentDetailResponseDto(
         Integer likeCount,
         String body,
         Boolean isDeleted,
-        List<ChildCommentDetailResponseDto> childComments,
         LocalDateTime createdDate
 ) {
-    public ParentCommentDetailResponseDto(Long commentId, Long userId, String userName, String userProfileImageUrl, Boolean isAuthorComment, Integer likeCount, String body, Boolean isDeleted, List<ChildCommentDetailResponseDto> childComments, LocalDateTime createdDate) {
+    @QueryProjection
+    public ParentCommentDetailResponseDto(Long commentId, Long userId, String userName, String userProfileImageUrl, Boolean isAuthorComment, Integer likeCount, String body, Boolean isDeleted, LocalDateTime createdDate) {
         this.commentId = commentId;
         this.userId = userId;
         this.userName = userName;
@@ -32,7 +32,6 @@ public record ParentCommentDetailResponseDto(
         this.likeCount = likeCount;
         this.body = body;
         this.isDeleted = isDeleted;
-        this.childComments = childComments;
         this.createdDate = createdDate;
     }
 
@@ -46,7 +45,6 @@ public record ParentCommentDetailResponseDto(
                 .likeCount(getLikeCount(parentComment))
                 .body(parentComment.getBody())
                 .isDeleted(parentComment.getIsDeleted())
-                .childComments(getChildCommentsDto(parentComment.getChildComments(), loginUser))
                 .createdDate(parentComment.getCreatedDate())
                 .build();
     }
@@ -54,8 +52,5 @@ public record ParentCommentDetailResponseDto(
         return Math.toIntExact(comment.getCommentLikes().stream()
                 .filter(l -> l.getIsCanceled().equals(false))
                 .count());
-    }
-    private static List<ChildCommentDetailResponseDto> getChildCommentsDto(List<Comment> childComments, User loginUser) {
-        return childComments.stream().map(c -> ChildCommentDetailResponseDto.of(c, loginUser)).toList();
     }
 }

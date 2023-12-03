@@ -2,6 +2,7 @@ package likelion.univ.domain.comment.adaptor;
 
 import likelion.univ.annotation.Adaptor;
 import likelion.univ.domain.comment.dto.ChildCommentDetailResponseDto;
+import likelion.univ.domain.comment.dto.CommentDetailResponseDto;
 import likelion.univ.domain.comment.dto.ParentCommentDetailResponseDto;
 import likelion.univ.domain.comment.entity.Comment;
 import likelion.univ.domain.comment.exception.CommentNotFoundException;
@@ -35,8 +36,8 @@ public class CommentAdaptor {
         commentRepository.delete(comment);
     }
 
-    public List<Comment> findCommentsByPostId(Long postId) {
-        return commentRepository.findCommentsByPostId(postId);
+    public List<CommentDetailResponseDto> findCommentsByPostId(Long postId, Long loginUserId) {
+        return commentRepository.findCommentsByPostId(postId, loginUserId);
     }
 
     public Long countByPostId(Long postId){

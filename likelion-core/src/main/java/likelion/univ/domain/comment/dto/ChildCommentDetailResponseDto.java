@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 
 public record ChildCommentDetailResponseDto(
         Long commentId,
+        Long parentId,
         Long userId,
         String userName,
         String userProfileImageUrl,
@@ -20,8 +21,10 @@ public record ChildCommentDetailResponseDto(
         LocalDateTime createdDate
 ) {
     @Builder
-    public ChildCommentDetailResponseDto(Long commentId, Long userId, String userName, String userProfileImageUrl, Boolean isAuthorComment, Integer likeCount, String body, Boolean isDeleted, LocalDateTime createdDate) {
+    @QueryProjection
+    public ChildCommentDetailResponseDto(Long commentId, Long parentId, Long userId, String userName, String userProfileImageUrl, Boolean isAuthorComment, Integer likeCount, String body, Boolean isDeleted, LocalDateTime createdDate) {
         this.commentId = commentId;
+        this.parentId = parentId;
         this.userId = userId;
         this.userName = userName;
         this.userProfileImageUrl = userProfileImageUrl;
@@ -35,6 +38,7 @@ public record ChildCommentDetailResponseDto(
     public static ChildCommentDetailResponseDto of(Comment comment, User loginUser) {
         return ChildCommentDetailResponseDto.builder()
                 .commentId(comment.getId())
+                .parentId(comment.getParentComment().getId())
                 .userId(comment.getAuthor().getId())
                 .userName(comment.getAuthor().getProfile().getName())
                 .userProfileImageUrl(comment.getAuthor().getProfile().getProfileImage())
