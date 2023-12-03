@@ -1,7 +1,7 @@
 package likelion.univ.domain.post.adaptor;
 
 import likelion.univ.annotation.Adaptor;
-import likelion.univ.domain.post.dto.response.PostDetailResponseDto;
+import likelion.univ.domain.post.dto.response.PostSimpleResponseDto;
 import likelion.univ.domain.post.entity.Post;
 import likelion.univ.domain.post.entity.enums.MainCategory;
 import likelion.univ.domain.post.entity.enums.SubCategory;
@@ -38,11 +38,11 @@ public class PostAdaptor {
     public Page<Post> findByCommentAuthorId(Long userId, Pageable pageable){
         return postRepository.findByCommentAuthorId(userId,pageable);
     }
-    public List<PostDetailResponseDto> findLikedPosts(Long userId, Pageable pageable) {
+    public List<PostSimpleResponseDto> findLikedPosts(Long userId, Pageable pageable) {
         return postRepository.findLikedPosts(userId, pageable);
     }
 
-    public List<PostDetailResponseDto> findCommentedPosts(Long userId, Pageable pageable) {
+    public List<PostSimpleResponseDto> findCommentedPosts(Long userId, Pageable pageable) {
         return postRepository.findCommentedPosts(userId, pageable);
     }
 
@@ -50,11 +50,11 @@ public class PostAdaptor {
         return postRepository.findByPostLikeAuthorId(userId,pageable);
     }
 
-    public List<PostDetailResponseDto> findAllByCategories(MainCategory mainCategory, SubCategory subCategory, Pageable pageable) {
+    public List<PostSimpleResponseDto> findAllByCategories(MainCategory mainCategory, SubCategory subCategory, Pageable pageable) {
         return postRepository.findAllByCategories(mainCategory, subCategory, pageable);
     }
 
-    public List<PostDetailResponseDto> findPostsByAuthorId(Long userId, Pageable pageable) {
+    public List<PostSimpleResponseDto> findPostsByAuthorId(Long userId, Pageable pageable) {
         return postRepository.findPostsByAuthorId(userId, pageable);
     }
 

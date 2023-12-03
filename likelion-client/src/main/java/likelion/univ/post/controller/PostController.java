@@ -3,7 +3,7 @@ package likelion.univ.post.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import likelion.univ.domain.post.dto.response.PostDetailResponseDto;
+import likelion.univ.domain.post.dto.response.PostSimpleResponseDto;
 import likelion.univ.domain.post.dto.response.PostCommandResponseDto;
 import likelion.univ.domain.post.entity.enums.MainCategory;
 import likelion.univ.domain.post.entity.enums.SubCategory;
@@ -52,7 +52,7 @@ public class PostController {
         SubCategory subCategory = SubCategory.valueOf(sc);
 
         // usecase -> service -> repository
-        List<PostDetailResponseDto> response = getLatestPostsUseCase.execute(mainCategory, subCategory, pageable);
+        List<PostSimpleResponseDto> response = getLatestPostsUseCase.execute(mainCategory, subCategory, pageable);
         return SuccessResponse.of(response);
     }
     @Operation(
@@ -64,7 +64,7 @@ public class PostController {
     @GetMapping("/community/posts/mypage/author/{userId}")
     public SuccessResponse<?> findAuthorPosts(@PathVariable Long userId,
                                               @ParameterObject @PageableDefault(size = 5, page = 1) Pageable pageable) {
-        List<PostDetailResponseDto> response = getMyPostsUseCase.execute(userId, pageable);
+        List<PostSimpleResponseDto> response = getMyPostsUseCase.execute(userId, pageable);
         return SuccessResponse.of(response);
     }
 
@@ -78,7 +78,7 @@ public class PostController {
                     "- size : 양수")
     @GetMapping("/community/posts/mypage/commented")
     public SuccessResponse<?> findCommentedPosts(@ParameterObject @PageableDefault(size = 5, page = 1) Pageable pageable) {
-        List<PostDetailResponseDto> response = getCommentedPostsUseCase.execute(pageable);
+        List<PostSimpleResponseDto> response = getCommentedPostsUseCase.execute(pageable);
         return SuccessResponse.of(response);
     }
 
@@ -90,7 +90,7 @@ public class PostController {
                     "- size : 양수")
     @GetMapping("/community/posts/mypage/liked")
     public SuccessResponse<?> findLikedPosts(@ParameterObject @PageableDefault(size = 5, page = 1) Pageable pageable) {
-        List<PostDetailResponseDto> response = getLikedPostsUseCase.execute(pageable);
+        List<PostSimpleResponseDto> response = getLikedPostsUseCase.execute(pageable);
         return SuccessResponse.of(response);
     }
 

@@ -3,7 +3,7 @@ package likelion.univ.domain.post.service;
 import likelion.univ.domain.post.adaptor.PostAdaptor;
 import likelion.univ.domain.post.dto.request.*;
 import likelion.univ.domain.post.dto.response.PostCommandResponseDto;
-import likelion.univ.domain.post.dto.response.PostDetailResponseDto;
+import likelion.univ.domain.post.dto.response.PostSimpleResponseDto;
 import likelion.univ.domain.post.entity.Post;
 import likelion.univ.domain.post.entity.enums.MainCategory;
 import likelion.univ.domain.post.entity.enums.SubCategory;
@@ -24,33 +24,33 @@ public class PostDomainService {
     private final PostAdaptor postAdaptor;
     private final UserAdaptor userAdaptor;
 
-    public List<PostDetailResponseDto> getLatestPosts(GetLatestPostsServiceDto request) {
+    public List<PostSimpleResponseDto> getLatestPosts(GetLatestPostsServiceDto request) {
         // 페이지네이션으로 createdAt 기준으로 order
         MainCategory mainCategory = request.mainCategory();
         SubCategory subCategory = request.subCategory();
         Pageable pageable = request.pageable();
-        List<PostDetailResponseDto> responses = postAdaptor.findAllByCategories(mainCategory, subCategory, pageable);
+        List<PostSimpleResponseDto> responses = postAdaptor.findAllByCategories(mainCategory, subCategory, pageable);
         return responses;
     }
 
-    public List<PostDetailResponseDto> getCommentedPosts(GetUserPostsServiceDto request) {
+    public List<PostSimpleResponseDto> getCommentedPosts(GetUserPostsServiceDto request) {
         Long userId = request.userId();
         Pageable pageable = request.pageable();
-        List<PostDetailResponseDto> responses = postAdaptor.findCommentedPosts(userId, pageable);
+        List<PostSimpleResponseDto> responses = postAdaptor.findCommentedPosts(userId, pageable);
         return responses;
     }
 
-    public List<PostDetailResponseDto> getLikedPosts(GetUserPostsServiceDto request) {
+    public List<PostSimpleResponseDto> getLikedPosts(GetUserPostsServiceDto request) {
         Long userId = request.userId();
         Pageable pageable = request.pageable();
-        List<PostDetailResponseDto> responses = postAdaptor.findLikedPosts(userId, pageable);
+        List<PostSimpleResponseDto> responses = postAdaptor.findLikedPosts(userId, pageable);
         return responses;
     }
 
-    public List<PostDetailResponseDto> getPostsByAuthorId(GetPostByAuthorServiceDto request) {
+    public List<PostSimpleResponseDto> getPostsByAuthorId(GetPostByAuthorServiceDto request) {
         Long authorId = request.authorId();
         Pageable pageable = request.pageable();
-        List<PostDetailResponseDto> responses = postAdaptor.findPostsByAuthorId(authorId, pageable);
+        List<PostSimpleResponseDto> responses = postAdaptor.findPostsByAuthorId(authorId, pageable);
         return responses;
     }
 

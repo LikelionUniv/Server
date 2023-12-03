@@ -1,6 +1,5 @@
 package likelion.univ.domain.post.repository;
 
-import likelion.univ.domain.post.dto.response.PostDetailResponseDto;
 import likelion.univ.domain.post.entity.Post;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
