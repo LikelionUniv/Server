@@ -16,12 +16,12 @@ import org.springframework.data.domain.Pageable;
 @RequiredArgsConstructor
 public class GetUserPostsUseCase {
 
-    private final AuthenticatedUserUtils authentiatedUserUtils;
+    private final AuthenticatedUserUtils authenticatedUserUtils;
     private final PostAdaptor postAdaptor;
     private final GetOrCreatePostCountInfoProcessor getOrCreatePostCountInfoProcessor;
 
     public PageResponse<UserPagePostsDto> execute(Long userId, Pageable pageable){
-        Long currentUserIdId = authentiatedUserUtils.getCurrentUserId();
+        Long currentUserIdId = authenticatedUserUtils.getCurrentUserId();
         Page<Post> posts = postAdaptor.findAllByAuthor_Id(userId, pageable);
         return PageResponse.of(posts.map(p-> UserPagePostsDto.of(p, currentUserIdId,
                 getOrCreatePostCountInfoProcessor.execute(p.getId()))));

@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
     private final GetProfileUseCase getProfileUseCase;
     private final EditProfileUseCase editProfileUseCase;
-    private final GetUserPostsUseCase getMyPostsUseCase;
+    private final GetUserPostsUseCase getUserPostsUseCase;
     private final GetPostsCommentedByMeUseCase getPostsCommentedByMeUseCase;
     private final GetFollowInfoUseCase getFollowingListUseCase;
     private final SearchUserByNameUseCase searchUserByNameUseCase;
@@ -64,7 +64,7 @@ public class UserController {
     @GetMapping("/{userId}/posts")
     public SuccessResponse<Object> getPostsWritedByUser(@PathVariable Long userId,
                                               @ParameterObject @PageableDefault(size = 6, page = 1) Pageable pageable){
-        PageResponse<UserPagePostsDto> myPagePostsPage = getMyPostsUseCase.execute(userId, pageable);
+        PageResponse<UserPagePostsDto> myPagePostsPage = getUserPostsUseCase.execute(userId, pageable);
         return SuccessResponse.of(myPagePostsPage);
     }
 

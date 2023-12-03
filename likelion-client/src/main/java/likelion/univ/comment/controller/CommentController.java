@@ -6,14 +6,10 @@ import likelion.univ.comment.dto.CommentCreateChildRequestDto;
 import likelion.univ.comment.dto.CommentCreateParentRequestDto;
 import likelion.univ.comment.dto.CommentUpdateRequestDto;
 import likelion.univ.comment.usecase.*;
-import likelion.univ.domain.comment.dto.CommentDetailResponseDto;
-import likelion.univ.domain.comment.repository.CommentRepository;
 import likelion.univ.response.SuccessResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 
 @Slf4j
@@ -27,28 +23,19 @@ public class CommentController {
     private final UpdateCommentUseCase updateCommentUseCase;
     private final SoftDeleteCommentUseCase softDeleteCommentUseCase;
     private final HardDeleteCommentUseCase hardDeleteCommentUseCase;
-    private final CommentRepository commentReadRepository;
-
-    /* read */
-    @Operation(summary = "댓글 조회", description = "게시글에 대한 댓글을 최신순으로 조회합니다.")
-    @GetMapping("/of/{postId}")
-    public SuccessResponse<?> getComments(@PathVariable Long postId) {
-        List<CommentDetailResponseDto> response = commentReadRepository.findAll(postId);
-        return SuccessResponse.of(response);
-    }
 
 
     /* command */
     @Operation(summary = "댓글 작성", description = "부모 댓글을 생성합니다.")
     @PostMapping("/parent")
-    public SuccessResponse<?> createParentComment(@RequestBody CommentCreateParentRequestDto request) {
-        return createParentCommentUseCase.execute(request);
+    public SuccessResponse<?> createParentComment(@RequestParam Long postId, @RequestBody CommentCreateParentRequestDto request) {
+        return createParentCommentUseCase.execute(postId, request);
     }
 
     @Operation(summary = "대댓글 작성", description = "자식 댓글을 생성합니다.")
     @PostMapping("/child")
-    public SuccessResponse<?> createChildComment(@RequestBody CommentCreateChildRequestDto request) {
-        return createChildCommentUseCase.execute(request);
+    public SuccessResponse<?> createChildComment(@RequestParam Long postId, @RequestBody CommentCreateChildRequestDto request) {
+        return createChildCommentUseCase.execute(postId, request);
     }
 
     @Operation(summary = "댓글 내용 수정", description = "댓글의 내용(body only)을 수정합니다.")

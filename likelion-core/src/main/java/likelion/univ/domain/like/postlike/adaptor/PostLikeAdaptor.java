@@ -13,6 +13,10 @@ import lombok.RequiredArgsConstructor;
 public class PostLikeAdaptor {
     private final PostLikeRepository postLikeRepository;
 
+    public Boolean existsByPostIdAndAuthorId(Long postId, long userId) {
+        return postLikeRepository.existsByPostIdAndAuthorId(postId, userId);
+    }
+
     public Long save(PostLike postLike) {
         PostLike savedLike = postLikeRepository.save(postLike);
         return savedLike.getId();

@@ -2,7 +2,7 @@ package likelion.univ.domain.post.entity;
 
 import likelion.univ.common.entity.BaseTimeEntity;
 import likelion.univ.domain.like.postlike.entity.PostLike;
-import likelion.univ.domain.post.dto.request.PostUpdateServiceDto;
+import likelion.univ.domain.post.dto.request.UpdatePostServiceDto;
 import likelion.univ.domain.post.entity.enums.MainCategory;
 import likelion.univ.domain.post.entity.enums.SubCategory;
 import likelion.univ.domain.user.entity.User;
@@ -19,7 +19,7 @@ import java.util.List;
 @Entity
 public class Post extends BaseTimeEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -45,7 +45,7 @@ public class Post extends BaseTimeEntity {
     private SubCategory subCategory;
 
 
-    public void edit(PostUpdateServiceDto request) {
+    public void edit(UpdatePostServiceDto request) {
         if (request.getTitle() != null)
             this.title = request.getTitle();
         if (request.getBody() != null)

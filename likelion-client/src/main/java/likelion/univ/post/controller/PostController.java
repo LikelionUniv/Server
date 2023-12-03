@@ -3,8 +3,9 @@ package likelion.univ.post.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import likelion.univ.domain.post.dto.response.PostDetailResponseDto;
 import likelion.univ.domain.post.dto.response.PostSimpleResponseDto;
-import likelion.univ.domain.post.dto.response.PostCommandResponseDto;
+import likelion.univ.domain.post.dto.response.PostIdResponseDto;
 import likelion.univ.domain.post.entity.enums.MainCategory;
 import likelion.univ.domain.post.entity.enums.SubCategory;
 import likelion.univ.post.dto.PostCreateRequestDto;
@@ -34,6 +35,7 @@ public class PostController {
     private final GetMyPostsUseCase getMyPostsUseCase;
     private final GetCommentedPostsUseCase getCommentedPostsUseCase;
     private final GetLikedPostsUseCase getLikedPostsUseCase;
+    private final GetPostDetailUseCase getPostDetailUseCase;
 
     /* read */
     @Operation(
@@ -46,7 +48,7 @@ public class PostController {
                 "- p : (page ; 페이지 넘버) 0 이상의 정수 \n" +
                 "- s : (size ; 페이지 크기) 양수")
     @GetMapping("/community/posts")
-    public SuccessResponse<?> findCategorizedPosts(@RequestParam String mc, @RequestParam String sc,
+    public SuccessResponse<List<PostSimpleResponseDto>> findCategorizedPosts(@RequestParam String mc, @RequestParam String sc,
                                                    @ParameterObject @PageableDefault(size = 5, page = 1) Pageable pageable) {
         MainCategory mainCategory = MainCategory.valueOf(mc);
         SubCategory subCategory = SubCategory.valueOf(sc);
@@ -55,6 +57,15 @@ public class PostController {
         List<PostSimpleResponseDto> response = getLatestPostsUseCase.execute(mainCategory, subCategory, pageable);
         return SuccessResponse.of(response);
     }
+
+    @Operation(summary = "게시글 단일 조회", description = "게시글 하나 조회")
+    @GetMapping("/community/posts/{postId}")
+    public SuccessResponse<PostDetailResponseDto> findPostDetail(@PathVariable Long postId) {
+        PostDetailResponseDto response = getPostDetailUseCase.execute(postId);
+        return SuccessResponse.of(response);
+
+    }
+
     @Operation(
             summary = "(마이페이지) 작성 유저별 posts 최신순 조회",
             description =
@@ -62,7 +73,7 @@ public class PostController {
                 "- page : 0 이상의 정수 \n" +
                 "- size : 양수")
     @GetMapping("/community/posts/mypage/author/{userId}")
-    public SuccessResponse<?> findAuthorPosts(@PathVariable Long userId,
+    public SuccessResponse<List<PostSimpleResponseDto>> findAuthorPosts(@PathVariable Long userId,
                                               @ParameterObject @PageableDefault(size = 5, page = 1) Pageable pageable) {
         List<PostSimpleResponseDto> response = getMyPostsUseCase.execute(userId, pageable);
         return SuccessResponse.of(response);
@@ -77,7 +88,7 @@ public class PostController {
                     "- page : 0 이상의 정수 \n" +
                     "- size : 양수")
     @GetMapping("/community/posts/mypage/commented")
-    public SuccessResponse<?> findCommentedPosts(@ParameterObject @PageableDefault(size = 5, page = 1) Pageable pageable) {
+    public SuccessResponse<List<PostSimpleResponseDto>> findCommentedPosts(@ParameterObject @PageableDefault(size = 5, page = 1) Pageable pageable) {
         List<PostSimpleResponseDto> response = getCommentedPostsUseCase.execute(pageable);
         return SuccessResponse.of(response);
     }
@@ -89,7 +100,7 @@ public class PostController {
                     "- page : 0 이상의 정수 \n" +
                     "- size : 양수")
     @GetMapping("/community/posts/mypage/liked")
-    public SuccessResponse<?> findLikedPosts(@ParameterObject @PageableDefault(size = 5, page = 1) Pageable pageable) {
+    public SuccessResponse<List<PostSimpleResponseDto>> findLikedPosts(@ParameterObject @PageableDefault(size = 5, page = 1) Pageable pageable) {
         List<PostSimpleResponseDto> response = getLikedPostsUseCase.execute(pageable);
         return SuccessResponse.of(response);
     }
@@ -107,16 +118,16 @@ public class PostController {
                     "- FREE_BOARD : FREE_INFO(정보공유), GET_MEMBER(팀원구함), GET_PROJECT(프로젝트 구함), SHOWOFF(프로젝트 자랑)\n" +
                     "- OVERFLOW : FRONTEND(프론트엔드), BACKEND(백엔드), PM(기획), UXUI(디자인), ETC(기타)")
     @PostMapping("/community/posts/new")
-    public SuccessResponse<?> createPost(@RequestBody @Valid PostCreateRequestDto request/*, BindingResult bindingResult*/) {
-        PostCommandResponseDto response = createPostUseCase.execute(request);
+    public SuccessResponse<PostIdResponseDto> createPost(@RequestBody @Valid PostCreateRequestDto request/*, BindingResult bindingResult*/) {
+        PostIdResponseDto response = createPostUseCase.execute(request);
         return SuccessResponse.of(response);
     }
     @Operation(
             summary = "게시글 수정",
             description = "제목, 내용, 썸네일 수정 : 수정을 안하는 값은 기존 데이터로 넘겨줘야 함")
     @PatchMapping("/community/posts/{postId}")
-    public SuccessResponse<?> updatePost(@PathVariable Long postId, @RequestBody PostUpdateRequestDto request) {
-        PostCommandResponseDto response = editPostUsecase.execute(postId, request);
+    public SuccessResponse<PostIdResponseDto> updatePost(@PathVariable Long postId, @RequestBody PostUpdateRequestDto request) {
+        PostIdResponseDto response = editPostUsecase.execute(postId, request);
         return SuccessResponse.of(response);
     }
 
@@ -124,7 +135,7 @@ public class PostController {
             summary = "게시글 hard delete",
             description = "게시글을 database로부터 hard delete")
     @DeleteMapping("/community/posts/{postId}")
-    public SuccessResponse<?> deletePost(@PathVariable Long postId) {
+    public SuccessResponse<? extends PostIdResponseDto> deletePost(@PathVariable Long postId) {
         deletePostUseCase.execute(postId);
         return SuccessResponse.empty();
     }

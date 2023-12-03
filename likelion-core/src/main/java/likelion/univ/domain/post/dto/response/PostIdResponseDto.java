@@ -7,6 +7,6 @@ import lombok.Data;
 @Data
 @Builder
 @AllArgsConstructor
-public class PostCommandResponseDto {
+public class PostIdResponseDto {
     private Long postId;
 }

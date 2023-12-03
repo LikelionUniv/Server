@@ -1,6 +1,5 @@
 package likelion.univ.domain.post.dto.request;
 
-import likelion.univ.domain.user.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -8,7 +7,7 @@ import lombok.Data;
 @Data
 @Builder
 @AllArgsConstructor
-public class PostCreateServiceDto {
+public class CreatePostServiceDto {
     private String title;
     private String body;
 

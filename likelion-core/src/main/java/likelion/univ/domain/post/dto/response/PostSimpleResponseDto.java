@@ -10,42 +10,38 @@ import java.time.LocalDateTime;
 
 @Data
 @Builder
-public class PostSimpleResponseDto {
-    private Long postId;
+public record PostSimpleResponseDto(
+    Long postId,
+    Long authorId, // 각 유저별 작성글 조회 기능 구현 목적
+    String authorName,
+    String authorProfileUrl,
+    String title,
+    String bodySummary,
+    String thumbnailUrl,
+    Integer likeCount,
+    Integer commentCount,
+    MainCategory mainCategory,
+    SubCategory subCategory,
+    LocalDateTime createdDate
 
-    private Long authorId; // 각 유저별 작성글 조회 기능 구현 목적
-
-    private String authorName;
-
-    private String title;
-
-    private String body;
-
-    private String thumbnail;
-
-    private Integer likeCount;
-
-    private MainCategory mainCategory;
-
-    private SubCategory subCategory;
-
-    private LocalDateTime createdDate;
-
-    private LocalDateTime modifiedDate;
-
+) {
     @QueryProjection
-    public PostSimpleResponseDto(Long postId, Long authorId, String authorName, String title, String body, String thumbnail, Integer likeCount, MainCategory mainCategory, SubCategory subCategory, LocalDateTime createdDate, LocalDateTime modifiedDate) {
+    public PostSimpleResponseDto(Long postId, Long authorId, String authorName,String authorProfileUrl, String title, String bodySummary, String thumbnailUrl, Integer likeCount, Integer commentCount, MainCategory mainCategory, SubCategory subCategory, LocalDateTime createdDate) {
+        if (bodySummary.length() > 300) {
+            bodySummary = bodySummary.substring(0, 300);
+        }
+
         this.postId = postId;
         this.authorId = authorId;
         this.authorName = authorName;
+        this.authorProfileUrl = authorProfileUrl;
         this.title = title;
-        this.body = body;
-        this.thumbnail = thumbnail;
+        this.bodySummary = bodySummary;
+        this.thumbnailUrl = thumbnailUrl;
         this.likeCount = likeCount;
+        this.commentCount = commentCount;
         this.mainCategory = mainCategory;
         this.subCategory = subCategory;
         this.createdDate = createdDate;
-        this.modifiedDate = modifiedDate;
-
     }
 }

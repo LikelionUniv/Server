@@ -7,12 +7,7 @@ import lombok.Data;
 @Data
 @Builder
 @AllArgsConstructor
-public class PostUpdateServiceDto {
-    private Long loginUserId;
+public class DeletePostServiceDto {
     private Long postId;
-    private String title;
-
-    private String body;
-
-    private String thumbnail;
+    private Long loginUserId;
 }

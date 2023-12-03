@@ -15,13 +15,13 @@ public class CreateChildCommentUseCase {
     private final AuthenticatedUserUtils userUtils;
     private final CommentDomainService commentDomainService;
 
-    public SuccessResponse<?> execute(CommentCreateChildRequestDto request) {
-        CommentCommandResponseDto response = commentDomainService.createChildComment(serviceDtoBy(request));
+    public SuccessResponse<?> execute(Long parentCommentId, CommentCreateChildRequestDto request) {
+        CommentCommandResponseDto response = commentDomainService.createChildComment(serviceDtoBy(parentCommentId, request));
         return SuccessResponse.of(response);
     }
-    private CommentCreateChildServiceDto serviceDtoBy(CommentCreateChildRequestDto request) {
+    private CommentCreateChildServiceDto serviceDtoBy(Long parentCommentId, CommentCreateChildRequestDto request) {
         return CommentCreateChildServiceDto.builder()
-                .parentCommentId(request.getParentCommentId())
+                .parentCommentId(parentCommentId)
                 .loginUserId(userUtils.getCurrentUserId())
                 .body(request.getBody())
                 .build();

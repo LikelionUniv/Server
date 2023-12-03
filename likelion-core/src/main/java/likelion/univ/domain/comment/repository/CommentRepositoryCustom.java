@@ -1,9 +1,9 @@
 package likelion.univ.domain.comment.repository;
 
-import likelion.univ.domain.comment.dto.CommentDetailResponseDto;
+import likelion.univ.domain.comment.entity.Comment;
 
 import java.util.List;
 
 public interface CommentRepositoryCustom {
-    List<CommentDetailResponseDto> findAll(Long postId);
+    List<Comment> findCommentsByPostId(Long postId);
 }

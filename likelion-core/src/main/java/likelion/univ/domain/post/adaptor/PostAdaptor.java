@@ -1,11 +1,13 @@
 package likelion.univ.domain.post.adaptor;
 
 import likelion.univ.annotation.Adaptor;
+import likelion.univ.domain.post.dto.response.PostDetailResponseDto;
 import likelion.univ.domain.post.dto.response.PostSimpleResponseDto;
 import likelion.univ.domain.post.entity.Post;
 import likelion.univ.domain.post.entity.enums.MainCategory;
 import likelion.univ.domain.post.entity.enums.SubCategory;
 import likelion.univ.domain.post.repository.PostRepository;
+import likelion.univ.domain.user.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -18,13 +20,14 @@ import java.util.List;
 public class PostAdaptor {
     private final PostRepository postRepository;
 
+    public Post findById(Long postId) {
+        return postRepository.findById(postId).orElseThrow(PostNotFoudException::new);
+
+    }
+
     public Long save(Post post) {
         Post savedPost = postRepository.save(post);
         return savedPost.getId();
-    }
-
-    public Post findById(Long id) {
-        return postRepository.findById(id).orElseThrow(() -> new PostNotFoudException());
     }
 
     public void delete(Post post) {
