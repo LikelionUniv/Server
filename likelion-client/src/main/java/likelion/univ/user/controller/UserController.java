@@ -71,8 +71,10 @@ public class UserController {
     @Operation(summary = "해당 유저가 좋아요 누른 게시글 조회", description = "해당 유저가 좋아요를 누른 게시글을 조회합니다.")
     @GetMapping("/{userId}/posts/like")
     public SuccessResponse<Object> getPostsLikedByUser(@PathVariable Long userId,
+                                                       @RequestParam(value="sort", required = false, defaultValue="created_date") String sort,
+                                                       @RequestParam(value="search", required = false) String search,
                                                          @ParameterObject @PageableDefault(size = 6, page = 1) Pageable pageable){
-        PageResponse<UserPagePostsDto> myPagePostsPageLikedByUser = getUserLikedPostsUseCase.execute(userId, pageable);
+        PageResponse<UserPagePostsDto> myPagePostsPageLikedByUser = getUserLikedPostsUseCase.execute(userId, pageable, sort, search);
         return SuccessResponse.of(myPagePostsPageLikedByUser);
     }
 
