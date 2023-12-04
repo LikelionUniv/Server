@@ -37,9 +37,9 @@ public class CreateProjectUsecase {
     public ProjectIdResponseDto excute(ProjectRequestDto projectRequestDto) {
 
         User user = authentiatedUserUtils.getCurrentUser();
-        if(user.getAuthInfo().getRole() != Role.UNIVERSITY_ADMIN) {
-            throw new NotAdminForbiddenException();
-        }
+//        if(user.getAuthInfo().getRole() != Role.UNIVERSITY_ADMIN) {
+//            throw new NotAdminForbiddenException();
+//        }
 
         Project request = projectRequestDto.toEntity();
         request.updateAuthor(user);
