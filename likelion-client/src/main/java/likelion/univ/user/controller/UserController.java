@@ -48,7 +48,7 @@ public class UserController {
     @Operation(summary = "팔로잉 목록 조회", description = "해당 유저의 팔로잉 목록을 조회합니다.")
     @GetMapping("/{userId}/following")
     public SuccessResponse<Object> getFollowingList(@PathVariable Long userId,
-                                                    @ParameterObject @PageableDefault(size = 4, page = 1) Pageable pageable){
+                                                    @ParameterObject @PageableDefault(size = 4, page = 0) Pageable pageable){
         SliceResponse<FollowUserInfoDto> followingUsers = getFollowingListUseCase.executeForFollowing(userId,pageable);
         return SuccessResponse.of(followingUsers);
     }
@@ -56,14 +56,14 @@ public class UserController {
     @Operation(summary = "팔로워 목록 조회", description = "해당 유저의 팔로워 목록을 조회합니다.")
     @GetMapping("/{userId}/follower")
     public SuccessResponse<Object> getFollowerList(@PathVariable Long userId,
-                                                   @ParameterObject @PageableDefault(size = 4, page = 1) Pageable pageable){
+                                                   @ParameterObject @PageableDefault(size = 4, page = 0) Pageable pageable){
         SliceResponse<FollowUserInfoDto> followerUsers = getFollowingListUseCase.executeForFollower(userId,pageable);
         return SuccessResponse.of(followerUsers);
     }
     @Operation(summary = "해당 유저가 쓴 게시글 조회", description = "해당 유저가 작성한 게시글을 조회합니다.")
     @GetMapping("/{userId}/posts")
     public SuccessResponse<Object> getPostsWritedByUser(@PathVariable Long userId,
-                                              @ParameterObject @PageableDefault(size = 6, page = 1) Pageable pageable){
+                                              @ParameterObject @PageableDefault(size = 6, page = 0) Pageable pageable){
         PageResponse<UserPagePostsDto> myPagePostsPage = getMyPostsUseCase.execute(userId, pageable);
         return SuccessResponse.of(myPagePostsPage);
     }
@@ -73,7 +73,7 @@ public class UserController {
     public SuccessResponse<Object> getPostsLikedByUser(@PathVariable Long userId,
                                                        @RequestParam(value="sort", required = false, defaultValue="created_date") String sort,
                                                        @RequestParam(value="search", required = false) String search,
-                                                         @ParameterObject @PageableDefault(size = 6, page = 1) Pageable pageable){
+                                                         @ParameterObject @PageableDefault(size = 6, page = 0) Pageable pageable){
         PageResponse<UserPagePostsDto> myPagePostsPageLikedByUser = getUserLikedPostsUseCase.execute(userId, pageable, sort, search);
         return SuccessResponse.of(myPagePostsPageLikedByUser);
     }
@@ -82,14 +82,14 @@ public class UserController {
     @Operation(summary = "해당 유저가 댓글 쓴 게시글 조회", description = "해당 유저가 댓글을 작성한 게시글을 조회합니다.")
     @GetMapping("/{userId}/posts/comment")
     public SuccessResponse<Object> getPostsCommentedByUser(@PathVariable Long userId,
-                                                         @ParameterObject @PageableDefault(size = 6, page = 1) Pageable pageable){
+                                                         @ParameterObject @PageableDefault(size = 6, page = 0) Pageable pageable){
         PageResponse<UserPagePostsDto> myPagePostsPageCommentedByUser = getPostsCommentedByMeUseCase.execute(userId, pageable);
         return SuccessResponse.of(myPagePostsPageCommentedByUser);
     }
     @Operation(summary = "유저 검색 (Simple Data) (project page)", description = "이름으로 유저를 검색합니다. (프로젝트 페이지 모달)")
     @GetMapping("/search")
     public SuccessResponse<Object> searchUser(@RequestParam(required = false) String name,
-                                                         @ParameterObject @PageableDefault(size = 4, page = 1) Pageable pageable){
+                                                         @ParameterObject @PageableDefault(size = 4, page = 0) Pageable pageable){
         SliceResponse<UserSearchResultDto> searchedUsers = searchUserByNameUseCase.execute(name, pageable);
         return SuccessResponse.of(searchedUsers);
     }
