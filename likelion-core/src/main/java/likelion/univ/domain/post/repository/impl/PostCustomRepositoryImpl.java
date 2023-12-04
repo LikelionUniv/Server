@@ -46,7 +46,7 @@ public class PostCustomRepositoryImpl implements PostCustomRepository {
     }
 
     private BooleanExpression searchCondition(String search) {
-        return StringUtils.hasText(search) ? post.body.contains(search).or(post.author.profile.name.contains(search)) : null;
+        return StringUtils.hasText(search) ? post.body.contains(search).or(post.title.contains(search)) : null;
     }
 
     private  Page<Post> findByCoveringIndex(List<Long> ids, Pageable pageable){
