@@ -1,7 +1,7 @@
 package likelion.univ.domain.post.repository.impl.condition;
 
 import com.querydsl.core.types.OrderSpecifier;
-import likelion.univ.domain.post.exception.PostSortTypeNotMatched;
+import likelion.univ.exception.SortTypeNotMatchedException;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -22,7 +22,7 @@ public enum PostSortType {
                 return type;
             }
         }
-        throw new PostSortTypeNotMatched();
+        throw new SortTypeNotMatchedException();
     }
     public static OrderSpecifier toOrderSpecifier(String value){
         switch (PostSortType.fromValue(value)){

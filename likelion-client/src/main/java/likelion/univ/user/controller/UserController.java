@@ -68,7 +68,7 @@ public class UserController {
         return SuccessResponse.of(myPagePostsPage);
     }
 
-    @Operation(summary = "해당 유저가 좋아요 누른 게시글 조회", description = "해당 유저가 좋아요를 누른 게시글을 조회합니다.")
+    @Operation(summary = "해당 유저가 좋아요 누른 게시글 조회", description = "해당 유저가 좋아요를 누른 게시글을 조회합니다. 파라미터로 search를 포함하지 않을 시 전체 조회입니다.")
     @GetMapping("/{userId}/posts/like")
     public SuccessResponse<Object> getPostsLikedByUser(@PathVariable Long userId,
                                                        @RequestParam(value="sort", required = false, defaultValue="created_date") String sort,

@@ -28,11 +28,12 @@ public class ProjectAdaptor {
         if(startDate.isEqual(endDate) || startDate.isAfter(endDate)){
             throw new CreateProjectBadRequestException();
         }
-        try {
-            projectRepository.save(project);
-        }catch(Exception e) {
-            throw new CreateProjectBadRequestException();
-        }
+        projectRepository.save(project);
+//        try {
+//            projectRepository.save(project);
+//        }catch(Exception e) {
+//            throw new CreateProjectBadRequestException();
+//        }
         return project;
     }
 

@@ -6,6 +6,7 @@ import lombok.Getter;
 @AllArgsConstructor
 @Getter
 public enum Part {
+    ADMIN("관리자"),
     PM("기획"),
     DESIGNER("디자인"),
     PM_DESIGNER("기획/디자인"),
