@@ -38,7 +38,7 @@ public class DonationHistoryCustomRepositoryImpl implements DonationHistoryCusto
     }
 
     private  Page<DonationHistory> findDonationHistoryWithSearchAndSort(List<Long> ids, Pageable pageable, OrderSpecifier sort, String search){
-        List<DonationHistory> posts =
+        List<DonationHistory> donationHistories =
                 queryFactory
                         .select(donationHistory)
                         .from(donationHistory)
@@ -50,6 +50,6 @@ public class DonationHistoryCustomRepositoryImpl implements DonationHistoryCusto
                         .limit(pageable.getPageSize())
                         .fetch();
 
-        return new PageImpl<>(posts, pageable, ids.size());
+        return new PageImpl<>(donationHistories, pageable, ids.size());
     }
 }

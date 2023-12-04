@@ -5,10 +5,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import likelion.univ.common.response.PageResponse;
 import likelion.univ.common.response.SliceResponse;
 import likelion.univ.user.dto.request.ProfileEditRequestDto;
-import likelion.univ.user.dto.response.FollowUserInfoDto;
-import likelion.univ.user.dto.response.UserPagePostsDto;
-import likelion.univ.user.dto.response.ProfileDetailsDto;
-import likelion.univ.user.dto.response.UserSearchResultDto;
+import likelion.univ.user.dto.response.*;
 import likelion.univ.user.usecase.*;
 import likelion.univ.response.SuccessResponse;
 import lombok.RequiredArgsConstructor;
@@ -29,6 +26,7 @@ public class UserController {
     private final GetFollowInfoUseCase getFollowingListUseCase;
     private final SearchUserByNameUseCase searchUserByNameUseCase;
     private final GetUserLikedPostsUseCase getUserLikedPostsUseCase;
+    private final GetUserProjectsUseCase getUserProjectsUseCase;
 
     @Operation(summary = "유저페이지 프로필 조회", description = "해당 유저의 프로필 정보를 조회합니다.")
     @GetMapping("/{userId}/profile")
@@ -95,12 +93,13 @@ public class UserController {
     }
 
 
-//    @Operation(summary = "내가 참여한 프로젝트 조회", description = "참여한 프로젝트를 조회합니다.")
-//    @GetMapping("/projects")
-//    public SuccessResponse<Object> getMyProjects(@ParameterObject @PageableDefault(size = 6, page = 1) Pageable pageable){
-//
-//        return SuccessResponse.of();
-//    }
+    @Operation(summary = "내가 참여한 프로젝트 조회", description = "참여한 프로젝트를 조회합니다.")
+    @GetMapping("/{userId}/projects")
+    public SuccessResponse<Object> getMyProjects(@PathVariable Long userId,
+                                                 @ParameterObject @PageableDefault(size = 6, page = 0) Pageable pageable){
+        PageResponse<UserPageProjectsDto> myPageProjects = getUserProjectsUseCase.execute(userId, pageable);
+        return SuccessResponse.of(myPageProjects);
+    }
 //
 //    @Operation(summary = "휴대폰 인증 요청", description = "휴대폰 번호 인증을 위해 서버 내부에 인증번호를 생성합니다.")
 //    @PostMapping("/phone/certify")

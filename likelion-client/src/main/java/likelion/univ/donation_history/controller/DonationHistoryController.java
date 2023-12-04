@@ -26,7 +26,7 @@ public class DonationHistoryController {
     @GetMapping("")
     public SuccessResponse<Object> searchDonationHistories(@RequestParam(value="sort", required = false, defaultValue="created_date") String sort,
                                               @RequestParam(value="search", required = false) String search,
-                                              @ParameterObject @PageableDefault(size = 6, page = 0) Pageable pageable){
+                                              @ParameterObject @PageableDefault(size = 10, page = 0) Pageable pageable){
         PageResponse<DonationHistoriesSearchResponseDto> result = searchDontionHistoryUseCase.execute(sort, search, pageable);
         return SuccessResponse.of(result);
     }
