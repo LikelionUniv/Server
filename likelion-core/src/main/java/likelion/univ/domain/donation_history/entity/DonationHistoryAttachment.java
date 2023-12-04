@@ -4,10 +4,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 @Getter
@@ -18,8 +15,8 @@ public class DonationHistoryAttachment {
     private long id;
 
     private String fileName;
-
     private String fileExtension;
 
+    @Column(columnDefinition="TEXT")
     private String fileUrl;
 }

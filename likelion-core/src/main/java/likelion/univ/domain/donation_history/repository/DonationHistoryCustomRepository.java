@@ -5,5 +5,5 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 public interface DonationHistoryCustomRepository {
-    Page<DonationHistory> searchDonationHistoryWithSort(Long userId, Pageable pageable, String sort, String search);
+    Page<DonationHistory> searchDonationHistoryWithSort(Pageable pageable, String sort, String search);
 }

@@ -16,7 +16,7 @@ public class DonationHistoryAdaptor {
     public DonationHistory findById(Long id){
         return donationHistoryRepository.findById(id).orElseThrow(()-> new DonationHistoryNotFoundException());
     }
-    public Page<DonationHistory> searchDonationHistoryWithSort(Long userId, Pageable pageable, String sort, String search){
-        return donationHistoryRepository.searchDonationHistoryWithSort(userId, pageable, sort, search);
+    public Page<DonationHistory> searchDonationHistoryWithSort(Pageable pageable, String sort, String search){
+        return donationHistoryRepository.searchDonationHistoryWithSort(pageable, sort, search);
     }
 }

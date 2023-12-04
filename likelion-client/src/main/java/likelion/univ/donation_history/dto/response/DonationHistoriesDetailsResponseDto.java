@@ -14,7 +14,7 @@ public class DonationHistoriesDetailsResponseDto {
     private Long donationHistoryId;
     private Long authorId;
     private String authorName;
-    private String authorprofileImage;
+    private String authorProfileImage;
     private String title;
     private String body;
     private Boolean isAuthor;
@@ -27,7 +27,7 @@ public class DonationHistoriesDetailsResponseDto {
                 .donationHistoryId(donationHistory.getId())
                 .authorId(donationHistory.getAuthor().getId())
                 .authorName(donationHistory.getAuthor().getProfile().getName())
-                .authorprofileImage(donationHistory.getAuthor().getProfile().getProfileImage())
+                .authorProfileImage(donationHistory.getAuthor().getProfile().getProfileImage())
                 .title(donationHistory.getTitle())
                 .body(donationHistory.getBody())
                 .isAuthor(isAuthor)

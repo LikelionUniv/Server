@@ -33,7 +33,7 @@ public class DonationHistory extends BaseTimeEntity {
     private Long viewCount = Long.valueOf(0);
 
     @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name="project_id", insertable = false, updatable = false)
+    @JoinColumn(name="donation_history_id", insertable = false, updatable = false)
     private List<DonationHistoryAttachment> attachments = new ArrayList<>();
 
     public void viewCountUp(){

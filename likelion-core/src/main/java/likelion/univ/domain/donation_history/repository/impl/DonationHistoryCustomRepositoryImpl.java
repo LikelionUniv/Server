@@ -24,7 +24,7 @@ public class DonationHistoryCustomRepositoryImpl implements DonationHistoryCusto
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public Page<DonationHistory> searchDonationHistoryWithSort(Long userId, Pageable pageable, String sort, String search){
+    public Page<DonationHistory> searchDonationHistoryWithSort(Pageable pageable, String sort, String search){
         List<Long> ids = getCoveringIndex(null);
         return findDonationHistoryWithSearchAndSort(ids, pageable, DonationSortType.toOrderSpecifier(sort), search);
     }
@@ -43,7 +43,6 @@ public class DonationHistoryCustomRepositoryImpl implements DonationHistoryCusto
                         .select(donationHistory)
                         .from(donationHistory)
                         .innerJoin(donationHistory.author, user).fetchJoin()
-                        .innerJoin(donationHistory.attachments, donationHistoryAttachment)
                         .where(donationHistory.id.in(ids)
                                 .and(searchCondition(search)))
                         .offset(pageable.getOffset())
