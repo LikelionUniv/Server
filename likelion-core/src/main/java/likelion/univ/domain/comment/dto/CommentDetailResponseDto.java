@@ -24,7 +24,7 @@ public record CommentDetailResponseDto(
                 .userId(parent.userId())
                 .userName(parent.userName())
                 .userProfileImageUrl(parent.userProfileImageUrl())
-                .isAuthorComment(parent.isAuthorComment())
+                .isAuthorComment(parent.isLoginUserComment())
                 .likeCount(parent.likeCount())
                 .body(parent.body())
                 .isDeleted(parent.isDeleted())

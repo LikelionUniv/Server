@@ -2,7 +2,6 @@ package likelion.univ.domain.comment.dto;
 
 import com.querydsl.core.annotations.QueryProjection;
 import likelion.univ.domain.comment.entity.Comment;
-import likelion.univ.domain.like.commentlike.entity.CommentLike;
 import likelion.univ.domain.user.entity.User;
 import lombok.Builder;
 
@@ -14,7 +13,7 @@ public record ChildCommentDetailResponseDto(
         Long userId,
         String userName,
         String userProfileImageUrl,
-        Boolean isAuthorComment,
+        Boolean isLoginUserComment,
         Integer likeCount,
         String body,
         Boolean isDeleted,
@@ -22,13 +21,13 @@ public record ChildCommentDetailResponseDto(
 ) {
     @Builder
     @QueryProjection
-    public ChildCommentDetailResponseDto(Long commentId, Long parentId, Long userId, String userName, String userProfileImageUrl, Boolean isAuthorComment, Integer likeCount, String body, Boolean isDeleted, LocalDateTime createdDate) {
+    public ChildCommentDetailResponseDto(Long commentId, Long parentId, Long userId, String userName, String userProfileImageUrl, Boolean isLoginUserComment, Integer likeCount, String body, Boolean isDeleted, LocalDateTime createdDate) {
         this.commentId = commentId;
         this.parentId = parentId;
         this.userId = userId;
         this.userName = userName;
         this.userProfileImageUrl = userProfileImageUrl;
-        this.isAuthorComment = isAuthorComment;
+        this.isLoginUserComment = isLoginUserComment;
         this.likeCount = likeCount;
         this.body = body;
         this.isDeleted = isDeleted;
@@ -42,7 +41,7 @@ public record ChildCommentDetailResponseDto(
                 .userId(comment.getAuthor().getId())
                 .userName(comment.getAuthor().getProfile().getName())
                 .userProfileImageUrl(comment.getAuthor().getProfile().getProfileImage())
-                .isAuthorComment(comment.getAuthor().equals(loginUser))
+                .isLoginUserComment(comment.getAuthor().equals(loginUser))
                 .likeCount(getLikeCount(comment))
                 .body(comment.getBody())
                 .isDeleted(comment.getIsDeleted())
