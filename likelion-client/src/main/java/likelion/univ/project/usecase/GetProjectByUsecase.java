@@ -13,6 +13,7 @@ import likelion.univ.domain.user.adaptor.UserAdaptor;
 import likelion.univ.domain.user.entity.User;
 import likelion.univ.project.dto.response.ProjectResponseDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,13 +29,13 @@ public class GetProjectByUsecase {
     private final UserAdaptor userAdaptor;
     private final UniversityAdaptor universityAdaptor;
 
-    public List<ProjectResponseDto> excute(Long ordinal, int pageNo){
+    public List<ProjectResponseDto> excute(Long ordinal, Pageable pageable){
         long recentOrdinal = projectAdaptor.getCurrentOrdinal();
         if(ordinal > recentOrdinal - 5){
-            return getProjectResponseDtos(projectAdaptor.findProject(ordinal, pageNo));
+            return getProjectResponseDtos(projectAdaptor.findProject(ordinal, pageable));
         }
         else {
-            return getProjectResponseDtos(projectAdaptor.findArchiveProject(recentOrdinal - 5, pageNo));
+            return getProjectResponseDtos(projectAdaptor.findArchiveProject(recentOrdinal - 5, pageable));
         }
     }
 

@@ -9,6 +9,9 @@ import likelion.univ.project.usecase.*;
 import likelion.univ.response.SuccessResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -41,9 +44,8 @@ public class ProjectController {
     @GetMapping("/")
     @Operation(summary = "프로젝트 목록", description = "프로젝트 목록을 출력했습니다.")
     public SuccessResponse<List<ProjectResponseDto>> getAllProject(
-            @RequestParam(value = "pageNo", defaultValue = "1", required = false) int pageNo
-    ){
-        List<ProjectResponseDto> projectList = getAllPorjectUsecase.excute(pageNo);
+            @PageableDefault(size=12, sort="id", direction = Sort.Direction.DESC) Pageable pageable) {
+        List<ProjectResponseDto> projectList = getAllPorjectUsecase.excute(pageable);
         return SuccessResponse.of(projectList);
     }
 
@@ -51,9 +53,9 @@ public class ProjectController {
     @GetMapping("/ordinal/{ordinal}")
     @Operation(summary = "기수별 프로젝트", description = "선택한 기수에 따라 프로젝트 목록을 출력했습니다. 최근 5개의 기수보다 이전의 기수는 한번에 보여집니다.")
     public SuccessResponse<List<ProjectResponseDto>> getProjectByOrdinal(
-            @RequestParam(value = "pageNo", defaultValue = "1", required = false) int pageNo,
+            @PageableDefault(size=12, sort="id", direction = Sort.Direction.DESC) Pageable pageable,
             @PathVariable Long ordinal) {
-        List<ProjectResponseDto> projectList = getProjectByUsecase.excute(ordinal,pageNo);
+        List<ProjectResponseDto> projectList = getProjectByUsecase.excute(ordinal,pageable);
         return SuccessResponse.of(projectList);
     }
 

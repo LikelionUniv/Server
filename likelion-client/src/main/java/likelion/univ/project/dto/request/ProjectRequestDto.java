@@ -58,12 +58,12 @@ public class ProjectRequestDto {
     private String productionUrl;
 
     @NotNull
-    @Schema(example = "스프링부트,리액트")
+    @Schema(example = "[\"스프링부트\",\"리액트\"]")
     private List<String> projectTeches;
 
     private List<String> imageUrl;
 
-    @Schema(example = "1")
+    @Schema(example = "[1, 2, 3]")
     private List<Long> members;
 
     public Project toEntity() {
