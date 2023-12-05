@@ -25,8 +25,8 @@ public class DonationHistoryCustomRepositoryImpl implements DonationHistoryCusto
 
     @Override
     public Page<DonationHistory> searchDonationHistoryWithSort(Pageable pageable, String sort, String search){
-        List<Long> ids = getCoveringIndex(null);
-        return findDonationHistoryWithSearchAndSort(ids, pageable, DonationSortType.toOrderSpecifier(sort), search);
+        List<Long> ids = getCoveringIndex(searchCondition(search));
+        return findDonationHistoryWithSort(ids, pageable, DonationSortType.toOrderSpecifier(sort));
     }
 
     private List<Long> getCoveringIndex(Predicate predicate) {
@@ -37,14 +37,13 @@ public class DonationHistoryCustomRepositoryImpl implements DonationHistoryCusto
         return StringUtils.hasText(search) ? donationHistory.body.contains(search).or(donationHistory.title.contains(search)) : null;
     }
 
-    private  Page<DonationHistory> findDonationHistoryWithSearchAndSort(List<Long> ids, Pageable pageable, OrderSpecifier sort, String search){
+    private  Page<DonationHistory> findDonationHistoryWithSort(List<Long> ids, Pageable pageable, OrderSpecifier sort){
         List<DonationHistory> donationHistories =
                 queryFactory
                         .select(donationHistory)
                         .from(donationHistory)
                         .innerJoin(donationHistory.author, user).fetchJoin()
-                        .where(donationHistory.id.in(ids)
-                                .and(searchCondition(search)))
+                        .where(donationHistory.id.in(ids))
                         .offset(pageable.getOffset())
                         .orderBy(sort)
                         .limit(pageable.getPageSize())

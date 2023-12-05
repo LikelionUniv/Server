@@ -18,6 +18,7 @@ public class CorsConfig implements WebMvcConfigurer {
         allowedOriginPatterns.add("https://stag.likelionuniv.com");
         allowedOriginPatterns.add("https://likelion.university");
         allowedOriginPatterns.add("https://stag.likelion.university");
+        allowedOriginPatterns.add("https://likelionunivtemp.vercel.app");
 
         String[] patterns = allowedOriginPatterns.toArray(String[]::new);
         registry.addMapping("/**")
