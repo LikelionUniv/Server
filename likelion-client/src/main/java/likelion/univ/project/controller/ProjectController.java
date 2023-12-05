@@ -2,6 +2,7 @@ package likelion.univ.project.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import likelion.univ.common.response.PageResponse;
 import likelion.univ.project.dto.request.ProjectRequestDto;
 import likelion.univ.project.dto.response.ProjectIdResponseDto;
 import likelion.univ.project.dto.response.ProjectResponseDto;
@@ -43,19 +44,19 @@ public class ProjectController {
     //-----------프로젝트 목록 --------//
     @GetMapping("/")
     @Operation(summary = "프로젝트 목록", description = "프로젝트 목록을 출력했습니다.")
-    public SuccessResponse<List<ProjectResponseDto>> getAllProject(
+    public SuccessResponse<Object> getAllProject(
             @PageableDefault(size=12, sort="id", direction = Sort.Direction.DESC) Pageable pageable) {
-        List<ProjectResponseDto> projectList = getAllPorjectUsecase.excute(pageable);
+        PageResponse<ProjectResponseDto> projectList = getAllPorjectUsecase.excute(pageable);
         return SuccessResponse.of(projectList);
     }
 
     //--------  기수별 프로젝트 -----//
     @GetMapping("/ordinal/{ordinal}")
     @Operation(summary = "기수별 프로젝트", description = "선택한 기수에 따라 프로젝트 목록을 출력했습니다. 최근 5개의 기수보다 이전의 기수는 한번에 보여집니다.")
-    public SuccessResponse<List<ProjectResponseDto>> getProjectByOrdinal(
+    public SuccessResponse<Object> getProjectByOrdinal(
             @PageableDefault(size=12, sort="id", direction = Sort.Direction.DESC) Pageable pageable,
             @PathVariable Long ordinal) {
-        List<ProjectResponseDto> projectList = getProjectByUsecase.excute(ordinal,pageable);
+        PageResponse<ProjectResponseDto> projectList = getProjectByUsecase.excute(ordinal,pageable);
         return SuccessResponse.of(projectList);
     }
 
