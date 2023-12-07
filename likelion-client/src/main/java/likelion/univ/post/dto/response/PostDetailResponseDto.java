@@ -83,6 +83,7 @@ public record PostDetailResponseDto(
     private static Boolean hasComments(PostDetailData serviceDto) {
         return !serviceDto.parentComments().isEmpty();
     }
+
     private static List<CommentResponseDto> comments(PostDetailData serviceDto, Long loginUserId) {
         List<ParentCommentData> parentComments = serviceDto.parentComments();
         List<ChildCommentData> childComments = serviceDto.childComments();
