@@ -4,10 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 
-@Data
 @Builder
-@AllArgsConstructor
-public class DeletePostServiceDto {
-    private Long postId;
-    private Long loginUserId;
+public record DeletePostCommand(
+        Long postId,
+        Long loginUserId
+) {
 }

@@ -1,10 +1,10 @@
 package likelion.univ.post.usecase;
 
 import likelion.univ.annotation.UseCase;
-import likelion.univ.domain.post.dto.request.GetPostDetailServiceDto;
-import likelion.univ.domain.post.dto.response.PostDetailResponseDto;
+import likelion.univ.domain.post.dto.request.GetPostDetailCommand;
+import likelion.univ.domain.post.dto.response.PostDetailData;
 import likelion.univ.domain.post.service.PostDomainService;
-import likelion.univ.domain.user.entity.User;
+import likelion.univ.post.dto.response.PostDetailResponseDto;
 import likelion.univ.utils.AuthenticatedUserUtils;
 import lombok.RequiredArgsConstructor;
 
@@ -16,8 +16,9 @@ public class GetPostDetailUseCase {
 
     public PostDetailResponseDto execute(Long postId) {
         Long loginUserId = authenticatedUserUtils.getCurrentUserId();
-        GetPostDetailServiceDto serviceDto = new GetPostDetailServiceDto(postId, loginUserId);
+        GetPostDetailCommand serviceRequestDto = new GetPostDetailCommand(postId, loginUserId);
 
-        return postDomainService.getPostDetail(serviceDto);
+        PostDetailData serviceResponseDto = postDomainService.getPostDetail(serviceRequestDto);
+        return new PostDetailResponseDto(serviceResponseDto, loginUserId);
     }
 }

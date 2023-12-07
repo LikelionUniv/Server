@@ -16,7 +16,6 @@ public class AccountTokenDto {
     private String refreshToken;
     private Boolean isRegistered;
 
-
     public static AccountTokenDto of(String accessToken,String refreshToken){
         return AccountTokenDto.builder()
                 .accessToken(accessToken)

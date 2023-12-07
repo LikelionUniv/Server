@@ -1,4 +1,4 @@
-package likelion.univ.comment.dto;
+package likelion.univ.comment.dto.request;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;

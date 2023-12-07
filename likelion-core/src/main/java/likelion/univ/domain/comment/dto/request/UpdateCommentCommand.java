@@ -1,4 +1,4 @@
-package likelion.univ.domain.post.dto.request;
+package likelion.univ.domain.comment.dto.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -7,12 +7,8 @@ import lombok.Data;
 @Data
 @Builder
 @AllArgsConstructor
-public class UpdatePostServiceDto {
+public class UpdateCommentCommand {
+    private Long commentId;
     private Long loginUserId;
-    private Long postId;
-    private String title;
-
     private String body;
-
-    private String thumbnail;
 }

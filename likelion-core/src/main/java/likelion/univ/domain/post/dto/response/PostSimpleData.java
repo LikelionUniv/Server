@@ -8,7 +8,7 @@ import lombok.Builder;
 import java.time.LocalDateTime;
 
 @Builder
-public record PostSimpleResponseDto(
+public record PostSimpleData(
     Long postId,
     Long authorId, // 각 유저별 작성글 조회 기능 구현 목적
     String authorName,
@@ -24,7 +24,7 @@ public record PostSimpleResponseDto(
 
 ) {
     @QueryProjection
-    public PostSimpleResponseDto(Long postId, Long authorId, String authorName,String authorProfileUrl, String title, String bodySummary, String thumbnailUrl, Integer likeCount, Integer commentCount, MainCategory mainCategory, SubCategory subCategory, LocalDateTime createdDate) {
+    public PostSimpleData(Long postId, Long authorId, String authorName, String authorProfileUrl, String title, String bodySummary, String thumbnailUrl, Integer likeCount, Integer commentCount, MainCategory mainCategory, SubCategory subCategory, LocalDateTime createdDate) {
         if (bodySummary.length() > 300) {
             bodySummary = bodySummary.substring(0, 300);
         }

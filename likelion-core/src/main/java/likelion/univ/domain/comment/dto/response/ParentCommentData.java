@@ -1,4 +1,4 @@
-package likelion.univ.domain.comment.dto;
+package likelion.univ.domain.comment.dto.response;
 
 import com.querydsl.core.annotations.QueryProjection;
 import likelion.univ.domain.comment.entity.Comment;
@@ -7,44 +7,42 @@ import lombok.Builder;
 
 import java.time.LocalDateTime;
 
-@Builder
-public record ParentCommentDetailResponseDto(
+public record ParentCommentData(
         Long commentId,
         Long userId,
         String userName,
         String userProfileImageUrl,
-        Boolean isLoginUserComment,
         Integer likeCount,
         String body,
         Boolean isDeleted,
         LocalDateTime createdDate
 ) {
+    @Builder
     @QueryProjection
-    public ParentCommentDetailResponseDto(Long commentId, Long userId, String userName, String userProfileImageUrl, Boolean isLoginUserComment, Integer likeCount, String body, Boolean isDeleted, LocalDateTime createdDate) {
+    public ParentCommentData(Long commentId, Long userId, String userName, String userProfileImageUrl, Integer likeCount, String body, Boolean isDeleted, LocalDateTime createdDate) {
         this.commentId = commentId;
         this.userId = userId;
         this.userName = userName;
         this.userProfileImageUrl = userProfileImageUrl;
-        this.isLoginUserComment = isLoginUserComment;
         this.likeCount = likeCount;
         this.body = body;
         this.isDeleted = isDeleted;
         this.createdDate = createdDate;
     }
 
-    public static ParentCommentDetailResponseDto of(Comment parentComment, User loginUser) {
-        return ParentCommentDetailResponseDto.builder()
+    public static ParentCommentData of(Comment parentComment) {
+        return ParentCommentData.builder()
                 .commentId(parentComment.getId())
                 .userId(parentComment.getAuthor().getId())
                 .userName(parentComment.getAuthor().getProfile().getName())
                 .userProfileImageUrl(parentComment.getAuthor().getProfile().getProfileImage())
-                .isLoginUserComment(parentComment.getAuthor().equals(loginUser))
                 .likeCount(getLikeCount(parentComment))
                 .body(parentComment.getBody())
                 .isDeleted(parentComment.getIsDeleted())
                 .createdDate(parentComment.getCreatedDate())
                 .build();
     }
+
     private static Integer getLikeCount(Comment comment) {
         return Math.toIntExact(comment.getCommentLikes().stream()
                 .filter(l -> l.getIsCanceled().equals(false))

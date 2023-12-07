@@ -2,9 +2,9 @@ package likelion.univ.comment.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import likelion.univ.comment.dto.CommentCreateChildRequestDto;
-import likelion.univ.comment.dto.CommentCreateParentRequestDto;
-import likelion.univ.comment.dto.CommentUpdateRequestDto;
+import likelion.univ.comment.dto.request.CommentCreateChildRequestDto;
+import likelion.univ.comment.dto.request.CommentCreateParentRequestDto;
+import likelion.univ.comment.dto.request.CommentUpdateRequestDto;
 import likelion.univ.comment.usecase.*;
 import likelion.univ.response.SuccessResponse;
 import lombok.RequiredArgsConstructor;

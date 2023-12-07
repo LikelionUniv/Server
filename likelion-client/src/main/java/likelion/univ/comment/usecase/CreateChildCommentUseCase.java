@@ -1,9 +1,9 @@
 package likelion.univ.comment.usecase;
 
 import likelion.univ.annotation.UseCase;
-import likelion.univ.comment.dto.CommentCreateChildRequestDto;
-import likelion.univ.domain.comment.dto.CommentCommandResponseDto;
-import likelion.univ.domain.comment.dto.CommentCreateChildServiceDto;
+import likelion.univ.comment.dto.request.CommentCreateChildRequestDto;
+import likelion.univ.domain.comment.dto.response.CommentIdData;
+import likelion.univ.domain.comment.dto.request.CreateChildCommentCommand;
 import likelion.univ.domain.comment.service.CommentDomainService;
 import likelion.univ.response.SuccessResponse;
 import likelion.univ.utils.AuthenticatedUserUtils;
@@ -16,11 +16,11 @@ public class CreateChildCommentUseCase {
     private final CommentDomainService commentDomainService;
 
     public SuccessResponse<?> execute(Long parentCommentId, CommentCreateChildRequestDto request) {
-        CommentCommandResponseDto response = commentDomainService.createChildComment(serviceDtoBy(parentCommentId, request));
+        CommentIdData response = commentDomainService.createChildComment(serviceDtoBy(parentCommentId, request));
         return SuccessResponse.of(response);
     }
-    private CommentCreateChildServiceDto serviceDtoBy(Long parentCommentId, CommentCreateChildRequestDto request) {
-        return CommentCreateChildServiceDto.builder()
+    private CreateChildCommentCommand serviceDtoBy(Long parentCommentId, CommentCreateChildRequestDto request) {
+        return CreateChildCommentCommand.builder()
                 .parentCommentId(parentCommentId)
                 .loginUserId(userUtils.getCurrentUserId())
                 .body(request.getBody())

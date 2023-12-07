@@ -1,10 +1,10 @@
 package likelion.univ.post.usecase;
 
 import likelion.univ.annotation.UseCase;
-import likelion.univ.domain.post.dto.request.CreatePostServiceDto;
-import likelion.univ.domain.post.dto.response.PostIdResponseDto;
+import likelion.univ.domain.post.dto.request.CreatePostCommand;
+import likelion.univ.domain.post.dto.response.PostIdData;
 import likelion.univ.domain.post.service.PostDomainService;
-import likelion.univ.post.dto.PostCreateRequestDto;
+import likelion.univ.post.dto.request.PostCreateRequestDto;
 import likelion.univ.utils.AuthenticatedUserUtils;
 import lombok.RequiredArgsConstructor;
 
@@ -13,12 +13,12 @@ import lombok.RequiredArgsConstructor;
 public class CreatePostUseCase {
     private final PostDomainService postDomainService;
     private final AuthenticatedUserUtils userUtils;
-    public PostIdResponseDto execute(PostCreateRequestDto request) {
+    public PostIdData execute(PostCreateRequestDto request) {
         return postDomainService.createPost(serviceDtoBy(request));
     }
 
-    CreatePostServiceDto serviceDtoBy(PostCreateRequestDto request) {
-        return CreatePostServiceDto.builder()
+    CreatePostCommand serviceDtoBy(PostCreateRequestDto request) {
+        return CreatePostCommand.builder()
                 .title(request.getTitle())
                 .body(request.getBody())
                 .authorId(userUtils.getCurrentUserId())

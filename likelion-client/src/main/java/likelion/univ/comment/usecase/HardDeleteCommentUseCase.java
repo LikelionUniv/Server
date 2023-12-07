@@ -1,7 +1,7 @@
 package likelion.univ.comment.usecase;
 
 import likelion.univ.annotation.UseCase;
-import likelion.univ.domain.comment.dto.CommentDeleteServiceDto;
+import likelion.univ.domain.comment.dto.request.DeleteCommentCommand;
 import likelion.univ.domain.comment.service.CommentDomainService;
 import likelion.univ.response.SuccessResponse;
 import likelion.univ.utils.AuthenticatedUserUtils;
@@ -17,8 +17,8 @@ public class HardDeleteCommentUseCase {
         commentDomainService.deleteCommentHard(serviceDtoBy(commentId));
         return SuccessResponse.empty();
     }
-    private CommentDeleteServiceDto serviceDtoBy(Long commentId) {
-        return CommentDeleteServiceDto.builder()
+    private DeleteCommentCommand serviceDtoBy(Long commentId) {
+        return DeleteCommentCommand.builder()
                 .commentId(commentId)
                 .loginUserId(userUtils.getCurrentUserId())
                 .build();

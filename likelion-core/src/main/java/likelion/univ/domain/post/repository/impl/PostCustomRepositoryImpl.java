@@ -1,10 +1,9 @@
 package likelion.univ.domain.post.repository.impl;
 
 import com.querydsl.core.types.Predicate;
-import com.querydsl.core.types.dsl.NumberExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import likelion.univ.domain.post.dto.response.PostSimpleResponseDto;
-import likelion.univ.domain.post.dto.response.QPostSimpleResponseDto;
+import likelion.univ.domain.post.dto.response.PostSimpleData;
+import likelion.univ.domain.post.dto.response.QPostSimpleData;
 import likelion.univ.domain.post.entity.Post;
 import likelion.univ.domain.post.entity.enums.MainCategory;
 import likelion.univ.domain.post.entity.enums.SubCategory;
@@ -61,9 +60,9 @@ public class PostCustomRepositoryImpl implements PostCustomRepository {
     }
 
     @Override
-    public List<PostSimpleResponseDto> findAllByCategories(MainCategory mainCategory, SubCategory subCategory, Pageable pageable) {
+    public List<PostSimpleData> findAllByCategories(MainCategory mainCategory, SubCategory subCategory, Pageable pageable) {
         return queryFactory
-                .select(postSimpleResponseDto())
+                .select(postSimpleData())
                 .from(post)
                 .join(post.author, user)
                 .where(
@@ -77,10 +76,10 @@ public class PostCustomRepositoryImpl implements PostCustomRepository {
     }
 
     @Override
-    public List<PostSimpleResponseDto> findPostsByAuthorId(Long userId, Pageable pageable) {
+    public List<PostSimpleData> findPostsByAuthorId(Long userId, Pageable pageable) {
 
         return queryFactory
-                .select(postSimpleResponseDto())
+                .select(postSimpleData())
                 .from(post)
                 .join(post.author, user)
                 .where(
@@ -94,7 +93,7 @@ public class PostCustomRepositoryImpl implements PostCustomRepository {
 
 
     @Override
-    public List<PostSimpleResponseDto> findCommentedPosts(Long loginUserId, Pageable pageable) {
+    public List<PostSimpleData> findCommentedPosts(Long loginUserId, Pageable pageable) {
 
         List<Long> postIds = queryFactory
                 .select(comment.post.id)
@@ -106,7 +105,7 @@ public class PostCustomRepositoryImpl implements PostCustomRepository {
                 )
                 .fetch();
         return queryFactory
-                .select(postSimpleResponseDto())
+                .select(postSimpleData())
                 .from(post)
                 .innerJoin(post.author, user)
                 .where(
@@ -119,7 +118,7 @@ public class PostCustomRepositoryImpl implements PostCustomRepository {
     }
 
     @Override
-    public List<PostSimpleResponseDto> findLikedPosts(Long loginUserId, Pageable pageable) {
+    public List<PostSimpleData> findLikedPosts(Long loginUserId, Pageable pageable) {
 
         List<Long> postIds = queryFactory
                 .select(postLike.post.id)
@@ -130,7 +129,7 @@ public class PostCustomRepositoryImpl implements PostCustomRepository {
                 )
                 .fetch();
         return queryFactory
-                .select(postSimpleResponseDto())
+                .select(postSimpleData())
                 .from(post)
                 .innerJoin(post.author, user)
                 .leftJoin(post, comment.post)
@@ -143,8 +142,8 @@ public class PostCustomRepositoryImpl implements PostCustomRepository {
                 .fetch();
     }
 
-    private static QPostSimpleResponseDto postSimpleResponseDto() {
-        return new QPostSimpleResponseDto(
+    private static QPostSimpleData postSimpleData() {
+        return new QPostSimpleData(
                 post.id,
                 post.author.id,
                 post.author.profile.name,

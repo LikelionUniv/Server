@@ -1,7 +1,7 @@
 package likelion.univ.post.usecase;
 
 import likelion.univ.annotation.UseCase;
-import likelion.univ.domain.post.dto.request.DeletePostServiceDto;
+import likelion.univ.domain.post.dto.request.DeletePostCommand;
 import likelion.univ.domain.post.service.PostDomainService;
 import likelion.univ.utils.AuthenticatedUserUtils;
 import lombok.RequiredArgsConstructor;
@@ -17,8 +17,8 @@ public class DeletePostUseCase {
         return ;
     }
 
-    private DeletePostServiceDto serviceDtoBy(Long postId) {
-        return DeletePostServiceDto.builder()
+    private DeletePostCommand serviceDtoBy(Long postId) {
+        return DeletePostCommand.builder()
                 .postId(postId)
                 .loginUserId(userUtils.getCurrentUserId())
                 .build();
