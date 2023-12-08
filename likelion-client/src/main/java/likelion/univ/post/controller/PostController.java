@@ -37,8 +37,9 @@ public class PostController {
     /* ----- read ----- */
     @Operation(
             summary = "게시글 단일 조회",
-            description = "- 게시글 상세 조회 api입니다.\n" +
-                    "- 테스트 완료(황제철)")
+            description = "### 게시글 상세 조회 api입니다.\n" +
+                    "- 테스트 완료(황제철)" +
+                    "- 게시글 / 댓글에 profile image url이 없으면 boolean 타입만 전달 (url : null 포함x)")
     @GetMapping("/community/posts/{postId}")
     public SuccessResponse<PostDetailResponseDto> findPostDetail(@PathVariable Long postId) {
         PostDetailResponseDto response = getPostDetailUseCase.execute(postId);
@@ -46,14 +47,16 @@ public class PostController {
     }
 
     @Operation(
-            summary = "카테고리별 posts 최신순 조회",
+            summary = "카테고리별 posts 조회",
             description =
-            "카테고리 params\n" +
+            "### 카테고리 params\n" +
                 "- mc : 메인 카테고리 문자열(HQ_BOARD, FREE_BOARD, OVERFLOW)\n" +
                 "- sc : 서브 카테고리 문자열(post 생성 참고)\n\n" +
-            "페이지네이션 params\n" +
+            "### 페이지네이션 params\n" +
                 "- p : (page ; 페이지 넘버) 1 이상의 정수 \n" +
-                "- s : (size ; 페이지 크기) 양수")
+                "- s : (size ; 페이지 크기) 양수" +
+            ""
+    )
     @GetMapping("/community/posts/")
     public SuccessResponse<List<PostSimpleData>> findCategorizedPosts(@RequestParam MainCategory mc, @RequestParam SubCategory sc,
                                                                       @ParameterObject @PageableDefault(size = 5, page = 1) Pageable pageable) {
