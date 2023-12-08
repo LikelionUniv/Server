@@ -37,7 +37,8 @@ public class PostController {
     /* ----- read ----- */
     @Operation(
             summary = "게시글 단일 조회",
-            description = "### 게시글 상세 조회 api입니다.\n" +
+            description =
+                    "### 게시글 상세 조회 api입니다.\n" +
                     "- 테스트 완료(황제철)" +
                     "- 게시글 / 댓글에 profile image url이 없으면 boolean 타입만 전달 (url : null 포함x)")
     @GetMapping("/community/posts/{postId}")
@@ -53,9 +54,12 @@ public class PostController {
                 "- mc : 메인 카테고리 문자열(HQ_BOARD, FREE_BOARD, OVERFLOW)\n" +
                 "- sc : 서브 카테고리 문자열(post 생성 참고)\n\n" +
             "### 페이지네이션 params\n" +
-                "- p : (page ; 페이지 넘버) 1 이상의 정수 \n" +
-                "- s : (size ; 페이지 크기) 양수" +
-            ""
+                "- p : (page ; 페이지 넘버) 1 이상의 정수\n" +
+                "- s : (size ; 페이지 크기) 양수\n\n" +
+            "### 항목 선택\n" +
+                "- 최신 순 (생성 일자 기준 내림차순)\n" +
+                "- 좋아요 순 (좋아요 수 기준 내림차순)\n" +
+                "- 댓글 순 (댓글 수 기준 내림차순)"
     )
     @GetMapping("/community/posts/")
     public SuccessResponse<List<PostSimpleData>> findCategorizedPosts(@RequestParam MainCategory mc, @RequestParam SubCategory sc,
