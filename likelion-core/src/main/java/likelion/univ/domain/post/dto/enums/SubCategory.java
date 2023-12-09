@@ -1,4 +1,4 @@
-package likelion.univ.domain.post.entity.enums;
+package likelion.univ.domain.post.dto.enums;
 
 
 
@@ -26,7 +26,7 @@ public enum SubCategory {
      UXUI("디자인"),
      ETC("기타");
 
-     private final String value;
+     private final String name;
 
 }
 

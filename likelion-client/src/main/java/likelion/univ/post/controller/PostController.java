@@ -3,17 +3,21 @@ package likelion.univ.post.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import likelion.univ.common.response.PageResponse;
+import likelion.univ.domain.post.dto.enums.PostOrderCondition;
 import likelion.univ.domain.post.dto.response.PostSimpleData;
 import likelion.univ.domain.post.dto.response.PostIdData;
-import likelion.univ.domain.post.entity.enums.MainCategory;
-import likelion.univ.domain.post.entity.enums.SubCategory;
+import likelion.univ.domain.post.dto.enums.MainCategory;
+import likelion.univ.domain.post.dto.enums.SubCategory;
 import likelion.univ.post.dto.request.PostCreateRequestDto;
 import likelion.univ.post.dto.request.PostUpdateRequestDto;
 import likelion.univ.post.dto.response.PostDetailResponseDto;
+import likelion.univ.post.dto.response.PostResponseDto;
 import likelion.univ.post.usecase.*;
 import likelion.univ.response.SuccessResponse;
 import lombok.RequiredArgsConstructor;
 import org.springdoc.api.annotations.ParameterObject;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
@@ -39,7 +43,7 @@ public class PostController {
             summary = "게시글 단일 조회",
             description =
                     "### 게시글 상세 조회 api입니다.\n" +
-                    "- 테스트 완료(황제철)" +
+                    "- 테스트 완료(황제철)\n" +
                     "- 게시글 / 댓글에 profile image url이 없으면 boolean 타입만 전달 (url : null 포함x)")
     @GetMapping("/community/posts/{postId}")
     public SuccessResponse<PostDetailResponseDto> findPostDetail(@PathVariable Long postId) {
@@ -50,25 +54,25 @@ public class PostController {
     @Operation(
             summary = "카테고리별 posts 조회",
             description =
-            "### 카테고리 params\n" +
-                "- mc : 메인 카테고리 문자열(HQ_BOARD, FREE_BOARD, OVERFLOW)\n" +
-                "- sc : 서브 카테고리 문자열(post 생성 참고)\n\n" +
-            "### 페이지네이션 params\n" +
-                "- p : (page ; 페이지 넘버) 1 이상의 정수\n" +
-                "- s : (size ; 페이지 크기) 양수\n\n" +
-            "### 항목 선택\n" +
-                "- 최신 순 (생성 일자 기준 내림차순)\n" +
-                "- 좋아요 순 (좋아요 수 기준 내림차순)\n" +
-                "- 댓글 순 (댓글 수 기준 내림차순)"
+            "### 정렬 조건 params (oc)\n" +
+                "- **CREATED_DATE_ORDER** : 최신 순 (생성 일자 기준 내림차순)\n" +
+                "- **LIKE_COUNT_ORDER** : 좋아요 순 (좋아요 수 기준 내림차순)\n" +
+                "- **COMMENT_COUNT_ORDER** : 댓글 순 (댓글 수 기준 내림차순)\n\n" +
+            "### 카테고리 params (mc, sc)\n" +
+                "- **mc (main category)** : 메인 카테고리 문자열(HQ_BOARD, FREE_BOARD, OVERFLOW)\n" +
+                "- **sc (sub category)** : 서브 카테고리 문자열(post 생성 참고)\n\n" +
+            "### 페이지네이션 params (p, s)\n" +
+                "- **p (page ; 페이지 넘버)** : 1 이상의 정수\n" +
+                "- **s (size ; 페이지 크기)** :  양수\n\n"
     )
-    @GetMapping("/community/posts/")
-    public SuccessResponse<List<PostSimpleData>> findCategorizedPosts(@RequestParam MainCategory mc, @RequestParam SubCategory sc,
-                                                                      @ParameterObject @PageableDefault(size = 5, page = 1) Pageable pageable) {
-//        MainCategory mainCategory = MainCategory.valueOf(mc);
-//        SubCategory subCategory = SubCategory.valueOf(sc);
+    @GetMapping("/community/posts")
+    public SuccessResponse<PageResponse<PostResponseDto>> findCategorizedPosts(
+            @RequestParam PostOrderCondition oc,
+            @RequestParam MainCategory mc,
+            @RequestParam SubCategory sc,
+            @ParameterObject @PageableDefault(size = 5, page = 1) Pageable pageable) {
 
-        // usecase -> service -> repository
-        List<PostSimpleData> response = getPostsByCategoriesUseCase.execute(mc, sc, pageable);
+        PageResponse<PostResponseDto> response = getPostsByCategoriesUseCase.execute(oc, mc, sc, pageable);
         return SuccessResponse.of(response);
     }
 

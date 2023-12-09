@@ -21,7 +21,7 @@ public class PostLikeDomainService {
     private final PostAdaptor postAdaptor;
     private final UserAdaptor userAdaptor;
 
-    public PostLikeResponseDto createLikePost(PostLikeCreateServiceDto request) {
+    public PostLikeResponseDto createPostLike(PostLikeCreateServiceDto request) {
         PostLike newPostLike = newPostLikeBy(request);
         Long savedLikeId = postLikeAdaptor.save(newPostLike);
 

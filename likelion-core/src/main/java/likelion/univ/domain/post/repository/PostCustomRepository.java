@@ -2,20 +2,17 @@ package likelion.univ.domain.post.repository;
 
 import likelion.univ.domain.post.dto.response.PostSimpleData;
 import likelion.univ.domain.post.entity.Post;
-import likelion.univ.domain.post.entity.enums.MainCategory;
-import likelion.univ.domain.post.entity.enums.SubCategory;
+import likelion.univ.domain.post.dto.enums.MainCategory;
+import likelion.univ.domain.post.dto.enums.SubCategory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-
-import java.util.List;
 
 public interface PostCustomRepository {
     Page<Post> findByCommentAuthorId(Long userId, Pageable pageable);
     Page<Post> findByPostLikeAuthorId(Long userId, Pageable pageable);
-    List<PostSimpleData> findAllByCategories(MainCategory mainCategory, SubCategory subCategory, Pageable pageable);
-    List<PostSimpleData> findPostsByAuthorId(Long authorId, Pageable pageable);
+    Page<Post> findByCategoriesOrderByCreatedDate(MainCategory mainCategory, SubCategory subCategory, Pageable pageable);
 
-    List<PostSimpleData> findCommentedPosts(Long loginUserId, Pageable pageable);
+    Page<Post> findByCategoriesOrderByLikeCount(MainCategory mainCategory, SubCategory subCategory, Pageable pageable);
 
-    List<PostSimpleData> findLikedPosts(Long loginUserId, Pageable pageable);
+    Page<Post> findByCategoriesOrderByCommentCount(MainCategory mainCategory, SubCategory subCategory, Pageable pageable);
 }

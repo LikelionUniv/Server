@@ -1,8 +1,7 @@
 package likelion.univ.domain.post.dto.response;
 
 import com.querydsl.core.annotations.QueryProjection;
-import likelion.univ.domain.post.entity.enums.MainCategory;
-import likelion.univ.domain.post.entity.enums.SubCategory;
+import likelion.univ.domain.post.entity.Post;
 import lombok.Builder;
 
 import java.time.LocalDateTime;
@@ -10,21 +9,17 @@ import java.time.LocalDateTime;
 @Builder
 public record PostSimpleData(
     Long postId,
-    Long authorId, // 각 유저별 작성글 조회 기능 구현 목적
+    Long authorId,
     String authorName,
-    String authorProfileUrl,
+    String authorProfileImageUrl,
     String title,
     String bodySummary,
     String thumbnailUrl,
-    Integer likeCount,
-    Integer commentCount,
-    MainCategory mainCategory,
-    SubCategory subCategory,
     LocalDateTime createdDate
 
 ) {
     @QueryProjection
-    public PostSimpleData(Long postId, Long authorId, String authorName, String authorProfileUrl, String title, String bodySummary, String thumbnailUrl, Integer likeCount, Integer commentCount, MainCategory mainCategory, SubCategory subCategory, LocalDateTime createdDate) {
+    public PostSimpleData(Long postId, Long authorId, String authorName, String authorProfileImageUrl, String title, String bodySummary, String thumbnailUrl, LocalDateTime createdDate) {
         if (bodySummary.length() > 300) {
             bodySummary = bodySummary.substring(0, 300);
         }
@@ -32,14 +27,27 @@ public record PostSimpleData(
         this.postId = postId;
         this.authorId = authorId;
         this.authorName = authorName;
-        this.authorProfileUrl = authorProfileUrl;
+        this.authorProfileImageUrl = authorProfileImageUrl;
         this.title = title;
         this.bodySummary = bodySummary;
         this.thumbnailUrl = thumbnailUrl;
-        this.likeCount = likeCount;
-        this.commentCount = commentCount;
-        this.mainCategory = mainCategory;
-        this.subCategory = subCategory;
         this.createdDate = createdDate;
+    }
+
+    public static PostSimpleData of(Post post) {
+        String body = post.getBody();
+        if (body.length() > 300) {
+            body = body.substring(0, 300);
+        }
+        return new PostSimpleData(
+                post.getId(),
+                post.getAuthor().getId(),
+                post.getAuthor().getProfile().getName(),
+                post.getAuthor().getProfile().getProfileImage(),
+                post.getTitle(),
+                body,
+                post.getThumbnail(),
+                post.getCreatedDate()
+        );
     }
 }

@@ -1,10 +1,11 @@
 package likelion.univ.domain.post.adaptor;
 
 import likelion.univ.annotation.Adaptor;
+import likelion.univ.domain.post.dto.enums.PostOrderCondition;
 import likelion.univ.domain.post.dto.response.PostSimpleData;
 import likelion.univ.domain.post.entity.Post;
-import likelion.univ.domain.post.entity.enums.MainCategory;
-import likelion.univ.domain.post.entity.enums.SubCategory;
+import likelion.univ.domain.post.dto.enums.MainCategory;
+import likelion.univ.domain.post.dto.enums.SubCategory;
 import likelion.univ.domain.post.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -39,24 +40,21 @@ public class PostAdaptor {
     public Page<Post> findByCommentAuthorId(Long userId, Pageable pageable){
         return postRepository.findByCommentAuthorId(userId,pageable);
     }
-    public List<PostSimpleData> findLikedPosts(Long userId, Pageable pageable) {
-        return postRepository.findLikedPosts(userId, pageable);
-    }
-
-    public List<PostSimpleData> findCommentedPosts(Long userId, Pageable pageable) {
-        return postRepository.findCommentedPosts(userId, pageable);
-    }
 
     public Page<Post> findByPostLikeAuthorId(Long userId, Pageable pageable){
         return postRepository.findByPostLikeAuthorId(userId,pageable);
     }
 
-    public List<PostSimpleData> findAllByCategories(MainCategory mainCategory, SubCategory subCategory, Pageable pageable) {
-        return postRepository.findAllByCategories(mainCategory, subCategory, pageable);
+    public Page<Post> findByCategoriesOrderByCreatedDate(MainCategory mainCategory, SubCategory subCategory, Pageable pageable) {
+        return postRepository.findByCategoriesOrderByCreatedDate(mainCategory, subCategory, pageable);
     }
 
-    public List<PostSimpleData> findPostsByAuthorId(Long userId, Pageable pageable) {
-        return postRepository.findPostsByAuthorId(userId, pageable);
+    public Page<Post> findByCategoriesOrderByLikeCount(MainCategory mainCategory, SubCategory subCategory, Pageable pageable) {
+        return postRepository.findByCategoriesOrderByLikeCount(mainCategory, subCategory, pageable);
+    }
+
+    public Page<Post> findByCategoriesOrderByCommentCount(MainCategory mainCategory, SubCategory subCategory, Pageable pageable) {
+        return postRepository.findByCategoriesOrderByCommentCount(mainCategory, subCategory, pageable);
     }
 
 }

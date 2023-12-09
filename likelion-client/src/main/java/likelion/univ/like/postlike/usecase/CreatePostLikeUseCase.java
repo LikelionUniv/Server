@@ -15,7 +15,7 @@ public class CreatePostLikeUseCase {
     private final AuthenticatedUserUtils userUtils;
 
     public PostLikeResponseDto execute(PostLikeRequestDto postIdDto) {
-        return postLikeDomainService.createLikePost(serviceDtoBy(postIdDto));
+        return postLikeDomainService.createPostLike(serviceDtoBy(postIdDto));
     }
 
     private PostLikeCreateServiceDto serviceDtoBy(PostLikeRequestDto postIdDto) {

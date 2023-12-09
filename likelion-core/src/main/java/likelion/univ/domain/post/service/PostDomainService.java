@@ -1,5 +1,6 @@
 package likelion.univ.domain.post.service;
 
+import likelion.univ.common.response.PageResponse;
 import likelion.univ.domain.comment.adaptor.CommentAdaptor;
 import likelion.univ.domain.comment.dto.response.ChildCommentData;
 import likelion.univ.domain.comment.dto.response.ParentCommentData;
@@ -9,16 +10,19 @@ import likelion.univ.domain.post.adaptor.PostAdaptor;
 import likelion.univ.domain.post.dto.request.*;
 import likelion.univ.domain.post.dto.response.PostIdData;
 import likelion.univ.domain.post.dto.response.PostDetailData;
+import likelion.univ.domain.post.dto.response.PostData;
 import likelion.univ.domain.post.dto.response.PostSimpleData;
 import likelion.univ.domain.post.entity.Post;
-import likelion.univ.domain.post.entity.enums.MainCategory;
-import likelion.univ.domain.post.entity.enums.SubCategory;
+import likelion.univ.domain.post.dto.enums.MainCategory;
+import likelion.univ.domain.post.dto.enums.SubCategory;
 import likelion.univ.domain.post.exception.PostNoAuthorizationException;
 import likelion.univ.domain.user.adaptor.UserAdaptor;
 import likelion.univ.domain.user.entity.Profile;
 import likelion.univ.domain.user.entity.UniversityInfo;
 import likelion.univ.domain.user.entity.User;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -75,13 +79,31 @@ public class PostDomainService {
                 .build();
     }
 
-    public List<PostSimpleData> getCategorizedPosts(GetPostsByCategoriesCommand request) {
-        // 페이지네이션으로 createdAt 기준으로 order
+    public Page<PostSimpleData> getByCategoriesOrderByCreatedData(GetPostsByCategoriesCommand request) {
         MainCategory mainCategory = request.mainCategory();
         SubCategory subCategory = request.subCategory();
         Pageable pageable = request.pageable();
-        List<PostSimpleData> responses = postAdaptor.findAllByCategories(mainCategory, subCategory, pageable);
-        return responses;
+        Page<Post> posts = postAdaptor.findByCategoriesOrderByCreatedDate(mainCategory, subCategory, pageable);
+        List<PostSimpleData> postSimpleDataList = posts.stream().map(PostSimpleData::of).toList();
+        return new PageImpl<>(postSimpleDataList, pageable, posts.getTotalPages());
+    }
+
+    public Page<PostSimpleData> getByCategoriesOrderByLikeCount(GetPostsByCategoriesCommand request) {
+        MainCategory mainCategory = request.mainCategory();
+        SubCategory subCategory = request.subCategory();
+        Pageable pageable = request.pageable();
+        Page<Post> posts = postAdaptor.findByCategoriesOrderByLikeCount(mainCategory, subCategory, pageable);
+        List<PostSimpleData> postSimpleDataList = posts.stream().map(PostSimpleData::of).toList();
+        return new PageImpl<>(postSimpleDataList, pageable, posts.getTotalPages());
+    }
+
+    public Page<PostSimpleData> getByCategoriesOrderByCommentCount(GetPostsByCategoriesCommand request) {
+        MainCategory mainCategory = request.mainCategory();
+        SubCategory subCategory = request.subCategory();
+        Pageable pageable = request.pageable();
+        Page<Post> posts = postAdaptor.findByCategoriesOrderByCommentCount(mainCategory, subCategory, pageable);
+        List<PostSimpleData> postSimpleDataList = posts.stream().map(PostSimpleData::of).toList();
+        return new PageImpl<>(postSimpleDataList, pageable, posts.getTotalPages());
     }
 
     @Transactional
@@ -125,4 +147,12 @@ public class PostDomainService {
                 .build();
     }
 
+    private Page<PostData> addCountsData(Page<PostSimpleData> posts, Pageable pageable) {
+        List<PostData> response = posts.stream().map(p -> {
+            Long commentCount = commentAdaptor.countByPostId(p.postId());
+            Long likeCount = postLikeAdaptor.countByPostId(p.postId());
+            return PostData.getInstance(p, likeCount, commentCount);
+        }).toList();
+        return new PageImpl<>(response, pageable, posts.getTotalPages());
+    }
 }

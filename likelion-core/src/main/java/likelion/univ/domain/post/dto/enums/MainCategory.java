@@ -1,4 +1,4 @@
-package likelion.univ.domain.post.entity.enums;
+package likelion.univ.domain.post.dto.enums;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -10,5 +10,5 @@ public enum MainCategory {
     FREE_BOARD("자유게시판"),
     OVERFLOW("멋사 오버플로우");
 
-    private final String value;
+    private final String name;
 }
