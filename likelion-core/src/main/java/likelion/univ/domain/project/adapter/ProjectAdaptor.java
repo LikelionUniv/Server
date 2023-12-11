@@ -7,6 +7,7 @@ import likelion.univ.domain.project.exception.ProjectNotFoundException;
 import likelion.univ.domain.project.repository.ProjectRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
 
@@ -20,11 +21,13 @@ public class ProjectAdaptor {
     }
 
     public Project save(Project project){
+      
         try {
             projectRepository.save(project);
         }catch(Exception e) {
             throw new CreateProjectBadRequestException();
         }
+      
         return project;
     }
 
@@ -43,6 +46,10 @@ public class ProjectAdaptor {
     }
     public int getCurrentOrdinal(){
         return projectRepository.findLatestOrdinal();
+    }
+
+    public Page<Project> findByProjectMember(Long userId, Pageable pageable){
+        return projectRepository.findByProjectMember(userId, pageable);
     }
 
 }

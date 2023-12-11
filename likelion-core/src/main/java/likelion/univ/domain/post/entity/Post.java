@@ -1,10 +1,12 @@
 package likelion.univ.domain.post.entity;
 
 import likelion.univ.common.entity.BaseTimeEntity;
+import likelion.univ.domain.comment.entity.Comment;
 import likelion.univ.domain.like.postlike.entity.PostLike;
 import likelion.univ.domain.post.dto.request.PostUpdateServiceDto;
 import likelion.univ.domain.post.entity.enums.MainCategory;
 import likelion.univ.domain.post.entity.enums.SubCategory;
+import likelion.univ.domain.project.entity.ProjectTech;
 import likelion.univ.domain.user.entity.User;
 import lombok.*;
 
@@ -37,6 +39,10 @@ public class Post extends BaseTimeEntity {
     @OneToMany(mappedBy = "post",
             cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, orphanRemoval = true)
     private List<PostLike> postLikes = new ArrayList();
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name="post_id", insertable = false, updatable = false)
+    private List<Comment> comments = new ArrayList<>();
 
     @Enumerated(EnumType.STRING)
     private MainCategory mainCategory;

@@ -1,6 +1,7 @@
 package likelion.univ.config;
 
 import likelion.univ.exception.GlobalErrorCode;
+import likelion.univ.exception.base.BaseErrorCode;
 import likelion.univ.exception.base.BaseException;
 import likelion.univ.response.ErrorResponse;
 import lombok.extern.slf4j.Slf4j;
@@ -24,18 +25,15 @@ public class ClientExceptionHandler {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     private ResponseEntity<ErrorResponse> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
         log.error("MethodArgumentNotValidException Error", e);
-        ErrorResponse error = ErrorResponse.builder()
-                .errorCode(GlobalErrorCode.INVALID_HTTP_MESSAGE_BODY)
-                .build();
+        ErrorResponse error = ErrorResponse.of(GlobalErrorCode.INVALID_HTTP_MESSAGE_BODY,
+                e.getFieldError().getDefaultMessage());
         return ResponseEntity.status(error.getHttpStatus()).body(error);
     }
 
     /* @ModelAttribute 으로 binding error 발생시 BindException 발생 */
     @ExceptionHandler(BindException.class)
     private ResponseEntity<ErrorResponse>  handleBindException(BindException e) {
-        ErrorResponse error = ErrorResponse.builder()
-                .errorCode(GlobalErrorCode.INVALID_HTTP_MESSAGE_BODY)
-                .build();
+        ErrorResponse error = ErrorResponse.of(GlobalErrorCode.INVALID_HTTP_MESSAGE_BODY);
         return ResponseEntity.status(error.getHttpStatus()).body(error);
     }
 
@@ -43,9 +41,7 @@ public class ClientExceptionHandler {
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     private ResponseEntity<ErrorResponse>  handleMethodArgumentTypeMismatchException(MethodArgumentTypeMismatchException e) {
         log.error("MethodArgumentTypeMismatchException Error", e);
-        ErrorResponse error = ErrorResponse.builder()
-                .errorCode(GlobalErrorCode.INVALID_HTTP_MESSAGE_BODY)
-                .build();
+        ErrorResponse error = ErrorResponse.of(GlobalErrorCode.INVALID_HTTP_MESSAGE_BODY);
         return ResponseEntity.status(error.getHttpStatus()).body(error);
     }
 
@@ -54,18 +50,14 @@ public class ClientExceptionHandler {
     private ResponseEntity<ErrorResponse>  handleHttpRequestMethodNotSupportedException(HttpRequestMethodNotSupportedException e) {
         log.error("HttpRequestMethodNotSupportedException Error", e);
 
-        ErrorResponse error = ErrorResponse.builder()
-                .errorCode(GlobalErrorCode.UNSUPPORTED_HTTP_METHOD)
-                .build();
+        ErrorResponse error = ErrorResponse.of(GlobalErrorCode.UNSUPPORTED_HTTP_METHOD);
         return ResponseEntity.status(error.getHttpStatus()).body(error);
     }
     /* request 값을 읽을 수 없을 때 발생 */
     @ExceptionHandler(HttpMessageNotReadableException.class)
     protected ResponseEntity<ErrorResponse>  handleHttpMessageNotReadableException(HttpMessageNotReadableException e) {
         log.error("HttpMessageNotReadableException error", e);
-        ErrorResponse error = ErrorResponse.builder()
-                .errorCode(GlobalErrorCode.BAD_REQUEST_ERROR)
-                .build();
+        ErrorResponse error = ErrorResponse.of(GlobalErrorCode.BAD_REQUEST_ERROR);
 
         return ResponseEntity.status(error.getHttpStatus()).body(error);
     }
@@ -75,18 +67,14 @@ public class ClientExceptionHandler {
     private ResponseEntity<ErrorResponse>  handleBusinessException(BaseException e) {
         log.error("BusinessError ");
         log.error(e.getErrorCode().getMessage());
-        ErrorResponse error = ErrorResponse.builder()
-                .errorCode(e.getErrorCode())
-                .build();
+        ErrorResponse error = ErrorResponse.of(e.getErrorCode());
         return ResponseEntity.status(error.getHttpStatus()).body(error);
     }
     /* 나머지 예외 처리 */
     @ExceptionHandler(Exception.class)
     private ResponseEntity<ErrorResponse>  handleException(Exception e) {
         log.error("Exception Error ", e);
-        ErrorResponse error = ErrorResponse.builder()
-                .errorCode(GlobalErrorCode.SERVER_ERROR)
-                .build();
+        ErrorResponse error = ErrorResponse.of(GlobalErrorCode.SERVER_ERROR);
         return ResponseEntity.status(error.getHttpStatus()).body(error);
     }
 }

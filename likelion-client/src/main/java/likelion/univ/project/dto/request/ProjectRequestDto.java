@@ -24,7 +24,7 @@ public class ProjectRequestDto {
     @Schema(example = "해커톤")
     private String activity;
 
-    @NotBlank
+
     @Schema(example = "WEB")
     private Output outPut;
 
@@ -32,18 +32,19 @@ public class ProjectRequestDto {
     @Schema(example = "Likelion Univ프로젝트")
     private String serviceName;
 
-    @NotBlank
+    @NotNull
     @Schema(example = "11")
-    private long ordinal;
+    private Long ordinal;
 
     @Schema(example = "홍익대학교")
     private String univ;
 
-    @NotBlank
+    @NotNull
     @Schema(example = "2023-10-10")
     private LocalDate startDate;
 
-    @NotBlank
+
+    @NotNull
     @Schema(example = "2023-11-14")
     private LocalDate endDate;
 

@@ -39,8 +39,7 @@ public class SecurityConfig {
 
         http
                 .authorizeRequests()
-                .antMatchers(SwaggerUrlPatterns)
-                .permitAll()
+                .antMatchers(SwaggerUrlPatterns).permitAll()
 //                .antMatchers("/v1/**").hasRole(ROLE_USER)
                 .antMatchers(HttpMethod.POST, "/v1/project").hasRole("UNIVERSITY_ADMIN")
 //                .anyRequest().authenticated();
