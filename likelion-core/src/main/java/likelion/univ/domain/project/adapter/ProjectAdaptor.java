@@ -20,7 +20,6 @@ public class ProjectAdaptor {
     }
 
     public Project save(Project project){
-        projectRepository.save(project);
         try {
             projectRepository.save(project);
         }catch(Exception e) {
