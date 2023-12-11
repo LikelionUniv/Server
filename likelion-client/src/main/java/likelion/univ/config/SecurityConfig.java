@@ -5,6 +5,7 @@ import likelion.univ.security.filter.FilterProcessor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -41,6 +42,7 @@ public class SecurityConfig {
                 .antMatchers(SwaggerUrlPatterns)
                 .permitAll()
 //                .antMatchers("/v1/**").hasRole(ROLE_USER)
+                .antMatchers(HttpMethod.POST, "/v1/project").hasRole("UNIVERSITY_ADMIN")
 //                .anyRequest().authenticated();
                 .anyRequest().permitAll(); //임시
         return http.build();

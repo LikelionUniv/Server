@@ -6,7 +6,6 @@ import likelion.univ.domain.project.adapter.ProjectTechAdaptor;
 import likelion.univ.domain.project.entity.Image;
 import likelion.univ.domain.project.entity.Project;
 import likelion.univ.domain.project.entity.Tech;
-import likelion.univ.domain.project.exception.ProjectNotAuthorization;
 import likelion.univ.domain.project.service.ProjectImageService;
 import likelion.univ.domain.project.service.ProjectMemberService;
 import likelion.univ.domain.project.service.ProjectService;
@@ -39,10 +38,8 @@ public class UpdateProjectUsecase {
     public ProjectIdResponseDto excute(Long projectId, ProjectRequestDto projectRequestDto) {
 
         Project project = projectAdaptor.findById(projectId);
-        User user = authentiatedUserUtils.getCurrentUser();
 
-        if(user.getId() != project.getAuthor().getId())
-            throw new ProjectNotAuthorization();
+        authentiatedUserUtils.checkidentification(project.getAuthor().getId());
 
         List<String> techNames = projectRequestDto.getProjectTeches();
         List<Tech> techList = techNames.stream()
