@@ -32,7 +32,7 @@ public class CreateProjectUsecase {
     private final ProjectAdaptor projectAdaptor;
     private final UniversityAdaptor universityAdaptor;
 
-    public ProjectIdResponseDto excute(ProjectRequestDto projectRequestDto) {
+    public ProjectIdResponseDto execute(ProjectRequestDto projectRequestDto) {
 
         User user = authentiatedUserUtils.getCurrentUser();
 //        if(user.getAuthInfo().getRole() != Role.UNIVERSITY_ADMIN) {

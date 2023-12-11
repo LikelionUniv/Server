@@ -28,7 +28,7 @@ public class GetProjectUsecase {
     private final UserAdaptor userAdaptor;
     private final UniversityAdaptor universityAdaptor;
 
-    public ProjectResponseDto excute(Long id) {
+    public ProjectResponseDto execute(Long id) {
         Project project = projectAdaptor.findById(id);
         String univ = null;
         if(project.getUniv() != null)

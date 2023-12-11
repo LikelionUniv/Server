@@ -35,7 +35,7 @@ public class UpdateProjectUsecase {
     private final UserAdaptor userAdaptor;
     private final UniversityAdaptor universityAdaptor;
 
-    public ProjectIdResponseDto excute(Long projectId, ProjectRequestDto projectRequestDto) {
+    public ProjectIdResponseDto execute(Long projectId, ProjectRequestDto projectRequestDto) {
 
         Project project = projectAdaptor.findById(projectId);
 

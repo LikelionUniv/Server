@@ -21,7 +21,7 @@ public class DeleteProjectUsecase {
     private  final ProjectService projectService;
     private final ProjectAdaptor projectAdaptor;
 
-    public void excute(Long projectId) {
+    public void execute(Long projectId) {
         Project project = projectAdaptor.findById(projectId);
 
         authentiatedUserUtils.checkidentification(project.getAuthor().getId());

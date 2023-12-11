@@ -26,7 +26,7 @@ public class GetProjectByUsecase {
     private final UserAdaptor userAdaptor;
     private final UniversityAdaptor universityAdaptor;
 
-    public PageResponse<ProjectResponseDto> excute(Long ordinal, Pageable pageable){
+    public PageResponse<ProjectResponseDto> execute(Long ordinal, Pageable pageable){
         long recentOrdinal = projectAdaptor.getCurrentOrdinal();
         if(ordinal > recentOrdinal - 5){
             return getProjectResponseDtos(projectAdaptor.findProject(ordinal, pageable));

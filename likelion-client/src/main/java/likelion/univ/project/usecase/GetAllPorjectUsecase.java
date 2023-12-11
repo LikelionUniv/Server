@@ -27,7 +27,7 @@ public class GetAllPorjectUsecase {
     private final UserAdaptor userAdaptor;
     private final UniversityAdaptor universityAdaptor;
 
-    public PageResponse<ProjectResponseDto> excute(Pageable pageable) {
+    public PageResponse<ProjectResponseDto> execute(Pageable pageable) {
         Page<Project> projects = projectAdaptor.findAll(pageable);
 
         return PageResponse.of(projects.map(project -> ProjectResponseDto.of(
