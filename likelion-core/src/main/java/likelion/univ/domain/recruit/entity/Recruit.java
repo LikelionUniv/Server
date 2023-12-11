@@ -6,11 +6,8 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -34,11 +31,11 @@ public class Recruit extends BaseTimeEntity {
     private University university;
 
     @Builder
-    public Recruit(String name, String email, String phoneNumber, University university) {
+    public Recruit(String name, String email, String phoneNumber, int generation, University university) {
         this.name = name;
         this.email = email;
         this.phoneNumber = phoneNumber;
         this.university = university;
-        this.generation = 12;
+        this.generation = generation;
     }
 }
