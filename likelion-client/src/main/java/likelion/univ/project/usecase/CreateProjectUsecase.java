@@ -50,7 +50,7 @@ public class CreateProjectUsecase {
         Long id = createdProject.getId();
         Project project = projectAdaptor.findById(id);
         List<String> techNames = projectRequestDto.getProjectTeches();
-        projectTechService.addProjectTech(project, techNames);
+        projectTechService.addProjectTech(project, techNames.stream().map(tech -> tech.toUpperCase()).toList());
         projectImageService.addImage(
                 projectRequestDto.getImageUrl().stream()
                         .map(imageUrl -> new Image(project, imageUrl))
