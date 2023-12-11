@@ -28,7 +28,7 @@ public record PostDetailResponseDto(
         @Schema(description = "로그인 유저가 게시글 작성자인지 여부", example = "false")
         Boolean isMyPost,
         @Schema(description = "로그인 유저가 게시글 작성자를 팔로우했는지 여부", example = "true")
-        Boolean hasFollowedAuthor,
+        Boolean isFollowedAuthor,
         @Schema(description = "내가 좋아요 한 게시글인지 여부", example = "false")
         Boolean isLikedPost,
         @Schema(description = "게시글 좋아요 수", example = "11")
@@ -55,7 +55,7 @@ public record PostDetailResponseDto(
                 serviceDto.authorOrdinal(),
                 serviceDto.universityName(),
                 isMyPost(serviceDto.authorId(), loginUserId),
-                serviceDto.hasFollowedAuthor(),
+                serviceDto.isFollowedAuthor(),
                 serviceDto.isLikedPost(),
                 serviceDto.likeCount(),
                 commentCount(comments(serviceDto, loginUserId)), // 이상함

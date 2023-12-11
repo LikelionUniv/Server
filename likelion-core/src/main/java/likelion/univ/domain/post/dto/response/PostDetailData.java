@@ -14,7 +14,7 @@ public record PostDetailData(
         String authorProfileImageUrl,
         Long authorOrdinal,
         String universityName,
-        Boolean hasFollowedAuthor, // 내가 팔로우한 글쓴이인지 (followlist.contains(post.authorId))
+        Boolean isFollowedAuthor, // 내가 팔로우한 글쓴이인지 (followlist.contains(post.authorId))
         Boolean isLikedPost, // 내가 좋아요 한 게시글인지
         Integer likeCount,
         String title,
