@@ -24,7 +24,7 @@ public class UniversityController {
     //-----------대학교 조회 --------//
     @GetMapping("/")
     @Operation(summary = "대학교 조회", description = "대학교를 조회합니다.")
-    public SuccessResponse<List<UnivResponseDto>> getAllUniv(){
+    public SuccessResponse<Object> getAllUniv(){
         List<UnivResponseDto> univList = getUnivUsecase.excute();
         return SuccessResponse.of(univList);
     }
