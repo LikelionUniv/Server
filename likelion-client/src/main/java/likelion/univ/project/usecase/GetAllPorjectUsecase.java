@@ -6,19 +6,14 @@ import likelion.univ.domain.project.adapter.ProjectImageAdaptor;
 import likelion.univ.domain.project.adapter.ProjectAdaptor;
 import likelion.univ.domain.project.adapter.ProjectMemberAdaptor;
 import likelion.univ.domain.project.adapter.ProjectTechAdaptor;
-import likelion.univ.domain.project.entity.Image;
 import likelion.univ.domain.project.entity.Project;
-import likelion.univ.domain.project.entity.Tech;
 import likelion.univ.domain.university.adaptor.UniversityAdaptor;
 import likelion.univ.domain.user.adaptor.UserAdaptor;
-import likelion.univ.domain.user.entity.User;
 import likelion.univ.project.dto.response.ProjectResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.stream.Collectors;
 
 @UseCase

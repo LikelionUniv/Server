@@ -9,8 +9,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import java.time.LocalDate;
-import java.util.List;
 
 @Adaptor
 @RequiredArgsConstructor
@@ -22,11 +20,7 @@ public class ProjectAdaptor {
     }
 
     public Project save(Project project){
-        LocalDate startDate = project.getStartDate();
-        LocalDate endDate = project.getEndDate();
-        if(startDate.isEqual(endDate) || startDate.isAfter(endDate)){
-            throw new CreateProjectBadRequestException();
-        }
+        projectRepository.save(project);
         try {
             projectRepository.save(project);
         }catch(Exception e) {

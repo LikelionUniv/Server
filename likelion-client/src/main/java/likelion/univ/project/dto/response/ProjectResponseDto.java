@@ -4,7 +4,6 @@ import likelion.univ.domain.project.entity.Image;
 import likelion.univ.domain.project.entity.Project;
 import likelion.univ.domain.project.entity.Tech;
 import likelion.univ.domain.project.entity.enums.Output;
-import likelion.univ.domain.university.entity.University;
 import likelion.univ.domain.user.entity.User;
 import lombok.Builder;
 import lombok.Data;
