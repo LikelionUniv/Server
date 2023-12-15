@@ -4,6 +4,7 @@ import likelion.univ.domain.university.adaptor.UniversityAdaptor;
 import likelion.univ.domain.user.adaptor.UserAdaptor;
 import likelion.univ.domain.user.entity.*;
 import likelion.univ.domain.user.exception.EmailAlreadyRegistered;
+import likelion.univ.domain.user.repository.UserRepository;
 import likelion.univ.domain.user.repository.searchcondition.UserSearchCondition;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -16,6 +17,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserDomainService {
     private final UserAdaptor userAdaptor;
+    private final UserRepository userRepository;
     private final UniversityAdaptor universityAdaptor;
 
     public User login(LoginType loginType, String email){
@@ -49,4 +51,7 @@ public class UserDomainService {
         return userAdaptor.findDynamicUsers(condition);
     }
 
+    public List<User> findByRoleIn(List<Role> roles) {
+        return userRepository.findByAuthInfoRoleIn(roles);
+    }
 }
