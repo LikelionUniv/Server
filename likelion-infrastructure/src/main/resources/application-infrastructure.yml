@@ -26,6 +26,11 @@ cloud:
       auto: false
     credentials:
       instanceProfile: true
+  azure:
+    communication:
+      endpoint: ${AZURE_COMMUNITY_ENDPOINT}
+      credential: ${AZURE_COMMUNITY_CREDENTIAL}
+      sender: ${AZURE_COMMUNITY_SENDER}
 
 --- ## dev 환경 설정
 spring:
@@ -45,12 +50,3 @@ spring:
     activate:
       on-profile: prod
 
---- ## alarm(email, sms) 설정
-alarm:
-  email:
-    sender-email: ${EMAIL_SENDER}
-    sender-password: ${EMAIL_PASSWORD}
-  sms:
-    api-key: ${SMS_API_KEY}
-    api-secret: ${SMS_API_SECRET}
-    sending-number: ${SMS_SENDING_NUMBER}
