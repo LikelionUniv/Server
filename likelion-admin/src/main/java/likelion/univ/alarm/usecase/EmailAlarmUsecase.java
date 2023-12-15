@@ -1,23 +1,36 @@
 package likelion.univ.alarm.usecase;
 
-import likelion.univ.alarm.dto.AlarmContentsDto;
+import likelion.univ.alarm.dto.EmailAlarmDto;
+import likelion.univ.alarm.emailsender.EmailSender;
 import likelion.univ.annotation.UseCase;
+import likelion.univ.domain.user.entity.Role;
+import likelion.univ.domain.user.service.UserDomainService;
 import likelion.univ.email.EmailContent;
-import likelion.univ.email.EmailSender;
 import lombok.RequiredArgsConstructor;
+
+import java.util.List;
 
 @UseCase
 @RequiredArgsConstructor
-public class EmailAlarmUsecase implements AlarmUsecase {
+public class EmailAlarmUsecase {
 
+    private final UserDomainService userService;
     private final EmailSender emailSender;
 
-    public void execute(AlarmContentsDto alarmContentsDto) {
+    public void execute(EmailAlarmDto emailAlarmDto) {
+
+        List<Role> roles = emailAlarmDto.getRoles().stream()
+                .map(Role::valueOf)
+                .toList();
+
+        List<String> receivers = userService.findByRoleIn(roles).stream()
+                .map(user -> user.getAuthInfo().getEmail())
+                .toList();
+
         EmailContent emailContent = EmailContent.builder()
-                .subject(alarmContentsDto.getSubject())
-                .sender(alarmContentsDto.getSender())
-                .contents(alarmContentsDto.getContent())
-                .receivers(alarmContentsDto.getEmails())
+                .subject(emailAlarmDto.getSubject())
+                .contents(emailAlarmDto.getContents())
+                .receivers(receivers)
                 .build();
 
         emailSender.send(emailContent);
