@@ -1,6 +1,5 @@
 package likelion.univ.domain.post.service;
 
-import likelion.univ.common.response.PageResponse;
 import likelion.univ.domain.comment.adaptor.CommentAdaptor;
 import likelion.univ.domain.comment.dto.response.ChildCommentData;
 import likelion.univ.domain.comment.dto.response.ParentCommentData;
@@ -64,16 +63,19 @@ public class PostDomainService {
 
         return PostDetailData.builder()
                 .postId(post.getId())
+                .mainCategory(post.getMainCategory())
+                .subCategory(post.getSubCategory())
                 .authorId(author.getId())
                 .authorName(authorProfile.getName())
                 .authorProfileImageUrl(authorProfileImageUrl)
                 .authorOrdinal(authorUniversityInfo.getOrdinal())
                 .universityName(authorUniversityInfo.getUniversity().getName())
-                .hasFollowedAuthor(hasFollowedAuthor)
+                .isFollowedAuthor(hasFollowedAuthor)
                 .isLikedPost(isLikedPost)
                 .likeCount(postLikeCount)
                 .title(post.getTitle())
                 .body(post.getBody())
+                .createdDate(post.getCreatedDate())
                 .parentComments(parentComments)
                 .childComments(childComments)
                 .build();
@@ -104,6 +106,20 @@ public class PostDomainService {
         Page<Post> posts = postAdaptor.findByCategoriesOrderByCommentCount(mainCategory, subCategory, pageable);
         List<PostSimpleData> postSimpleDataList = posts.stream().map(PostSimpleData::of).toList();
         return new PageImpl<>(postSimpleDataList, pageable, posts.getTotalPages());
+    }
+    public Page<PostSimpleData> getByCategoriesAndSearchTitle(GetPostsByCategorySearchCommand request) {
+        String searchTitle = request.searchTitle();
+        MainCategory mainCategory = request.mainCategory();
+        SubCategory subCategory = request.subCategory();
+        Pageable pageable = request.pageable();
+
+        return postAdaptor.findByCategoriesAndSearchTitle(searchTitle, mainCategory, subCategory, pageable);
+    }
+
+    public Page<PostSimpleData> getBySearchTitle(GetPostsBySearchTitleCommand request) {
+        String searchTitle = request.searchTitle();
+        Pageable pageable = request.pageable();
+        return postAdaptor.findBySearchTitle(searchTitle, pageable);
     }
 
     @Transactional
@@ -155,4 +171,6 @@ public class PostDomainService {
         }).toList();
         return new PageImpl<>(response, pageable, posts.getTotalPages());
     }
+
+
 }

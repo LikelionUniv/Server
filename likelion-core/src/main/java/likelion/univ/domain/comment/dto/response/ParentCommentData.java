@@ -44,8 +44,6 @@ public record ParentCommentData(
     }
 
     private static Integer getLikeCount(Comment comment) {
-        return Math.toIntExact(comment.getCommentLikes().stream()
-                .filter(l -> l.getIsCanceled().equals(false))
-                .count());
+        return Math.toIntExact(comment.getCommentLikes().size());
     }
 }

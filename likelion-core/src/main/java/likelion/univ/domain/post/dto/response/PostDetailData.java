@@ -2,13 +2,20 @@ package likelion.univ.domain.post.dto.response;
 
 import likelion.univ.domain.comment.dto.response.ChildCommentData;
 import likelion.univ.domain.comment.dto.response.ParentCommentData;
+import likelion.univ.domain.post.dto.enums.MainCategory;
+import likelion.univ.domain.post.dto.enums.SubCategory;
 import lombok.Builder;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.util.List;
 
 @Builder
 public record PostDetailData(
         Long postId,
+        MainCategory mainCategory,
+        SubCategory subCategory,
         Long authorId,
         String authorName,
         String authorProfileImageUrl,
@@ -19,7 +26,13 @@ public record PostDetailData(
         Integer likeCount,
         String title,
         String body,
+        LocalDateTime createdDate,
         List<ParentCommentData> parentComments,
         List<ChildCommentData> childComments
 ) {
+    public String getFormattedDate() {
+        String createdDate = this.createdDate().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM));
+        int dateLength = createdDate.length();
+        return createdDate.substring(0, dateLength - 1);
+    }
 }

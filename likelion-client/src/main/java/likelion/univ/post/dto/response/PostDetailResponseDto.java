@@ -5,13 +5,21 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import likelion.univ.comment.dto.response.CommentResponseDto;
 import likelion.univ.domain.comment.dto.response.ChildCommentData;
 import likelion.univ.domain.comment.dto.response.ParentCommentData;
+import likelion.univ.domain.post.dto.enums.MainCategory;
+import likelion.univ.domain.post.dto.enums.SubCategory;
 import likelion.univ.domain.post.dto.response.PostDetailData;
 
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.util.List;
 
 public record PostDetailResponseDto(
         @Schema(description = "게시글 pk", example = "1")
         Long postId,
+        @Schema(description = "게시글 메인 카테고리", example = "FREE_BOARD")
+        MainCategory mainCategory,
+        @Schema(description = "게시글 서브 카테고리", example = "FREE_INFO")
+        SubCategory subCategory,
         @Schema(description = "작성 유저 pk", example = "1")
         Long authorId,
         @Schema(description = "작성 유저 이름", example = "김멋사")
@@ -39,6 +47,8 @@ public record PostDetailResponseDto(
         String title,
         @Schema(description = "게시글 내용", example = "재밌어요 멋사")
         String body,
+        @Schema(description = "게시글 작성일자", example = "2023. 6. 15")
+        String createdDate,
         @Schema(description = "댓글 존재 여부", example = "true")
         Boolean hasComments,
         @Schema(description = "댓글들")
@@ -48,6 +58,8 @@ public record PostDetailResponseDto(
     public PostDetailResponseDto(PostDetailData serviceDto, Long loginUserId) {
         this(
                 serviceDto.postId(),
+                serviceDto.mainCategory(),
+                serviceDto.subCategory(),
                 serviceDto.authorId(),
                 serviceDto.authorName(),
                 hasImageUrl(serviceDto.authorProfileImageUrl()),
@@ -58,9 +70,10 @@ public record PostDetailResponseDto(
                 serviceDto.isFollowedAuthor(),
                 serviceDto.isLikedPost(),
                 serviceDto.likeCount(),
-                commentCount(comments(serviceDto, loginUserId)), // 이상함
+                commentCount(comments(serviceDto, loginUserId)),
                 serviceDto.title(),
                 serviceDto.body(),
+                serviceDto.getFormattedDate(),
                 hasComments(serviceDto),
                 comments(serviceDto, loginUserId)
         );

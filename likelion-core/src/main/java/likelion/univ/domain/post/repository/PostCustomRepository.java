@@ -15,4 +15,8 @@ public interface PostCustomRepository {
     Page<Post> findByCategoriesOrderByLikeCount(MainCategory mainCategory, SubCategory subCategory, Pageable pageable);
 
     Page<Post> findByCategoriesOrderByCommentCount(MainCategory mainCategory, SubCategory subCategory, Pageable pageable);
+
+    Page<PostSimpleData> findByCategoriesAndSearchTitle(String searchTitle, MainCategory mainCategory, SubCategory subCategory, Pageable pageable);
+
+    Page<PostSimpleData> findBySearchTitle(String searchTitle, Pageable pageable);
 }

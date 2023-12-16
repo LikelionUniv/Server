@@ -1,13 +1,16 @@
 package likelion.univ.domain.like.commentlike.service;
 
 import likelion.univ.domain.comment.adaptor.CommentAdaptor;
+import likelion.univ.domain.comment.entity.Comment;
 import likelion.univ.domain.comment.exception.NotAuthorizedException;
 import likelion.univ.domain.like.commentlike.adaptor.CommentLikeAdaptor;
-import likelion.univ.domain.like.commentlike.dto.CommentLikeCreateServiceDto;
-import likelion.univ.domain.like.commentlike.dto.CommentLikeResponseDto;
-import likelion.univ.domain.like.commentlike.dto.CommentLikeSwitchServiceDto;
+import likelion.univ.domain.like.commentlike.dto.request.CommentLikeCommand;
+import likelion.univ.domain.like.commentlike.dto.response.CommentLikeIdData;
+import likelion.univ.domain.like.commentlike.dto.request.CommentLikeDeleteCommand;
 import likelion.univ.domain.like.commentlike.entity.CommentLike;
+import likelion.univ.domain.like.commentlike.exception.CommentLikeNotFoundException;
 import likelion.univ.domain.user.adaptor.UserAdaptor;
+import likelion.univ.domain.user.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,37 +23,41 @@ public class CommentLikeDomainService {
     private final CommentAdaptor commentAdaptor;
     private final CommentLikeAdaptor commentLikeAdaptor;
 
-    // 좋아요 생성
-    public CommentLikeResponseDto createLikeComment(CommentLikeCreateServiceDto request) {
-        CommentLike commentLike = getCommentLikeBy(request);
-        Long savedId = commentLikeAdaptor.save(commentLike);
-        return CommentLikeResponseDto.of(savedId);
-    }
+    public void createOrDeleteCommentLike(CommentLikeCommand request) throws NotAuthorizedException {
+        Long commentId = request.commentId();
+        Long loginUserId = request.loginUserId();
+        Comment comment = commentAdaptor.findById(commentId);
+        User user = userAdaptor.findById(loginUserId);
 
-    // 좋아요 전환
-    public CommentLikeResponseDto switchLikeComment(CommentLikeSwitchServiceDto request) {
-        if (isAuthorized(request)) {
-            CommentLike commentLike = commentLikeAdaptor.findById(request.getCommentLikeId());
-            CommentLike switchedCommentLike = commentLike.switchLikeComment();
-            return CommentLikeResponseDto.of(switchedCommentLike);
+        // 이미 좋아요 했으면 취소
+        if (existsCommentLike(comment, user)) {
+            CommentLike commentLike = commentLikeAdaptor.findByCommentAndUser(comment, user);
+            if (isAuthorized(commentLike.getUser().getId(), loginUserId)) {
+                commentLikeAdaptor.delete(commentLike);
+                return;
+            }
+            throw new NotAuthorizedException();
         }
-        throw new NotAuthorizedException();
+        // 좋아요 없으면 새로 생성
+        CommentLike newLike = getCommentLike(request);
+        commentLikeAdaptor.save(newLike);
     }
-
 
     /* ----- 내부 편의 메서드 ------ */
-    private CommentLike getCommentLikeBy(CommentLikeCreateServiceDto request) {
+
+    private Boolean existsCommentLike(Comment comment, User user) {
+        return commentLikeAdaptor.existsByCommentAndUser(comment, user);
+    }
+
+    private CommentLike getCommentLike(CommentLikeCommand request) {
         return CommentLike.builder()
-                .user(userAdaptor.findById(request.getLoginUserId()))
-                .comment(commentAdaptor.findById(request.getCommentId()))
-                .isCanceled(false) // default
+                .user(userAdaptor.findById(request.loginUserId()))
+                .comment(commentAdaptor.findById(request.commentId()))
                 .build();
     }
-    private boolean isAuthorized(CommentLikeSwitchServiceDto request) {
-        Long commentLikeId = request.getCommentLikeId();
-        Long commentLikeAuthorId = commentLikeAdaptor.findById(commentLikeId).getUser().getId();
-        Long loginUserId = request.getLoginUserId();
 
-        return commentLikeAuthorId.equals(loginUserId);
+    private boolean isAuthorized(Long commentLikeId, Long loginUserId) {
+        Long commentLikeUserId = commentLikeAdaptor.findById(commentLikeId).getUser().getId();
+        return commentLikeUserId.equals(loginUserId);
     }
 }

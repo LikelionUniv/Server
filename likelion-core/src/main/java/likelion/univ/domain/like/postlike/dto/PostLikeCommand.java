@@ -4,8 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 
-public record PostLikeDeleteServiceDto(
+public record PostLikeCommand(
         Long postId,
         Long loginUserId
 ) {
+
 }

@@ -1,14 +1,20 @@
 package likelion.univ.post.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import likelion.univ.domain.post.dto.enums.MainCategory;
+import likelion.univ.domain.post.dto.enums.SubCategory;
 import likelion.univ.domain.post.dto.response.PostData;
 import likelion.univ.domain.post.dto.response.PostSimpleData;
 import likelion.univ.post.entity.PostCountInfo;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 
 public record PostResponseDto(
         Long postId,
+        MainCategory mainCategory,
+        SubCategory subCategory,
         Long authorId,
         String authorName,
         Boolean hasAuthorProfileImage,
@@ -21,11 +27,13 @@ public record PostResponseDto(
         String thumbnailUrl,
         Long likeCount,
         Long commentCount,
-        LocalDateTime createdDate
+        String createdDate
 ) {
     private PostResponseDto(PostSimpleData post, Long likeCount, Long commentCount) {
         this(
                 post.postId(),
+                post.mainCategory(),
+                post.subCategory(),
                 post.authorId(),
                 post.authorName(),
                 post.authorProfileImageUrl() != null,
@@ -36,8 +44,9 @@ public record PostResponseDto(
                 post.thumbnailUrl(),
                 likeCount,
                 commentCount,
-                post.createdDate()
+                post.getFormattedDate()
         );
+
     }
 
     public static PostResponseDto of(PostSimpleData post, PostCountInfo postCountInfo) {

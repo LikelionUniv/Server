@@ -34,10 +34,11 @@ public class PostCustomRepositoryImpl implements PostCustomRepository {
     }
     @Override
     public Page<Post> findByPostLikeAuthorId(Long userId, Pageable pageable){
-        List<Long> ids = getCoveringIndexByPostLike(postLike.author.id.eq(userId));
+        List<Long> ids = getCoveringIndexByPostLike(postLike.user.id.eq(userId));
         return findByCoveringIndexOrderByCreatedDate(ids, pageable);
     }
 
+    /* ----- 커뮤니티 ----- */
     @Override
     public Page<Post> findByCategoriesOrderByCreatedDate(MainCategory mainCategory, SubCategory subCategory, Pageable pageable) {
         List<Long> ids = getCoveringIndexByPost(post.mainCategory.eq(mainCategory)
@@ -57,6 +58,41 @@ public class PostCustomRepositoryImpl implements PostCustomRepository {
         List<Long> ids = getCoveringIndexByPost(post.mainCategory.eq(mainCategory)
                 .and(post.subCategory.eq(subCategory)));
         return findByCoveringIndexOrderByCommentCount(ids, pageable);
+    }
+
+    @Override
+    public Page<PostSimpleData> findByCategoriesAndSearchTitle(String searchTitle, MainCategory mainCategory, SubCategory subCategory, Pageable pageable) {
+        long totalSize = getSearchResultSize(searchTitle);
+
+        List<PostSimpleData> posts = queryFactory
+                .select(postSimpleData())
+                .from(post)
+                .join(post.author, user)
+                .where(
+                        post.title.containsIgnoreCase(searchTitle)
+                    .and(post.mainCategory.eq(mainCategory)
+                    .and(post.subCategory.eq(subCategory))))
+                .offset(pageable.getOffset())
+                .orderBy(post.createdDate.desc())
+                .limit(pageable.getPageSize())
+                .fetch();
+        return new PageImpl<>(posts, pageable, totalSize);
+    }
+
+    @Override
+    public Page<PostSimpleData> findBySearchTitle(String searchTitle, Pageable pageable) {
+        long totalSize = getSearchResultSize(searchTitle);
+
+        List<PostSimpleData> posts = queryFactory
+                .select(postSimpleData())
+                .from(post)
+                .join(post.author, user)
+                .where(post.title.containsIgnoreCase(searchTitle))
+                .offset(pageable.getOffset())
+                .orderBy(post.createdDate.desc())
+                .limit(pageable.getPageSize())
+                .fetch();
+        return new PageImpl<>(posts, pageable, totalSize);
     }
 
 
@@ -114,6 +150,15 @@ public class PostCustomRepositoryImpl implements PostCustomRepository {
         return new PageImpl<>(posts, pageable, ids.size());
     }
 
+    private int getSearchResultSize(String searchTitle) {
+        return queryFactory
+                .select(post.id)
+                .from(post)
+                .where(post.title.containsIgnoreCase(searchTitle))
+                .fetch().size();
+    }
+
+
 //    @Override
 //    public Page<PostSimpleData> findByCategoriesOrderByCreatedDate(MainCategory mainCategory, SubCategory subCategory, Pageable pageable) {
 //        List<PostSimpleData> posts = queryFactory
@@ -169,6 +214,8 @@ public class PostCustomRepositoryImpl implements PostCustomRepository {
         return new QPostSimpleData(
                 post.id,
                 post.author.id,
+                post.mainCategory,
+                post.subCategory,
                 post.author.profile.name,
                 post.author.profile.profileImage,
                 post.title,

@@ -50,7 +50,7 @@ alarm:
   email:
     sender-email: ${EMAIL_SENDER}
     sender-password: ${EMAIL_PASSWORD}
-  sms:
-    api-key: ${SMS_API_KEY}
-    api-secret: ${SMS_API_SECRET}
-    sending-number: ${SMS_SENDING_NUMBER}
+#  sms:
+#    api-key: ${SMS_API_KEY}
+#    api-secret: ${SMS_API_SECRET}
+#    sending-number: ${SMS_SENDING_NUMBER}

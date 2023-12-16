@@ -12,7 +12,7 @@ import javax.validation.constraints.NotNull;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class CommentLikeCreateRequestDto {
+public class CommentLikeRequestDto {
     @NotNull
     @Schema(description = "좋아요를 누르는 댓글 id")
     private Long commentId;

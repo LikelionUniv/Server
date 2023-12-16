@@ -1,7 +1,7 @@
 package likelion.univ.like.postlike.usecase;
 
 import likelion.univ.annotation.UseCase;
-import likelion.univ.domain.like.postlike.dto.PostLikeCreateServiceDto;
+import likelion.univ.domain.like.postlike.dto.PostLikeCommand;
 import likelion.univ.domain.like.postlike.dto.PostLikeResponseDto;
 import likelion.univ.domain.like.postlike.service.PostLikeDomainService;
 import likelion.univ.like.postlike.dto.PostLikeRequestDto;
@@ -10,19 +10,16 @@ import lombok.RequiredArgsConstructor;
 
 @UseCase
 @RequiredArgsConstructor
-public class CreatePostLikeUseCase {
+public class CreateOrDeletePostLikeUseCase {
     private final PostLikeDomainService postLikeDomainService;
     private final AuthenticatedUserUtils userUtils;
 
-    public PostLikeResponseDto execute(PostLikeRequestDto postIdDto) {
-        return postLikeDomainService.createPostLike(serviceDtoBy(postIdDto));
+    public void execute(PostLikeRequestDto request) {
+        postLikeDomainService.createOrDeletePostLike(getServiceDto(request));
     }
 
-    private PostLikeCreateServiceDto serviceDtoBy(PostLikeRequestDto postIdDto) {
-        return PostLikeCreateServiceDto.builder()
-                .postId(postIdDto.getPostId())
-                .authorId(userUtils.getCurrentUserId())
-                .build();
+    private PostLikeCommand getServiceDto(PostLikeRequestDto request) {
+        return new PostLikeCommand(request.postId(), userUtils.getCurrentUserId());
     }
 
 

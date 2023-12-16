@@ -1,7 +1,6 @@
 package likelion.univ.domain.post.adaptor;
 
 import likelion.univ.annotation.Adaptor;
-import likelion.univ.domain.post.dto.enums.PostOrderCondition;
 import likelion.univ.domain.post.dto.response.PostSimpleData;
 import likelion.univ.domain.post.entity.Post;
 import likelion.univ.domain.post.dto.enums.MainCategory;
@@ -11,8 +10,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import likelion.univ.domain.post.exception.PostNotFoudException;
-
-import java.util.List;
 
 @Adaptor
 @RequiredArgsConstructor
@@ -57,4 +54,11 @@ public class PostAdaptor {
         return postRepository.findByCategoriesOrderByCommentCount(mainCategory, subCategory, pageable);
     }
 
+    public Page<PostSimpleData> findByCategoriesAndSearchTitle(String searchTitle, MainCategory mainCategory, SubCategory subCategory, Pageable pageable) {
+        return postRepository.findByCategoriesAndSearchTitle(searchTitle, mainCategory, subCategory, pageable);
+    }
+
+    public Page<PostSimpleData> findBySearchTitle(String searchTitle, Pageable pageable) {
+        return postRepository.findBySearchTitle(searchTitle, pageable);
+    }
 }
