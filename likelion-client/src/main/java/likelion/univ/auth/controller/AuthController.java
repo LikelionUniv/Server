@@ -33,6 +33,16 @@ public class AuthController {
         IdTokenDto idTokenDto = requestIdTokenUseCase.execute(loginType,code);
         return SuccessResponse.of(idTokenDto);
     }
+    @Operation(summary = "id token 발급 (local용)", description = "인가 코드로 id token을 발급받습니다.(개발용으로 redirect url의 도메인이)" +
+                                                                "localhostt:3000입니다. (나머지 경로는 같습니다.)")
+    @GetMapping("/{logintype}/idtoken/local")
+    public SuccessResponse<Object> getIdTokenForLocal(
+            @RequestParam("code") String code,
+            @PathVariable("logintype") String loginType){
+
+        IdTokenDto idTokenDto = requestIdTokenUseCase.executeForLocal(loginType,code);
+        return SuccessResponse.of(idTokenDto);
+    }
     @Operation(summary = "로그인", description = "id token과 login type으로 로그인 합니다.")
     @PostMapping("/{logintype}/login")
     public SuccessResponse<Object> login(
