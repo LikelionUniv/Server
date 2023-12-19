@@ -32,7 +32,7 @@ public record ChildCommentData(
         this.createdDate = createdDate;
     }
 
-    public static ChildCommentData of(Comment comment) {
+    public static ChildCommentData of(Comment comment, Boolean isLikedByLoginUser) {
         return ChildCommentData.builder()
                 .commentId(comment.getId())
                 .parentId(comment.getParentComment().getId())

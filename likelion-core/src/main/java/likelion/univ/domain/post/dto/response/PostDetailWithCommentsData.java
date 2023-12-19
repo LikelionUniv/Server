@@ -12,7 +12,7 @@ import java.time.format.FormatStyle;
 import java.util.List;
 
 @Builder
-public record PostDetailData(
+public record PostDetailWithCommentsData(
         Long postId,
         MainCategory mainCategory,
         SubCategory subCategory,
@@ -26,7 +26,9 @@ public record PostDetailData(
         Integer likeCount,
         String title,
         String body,
-        LocalDateTime createdDate
+        LocalDateTime createdDate,
+        List<ParentCommentData> parentComments,
+        List<ChildCommentData> childComments
 ) {
     public String getFormattedDate() {
         String createdDate = this.createdDate().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM));

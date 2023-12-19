@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.v3.oas.annotations.media.Schema;
 import likelion.univ.domain.comment.dto.response.ChildCommentData;
 import likelion.univ.domain.comment.dto.response.ParentCommentData;
+import likelion.univ.domain.post.dto.response.PostDetailWithCommentsData;
 import lombok.Builder;
 
 import java.time.LocalDateTime;
@@ -27,6 +28,8 @@ public record CommentResponseDto(
         Boolean isLoginUserComment,
         @Schema(description = "게시글 작성자의 댓글인지", example = "true")
         Boolean isAuthorComment,
+        @Schema(description = "로그인 유저가 해당 댓글을 좋아요 했는지", example = "false")
+        Boolean isLikedByLoginUser,
         @Schema(description = "댓글에 대한 좋아요 개수", example = "27")
         Integer likeCount,
         @Schema(description = "댓글 내용", example = "멋사멋사멋사멋사멋사멋사멋사멋사멋사멋사멋사멋사")
@@ -35,7 +38,7 @@ public record CommentResponseDto(
         Boolean isDeleted,
         @Schema(description = "댓글 생성 일자")
         LocalDateTime createdDate,
-        @Schema(description = "대댓글이 있는지 여부", example = "false")
+        @Schema(description = "대댓글이 있는지 여부", example = "true")
         Boolean hasChildComments,
         @Schema(description = "대댓글 목록")
         @JsonInclude(JsonInclude.Include.NON_EMPTY)
@@ -52,6 +55,7 @@ public record CommentResponseDto(
                 .userProfileImageUrl(parentComment.userProfileImageUrl())
                 .isLoginUserComment(parentComment.userId().equals(loginUserId))
                 .isAuthorComment(parentComment.userId().equals(postAuthorId))
+                .isLikedByLoginUser(parentComment.userId().equals(loginUserId))
                 .likeCount(parentComment.likeCount())
                 .body(parentComment.body())
                 .isDeleted(parentComment.isDeleted())
@@ -60,4 +64,6 @@ public record CommentResponseDto(
                 .childComments(childComments)
                 .build();
     }
+
+
 }

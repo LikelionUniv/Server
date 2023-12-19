@@ -7,14 +7,11 @@ import likelion.univ.domain.comment.dto.response.ChildCommentData;
 import likelion.univ.domain.comment.dto.response.ParentCommentData;
 import likelion.univ.domain.post.dto.enums.MainCategory;
 import likelion.univ.domain.post.dto.enums.SubCategory;
-import likelion.univ.domain.post.dto.response.PostDetailData;
 import likelion.univ.domain.post.dto.response.PostDetailWithCommentsData;
-import likelion.univ.domain.post.dto.response.PostSimpleData;
-import likelion.univ.post.entity.PostCountInfo;
 
 import java.util.List;
 
-public record PostDetailResponseDto(
+public record PostDetailWithCommentsResponseDto(
         @Schema(description = "게시글 pk", example = "1")
         Long postId,
         @Schema(description = "게시글 메인 카테고리", example = "FREE_BOARD")
@@ -49,27 +46,35 @@ public record PostDetailResponseDto(
         @Schema(description = "게시글 내용", example = "재밌어요 멋사")
         String body,
         @Schema(description = "게시글 작성일자", example = "2023. 6. 15")
-        String createdDate
+        String createdDate,
+        @Schema(description = "댓글 존재 여부", example = "true")
+        Boolean hasComments,
+
+        @Schema(description = "댓글들")
+        @JsonInclude(JsonInclude.Include.NON_EMPTY)
+        List<CommentResponseDto> comments
 ) {
-    public PostDetailResponseDto(PostDetailData post, Integer likeCount, Integer commentCount, Long loginUserId) {
+    public PostDetailWithCommentsResponseDto(PostDetailWithCommentsData serviceDto, Long loginUserId) {
         this(
-                post.postId(),
-                post.mainCategory(),
-                post.subCategory(),
-                post.authorId(),
-                post.authorName(),
-                hasImageUrl(post.authorProfileImageUrl()),
-                post.authorProfileImageUrl(),
-                post.authorOrdinal(),
-                post.universityName(),
-                isMyPost(post.authorId(), loginUserId),
-                post.isFollowedAuthor(),
-                post.isLikedPost(),
-                likeCount,
-                commentCount,
-                post.title(),
-                post.body(),
-                post.getFormattedDate()
+                serviceDto.postId(),
+                serviceDto.mainCategory(),
+                serviceDto.subCategory(),
+                serviceDto.authorId(),
+                serviceDto.authorName(),
+                hasImageUrl(serviceDto.authorProfileImageUrl()),
+                serviceDto.authorProfileImageUrl(),
+                serviceDto.authorOrdinal(),
+                serviceDto.universityName(),
+                isMyPost(serviceDto.authorId(), loginUserId),
+                serviceDto.isFollowedAuthor(),
+                serviceDto.isLikedPost(),
+                serviceDto.likeCount(),
+                commentCount(comments(serviceDto, loginUserId)),
+                serviceDto.title(),
+                serviceDto.body(),
+                serviceDto.getFormattedDate(),
+                hasComments(serviceDto),
+                comments(serviceDto, loginUserId)
         );
     }
 
@@ -86,8 +91,15 @@ public record PostDetailResponseDto(
         commentCount += comments.stream().mapToInt(i -> Math.toIntExact(i.childComments().size())).sum();
         return commentCount;
     }
-    public static PostDetailResponseDto of(PostDetailData post, PostCountInfo postCountInfo, long loginUserId) {
-        return new PostDetailResponseDto(post, Math.toIntExact(postCountInfo.getLikeCount()), Math.toIntExact(postCountInfo.getCommentCount()), loginUserId);
+
+    private static Boolean hasComments(PostDetailWithCommentsData serviceDto) {
+        return !serviceDto.parentComments().isEmpty();
     }
 
+    private static List<CommentResponseDto> comments(PostDetailWithCommentsData serviceDto, Long loginUserId) {
+        List<ParentCommentData> parentComments = serviceDto.parentComments();
+        List<ChildCommentData> childComments = serviceDto.childComments();
+        List<CommentResponseDto> comments = parentComments.stream().map(i -> CommentResponseDto.of(i, childComments, loginUserId, serviceDto.authorId())).toList();
+        return comments;
+    }
 }

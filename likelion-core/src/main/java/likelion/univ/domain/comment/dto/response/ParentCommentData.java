@@ -6,6 +6,7 @@ import likelion.univ.domain.user.entity.User;
 import lombok.Builder;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 public record ParentCommentData(
         Long commentId,

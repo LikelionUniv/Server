@@ -7,10 +7,7 @@ import likelion.univ.domain.follow.adaptor.FollowAdaptor;
 import likelion.univ.domain.like.postlike.adaptor.PostLikeAdaptor;
 import likelion.univ.domain.post.adaptor.PostAdaptor;
 import likelion.univ.domain.post.dto.request.*;
-import likelion.univ.domain.post.dto.response.PostIdData;
-import likelion.univ.domain.post.dto.response.PostDetailData;
-import likelion.univ.domain.post.dto.response.PostData;
-import likelion.univ.domain.post.dto.response.PostSimpleData;
+import likelion.univ.domain.post.dto.response.*;
 import likelion.univ.domain.post.entity.Post;
 import likelion.univ.domain.post.dto.enums.MainCategory;
 import likelion.univ.domain.post.dto.enums.SubCategory;
@@ -39,7 +36,7 @@ public class PostDomainService {
     private final FollowAdaptor followAdaptor;
     private final PostLikeAdaptor postLikeAdaptor;
 
-    public PostDetailData getPostDetail(GetPostDetailCommand serviceDto) {
+    public PostDetailWithCommentsData getPostDetailWithComments(GetPostDetailCommand serviceDto) {
         Long postId = serviceDto.postId();
         Long loginUserId = serviceDto.loginUserId();
 
@@ -61,7 +58,7 @@ public class PostDomainService {
         Boolean hasFollowedAuthor = followAdaptor.hasFollowedUser(loginUserId, author.getId());
 
 
-        return PostDetailData.builder()
+        return PostDetailWithCommentsData.builder()
                 .postId(post.getId())
                 .mainCategory(post.getMainCategory())
                 .subCategory(post.getSubCategory())
@@ -78,6 +75,40 @@ public class PostDomainService {
                 .createdDate(post.getCreatedDate())
                 .parentComments(parentComments)
                 .childComments(childComments)
+                .build();
+    }
+
+    public PostDetailData getPostDetail(GetPostDetailCommand request) {
+        Long postId = request.postId();
+        Long loginUserId = request.loginUserId();
+
+        // post entity data
+        Post post = postAdaptor.findById(postId);
+        Boolean isLikedPost = postLikeAdaptor.existsByPostIdAndAuthorId(postId, loginUserId);
+        Integer postLikeCount = Math.toIntExact(postLikeAdaptor.countByPostId(postId));
+
+        // user entity data
+        User author = post.getAuthor();
+        Profile authorProfile = author.getProfile();
+        UniversityInfo authorUniversityInfo = author.getUniversityInfo();
+        String authorProfileImageUrl = authorProfile.getProfileImage();
+        Boolean hasFollowedAuthor = followAdaptor.hasFollowedUser(loginUserId, author.getId());
+
+        return PostDetailData.builder()
+                .postId(post.getId())
+                .mainCategory(post.getMainCategory())
+                .subCategory(post.getSubCategory())
+                .authorId(author.getId())
+                .authorName(authorProfile.getName())
+                .authorProfileImageUrl(authorProfileImageUrl)
+                .authorOrdinal(authorUniversityInfo.getOrdinal())
+                .universityName(authorUniversityInfo.getUniversity().getName())
+                .isFollowedAuthor(hasFollowedAuthor)
+                .isLikedPost(isLikedPost)
+                .likeCount(postLikeCount)
+                .title(post.getTitle())
+                .body(post.getBody())
+                .createdDate(post.getCreatedDate())
                 .build();
     }
 

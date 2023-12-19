@@ -14,9 +14,9 @@ public class SoftDeleteCommentUseCase {
     private final AuthenticatedUserUtils userUtils;
     private final CommentDomainService commentDomainService;
 
-    public SuccessResponse<?> execute(Long commentId) {
+    public CommentIdData execute(Long commentId) {
         CommentIdData response = commentDomainService.deleteCommentSoft(serviceDtoBy(commentId));
-        return SuccessResponse.of(response);
+        return response;
     }
 
     private DeleteCommentCommand serviceDtoBy(Long commentId) {

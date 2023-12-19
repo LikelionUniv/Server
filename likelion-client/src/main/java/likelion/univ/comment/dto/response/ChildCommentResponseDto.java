@@ -27,6 +27,8 @@ public record ChildCommentResponseDto(
         Boolean isLoginUserComment,
         @Schema(description = "게시글 작성자의 대댓글인지", example = "true")
         Boolean isAuthorComment,
+        @Schema(description = "댓글에 대하여 로그인 유저가 좋아요를 눌렀는지", example = "false")
+        Boolean isLikedByLoginUser,
         @Schema(description = "대댓글에 대한 좋아요 개수", example = "27")
         Integer likeCount,
         @Schema(description = "대댓글 내용", example = "멋사멋사멋사멋사멋사멋사멋사멋사멋사멋사멋사멋사")
@@ -46,6 +48,7 @@ public record ChildCommentResponseDto(
                 .userProfileImageUrl(childComment.userProfileImageUrl())
                 .isLoginUserComment(childComment.userId().equals(loginUserId))
                 .isAuthorComment(childComment.userId().equals(postAuthorId))
+                .isLikedByLoginUser(childComment.userId().equals(loginUserId))
                 .likeCount(childComment.likeCount())
                 .body(childComment.body())
                 .isDeleted(childComment.isDeleted())

@@ -16,9 +16,9 @@ public class UpdateCommentUseCase {
     private final AuthenticatedUserUtils userUtils;
     private final CommentDomainService commentDomainService;
 
-    public SuccessResponse<?> execute(Long commentId, CommentUpdateRequestDto request) {
+    public CommentIdData execute(Long commentId, CommentUpdateRequestDto request) {
         CommentIdData response = commentDomainService.updateCommentBody(serviceDtoBy(commentId, request));
-        return SuccessResponse.of(response);
+        return response;
     }
 
     private UpdateCommentCommand serviceDtoBy(Long commentId, CommentUpdateRequestDto request) {

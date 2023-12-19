@@ -1,11 +1,11 @@
 package likelion.univ.domain.comment.service;
 
 import likelion.univ.domain.comment.adaptor.CommentAdaptor;
-import likelion.univ.domain.comment.dto.request.CreateChildCommentCommand;
-import likelion.univ.domain.comment.dto.request.CreateParentCommentCommand;
-import likelion.univ.domain.comment.dto.request.DeleteCommentCommand;
-import likelion.univ.domain.comment.dto.request.UpdateCommentCommand;
+import likelion.univ.domain.comment.dto.request.*;
+import likelion.univ.domain.comment.dto.response.ChildCommentData;
+import likelion.univ.domain.comment.dto.response.CommentData;
 import likelion.univ.domain.comment.dto.response.CommentIdData;
+import likelion.univ.domain.comment.dto.response.ParentCommentData;
 import likelion.univ.domain.comment.entity.Comment;
 import likelion.univ.domain.comment.exception.NotAuthorizedException;
 import likelion.univ.domain.post.adaptor.PostAdaptor;
@@ -15,6 +15,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -22,6 +24,18 @@ public class CommentDomainService {
     private final CommentAdaptor commentAdaptor;
     private final PostAdaptor postAdaptor;
     private final UserAdaptor userAdaptor;
+
+    public CommentData getComment(Long postId) {
+        Long authorId = postAdaptor.findById(postId).getAuthor().getId();
+
+        // comment entity data
+        List<ParentCommentData> parentComments = commentAdaptor.findParentCommentsByPostId(postId);
+        List<ChildCommentData> childComments = commentAdaptor.findChildCommentsByPostId(postId);
+
+        return new CommentData(authorId, parentComments, childComments);
+    }
+
+
 
     public CommentIdData createParentComment(CreateParentCommentCommand request) {
         Comment parentComment = parentCommentBy(request);
@@ -59,6 +73,8 @@ public class CommentDomainService {
         Comment findComment = commentAdaptor.findById(request.getCommentId());
         commentAdaptor.delete(findComment);
     }
+
+
 
     /* --------------- 내부 편의 메서드 --------------- */
     private Comment parentCommentBy(CreateParentCommentCommand request) {

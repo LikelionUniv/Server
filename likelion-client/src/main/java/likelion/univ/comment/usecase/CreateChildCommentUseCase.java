@@ -15,9 +15,9 @@ public class CreateChildCommentUseCase {
     private final AuthenticatedUserUtils userUtils;
     private final CommentDomainService commentDomainService;
 
-    public SuccessResponse<?> execute(Long parentCommentId, CommentCreateChildRequestDto request) {
+    public CommentIdData execute(Long parentCommentId, CommentCreateChildRequestDto request) {
         CommentIdData response = commentDomainService.createChildComment(serviceDtoBy(parentCommentId, request));
-        return SuccessResponse.of(response);
+        return response;
     }
     private CreateChildCommentCommand serviceDtoBy(Long parentCommentId, CommentCreateChildRequestDto request) {
         return CreateChildCommentCommand.builder()

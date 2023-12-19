@@ -13,9 +13,8 @@ public class HardDeleteCommentUseCase {
     private final AuthenticatedUserUtils userUtils;
     private final CommentDomainService commentDomainService;
 
-    public SuccessResponse<?> execute(Long commentId) {
+    public void execute(Long commentId) {
         commentDomainService.deleteCommentHard(serviceDtoBy(commentId));
-        return SuccessResponse.empty();
     }
     private DeleteCommentCommand serviceDtoBy(Long commentId) {
         return DeleteCommentCommand.builder()
