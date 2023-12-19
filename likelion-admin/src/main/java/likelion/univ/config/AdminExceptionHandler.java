@@ -2,6 +2,7 @@ package likelion.univ.config;
 
 import likelion.univ.exception.GlobalErrorCode;
 import likelion.univ.exception.base.BaseException;
+import likelion.univ.feign.exception.FeignClientException;
 import likelion.univ.response.ErrorResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -58,6 +59,15 @@ public class AdminExceptionHandler {
         log.error("HttpMessageNotReadableException error", e);
         ErrorResponse error = ErrorResponse.of(GlobalErrorCode.BAD_REQUEST_ERROR);
 
+        return ResponseEntity.status(error.getHttpStatus()).body(error);
+    }
+
+    /* Feign Client 에러 */
+    @ExceptionHandler(FeignClientException.class)
+    private ResponseEntity<ErrorResponse>  handleFeignClientException(FeignClientException e) {
+        log.error("FeignClientError from : " + e.getReason());
+        log.error(e.getMessage());
+        ErrorResponse error = ErrorResponse.of(e.getCode(),e.getMessage(), e.getHttpStatus());
         return ResponseEntity.status(error.getHttpStatus()).body(error);
     }
 
