@@ -22,6 +22,7 @@ public class AuthController {
     private final RequestIdTokenUseCase requestIdTokenUseCase;
     private final SignUpUseCase signUpUseCase;
     private final RefreshTokenUseCase refreshTokenUseCase;
+    private final AuthentiatedUserUtils userUtils;
     private final GetUserInfoUseCase getUserInfoUsecase;
 
     @Operation(summary = "id token 발급", description = "인가 코드로 id token을 발급받습니다.")
