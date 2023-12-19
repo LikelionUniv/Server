@@ -23,6 +23,11 @@ public class Profile {
     @Enumerated(EnumType.STRING)
     private Part part;
 
+    public void updateProfile(String name, Part part) {
+        this.name = name;
+        this.part = part;
+    }
+
     public static Profile fromName(String name){
         return Profile.builder()
                 .name(name)

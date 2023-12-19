@@ -20,6 +20,11 @@ public class UniversityInfo {
     private String major;
     private Long ordinal;
 
+    public void updateUniversityInfo(String major, Long ordinal){
+        this.major=major;
+        this.ordinal=ordinal;
+    }
+
     public static UniversityInfo universityInfoForSignUp(University university, String major){
         return UniversityInfo.builder()
                 .university(university)

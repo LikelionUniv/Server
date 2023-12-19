@@ -4,6 +4,7 @@ kakao:
   client-id: ${KAKAO_CLIENT_ID}
   client-secret: ${KAKAO_CLIENT_SECRET}
   redirect-url: ${KAKAO_REDIRECT_URL}
+  redirect-url-for-local: ${KAKAO_REDIRECT_URL_FOR_LOCAL}
   app-key: ${KAKAO_APP_KEY}
 
 google:
@@ -11,6 +12,7 @@ google:
   client-id: ${GOOGLE_CLIENT_ID}
   client-secret: ${GOOGLE_CLIENT_SECRET}
   redirect-url: ${GOOGLE_REDIRECT_URL}
+  redirect-url-for-local: ${GOOGLE_REDIRECT_URL_FOR_LOCAL}
   app-key: ${GOOGLE_API_KEY}
   scope: ${GOOGLE_SCOPE}
 
@@ -49,4 +51,3 @@ spring:
   config:
     activate:
       on-profile: prod
-
