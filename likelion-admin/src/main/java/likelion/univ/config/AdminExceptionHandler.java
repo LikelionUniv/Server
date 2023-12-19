@@ -65,7 +65,7 @@ public class AdminExceptionHandler {
     /* Feign Client 에러 */
     @ExceptionHandler(FeignClientException.class)
     private ResponseEntity<ErrorResponse>  handleFeignClientException(FeignClientException e) {
-        log.error("FeignClientError from : " + e.getReason());
+        log.error("FeignClientError : " + e.getMethodKey());
         log.error(e.getMessage());
         ErrorResponse error = ErrorResponse.of(e.getCode(),e.getMessage(), e.getHttpStatus());
         return ResponseEntity.status(error.getHttpStatus()).body(error);
