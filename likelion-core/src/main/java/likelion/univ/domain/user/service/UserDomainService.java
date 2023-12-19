@@ -3,6 +3,7 @@ package likelion.univ.domain.user.service;
 import likelion.univ.domain.user.adaptor.UserAdaptor;
 import likelion.univ.domain.user.entity.*;
 import likelion.univ.domain.user.exception.EmailAlreadyRegistered;
+import likelion.univ.domain.user.repository.UserRepository;
 import likelion.univ.domain.user.exception.NoDataFound;
 import likelion.univ.domain.user.repository.searchcondition.UserSearchCondition;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +19,10 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserDomainService {
     private final UserAdaptor userAdaptor;
+
+    private final UserRepository userRepository;
+    private final UniversityAdaptor universityAdaptor;
+
 
     public User login(LoginType loginType, String email){
         User user = userAdaptor.findByEmail(email);
@@ -61,5 +66,9 @@ public class UserDomainService {
 
     public List<User> findDynamicUsers(UserSearchCondition condition) {
         return userAdaptor.findDynamicUsers(condition);
+    }
+
+    public List<User> findByRoleIn(List<Role> roles) {
+        return userRepository.findByAuthInfoRoleIn(roles);
     }
 }

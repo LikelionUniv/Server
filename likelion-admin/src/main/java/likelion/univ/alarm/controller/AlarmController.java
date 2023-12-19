@@ -1,20 +1,18 @@
 package likelion.univ.alarm.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import likelion.univ.alarm.dto.AlarmContentsDto;
+import likelion.univ.alarm.dto.EmailAlarmDto;
+import likelion.univ.alarm.dto.RecruitEmailAlarmDto;
 import likelion.univ.alarm.dto.UserListDto;
-import likelion.univ.alarm.usecase.AlarmUsecase;
 import likelion.univ.alarm.usecase.EmailAlarmUsecase;
-import likelion.univ.alarm.controller.enums.AlarmType;
+import likelion.univ.alarm.usecase.EmailRecruitAlarmUsecase;
 import likelion.univ.alarm.usecase.GetUsersUsecase;
-import likelion.univ.domain.user.entity.User;
 import likelion.univ.domain.user.repository.searchcondition.UserSearchCondition;
 import likelion.univ.response.SuccessResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Map;
 
 @Tag(name = "Alarm", description = "알람을 보내는 API")
 @RestController
@@ -22,25 +20,29 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class AlarmController {
 
-    private final Map<String, AlarmUsecase> alarmUsecaseMap;
+    private final EmailAlarmUsecase emailAlarmUsecase;
+    private final EmailRecruitAlarmUsecase emailRecruitAlarmUsecase;
     private final GetUsersUsecase getUsersUsecase;
 
     @PostMapping
     @Operation(
-            summary = "알람 전송 API",
-            description = "Email, SMS 등 알람을 보내는 API 입니다. 아래 타입별로 다른 parameter 를 담아 요청을 보내주세요! \n"
-                    + "EMAIL(이메일 알람) : content(메일 본문), emails(수신인), sender(송신인 이름), subject(메일 제목)\n"
-                    + "SMS(문자메세지 알람) : content(메세지 본문), emails(수신인)\n"
-                    + "RECRUIT_EMAIL(리크루팅 이메일 알람) : content(메일 본문), sender(송신인 이름), subject(메일 제목), universityName(대학 이름)\n"
-                    + "RECRUIT_SMS(리크루팅 문자메세지 알람) : content(메세지 본문), universityName(대학 이름)")
-    public SuccessResponse<String> emailAlarm(
-            @RequestBody AlarmContentsDto alarmContentsDto,
-            @RequestParam String type) {
-
-        AlarmUsecase alarmUsecase = alarmUsecaseMap.get(AlarmType.of(type));
-        alarmUsecase.execute(alarmContentsDto);
-
+            summary = "관리자용 알람 전송 API",
+            description = "관리자(SUPER_ADMIN)가 이메일 알람을 보내는 API 입니다."
+    )
+    public SuccessResponse<String> sendAlarm(@RequestBody EmailAlarmDto emailAlarmDto) {
+        emailAlarmUsecase.execute(emailAlarmDto);
         return SuccessResponse.of("알람 전송 성공");
+
+    }
+
+    @PostMapping("/recruit")
+    @Operation(
+            summary = "리크루팅 알람 전송 API",
+            description = "대학 대표(UNIVERSITY_ADMIN)가 리크루팅 이메일 알람을 보내는 API 입니다."
+    )
+    public SuccessResponse<String> sendRecruitAlarm(@RequestBody RecruitEmailAlarmDto recruitEmailAlarmDto) {
+        emailRecruitAlarmUsecase.execute(recruitEmailAlarmDto);
+        return SuccessResponse.of("리크루팅 알람 전송 성공");
     }
 
     @GetMapping("/user")
