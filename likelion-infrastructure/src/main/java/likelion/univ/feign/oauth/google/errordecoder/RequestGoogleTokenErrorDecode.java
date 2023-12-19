@@ -24,11 +24,11 @@ public class RequestGoogleTokenErrorDecode implements ErrorDecoder{
                 String message = Util.toString(response.body().asReader(Util.UTF_8));
                 GoogleErrorResponseDto errorResponseForm= objectMapper.readValue(message, GoogleErrorResponseDto.class);
                 return new FeignClientException(response.status(), methodKey,
-                        errorResponseForm.getErrorCode(), errorResponseForm.getErrorDescription());
+                        errorResponseForm.getError(), errorResponseForm.getErrorDescription());
             } catch (IOException e) {
                 log.error(methodKey + "Error Deserializing response body from failed feign request response.", e);
             }
         }
-        return new FeignClientException(response.status(), methodKey, "KAKAO_SERVER_ERROR", null);
+        return new FeignClientException(response.status(), methodKey, "GOOGLE_SERVER_ERROR", null);
     }
 }
