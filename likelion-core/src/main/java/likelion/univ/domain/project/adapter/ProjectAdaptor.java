@@ -7,9 +7,9 @@ import likelion.univ.domain.project.exception.ProjectNotFoundException;
 import likelion.univ.domain.project.repository.ProjectRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
-import java.util.List;
 
 @Adaptor
 @RequiredArgsConstructor
@@ -21,14 +21,13 @@ public class ProjectAdaptor {
     }
 
     public Project save(Project project){
+      
         try {
             projectRepository.save(project);
         }catch(Exception e) {
-            System.out.println("message");
-            System.out.println(e.getMessage());
             throw new CreateProjectBadRequestException();
         }
-//        projectRepository.save(project);
+      
         return project;
     }
 
@@ -37,17 +36,20 @@ public class ProjectAdaptor {
     }
 
     public Page<Project> findAll(Pageable pageable){
-
         return projectRepository.findAll(pageable);
     }
-    public Page<Project> findProject(int ordinal, Pageable pageable){
-        return projectRepository.findByOrdinal(ordinal,pageable);
+    public Page<Project> findProject(Long ordinal, Pageable pageable){
+        return projectRepository.findByOrdinal(ordinal, pageable);
     }
-    public List<Project> findArchiveProject(int ordinal){
-        return projectRepository.findArchivePosts(ordinal);
+    public Page<Project> findArchiveProject(Long ordinal, Pageable pageable){
+        return projectRepository.findArchivePosts(ordinal, pageable);
     }
     public int getCurrentOrdinal(){
         return projectRepository.findLatestOrdinal();
+    }
+
+    public Page<Project> findByProjectMember(Long userId, Pageable pageable){
+        return projectRepository.findByProjectMember(userId, pageable);
     }
 
 }

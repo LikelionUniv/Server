@@ -3,14 +3,6 @@ redis:
   host: ${REDIS_HOST}
   port: ${REDIS_PORT}
 
-
-logging:
-  level:
-    org.springframework.orm.jpa: DEBUG
-    org.springframework.transaction: DEBUG
-  pattern:
-    console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
-
 --- ## dev 환경 설정
 spring:
   config:

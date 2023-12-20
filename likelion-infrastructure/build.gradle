@@ -3,6 +3,7 @@ plugins {
 }
 
 
+
 dependencies {
     /* Feign client */
     implementation 'org.springframework.cloud:spring-cloud-starter-openfeign:3.1.8'
@@ -10,14 +11,20 @@ dependencies {
     /* jackson */
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.13.5'
     implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.13.5'
+
+    implementation 'org.springframework.boot:spring-boot-starter-mail' // 이메일 전송
+    implementation group: 'commons-io', name: 'commons-io', version: '2.6' //이메일 첨부 파일
+    implementation group: 'commons-fileupload', name: 'commons-fileupload', version: '1.4' //이메일 첨부 파일
+    implementation 'org.apache.tomcat.embed:tomcat-embed-core:9.0.68'
+
     /* s3 */
     implementation 'com.amazonaws:aws-java-sdk-s3control:1.12.428'
+    /* azure communication (email) */
+    implementation group: 'com.azure', name: 'azure-communication-email', version: '1.0.2'
+
 
     /* common 모듈 추가 */
     implementation project(':likelion-common')
-
-    implementation group: 'com.sun.mail', name: 'javax.mail', version: '1.6.2'
-    implementation 'net.nurigo:sdk:4.3.0'
 }
 
 clean {

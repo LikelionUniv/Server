@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface RecruitRepository extends JpaRepository<Recruit, Long> {
     List<Recruit> findAllByUniversityNameAndGeneration(String universityName, Integer generation);
+    Boolean existsByEmailAndGeneration(String email, Integer generation);
 }

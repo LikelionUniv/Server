@@ -30,6 +30,11 @@ spring:
       on-profile: dev
 
   jpa:
+    show-sql: true
+    database: mysql
+    open-in-view: false
+    hibernate:
+      ddl-auto: update  #create update none
     properties:
       hibernate:
         show_sql: true
@@ -70,6 +75,18 @@ spring:
     activate:
       on-profile: prod
 
+  jpa:
+    show-sql: false
+    database: mysql
+    open-in-view: false
+    hibernate:
+      ddl-auto: none  #create update none
+
+logging:
+  level:
+    org.springframework.orm.jpa: INFO
+    org.springframework.transaction: INFO
+
 --- ## test 환경 설정 for local
 #spring:
 #  config:
@@ -89,8 +106,6 @@ spring:
 #      hibernate:
 #        default_batch_fetch_size: 1000
 #        format_sql: true
-#    database: h2
-#
 #  logging:
 #  level:
 #    org.springframework.orm.jpa: DEBUG

@@ -14,9 +14,9 @@ import java.util.List;
 @RequiredArgsConstructor
 public class RecruitQueryService {
 
-    private final RecruitAdopter recruitAdopter;
+    private final RecruitRepository recruitRepository;
 
-    public List<Recruit> queryAllByUniversityName(String universityName) {
-        return recruitAdopter.findAllByUniversityId(universityName);
+    public List<Recruit> queryAllByUniversityNameAndGeneration(String universityName, Integer generation) {
+        return recruitRepository.findAllByUniversityNameAndGeneration(universityName, generation);
     }
 }

@@ -40,9 +40,9 @@ public class Post extends BaseTimeEntity {
     @Builder.Default
     private List<PostLike> postLikes = new ArrayList();
 
-    @OneToMany(mappedBy = "post",
-            cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL)
     @Builder.Default
+    @JoinColumn(name="post_id", insertable = false, updatable = false)
     private List<Comment> comments = new ArrayList<>();
 
     @Enumerated(EnumType.STRING)

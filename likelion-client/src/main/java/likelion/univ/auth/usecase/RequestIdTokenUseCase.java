@@ -38,4 +38,24 @@ public class RequestIdTokenUseCase {
         }
         throw new NotSupportedLoginTypeException();
     }
+
+    public IdTokenDto executeForLocal(String loginType, String code){
+        switch (loginType) {
+            case "kakao":
+                KakaoTokenInfoDto kakaoTokenInfoDto = requestKakaoTokenClient.getToken(
+                        kakaoProperties.getClientId(),
+                        kakaoProperties.getRedirectUrlForLocal(),
+                        code,
+                        kakaoProperties.getClientSecret());
+                return IdTokenDto.of(kakaoTokenInfoDto.getIdToken());
+            case "google":
+                GoogleTokenInfoDto googleTokenInfoDto = requestGoogleTokenClient.getToken(
+                        googleProperties.getClientId(),
+                        googleProperties.getClientSecret(),
+                        code,
+                        googleProperties.getRedirectUrlForLocal());
+                return IdTokenDto.of(googleTokenInfoDto.getIdToken());
+        }
+        throw new NotSupportedLoginTypeException();
+    }
 }

@@ -38,8 +38,8 @@ public class PostAdaptor {
         return postRepository.findByCommentAuthorId(userId,pageable);
     }
 
-    public Page<Post> findByPostLikeAuthorId(Long userId, Pageable pageable){
-        return postRepository.findByPostLikeAuthorId(userId,pageable);
+    public Page<Post> findByPostLikeAuthorId(Long userId, Pageable pageable, String sort, String search){
+        return postRepository.findByPostLikeAuthorId(userId,pageable,sort,search);
     }
 
     public Page<Post> findByCategoriesOrderByCreatedDate(MainCategory mainCategory, SubCategory subCategory, Pageable pageable) {

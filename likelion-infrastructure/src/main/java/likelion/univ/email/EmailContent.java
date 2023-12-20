@@ -12,14 +12,14 @@ import java.util.List;
 public class EmailContent {
 
     private String subject;
-    private String sender;
+    private String contentsType;
     private String contents;
     private List<String> receivers;
 
     @Builder
-    public EmailContent(String subject, String sender, String contents, List<String> receivers) {
+    public EmailContent(String subject, String contentsType, String contents, List<String> receivers) {
         this.subject = subject;
-        this.sender = sender;
+        this.contentsType = contentsType;
         this.contents = contents;
         this.receivers = receivers;
     }

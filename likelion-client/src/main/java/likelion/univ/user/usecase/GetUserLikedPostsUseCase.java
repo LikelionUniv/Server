@@ -18,9 +18,9 @@ public class GetUserLikedPostsUseCase {
     private final PostAdaptor postAdaptor;
     private final GetOrCreatePostCountInfoProcessor getOrCreatePostCountInfoProcessor;
 
-    public PageResponse<UserPagePostsDto> execute(Long userId, Pageable pageable){
+    public PageResponse<UserPagePostsDto> execute(Long userId, Pageable pageable, String sort, String search){
         Long currentUserId = authentiatedUserUtils.getCurrentUserId();
-        Page<Post> posts = postAdaptor.findByPostLikeAuthorId(userId, pageable);
+        Page<Post> posts = postAdaptor.findByPostLikeAuthorId(userId, pageable, sort, search);
 
         return PageResponse.of(posts.map(p-> UserPagePostsDto.of(p, currentUserId, getOrCreatePostCountInfoProcessor.execute(p.getId()))));
     }

@@ -1,6 +1,8 @@
 package likelion.univ.domain.post.repository.impl;
 
+import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.Predicate;
+import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import likelion.univ.domain.post.dto.response.PostSimpleData;
 import likelion.univ.domain.post.dto.response.QPostSimpleData;
@@ -8,10 +10,12 @@ import likelion.univ.domain.post.entity.Post;
 import likelion.univ.domain.post.dto.enums.MainCategory;
 import likelion.univ.domain.post.dto.enums.SubCategory;
 import likelion.univ.domain.post.repository.PostCustomRepository;
+import likelion.univ.domain.post.repository.impl.condition.PostSortType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 
@@ -51,6 +55,10 @@ public class PostCustomRepositoryImpl implements PostCustomRepository {
         List<Long> ids = getCoveringIndexByPost(post.mainCategory.eq(mainCategory)
                 .and(post.subCategory.eq(subCategory)));
         return findByCoveringIndexOrderByLikeCount(ids, pageable);
+    }
+    public Page<Post> findByPostLikeAuthorId(Long userId, Pageable pageable, String sort, String search){
+        List<Long> ids = getCoveringIndexByPostLike(postLike.user.id.eq(userId));
+        return findByPostLikesWithSort(ids, pageable, PostSortType.toOrderSpecifier(sort), search);
     }
 
     @Override
@@ -104,6 +112,9 @@ public class PostCustomRepositoryImpl implements PostCustomRepository {
         return queryFactory.select(postLike.post.id).from(postLike).where(predicate).fetch();
     }
 
+    private BooleanExpression searchCondition(String search) {
+        return StringUtils.hasText(search) ? post.body.contains(search).or(post.title.contains(search)) : null;
+    }
     private List<Long> getCoveringIndexByPost(Predicate predicate) {
         return queryFactory
                 .select(post.id)
@@ -224,4 +235,21 @@ public class PostCustomRepositoryImpl implements PostCustomRepository {
                 post.createdDate);
     }
 
+    private  Page<Post> findByPostLikesWithSort(List<Long> ids, Pageable pageable, OrderSpecifier sort, String search){
+        List<Post> posts =
+                queryFactory
+                        .selectDistinct(post)
+                        .from(post)
+                        .innerJoin(post.author, user).fetchJoin()
+                        .leftJoin(post.postLikes, postLike)
+                        .leftJoin(post.comments, comment)
+                        .where(post.id.in(ids)
+                                .and(searchCondition(search)))
+                        .offset(pageable.getOffset())
+                        .orderBy(sort)
+                        .limit(pageable.getPageSize())
+                        .fetch();
+
+        return new PageImpl<>(posts, pageable, ids.size());
+    }
 }

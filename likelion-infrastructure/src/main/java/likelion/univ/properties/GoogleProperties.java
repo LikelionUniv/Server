@@ -14,5 +14,6 @@ public class GoogleProperties {
     private String clientId;
     private String clientSecret;
     private String redirectUrl;
+    private String redirectUrlForLocal;
     private String apiKey;
 }

@@ -16,7 +16,10 @@ public enum GlobalErrorCode implements BaseErrorCode {
     UNSUPPORTED_HTTP_METHOD(METHOD_NOT_ALLOWED, "GLOBAL_405","지원하지 않는 HTTP 메서드입니다."),
     SERVER_ERROR(INTERNAL_SERVER_ERROR,"GLOBAL_500","서버 내부에서 알 수 없는 오류가 발생했습니다."),
 
-    PUBKEY_GENERATION_FAILED(BAD_REQUEST,"PUBLIC_KEY_400_1","공개키를 생성하는데 실패했습니다.");
+    PUBKEY_GENERATION_FAILED(BAD_REQUEST,"PUBLIC_KEY_400_1","공개키를 생성하는데 실패했습니다."),
+
+
+    SORT_TYPE_NOT_MATCHED(BAD_REQUEST, "SORT_400", "해당 조건으로 정렬할 수 없습니다.");
 
 
 

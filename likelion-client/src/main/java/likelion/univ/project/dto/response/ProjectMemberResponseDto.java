@@ -7,11 +7,12 @@ import lombok.Data;
 @Builder
 public class ProjectMemberResponseDto {
 
-//    private Long userID;
+    private Long userId;
     private String name;
 
-    public static ProjectMemberResponseDto of(String name) {
+    public static ProjectMemberResponseDto of(Long userId, String name) {
         return ProjectMemberResponseDto.builder()
+                .userId(userId)
                 .name(name)
                 .build();
     }
