@@ -6,5 +6,5 @@ import org.springframework.data.domain.Pageable;
 
 public interface PostCustomRepository {
     Page<Post> findByCommentAuthorId(Long userId, Pageable pageable);
-    Page<Post> findByPostLikeAuthorId(Long userId, Pageable pageable);
+    Page<Post> findByPostLikeAuthorId(Long userId, Pageable pageable, String sort, String search);
 }
