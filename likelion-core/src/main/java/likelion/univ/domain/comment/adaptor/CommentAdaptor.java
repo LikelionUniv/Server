@@ -40,5 +40,9 @@ public class CommentAdaptor {
 
     public Long countByPostId(Long postId){
         return commentRepository.countByPostId(postId);
+
+    }
+    public Comment findByPostId(Long postId) {
+        return commentRepository.findByPostId(postId);
     }
 }

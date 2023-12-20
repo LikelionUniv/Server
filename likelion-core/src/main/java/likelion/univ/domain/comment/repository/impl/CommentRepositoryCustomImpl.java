@@ -5,6 +5,7 @@ import likelion.univ.domain.comment.dto.response.ChildCommentData;
 import likelion.univ.domain.comment.dto.response.ParentCommentData;
 import likelion.univ.domain.comment.dto.response.QChildCommentData;
 import likelion.univ.domain.comment.dto.response.QParentCommentData;
+import likelion.univ.domain.comment.entity.Comment;
 import likelion.univ.domain.comment.repository.CommentRepositoryCustom;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -34,7 +35,6 @@ public class CommentRepositoryCustomImpl implements CommentRepositoryCustom {
                         .distinct()
                         .fetch();
         }
-
         @Override
         public List<ParentCommentData> findParentCommentsByPostId(Long postId) {
                 List<Long> parentCommentsIds = getParentCommentsIds(postId);
@@ -85,5 +85,6 @@ public class CommentRepositoryCustomImpl implements CommentRepositoryCustom {
                         comment.createdDate
                 );
         }
+
 }
 

@@ -2,12 +2,10 @@ package likelion.univ.domain.comment.service;
 
 import likelion.univ.domain.comment.adaptor.CommentAdaptor;
 import likelion.univ.domain.comment.dto.request.*;
-import likelion.univ.domain.comment.dto.response.ChildCommentData;
-import likelion.univ.domain.comment.dto.response.CommentData;
-import likelion.univ.domain.comment.dto.response.CommentIdData;
-import likelion.univ.domain.comment.dto.response.ParentCommentData;
+import likelion.univ.domain.comment.dto.response.*;
 import likelion.univ.domain.comment.entity.Comment;
 import likelion.univ.domain.comment.exception.NotAuthorizedException;
+import likelion.univ.domain.like.commentlike.adaptor.CommentLikeAdaptor;
 import likelion.univ.domain.post.adaptor.PostAdaptor;
 import likelion.univ.domain.post.entity.Post;
 import likelion.univ.domain.user.adaptor.UserAdaptor;
@@ -24,6 +22,7 @@ public class CommentDomainService {
     private final CommentAdaptor commentAdaptor;
     private final PostAdaptor postAdaptor;
     private final UserAdaptor userAdaptor;
+    private final CommentLikeAdaptor commentLikeAdaptor;
 
     public CommentData getComment(Long postId) {
         Long authorId = postAdaptor.findById(postId).getAuthor().getId();
