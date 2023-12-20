@@ -1,6 +1,5 @@
 package likelion.univ.domain.project.entity;
 
-
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;

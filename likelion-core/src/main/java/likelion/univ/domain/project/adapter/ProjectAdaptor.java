@@ -9,10 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 
-import java.time.LocalDate;
-import java.util.List;
 
 @Adaptor
 @RequiredArgsConstructor
@@ -24,17 +21,13 @@ public class ProjectAdaptor {
     }
 
     public Project save(Project project){
-        LocalDate startDate = project.getStartDate();
-        LocalDate endDate = project.getEndDate();
-        if(startDate.isEqual(endDate) || startDate.isAfter(endDate)){
+      
+        try {
+            projectRepository.save(project);
+        }catch(Exception e) {
             throw new CreateProjectBadRequestException();
         }
-        projectRepository.save(project);
-//        try {
-//            projectRepository.save(project);
-//        }catch(Exception e) {
-//            throw new CreateProjectBadRequestException();
-//        }
+      
         return project;
     }
 
@@ -42,16 +35,13 @@ public class ProjectAdaptor {
         projectRepository.delete(project);
     }
 
-    public List<Project> findAll(int pageNo){
-        Pageable pageable = PageRequest.of((pageNo-1), 12, Sort.by("id").descending());
-        return projectRepository.findAll(pageable).stream().toList();
+    public Page<Project> findAll(Pageable pageable){
+        return projectRepository.findAll(pageable);
     }
-    public List<Project> findProject(Long ordinal, int pageNo){
-        Pageable pageable = PageRequest.of((pageNo-1), 12, Sort.by("id").descending());
-        return projectRepository.findByOrdinal(ordinal, pageable).stream().toList();
+    public Page<Project> findProject(Long ordinal, Pageable pageable){
+        return projectRepository.findByOrdinal(ordinal, pageable);
     }
-    public List<Project> findArchiveProject(Long ordinal, int pageNo){
-        Pageable pageable = PageRequest.of((pageNo-1), 12, Sort.by("id").descending());
+    public Page<Project> findArchiveProject(Long ordinal, Pageable pageable){
         return projectRepository.findArchivePosts(ordinal, pageable);
     }
     public int getCurrentOrdinal(){
