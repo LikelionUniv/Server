@@ -9,7 +9,7 @@ import javax.persistence.*;
 @Builder
 @AllArgsConstructor
 @Entity
-@Table(name="users", uniqueConstraints = {@UniqueConstraint(columnNames = {"email", "loginType"})})
+@Table(name="user", uniqueConstraints = {@UniqueConstraint(columnNames = {"email", "loginType"})})
 public class User extends BaseTimeEntity{
 
     @Id
