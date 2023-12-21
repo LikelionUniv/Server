@@ -13,7 +13,7 @@ import likelion.univ.domain.user.adaptor.UserAdaptor;
 import likelion.univ.domain.user.entity.User;
 import likelion.univ.project.dto.request.ProjectRequestDto;
 import likelion.univ.project.dto.response.ProjectIdResponseDto;
-import likelion.univ.utils.AuthentiatedUserUtils;
+import likelion.univ.utils.AuthenticatedUserUtils;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class CreateProjectUsecase {
 
-    private final AuthentiatedUserUtils authentiatedUserUtils;
+    private final AuthenticatedUserUtils authenticatedUserUtils;
     private final ProjectService projectService;
     private final ProjectTechService projectTechService;
     private final ProjectImageService projectImageService;
@@ -34,7 +34,7 @@ public class CreateProjectUsecase {
 
     public ProjectIdResponseDto execute(ProjectRequestDto projectRequestDto) {
 
-        User user = authentiatedUserUtils.getCurrentUser();
+        User user = authenticatedUserUtils.getCurrentUser();
 //        if(user.getAuthInfo().getRole() != Role.UNIVERSITY_ADMIN) {
 //            throw new NotAdminForbiddenException();
 //        }

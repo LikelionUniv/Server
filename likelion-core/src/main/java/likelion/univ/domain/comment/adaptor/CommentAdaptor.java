@@ -1,10 +1,12 @@
 package likelion.univ.domain.comment.adaptor;
 
 import likelion.univ.annotation.Adaptor;
-import likelion.univ.domain.comment.repository.CommentRepository;
+import likelion.univ.domain.comment.dto.response.ChildCommentData;
+import likelion.univ.domain.comment.dto.response.ParentCommentData;
 import likelion.univ.domain.comment.entity.Comment;
 import likelion.univ.domain.comment.exception.CommentNotFoundException;
-import likelion.univ.domain.post.entity.Post;
+import likelion.univ.domain.comment.repository.CommentRepository;
+import likelion.univ.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
@@ -14,6 +16,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CommentAdaptor {
     private final CommentRepository commentRepository;
+    private final UserRepository userRepository;
 
     public Long save(Comment comment) {
         return commentRepository.save(comment).getId();
@@ -27,11 +30,19 @@ public class CommentAdaptor {
         commentRepository.delete(comment);
     }
 
-    public List<Comment> findAllByPost(Post post) {
-        return commentRepository.findByPost(post);
+    public List<ParentCommentData> findParentCommentsByPostId(Long postId) {
+        return commentRepository.findParentCommentsByPostId(postId);
+    }
+
+    public List<ChildCommentData> findChildCommentsByPostId(Long postId) {
+        return commentRepository.findChildCommentsByPostId(postId);
     }
 
     public Long countByPostId(Long postId){
         return commentRepository.countByPostId(postId);
+
+    }
+    public Comment findByPostId(Long postId) {
+        return commentRepository.findByPostId(postId);
     }
 }

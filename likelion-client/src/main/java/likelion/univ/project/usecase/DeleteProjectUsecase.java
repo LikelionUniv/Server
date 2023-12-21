@@ -7,14 +7,14 @@ import likelion.univ.domain.project.service.ProjectImageService;
 import likelion.univ.domain.project.service.ProjectMemberService;
 import likelion.univ.domain.project.service.ProjectService;
 import likelion.univ.domain.project.service.ProjectTechService;
-import likelion.univ.utils.AuthentiatedUserUtils;
+import likelion.univ.utils.AuthenticatedUserUtils;
 import lombok.RequiredArgsConstructor;
 
 @UseCase
 @RequiredArgsConstructor
 public class DeleteProjectUsecase {
 
-    private final AuthentiatedUserUtils authentiatedUserUtils;
+    private final AuthenticatedUserUtils authenticatedUserUtils;
     private final ProjectTechService projectTechService;
     private final ProjectImageService projectImageService;
     private final ProjectMemberService projectMemberService;
@@ -24,7 +24,7 @@ public class DeleteProjectUsecase {
     public void execute(Long projectId) {
         Project project = projectAdaptor.findById(projectId);
 
-        authentiatedUserUtils.checkidentification(project.getAuthor().getId());
+        authenticatedUserUtils.checkidentification(project.getAuthor().getId());
 
         projectTechService.deleteProjectTech(projectId);
         projectImageService.deleteImage(projectId);

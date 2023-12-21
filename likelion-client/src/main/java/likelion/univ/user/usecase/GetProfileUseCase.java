@@ -8,7 +8,7 @@ import likelion.univ.follow.dao.FollowNumRedisDao;
 import likelion.univ.user.dto.response.ProfileDetailsDto;
 import likelion.univ.follow.entity.FollowNum;
 import likelion.univ.follow.service.FollowNumRedisService;
-import likelion.univ.utils.AuthentiatedUserUtils;
+import likelion.univ.utils.AuthenticatedUserUtils;
 import lombok.RequiredArgsConstructor;
 
 import java.util.Optional;
@@ -16,7 +16,7 @@ import java.util.Optional;
 @UseCase
 @RequiredArgsConstructor
 public class GetProfileUseCase {
-    private final AuthentiatedUserUtils authentiatedUserUtils;
+    private final AuthenticatedUserUtils authentiatedUserUtils;
     private final UserAdaptor userAdaptor;
     private final FollowNumRedisDao followNumRedisDao;
     private final FollowNumRedisService followNumRedisService;

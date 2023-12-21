@@ -25,17 +25,9 @@ public class CommentLike extends BaseTimeEntity {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    private Boolean isCanceled;
-
     @Builder
-    public CommentLike(User user, Comment comment, Boolean isCanceled) {
+    private CommentLike(User user, Comment comment) {
         this.user = user;
         this.comment = comment;
-        this.isCanceled = isCanceled;
-    }
-
-    public CommentLike switchLikeComment() {
-        this.isCanceled = !this.getIsCanceled();
-        return this;
     }
 }

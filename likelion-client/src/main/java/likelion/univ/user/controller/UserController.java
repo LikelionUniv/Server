@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
     private final GetProfileUseCase getProfileUseCase;
     private final EditProfileUseCase editProfileUseCase;
-    private final GetUserPostsUseCase getMyPostsUseCase;
+    private final GetUserPostsUseCase getUserPostsUseCase;
     private final GetPostsCommentedByMeUseCase getPostsCommentedByMeUseCase;
     private final GetFollowInfoUseCase getFollowingListUseCase;
     private final SearchUserByNameUseCase searchUserByNameUseCase;
@@ -61,8 +61,8 @@ public class UserController {
     @Operation(summary = "해당 유저가 쓴 게시글 조회", description = "해당 유저가 작성한 게시글을 조회합니다.")
     @GetMapping("/{userId}/posts")
     public SuccessResponse<Object> getPostsWritedByUser(@PathVariable Long userId,
-                                              @ParameterObject @PageableDefault(size = 6, page = 0) Pageable pageable){
-        PageResponse<UserPagePostsDto> myPagePostsPage = getMyPostsUseCase.execute(userId, pageable);
+                                              @ParameterObject @PageableDefault(size = 6, page = 1) Pageable pageable){
+        PageResponse<UserPagePostsDto> myPagePostsPage = getUserPostsUseCase.execute(userId, pageable);
         return SuccessResponse.of(myPagePostsPage);
     }
 

@@ -6,13 +6,13 @@ import likelion.univ.domain.user.entity.User;
 import likelion.univ.domain.user.service.UserDomainService;
 import likelion.univ.user.dto.request.ProfileEditRequestDto;
 import likelion.univ.user.dto.response.ProfileDetailsDto;
-import likelion.univ.utils.AuthentiatedUserUtils;
+import likelion.univ.utils.AuthenticatedUserUtils;
 import lombok.RequiredArgsConstructor;
 
 @UseCase
 @RequiredArgsConstructor
 public class EditProfileUseCase {
-    private final AuthentiatedUserUtils authentiatedUserUtils;
+    private final AuthenticatedUserUtils authentiatedUserUtils;
     private final UserDomainService userDomainService;
 
     public void execute(Long userId, ProfileEditRequestDto profileEditRequestDto){

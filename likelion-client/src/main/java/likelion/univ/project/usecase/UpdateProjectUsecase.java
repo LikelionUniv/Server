@@ -15,7 +15,7 @@ import likelion.univ.domain.user.adaptor.UserAdaptor;
 import likelion.univ.domain.user.entity.User;
 import likelion.univ.project.dto.request.ProjectRequestDto;
 import likelion.univ.project.dto.response.ProjectIdResponseDto;
-import likelion.univ.utils.AuthentiatedUserUtils;
+import likelion.univ.utils.AuthenticatedUserUtils;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class UpdateProjectUsecase {
 
-    private final AuthentiatedUserUtils authentiatedUserUtils;
+    private final AuthenticatedUserUtils authenticatedUserUtils;
     private final ProjectService projectService;
     private final ProjectTechService projectTechService;
     private final ProjectImageService projectImageService;
@@ -39,7 +39,7 @@ public class UpdateProjectUsecase {
 
         Project project = projectAdaptor.findById(projectId);
 
-        authentiatedUserUtils.checkidentification(project.getAuthor().getId());
+        authenticatedUserUtils.checkidentification(project.getAuthor().getId());
 
         List<String> techNames = projectRequestDto.getProjectTeches();
         List<Tech> techList = techNames.stream()

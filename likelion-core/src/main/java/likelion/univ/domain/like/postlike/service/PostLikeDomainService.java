@@ -5,7 +5,7 @@ import likelion.univ.domain.like.postlike.adaptor.PostLikeAdaptor;
 import likelion.univ.domain.like.postlike.entity.PostLike;
 import likelion.univ.domain.post.adaptor.PostAdaptor;
 import likelion.univ.domain.post.entity.Post;
-import likelion.univ.domain.like.postlike.dto.PostLikeCreateServiceDto;
+import likelion.univ.domain.like.postlike.dto.PostLikeCommand;
 import likelion.univ.domain.like.postlike.dto.PostLikeDeleteServiceDto;
 import likelion.univ.domain.like.postlike.dto.PostLikeResponseDto;
 import likelion.univ.domain.user.adaptor.UserAdaptor;
@@ -21,43 +21,39 @@ public class PostLikeDomainService {
     private final PostAdaptor postAdaptor;
     private final UserAdaptor userAdaptor;
 
-    public PostLikeResponseDto createLikePost(PostLikeCreateServiceDto request) {
-        PostLike newPostLike = newPostLikeBy(request);
-        Long savedLikeId = postLikeAdaptor.save(newPostLike);
-
-        return PostLikeResponseDto.builder()
-                .id(savedLikeId)
-                .build();
-    }
-
-
-    public void deleteLikePost(PostLikeDeleteServiceDto request) {
-        Long postLikeId = request.getPostLikeId();
-        Long loginUserId = request.getLoginUserId();
-        PostLike findPostLike = postLikeAdaptor.findById(postLikeId);
-
-        if (!isAuthorized(findPostLike, loginUserId)) {
+    public void createOrDeletePostLike(PostLikeCommand request) {
+        Long postId = request.postId();
+        Long loginUserId = request.loginUserId();
+        Post post = postAdaptor.findById(postId);
+        User user = userAdaptor.findById(loginUserId);
+        if (postLikeAdaptor.existsByPostIdAndAuthorId(postId, loginUserId)) {
+            PostLike postLike = postLikeAdaptor.findByPostAndUser(post, user);
+            if (isAuthorized(postLike, loginUserId)) {
+                postLikeAdaptor.delete(postLike);
+                return;
+            }
             throw new NotAuthorizedException();
         }
-        postLikeAdaptor.delete(findPostLike);
-
+        PostLike newPostLike = newPostLikeBy(request);
+        postLikeAdaptor.save(newPostLike);
     }
 
+
+
     private boolean isAuthorized(PostLike findPostLike, Long loginUserId) {
-        Long authorId = findPostLike.getAuthor().getId();
+        Long authorId = findPostLike.getUser().getId();
         return loginUserId.equals(authorId);
     }
 
-    private PostLike newPostLikeBy(PostLikeCreateServiceDto request) {
-        Long postId = request.getPostId();
-        Long authorId = request.getAuthorId();
+    private PostLike newPostLikeBy(PostLikeCommand request) {
+        Long postId = request.postId();
+        Long loginUserId = request.loginUserId();
         Post findPost = postAdaptor.findById(postId);
-        User findUser = userAdaptor.findById(authorId);
-        PostLike newPostLike = PostLike.builder()
+        User findUser = userAdaptor.findById(loginUserId);
+        return PostLike.builder()
                 .post(findPost)
-                .author(findUser)
+                .user(findUser)
                 .build();
-        return newPostLike;
     }
 
 

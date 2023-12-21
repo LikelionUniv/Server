@@ -3,10 +3,9 @@ package likelion.univ.domain.post.entity;
 import likelion.univ.common.entity.BaseTimeEntity;
 import likelion.univ.domain.comment.entity.Comment;
 import likelion.univ.domain.like.postlike.entity.PostLike;
-import likelion.univ.domain.post.dto.request.PostUpdateServiceDto;
-import likelion.univ.domain.post.entity.enums.MainCategory;
-import likelion.univ.domain.post.entity.enums.SubCategory;
-import likelion.univ.domain.project.entity.ProjectTech;
+import likelion.univ.domain.post.dto.request.UpdatePostCommand;
+import likelion.univ.domain.post.dto.enums.MainCategory;
+import likelion.univ.domain.post.dto.enums.SubCategory;
 import likelion.univ.domain.user.entity.User;
 import lombok.*;
 
@@ -21,7 +20,7 @@ import java.util.List;
 @Entity
 public class Post extends BaseTimeEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -38,9 +37,11 @@ public class Post extends BaseTimeEntity {
 
     @OneToMany(mappedBy = "post",
             cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, orphanRemoval = true)
+    @Builder.Default
     private List<PostLike> postLikes = new ArrayList();
 
     @OneToMany(cascade = CascadeType.ALL)
+    @Builder.Default
     @JoinColumn(name="post_id", insertable = false, updatable = false)
     private List<Comment> comments = new ArrayList<>();
 
@@ -50,16 +51,15 @@ public class Post extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     private SubCategory subCategory;
 
-
-    public void edit(PostUpdateServiceDto request) {
-        if (request.getTitle() != null)
-            this.title = request.getTitle();
-        if (request.getBody() != null)
-            this.body = request.getBody();
-        if (request.getThumbnail() == null)
+    public void edit(UpdatePostCommand request) {
+        if (request.title() != null)
+            this.title = request.title();
+        if (request.body() != null)
+            this.body = request.body();
+        if (request.thumbnail() == null)
             this.thumbnail = null;
-        else if (!request.getThumbnail().equals(this.getThumbnail()))
-            this.thumbnail = request.getThumbnail();
+        else if (!request.thumbnail().equals(this.getThumbnail()))
+            this.thumbnail = request.thumbnail();
     }
 
 }

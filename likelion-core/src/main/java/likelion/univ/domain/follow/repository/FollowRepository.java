@@ -16,6 +16,8 @@ public interface FollowRepository extends JpaRepository<Follow,Long> {
             + "values (now(), now(), :currentId , :userId)", nativeQuery = true)
     void save(Long currentId, Long userId);
 
+    boolean existsByFollowerIdAndFollowingId(Long followerId, Long followingId);
+
     @Modifying
     @Transactional
     @Query("delete from Follow f where f.follower.id = :currentId and f.following.id = :userId")

@@ -10,6 +10,10 @@ import lombok.RequiredArgsConstructor;
 public class FollowAdaptor {
     private final FollowRepository followRepository;
 
+    public Boolean hasFollowedUser(Long followerId, Long folloingId) {
+        return followRepository.existsByFollowerIdAndFollowingId(followerId, folloingId);
+    }
+
     public Long countByFollowerId(Long followerId){
         return followRepository.countByFollowerId(followerId);
     }
