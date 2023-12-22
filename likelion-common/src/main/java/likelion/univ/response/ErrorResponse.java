@@ -28,4 +28,12 @@ public class ErrorResponse extends BaseResponse {
                 .httpStatus(errorCode.getHttpStatus())
                 .build();
     }
+
+    public static ErrorResponse of(String code, String message, int httpStatus) {
+        return ErrorResponse.builder()
+                .code(code)
+                .message(message)
+                .httpStatus(httpStatus)
+                .build();
+    }
 }

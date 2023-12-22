@@ -5,6 +5,7 @@ import likelion.univ.jwt.JwtProvider;
 import likelion.univ.jwt.dto.DecodedJwtToken;
 import likelion.univ.security.FilterExceptionProcessor;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -25,6 +26,7 @@ import static likelion.univ.constant.StaticValue.ACCESS_TOKEN;
 
 @Component
 @RequiredArgsConstructor
+@Slf4j
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtProvider jwtProvider;

@@ -1,26 +1,34 @@
 package likelion.univ.feign.oauth.google.errordecoder;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import feign.Response;
 import feign.RetryableException;
+import feign.Util;
 import feign.codec.ErrorDecoder;
+import likelion.univ.feign.exception.FeignClientException;
+import likelion.univ.feign.oauth.google.dto.GoogleErrorResponseDto;
+import likelion.univ.feign.oauth.kakao.dto.KakaoErrorResponseDto;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+import java.io.IOException;
+
+@RequiredArgsConstructor
+@Slf4j
 public class RequestGoogleTokenErrorDecode implements ErrorDecoder{
-
+    private final ObjectMapper objectMapper;
     @Override
     public Exception decode(String methodKey, Response response) {
-
-        switch (response.status()){
-//            case 400:
-//                return new BadRequestException(HttpStatus.valueOf(response.status()));
-//            case 404:
-//                return new NotFoundException(HttpStatus.valueOf(response.status()));
-//            case 500:
-//                return new InternalServerException(HttpStatus.valueOf(response.status()));
-//            case 501:
-            case 502:
-            case 503:
-                return new RetryableException(response.status(),response.reason(), response.request().httpMethod(), null,response.request());
+        if (response.body() != null) {
+            try {
+                String message = Util.toString(response.body().asReader(Util.UTF_8));
+                GoogleErrorResponseDto errorResponseForm= objectMapper.readValue(message, GoogleErrorResponseDto.class);
+                return new FeignClientException(response.status(), methodKey,
+                        errorResponseForm.getError(), errorResponseForm.getErrorDescription());
+            } catch (IOException e) {
+                log.error(methodKey + "Error Deserializing response body from failed feign request response.", e);
+            }
         }
-        return new ErrorDecoder.Default().decode(methodKey, response);
+        return new FeignClientException(response.status(), methodKey, "GOOGLE_SERVER_ERROR", null);
     }
 }

@@ -3,7 +3,6 @@ package likelion.univ.example.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import io.swagger.v3.oas.annotations.tags.Tags;
 import likelion.univ.example.dto.request.CreateExampleRequestDto;
 
 import likelion.univ.example.usecase.CreateExampleUseCase;
@@ -11,13 +10,10 @@ import likelion.univ.example.usecase.DeleteExampleUseCase;
 import likelion.univ.example.usecase.EditExampleUseCase;
 import likelion.univ.example.usecase.GetExampleUseCase;
 import likelion.univ.response.SuccessResponse;
-import likelion.univ.security.SecurityUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import javax.websocket.server.PathParam;
 
 @Slf4j
 @RestController
