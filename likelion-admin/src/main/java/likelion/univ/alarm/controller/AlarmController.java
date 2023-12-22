@@ -1,16 +1,19 @@
 package likelion.univ.alarm.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import likelion.univ.alarm.dto.EmailAlarmDto;
+import likelion.univ.alarm.dto.GetRecruitsDto;
 import likelion.univ.alarm.dto.RecruitEmailAlarmDto;
 import likelion.univ.alarm.dto.UserListDto;
 import likelion.univ.alarm.usecase.EmailAlarmUsecase;
 import likelion.univ.alarm.usecase.EmailRecruitAlarmUsecase;
+import likelion.univ.alarm.usecase.GetRecruitsUsecase;
 import likelion.univ.alarm.usecase.GetUsersUsecase;
+import likelion.univ.domain.user.entity.User;
 import likelion.univ.domain.user.repository.searchcondition.UserSearchCondition;
 import likelion.univ.response.SuccessResponse;
+import likelion.univ.utils.AuthentiatedUserUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,7 +25,9 @@ public class AlarmController {
 
     private final EmailAlarmUsecase emailAlarmUsecase;
     private final EmailRecruitAlarmUsecase emailRecruitAlarmUsecase;
+    private final GetRecruitsUsecase getRecruitsUsecase;
     private final GetUsersUsecase getUsersUsecase;
+    private final AuthentiatedUserUtils userUtils;
 
     @PostMapping
     @Operation(
@@ -43,6 +48,18 @@ public class AlarmController {
     public SuccessResponse<String> sendRecruitAlarm(@RequestBody RecruitEmailAlarmDto recruitEmailAlarmDto) {
         emailRecruitAlarmUsecase.execute(recruitEmailAlarmDto);
         return SuccessResponse.of("리크루팅 알람 전송 성공");
+    }
+
+    @GetMapping("/recruit")
+    @Operation(
+            summary = "리크루팅 조회 API",
+            description = "대학 대표가 등록된 리크루팅 명단을 확인할 수 있는 API 입니다."
+    )
+    public SuccessResponse<GetRecruitsDto> getRecruits(@RequestParam int generation) {
+        User universityManager = userUtils.getCurrentUser();
+        GetRecruitsDto response = getRecruitsUsecase.execute(universityManager, generation);
+
+        return SuccessResponse.of(response);
     }
 
     @GetMapping("/user")

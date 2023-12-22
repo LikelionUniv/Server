@@ -1,4 +1,4 @@
-package likelion.univ.email;
+package likelion.univ.email.sender;
 
 import lombok.AccessLevel;
 import lombok.Builder;

@@ -1,27 +1,28 @@
-package likelion.univ.email;
+package likelion.univ.email.sender.azure;
 
 import com.azure.communication.email.EmailClient;
 import com.azure.communication.email.EmailClientBuilder;
-import com.azure.communication.email.models.EmailAddress;
-import com.azure.communication.email.models.EmailMessage;
-import com.azure.communication.email.models.EmailSendResult;
-import com.azure.communication.email.models.EmailSendStatus;
+import com.azure.communication.email.models.*;
 import com.azure.core.credential.AzureKeyCredential;
 import com.azure.core.util.polling.LongRunningOperationStatus;
 import com.azure.core.util.polling.PollResponse;
 import com.azure.core.util.polling.SyncPoller;
 import likelion.univ.annotation.Processor;
 import likelion.univ.email.exception.EmailSendFailed;
+import likelion.univ.email.sender.EmailContent;
+import likelion.univ.email.sender.EmailSender;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 
 import java.time.Duration;
 
-@Processor
+@Component
 @RequiredArgsConstructor
-public class AzureEmailProcessor {
+public class AzureEmailSender implements EmailSender {
 
     private final AzureCommunicationProperties properties;
 
+    @Override
     public void send(EmailContent emailContent) {
         EmailClient emailClient = setUpEmailClient();
         EmailMessage emailMessage = createEmailMessage(emailContent);
@@ -38,8 +39,7 @@ public class AzureEmailProcessor {
     }
 
     private EmailMessage createEmailMessage(EmailContent emailContent) {
-        ContentsType type = ContentsType.of(emailContent.getContentsType());
-        EmailMessage emailMessage = type.setContents(emailContent.getContents());
+        EmailMessage emailMessage = new EmailMessage();
         emailMessage
                 .setSenderAddress(properties.getSender())
                 .setToRecipients(
@@ -47,8 +47,10 @@ public class AzureEmailProcessor {
                                 .map(EmailAddress::new)
                                 .toList()
                 )
-                .setSubject(emailContent.getSubject());
+                .setSubject(emailContent.getSubject())
+                .setBodyHtml(emailContent.getContents());
 
+        EmailAttachment emailAttachment;
         return emailMessage;
     }
 

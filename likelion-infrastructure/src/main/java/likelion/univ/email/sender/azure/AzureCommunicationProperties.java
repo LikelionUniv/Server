@@ -1,4 +1,4 @@
-package likelion.univ.email;
+package likelion.univ.email.sender.azure;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
