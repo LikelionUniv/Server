@@ -15,22 +15,13 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class EmailRecruitAlarmUsecase {
 
-    private final RecruitQueryService recruitQueryService;
     private final EmailSender emailSender;
 
     public void execute(RecruitEmailAlarmDto recruitEmailAlarmDto) {
-        List<Recruit> recruits = recruitQueryService
-                .queryAllByUniversityNameAndGeneration(recruitEmailAlarmDto.getUniversityName(),
-                        recruitEmailAlarmDto.getGeneration());
-
-        List<String> emails = recruits.stream()
-                .map(Recruit::getEmail)
-                .collect(Collectors.toList());
-
         EmailContent emailContent = EmailContent.builder()
                 .subject(recruitEmailAlarmDto.getSubject())
                 .contents(recruitEmailAlarmDto.getContents())
-                .receivers(emails)
+                .receivers(recruitEmailAlarmDto.getReceivers())
                 .build();
 
         emailSender.send(emailContent);
