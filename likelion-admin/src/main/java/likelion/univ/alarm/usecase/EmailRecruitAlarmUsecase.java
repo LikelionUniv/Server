@@ -1,11 +1,11 @@
 package likelion.univ.alarm.usecase;
 
 import likelion.univ.alarm.dto.RecruitEmailAlarmDto;
-import likelion.univ.alarm.emailsender.EmailSender;
 import likelion.univ.annotation.UseCase;
 import likelion.univ.domain.recruit.entity.Recruit;
 import likelion.univ.domain.recruit.service.RecruitQueryService;
-import likelion.univ.email.EmailContent;
+import likelion.univ.email.sender.EmailContent;
+import likelion.univ.email.sender.EmailSender;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
