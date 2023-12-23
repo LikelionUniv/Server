@@ -87,6 +87,12 @@ logging:
     org.springframework.orm.jpa: INFO
     org.springframework.transaction: INFO
 
+data:
+  mongodb:
+    host: localhost
+    port: 27017
+    database: chat
+
 --- ## test 환경 설정 for local
 #spring:
 #  config:

@@ -12,6 +12,7 @@ dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter:5.8.1'
     runtimeOnly 'com.h2database:h2'
     implementation group: 'com.mysql', name: 'mysql-connector-j'
+    implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
     // Querydsl
     api 'com.querydsl:querydsl-jpa'
     api 'com.querydsl:querydsl-core'
