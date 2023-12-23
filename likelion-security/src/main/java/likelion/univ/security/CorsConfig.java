@@ -18,13 +18,18 @@ public class CorsConfig implements WebMvcConfigurer {
 
         allowedOriginPatterns.add("https://likelionuniv.com");
         allowedOriginPatterns.add("https://likelion.university");
-        if(profileProcessor.isStag()){
-            allowedOriginPatterns.add("http://localhost:3000");
-            allowedOriginPatterns.add("http://localhost:8080");
-            allowedOriginPatterns.add("https://stag.likelionuniv.com");
-            allowedOriginPatterns.add("https://stag.likelion.university");
-            allowedOriginPatterns.add("https://likelionunivtemp.vercel.app");
-        }
+        allowedOriginPatterns.add("http://localhost:3000");
+        allowedOriginPatterns.add("http://localhost:8080");
+        allowedOriginPatterns.add("https://stag.likelionuniv.com");
+        allowedOriginPatterns.add("https://stag.likelion.university");
+        allowedOriginPatterns.add("https://likelionunivtemp.vercel.app");
+//        if(profileProcessor.isStag()){
+//            allowedOriginPatterns.add("http://localhost:3000");
+//            allowedOriginPatterns.add("http://localhost:8080");
+//            allowedOriginPatterns.add("https://stag.likelionuniv.com");
+//            allowedOriginPatterns.add("https://stag.likelion.university");
+//            allowedOriginPatterns.add("https://likelionunivtemp.vercel.app");
+//        }
 
         String[] patterns = allowedOriginPatterns.toArray(String[]::new);
         registry.addMapping("/**")

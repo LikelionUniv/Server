@@ -56,7 +56,7 @@ logging:
 spring:
   config:
     activate:
-      on-profile: staging
+      on-profile: stag
 
   jpa:
     properties:
