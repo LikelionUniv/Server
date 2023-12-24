@@ -1,4 +1,4 @@
-package likelion.univ.domain.chat.entity.repository;
+package likelion.univ.domain.chat.repository;
 
 
 import likelion.univ.domain.chat.entity.ChatRoom;

@@ -3,7 +3,7 @@ package likelion.univ.chat.service;
 
 import likelion.univ.chat.pubsub.RedisSubscriber;
 import likelion.univ.domain.chat.entity.ChatRoom;
-import likelion.univ.domain.chat.entity.repository.ChatRoomRepository;
+import likelion.univ.domain.chat.repository.ChatRoomRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisTemplate;

@@ -2,7 +2,7 @@ package likelion.univ.chat.pubsub;
 
 
 import likelion.univ.domain.chat.entity.ChatMessage;
-import likelion.univ.domain.chat.entity.repository.ChatMessageRepository;
+import likelion.univ.domain.chat.repository.ChatMessageRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.listener.ChannelTopic;

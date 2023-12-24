@@ -6,7 +6,7 @@ import likelion.univ.chat.pubsub.RedisPublisher;
 import likelion.univ.chat.service.ChatRoomRedisService;
 import likelion.univ.domain.chat.entity.ChatMessage;
 import likelion.univ.domain.chat.entity.MessageType;
-import likelion.univ.domain.chat.entity.repository.ChatMessageRepository;
+import likelion.univ.domain.chat.repository.ChatMessageRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
