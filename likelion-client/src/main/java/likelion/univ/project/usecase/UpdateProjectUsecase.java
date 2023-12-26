@@ -42,9 +42,9 @@ public class UpdateProjectUsecase {
         authenticatedUserUtils.checkidentification(project.getAuthor().getId());
 
         List<String> techNames = projectRequestDto.getProjectTeches();
-        List<Tech> techList = techNames.stream()
-                .flatMap(techName -> projectTechAdaptor.findByName(techName).stream())
-                .collect(Collectors.toList());
+//        List<Tech> techList = techNames.stream()
+//                .flatMap(techName -> projectTechAdaptor.findByName(techName.toUpperCase()).stream())
+//                .collect(Collectors.toList());
 
         List<Image> image = projectRequestDto.getImageUrl().stream()
                 .map(imageUrl -> new Image(project, imageUrl))
@@ -60,7 +60,7 @@ public class UpdateProjectUsecase {
             editProject.updateUniv(null);
 
         projectService.updateProject(projectId, editProject);
-        projectTechService.updateProjectTech(project,techList);
+        projectTechService.updateProjectTech(project,techNames);
         projectImageService.updateImage(project, image);
         projectMemberService.updateProjectMember(project, members);
 

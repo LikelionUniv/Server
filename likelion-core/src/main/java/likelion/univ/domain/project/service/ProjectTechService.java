@@ -24,10 +24,10 @@ public class ProjectTechService {
     public void addProjectTech(Project project, List<String> techNames) {
         List<ProjectTech> projectTeches = new ArrayList<>();
         for (String techName : techNames) {
-            List<Tech> existingTech = projectTechAdaptor.findByName(techName);
+            Tech existingTech = projectTechAdaptor.findByName(techName);
             Tech tech;
-            if (!existingTech.isEmpty()) {
-                tech = existingTech.get(0);
+            if (existingTech != null) {
+                tech = existingTech;
             } else {
                 Tech newTech = Tech.builder().techName(techName).build();
                 projectTechAdaptor.saveTech(newTech);
@@ -42,14 +42,21 @@ public class ProjectTechService {
         projectTechAdaptor.saveAll(projectTeches);
     }
     @Transactional
-    public void updateProjectTech(Project project, List<Tech> teches) {
+    public void updateProjectTech(Project project, List<String> teches) {
         projectTechAdaptor.deleteByProject(project);
         if (teches != null && !teches.isEmpty()) {
             List<ProjectTech> projectTeches = new ArrayList<>();
 
-            for (Tech tech : teches) {
-                List<Tech> techList = projectTechAdaptor.findByName(tech.getTechName());
-                Tech persistedTech = techList.isEmpty() ? tech : techList.get(0);
+            for (String techName : teches) {
+                Tech tech = projectTechAdaptor.findByName(techName.toUpperCase());
+
+                Tech persistedTech;
+                if(tech == null) {
+                    Tech newTech = Tech.builder().techName(techName.toUpperCase()).build();
+                    projectTechAdaptor.saveTech(newTech);
+                    persistedTech = newTech;
+                } else
+                    persistedTech = tech;
 
                 ProjectTech projectTech = new ProjectTech(project, persistedTech);
                 projectTeches.add(projectTech);
