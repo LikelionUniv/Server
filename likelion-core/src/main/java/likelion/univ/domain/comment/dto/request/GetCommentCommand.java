@@ -1,6 +1,7 @@
 package likelion.univ.domain.comment.dto.request;
 
 public record GetCommentCommand(
-        Long postId
+        Long postId,
+        Long loginUserId
 ) {
 }
