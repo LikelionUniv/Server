@@ -19,7 +19,8 @@ public class GetCommentUseCase {
     private final AuthenticatedUserUtils authenticatedUser;
 
     public List<CommentResponseDto> execute(Long postId) {
-        CommentData commentData = commentDomainService.getComment(postId);
+        Long loginUserId = authenticatedUser.getCurrentUserId();
+        CommentData commentData = commentDomainService.getComment(new GetCommentCommand(postId, loginUserId));
 
         Long postAuthorId = commentData.postAuthorId();
         List<ParentCommentData> parentCommentData = commentData.parentComments();

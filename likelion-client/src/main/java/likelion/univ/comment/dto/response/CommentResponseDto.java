@@ -55,7 +55,7 @@ public record CommentResponseDto(
                 .userProfileImageUrl(parentComment.userProfileImageUrl())
                 .isLoginUserComment(parentComment.userId().equals(loginUserId))
                 .isAuthorComment(parentComment.userId().equals(postAuthorId))
-//                .isLikedByLoginUser(parentComment.좋아요유저Id().equals(loginUserId))
+                .isLikedByLoginUser(parentComment.isLikedByLoginUser())
                 .likeCount(parentComment.likeCount())
                 .body(parentComment.body())
                 .isDeleted(parentComment.isDeleted())

@@ -14,30 +14,23 @@ public record ParentCommentData(
         String userName,
         String userProfileImageUrl,
         Integer likeCount,
+        Boolean isLikedByLoginUser,
         String body,
         Boolean isDeleted,
         LocalDateTime createdDate
 ) {
     @Builder
     @QueryProjection
-    public ParentCommentData(Long commentId, Long userId, String userName, String userProfileImageUrl, Integer likeCount, String body, Boolean isDeleted, LocalDateTime createdDate) {
-        this.commentId = commentId;
-        this.userId = userId;
-        this.userName = userName;
-        this.userProfileImageUrl = userProfileImageUrl;
-        this.likeCount = likeCount;
-        this.body = body;
-        this.isDeleted = isDeleted;
-        this.createdDate = createdDate;
-    }
+    public ParentCommentData {}
 
-    public static ParentCommentData of(Comment parentComment) {
+    public static ParentCommentData of(Comment parentComment, Boolean isLikedByLoginUser) {
         return ParentCommentData.builder()
                 .commentId(parentComment.getId())
                 .userId(parentComment.getAuthor().getId())
                 .userName(parentComment.getAuthor().getProfile().getName())
                 .userProfileImageUrl(parentComment.getAuthor().getProfile().getProfileImage())
                 .likeCount(getLikeCount(parentComment))
+                .isLikedByLoginUser(isLikedByLoginUser)
                 .body(parentComment.getBody())
                 .isDeleted(parentComment.getIsDeleted())
                 .createdDate(parentComment.getCreatedDate())

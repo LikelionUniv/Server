@@ -9,6 +9,7 @@ import likelion.univ.domain.like.commentlike.adaptor.CommentLikeAdaptor;
 import likelion.univ.domain.post.adaptor.PostAdaptor;
 import likelion.univ.domain.post.entity.Post;
 import likelion.univ.domain.user.adaptor.UserAdaptor;
+import likelion.univ.domain.user.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,19 +25,21 @@ public class CommentDomainService {
     private final UserAdaptor userAdaptor;
     private final CommentLikeAdaptor commentLikeAdaptor;
 
-    public CommentData getComment(Long postId) {
+    public CommentData getComment(GetCommentCommand command) {
+        Long postId = command.postId();
+        Long loginUserId = command.loginUserId();
         Long authorId = postAdaptor.findById(postId).getAuthor().getId();
+        User loginUser = userAdaptor.findById(loginUserId);
 
         // comment entity data
-        List<ParentCommentData> parentComments = commentAdaptor.findParentCommentsByPostId(postId);
-        List<ChildCommentData> childComments = commentAdaptor.findChildCommentsByPostId(postId);
-        // parentCommentResponseDto 로 합성하면서 boolean 필드 추가
-        // childCommentResponseDto 로 합성하면서 boolean 필드 추가
-        // commentResponseDto로 합성하면서 controller에 전달
+        List<Comment> parentComments = commentAdaptor.findParentCommentsByPostId(postId);
+        List<Comment> childComments = commentAdaptor.findChildCommentsByPostId(postId);
 
-        return new CommentData(authorId, parentComments, childComments);
+        List<ParentCommentData> parentCommentData = parentComments.stream().map(i -> ParentCommentData.of(i, commentLikeAdaptor.existsByCommentAndUser(i, loginUser))).toList();
+        List<ChildCommentData> childCommentData = childComments.stream().map(i -> ChildCommentData.of(i, commentLikeAdaptor.existsByCommentAndUser(i, loginUser))).toList();
+
+        return new CommentData(authorId, parentCommentData, childCommentData);
     }
-
 
 
     public CommentIdData createParentComment(CreateParentCommentCommand request) {

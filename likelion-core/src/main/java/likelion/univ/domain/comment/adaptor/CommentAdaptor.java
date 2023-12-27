@@ -30,11 +30,11 @@ public class CommentAdaptor {
         commentRepository.delete(comment);
     }
 
-    public List<ParentCommentData> findParentCommentsByPostId(Long postId) {
+    public List<Comment> findParentCommentsByPostId(Long postId) {
         return commentRepository.findParentCommentsByPostId(postId);
     }
 
-    public List<ChildCommentData> findChildCommentsByPostId(Long postId) {
+    public List<Comment> findChildCommentsByPostId(Long postId) {
         return commentRepository.findChildCommentsByPostId(postId);
     }
 

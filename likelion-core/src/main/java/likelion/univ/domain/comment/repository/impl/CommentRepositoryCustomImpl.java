@@ -23,11 +23,12 @@ public class CommentRepositoryCustomImpl implements CommentRepositoryCustom {
         private final JPAQueryFactory queryFactory;
 
         @Override
-        public List<ChildCommentData> findChildCommentsByPostId(Long postId) {
+        public List<Comment> findChildCommentsByPostId(Long postId) {
                 List<Long> parentCommentsIds = getParentCommentsIds(postId);
 
                 return queryFactory
-                        .select(childCommentData())
+//                        .select(childCommentData())
+                        .select(comment)
                         .from(comment)
                         .where(comment.parentComment.id.in(parentCommentsIds))
                         .join(comment.author, user)
@@ -36,11 +37,12 @@ public class CommentRepositoryCustomImpl implements CommentRepositoryCustom {
                         .fetch();
         }
         @Override
-        public List<ParentCommentData> findParentCommentsByPostId(Long postId) {
+        public List<Comment> findParentCommentsByPostId(Long postId) {
                 List<Long> parentCommentsIds = getParentCommentsIds(postId);
 
                 return queryFactory
-                        .select(parentCommentData())
+//                        .select(parentCommentData())
+                        .select(comment)
                         .from(comment)
                         .where(comment.id.in(parentCommentsIds))
                         .join(comment.author, user)
