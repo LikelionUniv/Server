@@ -19,7 +19,7 @@ public class ProjectTechAdaptor {
     private final ProjectTechRepository projectTechRepository;
 
     public void saveTech(Tech tech){techRepository.save(tech);}
-    public List<Tech> findByName(String techName){
+    public Tech findByName(String techName){
         return techRepository.findTechByTechName(techName);
     }
     public Tech findById(Long id){return techRepository.findById(id).orElseThrow(()-> new ProjectNotFoundException());}
