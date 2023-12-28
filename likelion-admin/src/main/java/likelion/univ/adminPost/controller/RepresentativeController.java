@@ -14,11 +14,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 @Slf4j
-@RestController
+@RestController("adminPost.controller.RepresentativeController")
 @RequestMapping(value = "/v1/univAdmin")
 @RequiredArgsConstructor
-@Tag(name = "UnivPost", description = "학교 대표 게시글 API")
-public class RepresentativePostController {
+@Tag(name = "PostByUnivAdmin", description = "학교 대표에 의한 게시글 관련 API")
+public class RepresentativeController {
 
     private final GetPostsByCategoriesAndUniversityUseCase getPostsByCategoriesAndUniversityUseCase;
 
