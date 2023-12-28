@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.v3.oas.annotations.media.Schema;
 import likelion.univ.domain.comment.dto.response.ChildCommentData;
 import likelion.univ.domain.comment.dto.response.ParentCommentData;
-import likelion.univ.domain.post.dto.response.PostDetailWithCommentsData;
 import lombok.Builder;
 
 import java.time.LocalDateTime;
