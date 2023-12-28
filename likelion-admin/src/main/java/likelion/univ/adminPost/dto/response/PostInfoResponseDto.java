@@ -32,5 +32,18 @@ public class PostInfoResponseDto {
                 .build();
 
     }
+
+
+    public static PostInfoResponseDto of(Post post) {
+
+        return PostInfoResponseDto.builder()
+                .id(post.getId())
+                .title(post.getTitle())
+                .body(post.getBody())
+                .author(post.getAuthor().getProfile().getName())
+                .createDate(post.getCreatedDate())
+                .build();
+    }
+
 }
 

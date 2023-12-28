@@ -19,4 +19,5 @@ public class SuccessResponse<T> extends BaseResponse {
     }
 
     public static <T> SuccessResponse<T> empty() { return new SuccessResponse<>(null); }
+
 }
