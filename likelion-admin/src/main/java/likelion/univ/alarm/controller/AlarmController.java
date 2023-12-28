@@ -13,7 +13,7 @@ import likelion.univ.alarm.usecase.GetUsersUsecase;
 import likelion.univ.domain.user.entity.User;
 import likelion.univ.domain.user.repository.searchcondition.UserSearchCondition;
 import likelion.univ.response.SuccessResponse;
-import likelion.univ.utils.AuthentiatedUserUtils;
+import likelion.univ.utils.AuthenticatedUserUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,7 +27,7 @@ public class AlarmController {
     private final EmailRecruitAlarmUsecase emailRecruitAlarmUsecase;
     private final GetRecruitsUsecase getRecruitsUsecase;
     private final GetUsersUsecase getUsersUsecase;
-    private final AuthentiatedUserUtils userUtils;
+    private final AuthenticatedUserUtils userUtils;
 
     @PostMapping
     @Operation(

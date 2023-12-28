@@ -20,4 +20,6 @@ public interface PostCustomRepository {
 
     Page<PostSimpleData> findBySearchTitle(String searchTitle, Pageable pageable);
     Page<Post> findByPostLikeAuthorId(Long userId, Pageable pageable, String sort, String search);
+    Page<Post> findByCategoriesAndUniversityOrderByCreatedDate(
+            MainCategory mainCategory, SubCategory subCategory, Long universityId, Pageable pageable);
 }

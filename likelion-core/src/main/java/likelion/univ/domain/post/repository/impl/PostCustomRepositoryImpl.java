@@ -62,6 +62,16 @@ public class PostCustomRepositoryImpl implements PostCustomRepository {
     }
 
     @Override
+    public Page<Post> findByCategoriesAndUniversityOrderByCreatedDate(
+            MainCategory mainCategory, SubCategory subCategory, Long universityId, Pageable pageable) {
+        List<Long> ids = getCoveringIndexByPost(
+                post.mainCategory.eq(mainCategory)
+                        .and(post.subCategory.eq(subCategory)));
+
+        return findByUniversityAndCoveringIndexOrderByCreatedDate(ids, pageable, universityId);
+    }
+
+    @Override
     public Page<Post> findByCategoriesOrderByCommentCount(MainCategory mainCategory, SubCategory subCategory, Pageable pageable) {
         List<Long> ids = getCoveringIndexByPost(post.mainCategory.eq(mainCategory)
                 .and(post.subCategory.eq(subCategory)));
@@ -130,6 +140,23 @@ public class PostCustomRepositoryImpl implements PostCustomRepository {
                         .from(post)
                         .innerJoin(post.author, user).fetchJoin()
                         .where(post.id.in(ids))
+                        .offset(pageable.getOffset())
+                        .orderBy(post.createdDate.desc())
+                        .limit(pageable.getPageSize())
+                        .fetch();
+
+        return new PageImpl<>(posts, pageable, ids.size());
+    }
+
+    private  Page<Post> findByUniversityAndCoveringIndexOrderByCreatedDate(List<Long> ids, Pageable pageable,
+                                                                           Long universityId){
+        List<Post> posts =
+                queryFactory
+                        .select(post)
+                        .from(post)
+                        .innerJoin(post.author, user).fetchJoin()
+                        .where(post.id.in(ids),
+                                user.universityInfo.university.id.eq(universityId))
                         .offset(pageable.getOffset())
                         .orderBy(post.createdDate.desc())
                         .limit(pageable.getPageSize())

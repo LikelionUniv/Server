@@ -61,4 +61,10 @@ public class PostAdaptor {
     public Page<PostSimpleData> findBySearchTitle(String searchTitle, Pageable pageable) {
         return postRepository.findBySearchTitle(searchTitle, pageable);
     }
+
+    public Page<Post> findPostsByCategoriesAndUniversityOrderByCreatedDate(
+            MainCategory mainCategory, SubCategory subCategory, Long universityId, Pageable pageable){
+        return postRepository.findByCategoriesAndUniversityOrderByCreatedDate(
+                mainCategory, subCategory, universityId, pageable);
+    }
 }
