@@ -8,7 +8,6 @@ import likelion.univ.domain.comment.dto.response.ParentCommentData;
 import likelion.univ.domain.post.dto.enums.MainCategory;
 import likelion.univ.domain.post.dto.enums.SubCategory;
 import likelion.univ.domain.post.dto.response.PostDetailData;
-import likelion.univ.domain.post.dto.response.PostDetailWithCommentsData;
 import likelion.univ.domain.post.dto.response.PostSimpleData;
 import likelion.univ.post.entity.PostCountInfo;
 

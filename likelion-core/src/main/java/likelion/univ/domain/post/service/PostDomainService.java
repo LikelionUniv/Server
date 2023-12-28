@@ -36,47 +36,6 @@ public class PostDomainService {
     private final FollowAdaptor followAdaptor;
     private final PostLikeAdaptor postLikeAdaptor;
 
-    public PostDetailWithCommentsData getPostDetailWithComments(GetPostDetailCommand serviceDto) {
-        Long postId = serviceDto.postId();
-        Long loginUserId = serviceDto.loginUserId();
-
-        // post entity data
-        Post post = postAdaptor.findById(postId);
-        Boolean isLikedPost = postLikeAdaptor.existsByPostIdAndAuthorId(postId, loginUserId);
-        Integer postLikeCount = Math.toIntExact(postLikeAdaptor.countByPostId(postId));
-
-        // comment entity data
-        List<ParentCommentData> parentComments = commentAdaptor.findParentCommentsByPostId(postId);
-        List<ChildCommentData> childComments = commentAdaptor.findChildCommentsByPostId(postId);
-
-
-        // user entity data
-        User author = post.getAuthor();
-        Profile authorProfile = author.getProfile();
-        UniversityInfo authorUniversityInfo = author.getUniversityInfo();
-        String authorProfileImageUrl = authorProfile.getProfileImage();
-        Boolean hasFollowedAuthor = followAdaptor.hasFollowedUser(loginUserId, author.getId());
-
-
-        return PostDetailWithCommentsData.builder()
-                .postId(post.getId())
-                .mainCategory(post.getMainCategory())
-                .subCategory(post.getSubCategory())
-                .authorId(author.getId())
-                .authorName(authorProfile.getName())
-                .authorProfileImageUrl(authorProfileImageUrl)
-                .authorOrdinal(authorUniversityInfo.getOrdinal())
-                .universityName(authorUniversityInfo.getUniversity().getName())
-                .isFollowedAuthor(hasFollowedAuthor)
-                .isLikedPost(isLikedPost)
-                .likeCount(postLikeCount)
-                .title(post.getTitle())
-                .body(post.getBody())
-                .createdDate(post.getCreatedDate())
-                .parentComments(parentComments)
-                .childComments(childComments)
-                .build();
-    }
 
     public PostDetailData getPostDetail(GetPostDetailCommand request) {
         Long postId = request.postId();
