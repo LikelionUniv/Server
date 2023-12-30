@@ -46,5 +46,13 @@ public class RepresentativeController {
         deletePostUseCase.execute(postId);
         return SuccessResponse.empty();
     }
+
+    @Operation(summary = "선택된 게시글들 삭제")
+    @DeleteMapping("/deleteSelectedPosts")
+    public SuccessResponse<Object> getProjectsOfFreeBoardPosts(@RequestParam List<Long> selectedIds){
+        deleteSelectedPostsUseCase.execute(selectedIds);
+        return SuccessResponse.empty();
+    }
+
 }
 
