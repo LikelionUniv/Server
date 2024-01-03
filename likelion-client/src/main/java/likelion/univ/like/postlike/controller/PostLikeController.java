@@ -18,15 +18,11 @@ public class PostLikeController {
 
     @Operation(summary = "게시글 좋아요 수행", description = "게시글 좋아요를 생성함")
     @PostMapping("")
-    public SuccessResponse<?> createPostLike(@RequestBody PostLikeRequestDto request) {
-        createOrDeletePostLikeUseCase.execute(request);
-        return SuccessResponse.empty();
+    public SuccessResponse createOrDeletePostLike(@RequestBody PostLikeRequestDto request) {
+        boolean likeCreated = createOrDeletePostLikeUseCase.execute(request);
+        if (likeCreated) {
+            return SuccessResponse.of("좋아요가 생성되었습니다.", "201");
+        }
+        return SuccessResponse.of("좋아요가 삭제되었습니다.", "204");
     }
-
-//    @Operation(summary = "게시글 좋아요 취소", description = "게시글 좋아요를 hard delete함")
-//    @DeleteMapping("")
-//    public SuccessResponse<?> deletePostLike(@RequestParam Long postId) {
-//        deletePostLikeUseCase.execute(postId);
-//        return SuccessResponse.empty();
-//    }
 }

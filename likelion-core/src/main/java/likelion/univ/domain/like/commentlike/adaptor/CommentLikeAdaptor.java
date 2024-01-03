@@ -1,7 +1,6 @@
 package likelion.univ.domain.like.commentlike.adaptor;
 
 import likelion.univ.annotation.Adaptor;
-import likelion.univ.domain.comment.entity.Comment;
 import likelion.univ.domain.like.commentlike.entity.CommentLike;
 import likelion.univ.domain.like.commentlike.exception.CommentLikeNotFoundException;
 import likelion.univ.domain.like.commentlike.repository.CommentLikeRepository;
@@ -31,12 +30,12 @@ public class CommentLikeAdaptor {
         return commentLikeRepository.findByUser(user);
     }
 
-    public CommentLike findByCommentAndUser(Comment comment, User user) {
-        return commentLikeRepository.findByCommentAndUser(comment, user).orElseThrow(() -> new CommentLikeNotFoundException());
+    public CommentLike findByCommentIdAndUserId(Long commentId, Long userId) {
+        return commentLikeRepository.findByCommentIdAndUserId(commentId, userId).orElseThrow(() -> new CommentLikeNotFoundException());
     }
 
-    public Boolean existsByCommentAndUser(Comment comment, User user) {
-        return commentLikeRepository.existsByCommentAndUser(comment, user);
+    public Boolean existsByCommentIdAndUserId(Long commentId, Long userId) {
+        return commentLikeRepository.existsByCommentIdAndUserId(commentId, userId);
     }
 
 }

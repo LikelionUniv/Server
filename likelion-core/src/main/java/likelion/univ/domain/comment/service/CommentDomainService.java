@@ -35,8 +35,8 @@ public class CommentDomainService {
         List<Comment> parentComments = commentAdaptor.findParentCommentsByPostId(postId);
         List<Comment> childComments = commentAdaptor.findChildCommentsByPostId(postId);
 
-        List<ParentCommentData> parentCommentData = parentComments.stream().map(i -> ParentCommentData.of(i, commentLikeAdaptor.existsByCommentAndUser(i, loginUser))).toList();
-        List<ChildCommentData> childCommentData = childComments.stream().map(i -> ChildCommentData.of(i, commentLikeAdaptor.existsByCommentAndUser(i, loginUser))).toList();
+        List<ParentCommentData> parentCommentData = parentComments.stream().map(i -> ParentCommentData.of(i, commentLikeAdaptor.existsByCommentIdAndUserId(i.getId(), loginUserId))).toList();
+        List<ChildCommentData> childCommentData = childComments.stream().map(i -> ChildCommentData.of(i, commentLikeAdaptor.existsByCommentIdAndUserId(i.getId(), loginUserId))).toList();
 
         return new CommentData(authorId, parentCommentData, childCommentData);
     }

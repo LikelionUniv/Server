@@ -14,9 +14,9 @@ import lombok.RequiredArgsConstructor;
 public class CreateOrDeleteCommentLikeUseCase {
     private final AuthenticatedUserUtils userUtils;
     private final CommentLikeDomainService commentLikeDomainService;
-    public void execute(CommentLikeRequestDto request) throws NotAuthorizedException {
+    public boolean execute(CommentLikeRequestDto request) throws NotAuthorizedException {
         CommentLikeCommand serviceDto = getServiceDto(request);
-        commentLikeDomainService.createOrDeleteCommentLike(serviceDto);
+        return commentLikeDomainService.createOrDeleteCommentLike(serviceDto);
     }
 
     private CommentLikeCommand getServiceDto(CommentLikeRequestDto request) {
