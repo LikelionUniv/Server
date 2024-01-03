@@ -1,5 +1,7 @@
 package likelion.univ.domain.post.dto.request;
 
+import likelion.univ.domain.post.dto.enums.MainCategory;
+import likelion.univ.domain.post.dto.enums.SubCategory;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -10,8 +12,8 @@ public record CreatePostCommand(
         String body,
         Long authorId,
         String thumbnail,
-        String mainCategory,
-        String subCategory
+        MainCategory mainCategory,
+        SubCategory subCategory
 ) {
 
 }

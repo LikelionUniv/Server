@@ -10,5 +10,5 @@ public enum PostOrderCondition {
     LIKE_COUNT_ORDER("좋아요순"),
     COMMENT_COUNT_ORDER("댓글순");
 
-    private final String description;
+    private final String title;
 }

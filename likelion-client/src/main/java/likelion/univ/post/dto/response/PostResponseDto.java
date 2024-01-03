@@ -13,8 +13,8 @@ import java.time.format.FormatStyle;
 
 public record PostResponseDto(
         Long postId,
-        MainCategory mainCategory,
-        SubCategory subCategory,
+        String mainCategory,
+        String subCategory,
         Long authorId,
         String authorName,
         Boolean hasAuthorProfileImage,
@@ -32,8 +32,8 @@ public record PostResponseDto(
     private PostResponseDto(PostSimpleData post, Long likeCount, Long commentCount) {
         this(
                 post.postId(),
-                post.mainCategory(),
-                post.subCategory(),
+                post.mainCategory().getTitle(),
+                post.subCategory().getTitle(),
                 post.authorId(),
                 post.authorName(),
                 post.authorProfileImageUrl() != null,

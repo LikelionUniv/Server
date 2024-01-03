@@ -4,6 +4,6 @@ import likelion.univ.exception.base.BaseException;
 
 public class PostNoAuthorizationException extends BaseException {
     public PostNoAuthorizationException() {
-        super(PostErrorCode.NOT_AUTHORIZATION);
+        super(PostErrorCode.AUTHOR_NOT_AUTHORIZED);
     }
 }

@@ -21,9 +21,9 @@ public class PostCreateRequestDto {
     @Schema(description = "썸네일 이미지", example = "string")
     private String thumbnail;
     @NotNull
-    @Schema(description = "메인 카테고리", example = "FREE_BOARD", required = true)
+    @Schema(description = "메인 카테고리", example = "자유게시판", required = true)
     private String mainCategory;
     @NotNull
-    @Schema(description = "서브 카테고리", example = "FREE_INFO", required = true)
+    @Schema(description = "서브 카테고리", example = "정보공유", required = true)
     private String subCategory;
 }

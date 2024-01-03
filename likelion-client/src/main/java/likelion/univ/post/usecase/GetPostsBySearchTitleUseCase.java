@@ -30,7 +30,7 @@ public class GetPostsBySearchTitleUseCase {
 
     /* ----- 내부메서드 ----- */
     private static boolean isSearchWithCategories(String mainCategory) {
-        return !mainCategory.equals("ALL");
+        return !mainCategory.equals("전체");
     }
 
     private Page<PostSimpleData> getByCategoriesAndSearchTitle(String searchTitle, String mainCategory, String subCategory, Pageable pageable) {

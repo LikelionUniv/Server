@@ -148,8 +148,8 @@ public class PostDomainService {
                 .title(request.title())
                 .body(request.body())
                 .thumbnail(request.thumbnail())
-                .mainCategory(MainCategory.valueOf(request.mainCategory()))
-                .subCategory(SubCategory.valueOf(request.subCategory()))
+                .mainCategory(request.mainCategory())
+                .subCategory(request.subCategory())
                 .build();
     }
 

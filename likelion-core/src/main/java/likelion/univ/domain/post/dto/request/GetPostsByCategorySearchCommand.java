@@ -13,6 +13,6 @@ public record GetPostsByCategorySearchCommand(
         Pageable pageable
 ) {
     public GetPostsByCategorySearchCommand(String searchTitle, String mainCategory, String subCategory, Pageable pageable) {
-        this(searchTitle, MainCategory.valueOf(mainCategory), SubCategory.valueOf(subCategory), pageable);
+        this(searchTitle, MainCategory.findByTitle(mainCategory), SubCategory.findByTitle(subCategory), pageable);
     }
 }

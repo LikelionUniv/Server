@@ -16,10 +16,10 @@ import java.util.List;
 public record PostDetailResponseDto(
         @Schema(description = "게시글 pk", example = "1")
         Long postId,
-        @Schema(description = "게시글 메인 카테고리", example = "FREE_BOARD")
-        MainCategory mainCategory,
-        @Schema(description = "게시글 서브 카테고리", example = "FREE_INFO")
-        SubCategory subCategory,
+        @Schema(description = "게시글 메인 카테고리", example = "자유게시판")
+        String mainCategory,
+        @Schema(description = "게시글 서브 카테고리", example = "정보 공유")
+        String subCategory,
         @Schema(description = "작성 유저 pk", example = "1")
         Long authorId,
         @Schema(description = "작성 유저 이름", example = "김멋사")
@@ -53,8 +53,8 @@ public record PostDetailResponseDto(
     public PostDetailResponseDto(PostDetailData post, Integer likeCount, Integer commentCount, Long loginUserId) {
         this(
                 post.postId(),
-                post.mainCategory(),
-                post.subCategory(),
+                post.mainCategory().getTitle(),
+                post.subCategory().getTitle(),
                 post.authorId(),
                 post.authorName(),
                 hasImageUrl(post.authorProfileImageUrl()),
