@@ -28,10 +28,7 @@ public class GetPostsByCategoriesAndUniversityUseCase {
         Page<Post> posts = postAdaptor.findPostsByCategoriesAndUniversityOrderByCreatedDate
                 (mainCategory, subCategory, user.getUniversityInfo().getUniversity().getId(), pageable);
 
-
-        return PageResponse.of(posts.map(post -> PostInfoResponseDto.of(post,
-                Math.toIntExact(postLikeAdaptor.countByPostId(post.getId())),
-                Math.toIntExact(commentAdaptor.countByPostId(post.getId())))));
+        return PageResponse.of(posts.map(post -> PostInfoResponseDto.of(post, post.getPostLikes().size(), post.getComments().size())));
     }
 
 }

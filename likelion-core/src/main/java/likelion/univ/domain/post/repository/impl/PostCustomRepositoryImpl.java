@@ -3,6 +3,7 @@ package likelion.univ.domain.post.repository.impl;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import likelion.univ.domain.post.dto.response.PostSimpleData;
 import likelion.univ.domain.post.dto.response.QPostSimpleData;
@@ -22,6 +23,7 @@ import java.util.List;
 import static likelion.univ.domain.comment.entity.QComment.comment;
 import static likelion.univ.domain.like.postlike.entity.QPostLike.postLike;
 import static likelion.univ.domain.post.entity.QPost.post;
+import static likelion.univ.domain.university.entity.QUniversity.university;
 import static likelion.univ.domain.user.entity.QUser.user;
 
 @RequiredArgsConstructor
@@ -64,11 +66,27 @@ public class PostCustomRepositoryImpl implements PostCustomRepository {
     @Override
     public Page<Post> findByCategoriesAndUniversityOrderByCreatedDate(
             MainCategory mainCategory, SubCategory subCategory, Long universityId, Pageable pageable) {
-        List<Long> ids = getCoveringIndexByPost(
-                post.mainCategory.eq(mainCategory)
-                        .and(post.subCategory.eq(subCategory)));
+        List<Long> ids = queryFactory
+                .select(post.id)
+                .from(post)
+                .join(post.author, user)
+                .join(post.author.universityInfo.university, university)
+                .where(post.author.universityInfo.university.id.eq(universityId)
+                        .and(post.mainCategory.eq(mainCategory))
+                        .and(post.subCategory.eq(subCategory)))
+                .fetch();
 
-        return findByUniversityAndCoveringIndexOrderByCreatedDate(ids, pageable, universityId);
+        List<Post> posts = queryFactory
+                .selectFrom(post)
+                .join(post.author, user).fetchJoin()
+                .leftJoin(post.postLikes, postLike).fetchJoin()
+                .leftJoin(post.comments, comment).fetchJoin()
+                .where(post.id.in(ids))
+                .offset(pageable.getOffset())
+                .orderBy(getOrdersBySort(post, pageable.getSort()))
+                .limit(pageable.getPageSize())
+                .fetch();
+        return new PageImpl<>(posts, pageable, ids.size());
     }
 
     @Override

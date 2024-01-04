@@ -38,6 +38,7 @@ public class Post extends BaseTimeEntity {
     @OneToMany(mappedBy = "post",
             cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, orphanRemoval = true)
     @Builder.Default
+    @JoinColumn(name="post_id", insertable = false, updatable = false)
     private List<PostLike> postLikes = new ArrayList();
 
     @OneToMany(cascade = CascadeType.ALL)
