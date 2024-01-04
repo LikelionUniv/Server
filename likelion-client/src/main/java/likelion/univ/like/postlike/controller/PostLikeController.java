@@ -23,6 +23,6 @@ public class PostLikeController {
         if (likeCreated) {
             return SuccessResponse.of("좋아요가 생성되었습니다.", "201");
         }
-        return SuccessResponse.of("좋아요가 삭제되었습니다.", "204");
+        return SuccessResponse.of("좋아요가 삭제되었습니다.");
     }
 }
