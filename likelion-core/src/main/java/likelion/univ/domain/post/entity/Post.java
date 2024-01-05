@@ -35,13 +35,11 @@ public class Post extends BaseTimeEntity {
 
     private String thumbnail;
 
-    @OneToMany(mappedBy = "post",
-            cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, orphanRemoval = true)
-    @Builder.Default
+    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, orphanRemoval = true)
+    @JoinColumn(name="post_id", insertable = false, updatable = false)
     private List<PostLike> postLikes = new ArrayList();
 
     @OneToMany(cascade = CascadeType.ALL)
-    @Builder.Default
     @JoinColumn(name="post_id", insertable = false, updatable = false)
     private List<Comment> comments = new ArrayList<>();
 
