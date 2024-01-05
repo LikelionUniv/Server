@@ -29,7 +29,6 @@ public class CommentDomainService {
         Long postId = command.postId();
         Long loginUserId = command.loginUserId();
         Long authorId = postAdaptor.findById(postId).getAuthor().getId();
-        User loginUser = userAdaptor.findById(loginUserId);
 
         // comment entity data
         List<Comment> parentComments = commentAdaptor.findParentCommentsByPostId(postId);
@@ -66,17 +65,18 @@ public class CommentDomainService {
         throw new NotAuthorizedException();
     }
 
-    public Long deleteCommentSoft(DeleteCommentCommand request) {
+    public DeleteCommentData deleteCommentSoft(DeleteCommentCommand request) {
         if (isAuthorized(request)) {
-            Comment findComment = commentAdaptor.findById(request.getCommentId());
+            Comment findComment = commentAdaptor.findById(request.commentId());
+            Boolean isDeleted = findComment.softDelete();
             Long postId = findComment.getPost().getId();
-            return postId;
+            return new DeleteCommentData(isDeleted, postId);
         }
         throw new NotAuthorizedException();
     }
 
     public void deleteCommentHard(DeleteCommentCommand request) {
-        Comment findComment = commentAdaptor.findById(request.getCommentId());
+        Comment findComment = commentAdaptor.findById(request.commentId());
         commentAdaptor.delete(findComment);
     }
 
@@ -119,9 +119,9 @@ public class CommentDomainService {
     }
 
     private boolean isAuthorized(DeleteCommentCommand request) {
-        Long commentId = request.getCommentId();
+        Long commentId = request.commentId();
         Long authorId = getAuthorId(commentId);
-        Long loginUserId = request.getLoginUserId();
+        Long loginUserId = request.loginUserId();
         return authorId.equals(loginUserId);
     }
 

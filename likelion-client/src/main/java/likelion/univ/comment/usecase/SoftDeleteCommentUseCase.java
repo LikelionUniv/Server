@@ -2,6 +2,8 @@ package likelion.univ.comment.usecase;
 
 import likelion.univ.annotation.UseCase;
 import likelion.univ.domain.comment.dto.request.DeleteCommentCommand;
+import likelion.univ.domain.comment.dto.response.DeleteCommentData;
+import likelion.univ.domain.comment.exception.CommentAlreadyDeletedException;
 import likelion.univ.domain.comment.service.CommentDomainService;
 import likelion.univ.post.entity.PostCountInfo;
 import likelion.univ.post.processor.GetOrCreatePostCountInfoProcessor;
@@ -19,12 +21,17 @@ public class SoftDeleteCommentUseCase {
 
     public void execute(Long commentId) {
         Long loginUserId = userUtils.getCurrentUserId();
-        Long postId = commentDomainService.deleteCommentSoft(DeleteCommentCommand.of(commentId, loginUserId));
+        DeleteCommentData deleteCommentData = commentDomainService.deleteCommentSoft(DeleteCommentCommand.of(commentId, loginUserId));
 
-        // redis update
-        PostCountInfo countInfo = getOrCreatePostCountInfoProcessor.execute(postId);
-        Long commentCount = countInfo.getCommentCount();
-        Long likeCount = countInfo.getLikeCount();
-        updatePostCountInfoProcessor.execute(postId, --commentCount, likeCount);
+        if (deleteCommentData.isDeleted()) {
+            Long postId = deleteCommentData.postId();
+            // redis update
+            PostCountInfo countInfo = getOrCreatePostCountInfoProcessor.execute(postId);
+            Long commentCount = countInfo.getCommentCount();
+            Long likeCount = countInfo.getLikeCount();
+            updatePostCountInfoProcessor.execute(postId, --commentCount, likeCount);
+            return;
+        }
+        throw new CommentAlreadyDeletedException();
     }
 }

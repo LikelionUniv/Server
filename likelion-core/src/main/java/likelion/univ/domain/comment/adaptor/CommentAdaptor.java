@@ -40,7 +40,10 @@ public class CommentAdaptor {
 
     public Long countByPostId(Long postId){
         return commentRepository.countByPostId(postId);
+    }
 
+    public Long countByPostIdAndIsDeletedEquals(Long postId, Boolean isDeleted) {
+        return commentRepository.countByPostIdAndIsDeletedEquals(postId, isDeleted);
     }
     public Comment findByPostId(Long postId) {
         return commentRepository.findByPostId(postId);

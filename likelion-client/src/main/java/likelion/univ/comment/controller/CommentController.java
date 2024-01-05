@@ -43,16 +43,16 @@ public class CommentController {
     /* command */
     @Operation(summary = "댓글 작성", description = "부모 댓글을 생성합니다.")
     @PostMapping("/comments/parent")
-    public SuccessResponse<String> createParentComment(@RequestParam Long postId, @RequestBody CommentCreateParentRequestDto request) {
+    public SuccessResponse createParentComment(@RequestParam Long postId, @RequestBody CommentCreateParentRequestDto request) {
         createParentCommentUseCase.execute(postId, request);
-        return SuccessResponse.of("댓글이 생성되었습니다", "201");
+        return SuccessResponse.of(null, "201");
     }
 
     @Operation(summary = "대댓글 작성", description = "자식 댓글을 생성합니다.")
     @PostMapping("/comments/{parentCommentId}/child")
-    public SuccessResponse<String> createChildComment(@PathVariable Long parentCommentId, @RequestBody CommentCreateChildRequestDto request) {
+    public SuccessResponse createChildComment(@PathVariable Long parentCommentId, @RequestBody CommentCreateChildRequestDto request) {
         createChildCommentUseCase.execute(parentCommentId, request);
-        return SuccessResponse.of("대댓글이 생성되었습니다.", "201");
+        return SuccessResponse.of(null, "201");
     }
 
     @Operation(summary = "댓글 내용 수정", description = "댓글의 내용(body only)을 수정합니다.")
