@@ -1,9 +1,11 @@
 package likelion.univ.domain.post.repository.impl;
 
+import com.querydsl.core.Tuple;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.Expressions;
+import com.querydsl.core.types.dsl.NumberPath;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import likelion.univ.domain.post.dto.response.PostSimpleData;
 import likelion.univ.domain.post.dto.response.QPostSimpleData;
@@ -18,7 +20,9 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.util.StringUtils;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static likelion.univ.domain.comment.entity.QComment.comment;
 import static likelion.univ.domain.like.postlike.entity.QPostLike.postLike;
@@ -66,25 +70,28 @@ public class PostCustomRepositoryImpl implements PostCustomRepository {
     @Override
     public Page<Post> findByCategoriesAndUniversityOrderByCreatedDate(
             MainCategory mainCategory, SubCategory subCategory, Long universityId, Pageable pageable) {
+
         List<Long> ids = queryFactory
-                .select(post.id)
+                .select(post.id, post.createdDate,post.postLikes.size(), post.comments.size())
                 .from(post)
                 .join(post.author, user)
-                .join(post.author.universityInfo.university, university)
-                .where(post.author.universityInfo.university.id.eq(universityId)
+                .join(user.universityInfo.university, university)
+                .leftJoin(post.postLikes, postLike)
+                .leftJoin(post.comments, comment)
+                .where(user.universityInfo.university.id.eq(universityId)
                         .and(post.mainCategory.eq(mainCategory))
                         .and(post.subCategory.eq(subCategory)))
-                .fetch();
+                .groupBy(post)
+                .orderBy(getOrderSpecifierByPageable(pageable))
+                .fetch().stream().map(t -> t.get(post.id)).toList();
+
 
         List<Post> posts = queryFactory
-                .selectFrom(post)
-                .join(post.author, user).fetchJoin()
-                .leftJoin(post.postLikes, postLike).fetchJoin()
-                .leftJoin(post.comments, comment).fetchJoin()
+                .select(post)
+                .from(post)
+                .leftJoin(post.author, user).fetchJoin()
                 .where(post.id.in(ids))
-                .offset(pageable.getOffset())
-                .orderBy(getOrdersBySort(post, pageable.getSort()))
-                .limit(pageable.getPageSize())
+                .distinct()
                 .fetch();
         return new PageImpl<>(posts, pageable, ids.size());
     }
@@ -296,5 +303,19 @@ public class PostCustomRepositoryImpl implements PostCustomRepository {
                         .fetch();
 
         return new PageImpl<>(posts, pageable, ids.size());
+    }
+
+    private OrderSpecifier[] getOrderSpecifierByPageable(Pageable pageable){
+        OrderSpecifier[] orderSpecifiers = getOrdersBySort(post, pageable.getSort());
+        return Arrays.stream(orderSpecifiers).map(orderSpecifier -> convertToPostOrderSpecifier(orderSpecifier))
+                .collect(Collectors.toList()).toArray(new OrderSpecifier[0]);
+    }
+    private OrderSpecifier convertToPostOrderSpecifier(OrderSpecifier orderSpecifier){
+        if(orderSpecifier.getTarget().equals(post.postLikes)){
+            return post.postLikes.size().desc();
+        }else if(orderSpecifier.getTarget().equals(post.comments)){
+            return post.comments.size().desc();
+        }
+        return orderSpecifier;
     }
 }
