@@ -42,17 +42,20 @@ public class CommentDomainService {
     }
 
 
-    public CommentIdData createParentComment(CreateParentCommentCommand request) {
+    public CreateCommentData createParentComment(CreateParentCommentCommand request) {
         Comment parentComment = parentCommentBy(request);
-        Long savedId = commentAdaptor.save(parentComment);
-        return CommentIdData.of(savedId);
+        Long commentId = commentAdaptor.save(parentComment);
+        Long postId = parentComment.getPost().getId();
+        return CreateCommentData.of(commentId, postId);
     }
 
 
-    public CommentIdData createChildComment(CreateChildCommentCommand request) {
+    public CreateCommentData createChildComment(CreateChildCommentCommand request) {
         Comment childComment = childCommentBy(request);
-        Long savedId = commentAdaptor.save(childComment);
-        return CommentIdData.of(savedId);
+        Long commentId = commentAdaptor.save(childComment);
+        Long postId = childComment.getPost().getId();
+
+        return CreateCommentData.of(commentId, postId);
     }
 
 

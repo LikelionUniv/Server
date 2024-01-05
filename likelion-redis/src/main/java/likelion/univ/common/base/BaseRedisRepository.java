@@ -2,6 +2,7 @@ package likelion.univ.common.base;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.StringRedisTemplate;
 
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
