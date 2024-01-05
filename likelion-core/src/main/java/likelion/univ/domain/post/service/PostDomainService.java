@@ -113,25 +113,21 @@ public class PostDomainService {
     }
 
     @Transactional
-    public PostIdData createPost(CreatePostCommand request) {
+    public Long createPost(CreatePostCommand request) {
         Post post = createEntity(request);
         Long savedId = postAdaptor.save(post);
-        return PostIdData.builder()
-                .postId(savedId)
-                .build();
+        return savedId;
     }
 
     @Transactional
-    public PostIdData editPost(UpdatePostCommand request) {
+    public Long editPost(UpdatePostCommand request) {
         Post post = postAdaptor.findById(request.postId());
         if (!(post.getAuthor().getId().equals(request.loginUserId()))) {
             throw new PostNoAuthorizationException();
         }
         post.edit(request);
         Long savedId = postAdaptor.save(post);
-        return PostIdData.builder()
-                .postId(savedId)
-                .build();
+        return savedId;
     }
     @Transactional
     public void deletePost(DeletePostCommand request) {

@@ -14,7 +14,6 @@ public class DeletePostUseCase {
 
     public void execute(Long postId) {
         postDomainService.deletePost(serviceDtoBy(postId));
-        return ;
     }
 
     private DeletePostCommand serviceDtoBy(Long postId) {

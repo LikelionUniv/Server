@@ -1,9 +1,7 @@
 package likelion.univ.comment.usecase;
 
 import likelion.univ.annotation.UseCase;
-import likelion.univ.domain.comment.dto.response.CommentIdData;
 import likelion.univ.domain.comment.dto.request.DeleteCommentCommand;
-import likelion.univ.domain.comment.dto.response.SimpleCommentData;
 import likelion.univ.domain.comment.service.CommentDomainService;
 import likelion.univ.post.entity.PostCountInfo;
 import likelion.univ.post.processor.GetOrCreatePostCountInfoProcessor;
@@ -19,23 +17,14 @@ public class SoftDeleteCommentUseCase {
     private final GetOrCreatePostCountInfoProcessor getOrCreatePostCountInfoProcessor;
     private final UpdatePostCountInfoProcessor updatePostCountInfoProcessor;
 
-    public SimpleCommentData execute(Long commentId) {
-        SimpleCommentData response = commentDomainService.deleteCommentSoft(serviceDtoBy(commentId));
+    public void execute(Long commentId) {
+        Long loginUserId = userUtils.getCurrentUserId();
+        Long postId = commentDomainService.deleteCommentSoft(DeleteCommentCommand.of(commentId, loginUserId));
 
-        Long postId = response.getPostId();
+        // redis update
         PostCountInfo countInfo = getOrCreatePostCountInfoProcessor.execute(postId);
         Long commentCount = countInfo.getCommentCount();
         Long likeCount = countInfo.getLikeCount();
-
         updatePostCountInfoProcessor.execute(postId, --commentCount, likeCount);
-
-        return response;
-    }
-
-    private DeleteCommentCommand serviceDtoBy(Long commentId) {
-        return DeleteCommentCommand.builder()
-                .commentId(commentId)
-                .loginUserId(userUtils.getCurrentUserId())
-                .build();
     }
 }

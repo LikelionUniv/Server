@@ -12,5 +12,4 @@ public record UpdatePostCommand(
         String body,
         String thumbnail
 ) {
-
 }

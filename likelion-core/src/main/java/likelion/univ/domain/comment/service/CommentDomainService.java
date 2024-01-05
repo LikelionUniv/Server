@@ -42,38 +42,35 @@ public class CommentDomainService {
     }
 
 
-    public SimpleCommentData createParentComment(CreateParentCommentCommand request) {
+    public void createParentComment(CreateParentCommentCommand request) {
         Comment parentComment = parentCommentBy(request);
-        Long commentId = commentAdaptor.save(parentComment);
-        Long postId = parentComment.getPost().getId();
-        return SimpleCommentData.of(commentId, postId);
+        commentAdaptor.save(parentComment);
     }
 
 
-    public SimpleCommentData createChildComment(CreateChildCommentCommand request) {
+    public Long createChildComment(CreateChildCommentCommand request) {
         Comment childComment = childCommentBy(request);
-        Long commentId = commentAdaptor.save(childComment);
         Long postId = childComment.getPost().getId();
+        commentAdaptor.save(childComment);
 
-        return SimpleCommentData.of(commentId, postId);
+        return postId;
     }
 
 
-    public CommentIdData updateCommentBody(UpdateCommentCommand request) {
+    public Long updateCommentBody(UpdateCommentCommand request) {
         if (isAuthorized(request)) {
             Comment findComment = commentAdaptor.findById(request.getCommentId());
-            Long updatedId = findComment.updateBody(request.getBody());
-            return CommentIdData.of(updatedId);
+            Long updatedCommentId = findComment.updateBody(request.getBody());
+            return updatedCommentId;
         }
         throw new NotAuthorizedException();
     }
 
-    public SimpleCommentData deleteCommentSoft(DeleteCommentCommand request) {
+    public Long deleteCommentSoft(DeleteCommentCommand request) {
         if (isAuthorized(request)) {
             Comment findComment = commentAdaptor.findById(request.getCommentId());
             Long postId = findComment.getPost().getId();
-            Long deletedId = findComment.softDelete();
-            return SimpleCommentData.of(deletedId, postId);
+            return postId;
         }
         throw new NotAuthorizedException();
     }
