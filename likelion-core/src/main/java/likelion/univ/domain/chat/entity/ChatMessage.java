@@ -16,17 +16,18 @@ public class ChatMessage {
 
     protected MessageType type;
 
+    @ManyToOne
+    @JoinColumn(name = "ChatRoom")
     private String roomId; // ChatRoom과 연관관계 설정
 
+    @ManyToOne
+    @JoinColumn(name = "user")
     private String sender; // user과 연관관계 설정
 
+    @Column(name = "message", columnDefinition="TEXT")
     private String message;
-
     private boolean likeStatus;
 
-    public String getId() {
-        return id;
-    }
 
     public void setId(String id) {
         this.id = id;
@@ -40,25 +41,15 @@ public class ChatMessage {
         this.type = type;
     }
 
-    public String getRoomId() {
-        return roomId;
-    }
-
     public void setRoomId(String roomId) {
         this.roomId = roomId;
     }
 
-    public String getSender() {
-        return sender;
-    }
 
     public void setSender(String sender) {
         this.sender = sender;
     }
 
-    public String getMessage() {
-        return message;
-    }
 
     public void setMessage(String message) {
         this.message = message;
