@@ -12,14 +12,13 @@ import likelion.univ.response.SuccessResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Slice;
 import org.springframework.web.bind.annotation.*;
 
 @Slf4j
-@RestController
+@RestController("adminUser.controller.RepresentativeController")
 @RequestMapping(value = "/v1/univAdmin")
 @RequiredArgsConstructor
-@Tag(name = "UnivAdmin", description = "학교 대표 API")
+@Tag(name = "UserByUnivAdmin", description = "학교 대표에 의한 사용자 관련 API")
 public class RepresentativeController {
 
     private final UpdateUserUseCase updateUserUseCase;

@@ -9,7 +9,6 @@ import likelion.univ.domain.like.commentlike.adaptor.CommentLikeAdaptor;
 import likelion.univ.domain.post.adaptor.PostAdaptor;
 import likelion.univ.domain.post.entity.Post;
 import likelion.univ.domain.user.adaptor.UserAdaptor;
-import likelion.univ.domain.user.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -51,7 +50,6 @@ public class CommentDomainService {
         Comment childComment = childCommentBy(request);
         Long postId = childComment.getPost().getId();
         commentAdaptor.save(childComment);
-
         return postId;
     }
 
@@ -96,7 +94,7 @@ public class CommentDomainService {
                 .author(userAdaptor.findById(request.getLoginUserId()))
                 .body(request.getBody())
                 .build();
-        comment.setParent(parentCommentBy(request.getParentCommentId()));
+        comment.setParent(commentAdaptor.findById(request.getParentCommentId()));
         return comment;
     }
 
@@ -106,10 +104,6 @@ public class CommentDomainService {
         return post;
     }
 
-
-    private Comment parentCommentBy(Long parentCommentId) {
-        return commentAdaptor.findById(parentCommentId);
-    }
 
     private boolean isAuthorized(UpdateCommentCommand request) {
         Long commentId = request.getCommentId();

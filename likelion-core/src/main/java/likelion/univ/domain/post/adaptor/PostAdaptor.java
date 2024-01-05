@@ -11,6 +11,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import likelion.univ.domain.post.exception.PostNotFoudException;
 
+import java.util.List;
+
 @Adaptor
 @RequiredArgsConstructor
 public class PostAdaptor {
@@ -28,6 +30,9 @@ public class PostAdaptor {
 
     public void delete(Post post) {
         postRepository.delete(post);
+    }
+    public void deleteAllByIdInBatch(List<Long> ids){
+        postRepository.deleteAllByIdInBatch(ids);
     }
 
     public Page<Post> findAllByAuthor_Id(Long userId, Pageable pageable){
@@ -60,5 +65,11 @@ public class PostAdaptor {
 
     public Page<PostSimpleData> findBySearchTitle(String searchTitle, Pageable pageable) {
         return postRepository.findBySearchTitle(searchTitle, pageable);
+    }
+
+    public Page<Post> findPostsByCategoriesAndUniversityOrderByCreatedDate(
+            MainCategory mainCategory, SubCategory subCategory, Long universityId, Pageable pageable){
+        return postRepository.findByCategoriesAndUniversityOrderByCreatedDate(
+                mainCategory, subCategory, universityId, pageable);
     }
 }
