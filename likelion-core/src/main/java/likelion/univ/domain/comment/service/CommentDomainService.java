@@ -42,20 +42,20 @@ public class CommentDomainService {
     }
 
 
-    public CreateCommentData createParentComment(CreateParentCommentCommand request) {
+    public SimpleCommentData createParentComment(CreateParentCommentCommand request) {
         Comment parentComment = parentCommentBy(request);
         Long commentId = commentAdaptor.save(parentComment);
         Long postId = parentComment.getPost().getId();
-        return CreateCommentData.of(commentId, postId);
+        return SimpleCommentData.of(commentId, postId);
     }
 
 
-    public CreateCommentData createChildComment(CreateChildCommentCommand request) {
+    public SimpleCommentData createChildComment(CreateChildCommentCommand request) {
         Comment childComment = childCommentBy(request);
         Long commentId = commentAdaptor.save(childComment);
         Long postId = childComment.getPost().getId();
 
-        return CreateCommentData.of(commentId, postId);
+        return SimpleCommentData.of(commentId, postId);
     }
 
 
@@ -68,11 +68,12 @@ public class CommentDomainService {
         throw new NotAuthorizedException();
     }
 
-    public CommentIdData deleteCommentSoft(DeleteCommentCommand request) {
+    public SimpleCommentData deleteCommentSoft(DeleteCommentCommand request) {
         if (isAuthorized(request)) {
             Comment findComment = commentAdaptor.findById(request.getCommentId());
+            Long postId = findComment.getPost().getId();
             Long deletedId = findComment.softDelete();
-            return CommentIdData.of(deletedId);
+            return SimpleCommentData.of(deletedId, postId);
         }
         throw new NotAuthorizedException();
     }

@@ -103,8 +103,8 @@ public class PostController {
                             ### Sub Category(sc)
                             - **ALL** : (mainCategory에서 "ALL"로 설정하면 sub category는 아무거나 해도 되지만, 가급적 ALL 권장)
                             - **HQ_BOARD(멋대 중앙)** : NOTICE(공지사항), QNA(질문건의), INFO(정보공유)
-                            - **FREE_BOARD(자유게시판)** : INFO(정보공유), GET_MEMBER(팀원구함), GET_PROJECT(프로젝트 구함), SHOWOFF(프로젝트 자랑)
-                            - **OVERFLOW(멋사 오버플로우)** : FRONTEND(프론트엔드), BACKEND(백엔드), PM(기획), UXUI(디자인), ETC(기타)"""
+                            - **FREE_BOARD(자유게시판)** : INFO(정보공유), GET_MEMBER(팀원모집), GET_PROJECT(플젝모집), SHOWOFF(플젝자랑)
+                            - **OVERFLOW(멋사 오버플로우)** : FRONTEND(프론트), BACKEND(백), PM(기획), UXUI(디자인), ETC(기타)"""
     )
     @GetMapping("/community/posts/search")
     public BaseResponse searchPost(
@@ -112,6 +112,7 @@ public class PostController {
             @RequestParam(defaultValue = "전체") String mc,
             @RequestParam(defaultValue = "전체") String sc,
             @ParameterObject @PageableDefault(size = 5, page = 1) Pageable pageable) {
+
         if (!mc.equals("전체") && (!MainCategory.isValid(mc) || !SubCategory.isValid(sc))) {
             return ErrorResponse.of(PostErrorCode.CATEGORY_NOT_FOUND);
         }
@@ -130,9 +131,9 @@ public class PostController {
                             - **OVERFLOW**(멋사 오버플로우)
 
                             ### Sub Category
-                            - **HQ_BOARD** : NOTICE(공지사항), QNA(질문건의), HQ_INFO(정보공유)
-                            - **FREE_BOARD** : FREE_INFO(정보공유), GET_MEMBER(팀원구함), GET_PROJECT(프로젝트 구함), SHOWOFF(프로젝트 자랑)
-                            - **OVERFLOW** : FRONTEND(프론트엔드), BACKEND(백엔드), PM(기획), UXUI(디자인), ETC(기타)""")
+                            - **HQ_BOARD(멋대 중앙)** : NOTICE(공지사항), QNA(질문건의), INFO(정보공유)
+                            - **FREE_BOARD(자유게시판)** : INFO(정보공유), GET_MEMBER(팀원모집), GET_PROJECT(플젝모집), SHOWOFF(플젝자랑)
+                            - **OVERFLOW(멋사 오버플로우)** : FRONTEND(프론트), BACKEND(백), PM(기획), UXUI(디자인), ETC(기타)""")
     @PostMapping("/community/posts/new")
     public SuccessResponse<PostIdData> createPost(@RequestBody @Valid PostCreateRequestDto request/*, BindingResult bindingResult*/) {
         PostIdData response = createPostUseCase.execute(request);

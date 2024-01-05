@@ -18,7 +18,7 @@ public record PostDetailResponseDto(
         Long postId,
         @Schema(description = "게시글 메인 카테고리", example = "자유게시판")
         String mainCategory,
-        @Schema(description = "게시글 서브 카테고리", example = "정보 공유")
+        @Schema(description = "게시글 서브 카테고리", example = "정보공유")
         String subCategory,
         @Schema(description = "작성 유저 pk", example = "1")
         Long authorId,

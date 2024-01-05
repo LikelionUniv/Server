@@ -15,13 +15,13 @@ public enum SubCategory {
 
      // board
      INFO("정보공유"),
-     GET_MEMBER("팀원 모집"),
-     GET_PROJECT("프로젝트 모집"),
-     SHOWOFF("프로젝트 자랑"),
+     GET_MEMBER("팀원모집"),
+     GET_PROJECT("플젝모집"),
+     SHOWOFF("플젝자랑"),
 
      // overflow
      FRONTEND("프론트"),
-     BACKEND("백엔드"),
+     BACKEND("백"),
      PM("기획"),
      UXUI("디자인"),
      ETC("기타");

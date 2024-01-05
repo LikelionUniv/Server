@@ -2,7 +2,7 @@ package likelion.univ.comment.usecase;
 
 import likelion.univ.annotation.UseCase;
 import likelion.univ.comment.dto.request.CommentCreateParentRequestDto;
-import likelion.univ.domain.comment.dto.response.CreateCommentData;
+import likelion.univ.domain.comment.dto.response.SimpleCommentData;
 import likelion.univ.domain.comment.dto.request.CreateParentCommentCommand;
 import likelion.univ.domain.comment.service.CommentDomainService;
 import likelion.univ.post.entity.PostCountInfo;
@@ -19,8 +19,8 @@ public class CreateParentCommentUseCase {
     private final GetOrCreatePostCountInfoProcessor getOrCreatePostCountInfoProcessor;
     private final UpdatePostCountInfoProcessor updatePostCountInfoProcessor;
 
-    public CreateCommentData execute(Long postId, CommentCreateParentRequestDto createRequestDto) {
-        CreateCommentData parentComment = commentDomainService.createParentComment(serviceDtoBy(postId, createRequestDto));
+    public SimpleCommentData execute(Long postId, CommentCreateParentRequestDto createRequestDto) {
+        SimpleCommentData parentComment = commentDomainService.createParentComment(serviceDtoBy(postId, createRequestDto));
 
         // redis update
         PostCountInfo countInfo = getOrCreatePostCountInfoProcessor.execute(postId);

@@ -7,12 +7,12 @@ import lombok.Data;
 @Data
 @Builder
 @AllArgsConstructor
-public class CreateCommentData {
+public class SimpleCommentData {
     private Long commentId;
     private Long postId;
 
-    public static CreateCommentData of(Long commentId, Long postId) {
-        return CreateCommentData.builder()
+    public static SimpleCommentData of(Long commentId, Long postId) {
+        return SimpleCommentData.builder()
                 .commentId(commentId)
                 .postId(postId)
                 .build();
