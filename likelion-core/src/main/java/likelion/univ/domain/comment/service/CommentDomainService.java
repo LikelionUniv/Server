@@ -35,24 +35,27 @@ public class CommentDomainService {
         List<Comment> parentComments = commentAdaptor.findParentCommentsByPostId(postId);
         List<Comment> childComments = commentAdaptor.findChildCommentsByPostId(postId);
 
-        List<ParentCommentData> parentCommentData = parentComments.stream().map(i -> ParentCommentData.of(i, commentLikeAdaptor.existsByCommentAndUser(i, loginUser))).toList();
-        List<ChildCommentData> childCommentData = childComments.stream().map(i -> ChildCommentData.of(i, commentLikeAdaptor.existsByCommentAndUser(i, loginUser))).toList();
+        List<ParentCommentData> parentCommentData = parentComments.stream().map(i -> ParentCommentData.of(i, commentLikeAdaptor.existsByCommentIdAndUserId(i.getId(), loginUserId))).toList();
+        List<ChildCommentData> childCommentData = childComments.stream().map(i -> ChildCommentData.of(i, commentLikeAdaptor.existsByCommentIdAndUserId(i.getId(), loginUserId))).toList();
 
         return new CommentData(authorId, parentCommentData, childCommentData);
     }
 
 
-    public CommentIdData createParentComment(CreateParentCommentCommand request) {
+    public SimpleCommentData createParentComment(CreateParentCommentCommand request) {
         Comment parentComment = parentCommentBy(request);
-        Long savedId = commentAdaptor.save(parentComment);
-        return CommentIdData.of(savedId);
+        Long commentId = commentAdaptor.save(parentComment);
+        Long postId = parentComment.getPost().getId();
+        return SimpleCommentData.of(commentId, postId);
     }
 
 
-    public CommentIdData createChildComment(CreateChildCommentCommand request) {
+    public SimpleCommentData createChildComment(CreateChildCommentCommand request) {
         Comment childComment = childCommentBy(request);
-        Long savedId = commentAdaptor.save(childComment);
-        return CommentIdData.of(savedId);
+        Long commentId = commentAdaptor.save(childComment);
+        Long postId = childComment.getPost().getId();
+
+        return SimpleCommentData.of(commentId, postId);
     }
 
 
@@ -65,11 +68,12 @@ public class CommentDomainService {
         throw new NotAuthorizedException();
     }
 
-    public CommentIdData deleteCommentSoft(DeleteCommentCommand request) {
+    public SimpleCommentData deleteCommentSoft(DeleteCommentCommand request) {
         if (isAuthorized(request)) {
             Comment findComment = commentAdaptor.findById(request.getCommentId());
+            Long postId = findComment.getPost().getId();
             Long deletedId = findComment.softDelete();
-            return CommentIdData.of(deletedId);
+            return SimpleCommentData.of(deletedId, postId);
         }
         throw new NotAuthorizedException();
     }

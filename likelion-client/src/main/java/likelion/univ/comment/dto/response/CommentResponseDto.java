@@ -7,6 +7,7 @@ import likelion.univ.domain.comment.dto.response.ParentCommentData;
 import lombok.Builder;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -20,7 +21,7 @@ public record CommentResponseDto(
         String userName,
         @Schema(description = "댓글 작성자 프로필 이미지 존재 여부", example = "true")
         Boolean hasUserProfileImageUrl,
-        @Schema(description = "댓글 작성자 프로필 경로")
+        @Schema(description = "댓글 작성자 프로필 경로", example = "image url")
         @JsonInclude(JsonInclude.Include.NON_NULL)
         String userProfileImageUrl,
         @Schema(description = "로그인 유저가 댓글 작성자인지", example = "false")
@@ -35,8 +36,8 @@ public record CommentResponseDto(
         String body,
         @Schema(description = "지워진 댓글인지 여부", example = "false")
         Boolean isDeleted,
-        @Schema(description = "댓글 생성 일자")
-        LocalDateTime createdDate,
+        @Schema(description = "댓글 생성 일자", example = "yyyy. MM. dd")
+        String createdDate,
         @Schema(description = "대댓글이 있는지 여부", example = "true")
         Boolean hasChildComments,
         @Schema(description = "대댓글 목록")
@@ -58,7 +59,7 @@ public record CommentResponseDto(
                 .likeCount(parentComment.likeCount())
                 .body(parentComment.body())
                 .isDeleted(parentComment.isDeleted())
-                .createdDate(parentComment.createdDate())
+                .createdDate(parentComment.getFormattedDate())
                 .hasChildComments(!childComments.isEmpty())
                 .childComments(childComments)
                 .build();

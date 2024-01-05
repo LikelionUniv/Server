@@ -26,8 +26,8 @@ public class GetPostsByCategoriesUseCase {
     private final PostDomainService postDomainService;
     private final GetOrCreatePostCountInfoProcessor getOrCreatePostCountInfoProcessor;
 
-    public PageResponse<PostResponseDto> execute(PostOrderCondition orderCondition, MainCategory mainCategory, SubCategory subCategory, Pageable pageable) {
-        GetPostsByCategoriesCommand request = new GetPostsByCategoriesCommand(mainCategory, subCategory, pageable);
+    public PageResponse<PostResponseDto> execute(PostOrderCondition orderCondition, String mainCategory, String subCategory, Pageable pageable) {
+        GetPostsByCategoriesCommand request = new GetPostsByCategoriesCommand(MainCategory.findByTitle(mainCategory), SubCategory.findByTitle(subCategory), pageable);
         if (orderCondition.equals(PostOrderCondition.LIKE_COUNT_ORDER)) {
             Page<PostSimpleData> postSimpleDataPage = postDomainService.getByCategoriesOrderByLikeCount(request);
             return PageResponse.of(postSimpleDataPage.map(p-> PostResponseDto.of(p, getOrCreatePostCountInfoProcessor.execute(p.postId()))));

@@ -6,6 +6,7 @@ import likelion.univ.domain.user.entity.User;
 import lombok.Builder;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public record ParentCommentData(
@@ -40,4 +41,9 @@ public record ParentCommentData(
     private static Integer getLikeCount(Comment comment) {
         return Math.toIntExact(comment.getCommentLikes().size());
     }
+
+    public String getFormattedDate() {
+        return this.createdDate().format(DateTimeFormatter.ofPattern("yyyy. MM. dd"));
+    }
+
 }

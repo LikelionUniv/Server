@@ -1,6 +1,8 @@
 package likelion.univ.post.usecase;
 
 import likelion.univ.annotation.UseCase;
+import likelion.univ.domain.post.dto.enums.MainCategory;
+import likelion.univ.domain.post.dto.enums.SubCategory;
 import likelion.univ.domain.post.dto.request.CreatePostCommand;
 import likelion.univ.domain.post.dto.response.PostIdData;
 import likelion.univ.domain.post.service.PostDomainService;
@@ -18,13 +20,15 @@ public class CreatePostUseCase {
     }
 
     CreatePostCommand serviceDtoBy(PostCreateRequestDto request) {
+        String mainCategory = request.getMainCategory();
+        String subCategory = request.getSubCategory();
         return CreatePostCommand.builder()
                 .title(request.getTitle())
                 .body(request.getBody())
                 .authorId(userUtils.getCurrentUserId())
                 .thumbnail(request.getThumbnail())
-                .mainCategory(request.getMainCategory())
-                .subCategory(request.getSubCategory())
+                .mainCategory(MainCategory.findByTitle(mainCategory))
+                .subCategory(SubCategory.findByTitle(subCategory))
                 .build();
     }
 }

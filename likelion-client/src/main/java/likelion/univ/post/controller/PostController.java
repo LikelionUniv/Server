@@ -8,11 +8,15 @@ import likelion.univ.domain.post.dto.enums.PostOrderCondition;
 import likelion.univ.domain.post.dto.response.PostIdData;
 import likelion.univ.domain.post.dto.enums.MainCategory;
 import likelion.univ.domain.post.dto.enums.SubCategory;
+import likelion.univ.domain.post.exception.NoSuchCategoryException;
+import likelion.univ.domain.post.exception.PostErrorCode;
 import likelion.univ.post.dto.request.PostCreateRequestDto;
 import likelion.univ.post.dto.request.PostUpdateRequestDto;
 import likelion.univ.post.dto.response.PostDetailResponseDto;
 import likelion.univ.post.dto.response.PostResponseDto;
 import likelion.univ.post.usecase.*;
+import likelion.univ.response.BaseResponse;
+import likelion.univ.response.ErrorResponse;
 import likelion.univ.response.SuccessResponse;
 import lombok.RequiredArgsConstructor;
 import org.springdoc.api.annotations.ParameterObject;
@@ -60,8 +64,9 @@ public class PostController {
                             - **COMMENT_COUNT_ORDER** : 댓글 순 (댓글 수 기준 내림차순)
 
                             ### 카테고리 params (mc, sc)
-                            - **mc (main category)** : 메인 카테고리 문자열(HQ_BOARD, FREE_BOARD, OVERFLOW)
-                            - **sc (sub category)** : 서브 카테고리 문자열(post 생성 참고)
+                            - **mc (main category)** : 메인 카테고리 문자열 (한글로)
+                            - **sc (sub category)** : 서브 카테고리 문자열 (한글로)
+                            ##### 주의, 카테고리 입력시 띄어쓰기 준수할 것.
 
                             ### 페이지네이션 params (p, s)
                             - **p (page ; 페이지 넘버)** : 1 이상의 정수
@@ -69,12 +74,14 @@ public class PostController {
                             """
     )
     @GetMapping("/community/posts")
-    public SuccessResponse<PageResponse<PostResponseDto>> findCategorizedPosts(
+    public BaseResponse findCategorizedPosts(
             @RequestParam PostOrderCondition oc,
-            @RequestParam MainCategory mc,
-            @RequestParam SubCategory sc,
+            @RequestParam(defaultValue = "멋대 중앙") String mc,
+            @RequestParam(defaultValue = "공지사항") String sc,
             @ParameterObject @PageableDefault(size = 5, page = 1) Pageable pageable) {
-
+        if (!MainCategory.isValid(mc) || !SubCategory.isValid(sc)) {
+            return ErrorResponse.of(PostErrorCode.CATEGORY_NOT_FOUND);
+        }
         PageResponse<PostResponseDto> response = getPostsByCategoriesUseCase.execute(oc, mc, sc, pageable);
         return SuccessResponse.of(response);
     }
@@ -85,6 +92,7 @@ public class PostController {
                             ### Search Title(st)
                             - 대소문자 구분 없이 제목 일부를 검색어로 활용 가능
                             - 최신순 정렬 기준 조회
+                            - **카테고리는 한글로 기입하되, 띄어쓰기 준수**
                             
                             ### Main Category(mc)
                             - **ALL**(전체 게시글 대상 검색)
@@ -94,16 +102,20 @@ public class PostController {
 
                             ### Sub Category(sc)
                             - **ALL** : (mainCategory에서 "ALL"로 설정하면 sub category는 아무거나 해도 되지만, 가급적 ALL 권장)
-                            - **HQ_BOARD** : NOTICE(공지사항), QNA(질문건의), HQ_INFO(정보공유)
-                            - **FREE_BOARD** : FREE_INFO(정보공유), GET_MEMBER(팀원구함), GET_PROJECT(프로젝트 구함), SHOWOFF(프로젝트 자랑)
-                            - **OVERFLOW** : FRONTEND(프론트엔드), BACKEND(백엔드), PM(기획), UXUI(디자인), ETC(기타)"""
+                            - **HQ_BOARD(멋대 중앙)** : NOTICE(공지사항), QNA(질문건의), INFO(정보공유)
+                            - **FREE_BOARD(자유게시판)** : INFO(정보공유), GET_MEMBER(팀원모집), GET_PROJECT(플젝모집), SHOWOFF(플젝자랑)
+                            - **OVERFLOW(멋사 오버플로우)** : FRONTEND(프론트), BACKEND(백), PM(기획), UXUI(디자인), ETC(기타)"""
     )
     @GetMapping("/community/posts/search")
-    public SuccessResponse<PageResponse<PostResponseDto>> searchPost(
-            @RequestParam String st,
-            @RequestParam String mc,
-            @RequestParam String sc,
+    public BaseResponse searchPost(
+            @RequestParam(defaultValue = "검색어") String st,
+            @RequestParam(defaultValue = "전체") String mc,
+            @RequestParam(defaultValue = "전체") String sc,
             @ParameterObject @PageableDefault(size = 5, page = 1) Pageable pageable) {
+
+        if (!mc.equals("전체") && (!MainCategory.isValid(mc) || !SubCategory.isValid(sc))) {
+            return ErrorResponse.of(PostErrorCode.CATEGORY_NOT_FOUND);
+        }
         PageResponse<PostResponseDto> response = getPostsBySearchTitleUseCase.execute(st, mc, sc, pageable);
         return SuccessResponse.of(response);
     }
@@ -119,9 +131,9 @@ public class PostController {
                             - **OVERFLOW**(멋사 오버플로우)
 
                             ### Sub Category
-                            - **HQ_BOARD** : NOTICE(공지사항), QNA(질문건의), HQ_INFO(정보공유)
-                            - **FREE_BOARD** : FREE_INFO(정보공유), GET_MEMBER(팀원구함), GET_PROJECT(프로젝트 구함), SHOWOFF(프로젝트 자랑)
-                            - **OVERFLOW** : FRONTEND(프론트엔드), BACKEND(백엔드), PM(기획), UXUI(디자인), ETC(기타)""")
+                            - **HQ_BOARD(멋대 중앙)** : NOTICE(공지사항), QNA(질문건의), INFO(정보공유)
+                            - **FREE_BOARD(자유게시판)** : INFO(정보공유), GET_MEMBER(팀원모집), GET_PROJECT(플젝모집), SHOWOFF(플젝자랑)
+                            - **OVERFLOW(멋사 오버플로우)** : FRONTEND(프론트), BACKEND(백), PM(기획), UXUI(디자인), ETC(기타)""")
     @PostMapping("/community/posts/new")
     public SuccessResponse<PostIdData> createPost(@RequestBody @Valid PostCreateRequestDto request/*, BindingResult bindingResult*/) {
         PostIdData response = createPostUseCase.execute(request);

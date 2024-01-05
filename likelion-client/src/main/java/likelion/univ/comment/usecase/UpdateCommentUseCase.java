@@ -5,7 +5,6 @@ import likelion.univ.comment.dto.request.CommentUpdateRequestDto;
 import likelion.univ.domain.comment.dto.response.CommentIdData;
 import likelion.univ.domain.comment.dto.request.UpdateCommentCommand;
 import likelion.univ.domain.comment.service.CommentDomainService;
-import likelion.univ.response.SuccessResponse;
 import likelion.univ.utils.AuthenticatedUserUtils;
 import lombok.RequiredArgsConstructor;
 

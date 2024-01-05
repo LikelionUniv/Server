@@ -23,9 +23,12 @@ public class CommentLikeController {
             - 만약 이미 좋아요를 했으면 좋아요 hard delete 수행
             """)
     @PostMapping("")
-    public SuccessResponse<CommentLikeIdData> createCommentLike(@RequestBody CommentLikeRequestDto request) throws NotAuthorizedException {
-        createOrDeleteCommentLikeUseCase.execute(request);
-        return SuccessResponse.empty();
+    public SuccessResponse createOrDeleteCommentLike(@RequestBody CommentLikeRequestDto request) throws NotAuthorizedException {
+        boolean likeCreated = createOrDeleteCommentLikeUseCase.execute(request);
+        if (likeCreated) {
+            return SuccessResponse.of("좋아요가 생성되었습니다.", "201");
+        }
+        return SuccessResponse.of("좋아요가 취소되었습니다.");
     }
 
 }
