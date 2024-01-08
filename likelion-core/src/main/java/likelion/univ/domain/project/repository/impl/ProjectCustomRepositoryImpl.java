@@ -10,6 +10,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
+import java.util.Optional;
 
 import static likelion.univ.domain.project.entity.QProject.project;
 import static likelion.univ.domain.project.entity.QProjectImage.projectImage;

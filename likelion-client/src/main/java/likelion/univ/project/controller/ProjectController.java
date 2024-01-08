@@ -5,11 +5,13 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import likelion.univ.common.response.PageResponse;
 import likelion.univ.project.dto.request.ProjectRequestDto;
 import likelion.univ.project.dto.response.ProjectIdResponseDto;
+import likelion.univ.project.dto.response.ProjectListResponseDto;
 import likelion.univ.project.dto.response.ProjectResponseDto;
 import likelion.univ.project.usecase.*;
 import likelion.univ.response.SuccessResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springdoc.api.annotations.ParameterObject;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -44,7 +46,7 @@ public class ProjectController {
     @GetMapping("/")
     @Operation(summary = "프로젝트 목록", description = "프로젝트 목록을 출력했습니다.")
     public SuccessResponse<PageResponse<ProjectResponseDto>> getAllProject(
-            @PageableDefault(size=12, sort="id", direction = Sort.Direction.DESC) Pageable pageable) {
+            @ParameterObject @PageableDefault(size=12, sort="createdDate", direction = Sort.Direction.DESC) Pageable pageable) {
         PageResponse<ProjectResponseDto> projectList = getAllPorjectUsecase.execute(pageable);
         return SuccessResponse.of(projectList);
     }
@@ -52,10 +54,10 @@ public class ProjectController {
     //--------  기수별 프로젝트 -----//
     @GetMapping("/ordinal/{ordinal}")
     @Operation(summary = "기수별 프로젝트", description = "선택한 기수에 따라 프로젝트 목록을 출력했습니다. 최근 5개의 기수보다 이전의 기수는 한번에 보여집니다.")
-    public SuccessResponse<PageResponse<ProjectResponseDto>> getProjectByOrdinal(
-            @PageableDefault(size=12, sort="id", direction = Sort.Direction.DESC) Pageable pageable,
+    public SuccessResponse<PageResponse<ProjectListResponseDto>> getProjectByOrdinal(
+            @ParameterObject @PageableDefault(size=12, sort="createdDate", direction = Sort.Direction.DESC) Pageable pageable,
             @PathVariable Long ordinal) {
-        PageResponse<ProjectResponseDto> projectList = getProjectByUsecase.execute(ordinal,pageable);
+        PageResponse<ProjectListResponseDto> projectList = getProjectByUsecase.execute(ordinal,pageable);
         return SuccessResponse.of(projectList);
     }
 

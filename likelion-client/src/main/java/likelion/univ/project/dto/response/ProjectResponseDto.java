@@ -31,7 +31,7 @@ public class ProjectResponseDto {
     private List<String> imageUrl;
     private List<ProjectMemberResponseDto> members;
 
-    public static ProjectResponseDto of(Project project, String univ, List<Tech> projectTeches, List<ProjectImage> projectImages, List<User> users) {
+    public static ProjectResponseDto of(Project project, String univ, List<Tech> projectTeches, List<ProjectImage> projectImages, List<ProjectMemberResponseDto> projectMembers) {
         return ProjectResponseDto.builder()
                 .id(project.getId())
                 .activity(project.getActivity())
@@ -53,11 +53,7 @@ public class ProjectResponseDto {
                                 .map(image -> image.getImageUrl())
                                 .collect(Collectors.toList())
                 )
-                .members(
-                        users.stream()
-                                .map(user -> ProjectMemberResponseDto.of(user.getId(), user.getProfile().getName()))
-                                .collect(Collectors.toList())
-                )
+                .members(projectMembers)
                 .build();
     }
 }
