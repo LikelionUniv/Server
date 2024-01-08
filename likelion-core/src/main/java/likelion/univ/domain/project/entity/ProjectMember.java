@@ -1,5 +1,6 @@
 package likelion.univ.domain.project.entity;
 
+import likelion.univ.domain.user.entity.Part;
 import likelion.univ.domain.user.entity.User;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -25,9 +26,14 @@ public class ProjectMember {
     @JoinColumn(name = "user_id")
     private User user;
 
+    private Part part;
+
     @Builder
-    public ProjectMember(Project project, User user) {
+    public ProjectMember(Project project, User user, Part part) {
         this.project = project;
         this.user = user;
+        this.part = part;
     }
+
+    public void updateProject(){this.project = project;}
 }

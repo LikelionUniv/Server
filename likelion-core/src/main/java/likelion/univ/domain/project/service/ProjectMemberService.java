@@ -20,22 +20,19 @@ public class ProjectMemberService {
     private final ProjectAdaptor projectAdaptor;
     private final ProjectMemberAdaptor projectMemberAdaptor;
 
-    @Transactional
-    public void addMembers(Project project, List<User> users){
-        List<ProjectMember> members = users.stream()
-                .map(user -> new ProjectMember(project, user))
-                .collect(Collectors.toList());
-        projectMemberAdaptor.saveAll(members);
-    }
+//    @Transactional
+//    public void addMembers(Project project, List<User> users){
+//        List<ProjectMember> members = users.stream()
+//                .map(user -> new ProjectMember(project, user))
+//                .collect(Collectors.toList());
+//        projectMemberAdaptor.saveAll(members);
+//    }
 
     @Transactional
-    public void updateProjectMember(Project project, List<User> users) {
+    public void updateProjectMember(Project project, List<ProjectMember> projectMembers) {
         projectMemberAdaptor.deleteByProject(project); //기존 멤버 모두 삭제
-        if(users != null) {
-            List<ProjectMember> members = users.stream()
-                    .map(user -> new ProjectMember(project, user))
-                    .collect(Collectors.toList());
-            projectMemberAdaptor.saveAll(members);
+        if(projectMembers != null) {
+            projectMemberAdaptor.saveAll(projectMembers);
         }
     }
 

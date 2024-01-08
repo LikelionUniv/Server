@@ -5,6 +5,7 @@ import likelion.univ.domain.project.adapter.ProjectAdaptor;
 import likelion.univ.domain.project.adapter.ProjectTechAdaptor;
 import likelion.univ.domain.project.entity.Image;
 import likelion.univ.domain.project.entity.Project;
+import likelion.univ.domain.project.entity.ProjectMember;
 import likelion.univ.domain.project.entity.Tech;
 import likelion.univ.domain.project.service.ProjectImageService;
 import likelion.univ.domain.project.service.ProjectMemberService;
@@ -12,11 +13,14 @@ import likelion.univ.domain.project.service.ProjectService;
 import likelion.univ.domain.project.service.ProjectTechService;
 import likelion.univ.domain.university.adaptor.UniversityAdaptor;
 import likelion.univ.domain.user.adaptor.UserAdaptor;
+import likelion.univ.domain.user.entity.Part;
 import likelion.univ.domain.user.entity.User;
+import likelion.univ.project.dto.request.ProjectMemberRequestDto;
 import likelion.univ.project.dto.request.ProjectRequestDto;
 import likelion.univ.project.dto.response.ProjectIdResponseDto;
 import likelion.univ.utils.AuthenticatedUserUtils;
 import lombok.RequiredArgsConstructor;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -35,6 +39,7 @@ public class UpdateProjectUsecase {
     private final UserAdaptor userAdaptor;
     private final UniversityAdaptor universityAdaptor;
 
+    @Transactional
     public ProjectIdResponseDto execute(Long projectId, ProjectRequestDto projectRequestDto) {
 
         Project project = projectAdaptor.findById(projectId);
@@ -49,9 +54,6 @@ public class UpdateProjectUsecase {
         List<Image> image = projectRequestDto.getImageUrl().stream()
                 .map(imageUrl -> new Image(project, imageUrl))
                 .collect(Collectors.toList());
-        List<User> members = projectRequestDto.getMembers().stream()
-                .map(member -> userAdaptor.findById(member))
-                .collect(Collectors.toList());
 
         Project editProject = projectRequestDto.toEntity();
         if(!projectRequestDto.getUniv().isEmpty())
@@ -59,11 +61,33 @@ public class UpdateProjectUsecase {
         else
             editProject.updateUniv(null);
 
+
+        List<ProjectMemberRequestDto> projectMembersRequest = projectRequestDto.getProjectMembers();
+        List<Long> ids = projectMembersRequest.stream()
+                .map(projectMemberRequestDto -> projectMemberRequestDto.getUserId()).toList();
+        List<User> requestUsers = userAdaptor.findAllByIdIn(ids);
+
+        List<ProjectMember> projectMembers = projectMembersRequest.stream()
+                .map(p -> matchProjectMembers(p, project, requestUsers)).toList();
+
         projectService.updateProject(projectId, editProject);
         projectTechService.updateProjectTech(project,techNames);
         projectImageService.updateImage(project, image);
-        projectMemberService.updateProjectMember(project, members);
+        projectMemberService.updateProjectMember(project, projectMembers);
 
         return ProjectIdResponseDto.of(projectId);
+    }
+
+    /* projectMemberRequestDto의 userId와 일치하는 user를 유저리스트에서 찾아서 ProjectMember로 변환합니다.*/
+    private ProjectMember matchProjectMembers(ProjectMemberRequestDto projectMemberRequestDto, Project project, List<User> users){
+        return users.stream().distinct().filter(user -> user.getId().equals(projectMemberRequestDto.getUserId()))
+                .findFirst().map(user -> createProjectMember(project, user, projectMemberRequestDto.getPart())).get();
+    }
+    private ProjectMember createProjectMember(Project project, User user, Part part){
+        return ProjectMember.builder()
+                .project(project)
+                .user(user)
+                .part(part)
+                .build();
     }
 }

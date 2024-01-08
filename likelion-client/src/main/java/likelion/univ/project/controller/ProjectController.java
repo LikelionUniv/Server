@@ -43,7 +43,7 @@ public class ProjectController {
     //-----------프로젝트 목록 --------//
     @GetMapping("/")
     @Operation(summary = "프로젝트 목록", description = "프로젝트 목록을 출력했습니다.")
-    public SuccessResponse<Object> getAllProject(
+    public SuccessResponse<PageResponse<ProjectResponseDto>> getAllProject(
             @PageableDefault(size=12, sort="id", direction = Sort.Direction.DESC) Pageable pageable) {
         PageResponse<ProjectResponseDto> projectList = getAllPorjectUsecase.execute(pageable);
         return SuccessResponse.of(projectList);
@@ -52,7 +52,7 @@ public class ProjectController {
     //--------  기수별 프로젝트 -----//
     @GetMapping("/ordinal/{ordinal}")
     @Operation(summary = "기수별 프로젝트", description = "선택한 기수에 따라 프로젝트 목록을 출력했습니다. 최근 5개의 기수보다 이전의 기수는 한번에 보여집니다.")
-    public SuccessResponse<Object> getProjectByOrdinal(
+    public SuccessResponse<PageResponse<ProjectResponseDto>> getProjectByOrdinal(
             @PageableDefault(size=12, sort="id", direction = Sort.Direction.DESC) Pageable pageable,
             @PathVariable Long ordinal) {
         PageResponse<ProjectResponseDto> projectList = getProjectByUsecase.execute(ordinal,pageable);
@@ -78,7 +78,7 @@ public class ProjectController {
     //-----------프로젝트 삭제 --------//
     @DeleteMapping("/{projectId}")
     @Operation(summary = "프로젝트 삭제", description = "프로젝트를 삭제했습니다.")
-    public SuccessResponse<Objects> deleteProject(@PathVariable("projectId") Long projectId) {
+    public SuccessResponse deleteProject(@PathVariable("projectId") Long projectId) {
         deleteProjectUsecase.execute(projectId);
         return SuccessResponse.empty();
     }

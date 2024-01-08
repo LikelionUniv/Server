@@ -65,4 +65,11 @@ public class UserAdaptor {
     public Slice<User> searchByName(String name, Pageable pageable){
         return userRepository.searchByName(name, pageable);
     }
+    public List<User> findAllByIdIn(List<Long> ids) {
+        List<User> users = userRepository.findAllByIdIn(ids);
+        if (users.size() != ids.size()) {
+            throw new UserNotFoundException();
+        }
+        return users;
+    }
 }

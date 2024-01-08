@@ -3,7 +3,10 @@ package likelion.univ.project.dto.request;
 import io.swagger.v3.oas.annotations.media.Schema;
 import likelion.univ.domain.project.entity.Project;
 import likelion.univ.domain.project.entity.enums.Output;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -63,8 +66,14 @@ public class ProjectRequestDto {
 
     private List<String> imageUrl;
 
-    @Schema(example = "[1, 2, 3]")
-    private List<Long> members;
+    @Schema(example = "[{" +
+            "   \"userId\" : \"3\"," +
+            "   \"part\" : \"BACKEND\"" +
+            "},{" +
+            "   \"userId\" : \"2\"," +
+            "   \"part\" : \"FRONTEND\"" +
+            "}]")
+    private List<ProjectMemberRequestDto> projectMembers;
 
     public Project toEntity() {
         return Project.builder()
