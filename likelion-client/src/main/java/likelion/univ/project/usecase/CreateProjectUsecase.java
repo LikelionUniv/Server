@@ -3,7 +3,7 @@ package likelion.univ.project.usecase;
 import likelion.univ.annotation.UseCase;
 import likelion.univ.domain.project.adapter.ProjectAdaptor;
 import likelion.univ.domain.project.adapter.ProjectMemberAdaptor;
-import likelion.univ.domain.project.entity.Image;
+import likelion.univ.domain.project.entity.ProjectImage;
 import likelion.univ.domain.project.entity.Project;
 import likelion.univ.domain.project.entity.ProjectMember;
 import likelion.univ.domain.project.service.ProjectImageService;
@@ -16,9 +16,7 @@ import likelion.univ.domain.user.entity.Part;
 import likelion.univ.domain.user.entity.User;
 import likelion.univ.project.dto.request.ProjectMemberRequestDto;
 import likelion.univ.project.dto.request.ProjectRequestDto;
-import likelion.univ.project.dto.request.ProjectRequestDto.*;
 import likelion.univ.project.dto.response.ProjectIdResponseDto;
-import likelion.univ.project.dto.response.ProjectMemberResponseDto;
 import likelion.univ.utils.AuthenticatedUserUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
@@ -59,7 +57,7 @@ public class CreateProjectUsecase {
 
         projectImageService.addImage(
                 projectRequestDto.getImageUrl().stream()
-                        .map(imageUrl -> new Image(project, imageUrl))
+                        .map(imageUrl -> new ProjectImage(project, imageUrl))
                         .collect(Collectors.toList()));
 
         List<ProjectMemberRequestDto> projectMembersRequest = projectRequestDto.getProjectMembers();

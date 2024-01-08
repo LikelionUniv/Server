@@ -26,6 +26,7 @@ public class ProjectMember {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @Enumerated(EnumType.STRING)
     private Part part;
 
     @Builder

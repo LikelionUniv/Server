@@ -3,10 +3,9 @@ package likelion.univ.project.usecase;
 import likelion.univ.annotation.UseCase;
 import likelion.univ.domain.project.adapter.ProjectAdaptor;
 import likelion.univ.domain.project.adapter.ProjectTechAdaptor;
-import likelion.univ.domain.project.entity.Image;
+import likelion.univ.domain.project.entity.ProjectImage;
 import likelion.univ.domain.project.entity.Project;
 import likelion.univ.domain.project.entity.ProjectMember;
-import likelion.univ.domain.project.entity.Tech;
 import likelion.univ.domain.project.service.ProjectImageService;
 import likelion.univ.domain.project.service.ProjectMemberService;
 import likelion.univ.domain.project.service.ProjectService;
@@ -51,8 +50,8 @@ public class UpdateProjectUsecase {
 //                .flatMap(techName -> projectTechAdaptor.findByName(techName.toUpperCase()).stream())
 //                .collect(Collectors.toList());
 
-        List<Image> image = projectRequestDto.getImageUrl().stream()
-                .map(imageUrl -> new Image(project, imageUrl))
+        List<ProjectImage> projectImage = projectRequestDto.getImageUrl().stream()
+                .map(imageUrl -> new ProjectImage(project, imageUrl))
                 .collect(Collectors.toList());
 
         Project editProject = projectRequestDto.toEntity();
@@ -72,7 +71,7 @@ public class UpdateProjectUsecase {
 
         projectService.updateProject(projectId, editProject);
         projectTechService.updateProjectTech(project,techNames);
-        projectImageService.updateImage(project, image);
+        projectImageService.updateImage(project, projectImage);
         projectMemberService.updateProjectMember(project, projectMembers);
 
         return ProjectIdResponseDto.of(projectId);
