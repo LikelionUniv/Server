@@ -31,6 +31,7 @@ public class Profile {
     public static Profile fromName(String name){
         return Profile.builder()
                 .name(name)
+                .part(Part.NO_PART)
                 .build();
     }
 }

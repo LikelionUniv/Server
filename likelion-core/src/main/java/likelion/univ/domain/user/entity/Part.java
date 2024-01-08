@@ -11,6 +11,7 @@ public enum Part {
     DESIGNER("디자인"),
     PM_DESIGNER("기획/디자인"),
     FRONTEND("프론트엔드"),
-    BACKEND("백엔드");
+    BACKEND("백엔드"),
+    NO_PART("NO_PART");
     private String value;
 }
