@@ -126,8 +126,8 @@ public class PostDomainService {
             throw new PostNoAuthorizationException();
         }
         post.edit(request);
-        Long savedId = postAdaptor.save(post);
-        return savedId;
+        Long saveId = postAdaptor.save(post);
+        return saveId;
     }
     @Transactional
     public void deletePost(DeletePostCommand request) {

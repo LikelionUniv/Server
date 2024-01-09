@@ -25,6 +25,8 @@ public class EditPostUseCase {
                 .title(request.title())
                 .thumbnail(request.thumbnail())
                 .body(request.body())
+                .mainCategory(request.mainCategory())
+                .subCategory(request.subCategory())
                 .build();
     }
 }

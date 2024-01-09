@@ -9,7 +9,9 @@ public record UpdatePostCommand(
         Long loginUserId,
         Long postId,
         String title,
+        String thumbnail,
         String body,
-        String thumbnail
+        String mainCategory,
+        String subCategory
 ) {
 }

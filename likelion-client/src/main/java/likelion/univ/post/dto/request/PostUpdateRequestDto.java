@@ -1,6 +1,7 @@
 package likelion.univ.post.dto.request;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import likelion.univ.domain.post.dto.request.UpdatePostCommand;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -17,6 +18,12 @@ public record PostUpdateRequestDto(
     @Schema(description = "게시글 내용 수정", example = "수정된 내용입니다.")
     String body,
     @Schema(description = "게시글 썸네일 수정", example = "수정된 썸네일입니다.")
-    String thumbnail
+    String thumbnail,
+    @NotBlank
+    @Schema(description = "게시글 메인 카테고리 수정", example = "멋대 중앙")
+    String mainCategory,
+    @NotBlank
+    @Schema(description = "게시글 서브 카테고리 수정", example = "정보공유")
+    String subCategory
 ) {
 }
