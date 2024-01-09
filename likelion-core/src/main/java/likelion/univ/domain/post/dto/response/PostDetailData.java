@@ -29,8 +29,7 @@ public record PostDetailData(
         LocalDateTime createdDate
 ) {
     public String getFormattedDate() {
-        String createdDate = this.createdDate().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM));
-        int dateLength = createdDate.length();
-        return createdDate.substring(0, dateLength - 1);
+        return this.createdDate().format(DateTimeFormatter.ofPattern("yyyy. M. d"));
     }
+
 }

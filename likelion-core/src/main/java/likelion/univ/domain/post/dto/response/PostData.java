@@ -1,6 +1,7 @@
 package likelion.univ.domain.post.dto.response;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public record PostData(
         Long postId,
@@ -28,4 +29,8 @@ public record PostData(
                 post.createdDate()
         );
     }
+    public String getFormattedDate() {
+        return this.createdDate().format(DateTimeFormatter.ofPattern("yyyy. MM. dd"));
+    }
+
 }

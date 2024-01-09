@@ -32,7 +32,7 @@ public record PostResponseDto(
                 post.authorProfileImageUrl() != null,
                 post.authorProfileImageUrl(),
                 post.title(),
-                post.body(),
+                post.getParsedBody(),
                 post.thumbnailUrl() != null,
                 post.thumbnailUrl(),
                 likeCount,
