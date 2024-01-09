@@ -1,6 +1,6 @@
 package likelion.univ.project.dto.response;
 
-import likelion.univ.domain.project.entity.Image;
+import likelion.univ.domain.project.entity.ProjectImage;
 import likelion.univ.domain.project.entity.Project;
 import likelion.univ.domain.project.entity.Tech;
 import likelion.univ.domain.project.entity.enums.Output;
@@ -31,7 +31,7 @@ public class ProjectResponseDto {
     private List<String> imageUrl;
     private List<ProjectMemberResponseDto> members;
 
-    public static ProjectResponseDto of(Project project, String univ, List<Tech> projectTeches, List<Image> images, List<User> users) {
+    public static ProjectResponseDto of(Project project, String univ, List<Tech> projectTeches, List<ProjectImage> projectImages, List<ProjectMemberResponseDto> projectMembers) {
         return ProjectResponseDto.builder()
                 .id(project.getId())
                 .activity(project.getActivity())
@@ -49,15 +49,11 @@ public class ProjectResponseDto {
                                 .map(tech -> tech.getTechName())
                                 .collect(Collectors.toList()))
                 .imageUrl(
-                        images.stream()
+                        projectImages.stream()
                                 .map(image -> image.getImageUrl())
                                 .collect(Collectors.toList())
                 )
-                .members(
-                        users.stream()
-                                .map(user -> ProjectMemberResponseDto.of(user.getId(), user.getProfile().getName()))
-                                .collect(Collectors.toList())
-                )
+                .members(projectMembers)
                 .build();
     }
 }

@@ -10,9 +10,10 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
+import java.util.Optional;
 
-import static likelion.univ.domain.project.entity.QImage.image;
 import static likelion.univ.domain.project.entity.QProject.project;
+import static likelion.univ.domain.project.entity.QProjectImage.projectImage;
 import static likelion.univ.domain.project.entity.QProjectMember.projectMember;
 import static likelion.univ.domain.university.entity.QUniversity.university;
 
@@ -36,7 +37,7 @@ public class ProjectCustomRepositoryImpl implements ProjectCustomRepository {
                 queryFactory
                         .selectDistinct(project)
                         .from(project)
-                        .innerJoin(project.images, image).fetchJoin()
+                        .innerJoin(project.projectImages, projectImage).fetchJoin()
                         .innerJoin(project.univ, university).fetchJoin()
                         .where(project.id.in(ids))
                         .offset(pageable.getOffset())

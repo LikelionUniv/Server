@@ -10,7 +10,7 @@ import javax.persistence.*;
 @Entity
 @Getter
 @NoArgsConstructor(access =  AccessLevel.PROTECTED)
-public class Image {
+public class ProjectImage {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,7 +22,7 @@ public class Image {
     private String imageUrl;
 
     @Builder
-    public Image(Project project, String imageUrl) {
+    public ProjectImage(Project project, String imageUrl) {
         this.project = project;
         this.imageUrl = imageUrl;
     }

@@ -34,7 +34,7 @@ spring:
     database: mysql
     open-in-view: false
     hibernate:
-      ddl-auto: update  #create update none
+      ddl-auto: none  #create update none
     properties:
       hibernate:
         show_sql: true

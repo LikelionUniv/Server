@@ -64,7 +64,7 @@ public class Project extends BaseTimeEntity {
 
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name="project_id", insertable = false, updatable = false)
-    private List<Image> images = new ArrayList<>();
+    private List<ProjectImage> projectImages = new ArrayList<>();
 
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name="project_id", insertable = false, updatable = false)

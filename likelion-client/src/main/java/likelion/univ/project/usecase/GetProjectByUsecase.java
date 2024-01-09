@@ -9,6 +9,7 @@ import likelion.univ.domain.project.adapter.ProjectTechAdaptor;
 import likelion.univ.domain.project.entity.Project;
 import likelion.univ.domain.university.adaptor.UniversityAdaptor;
 import likelion.univ.domain.user.adaptor.UserAdaptor;
+import likelion.univ.project.dto.response.ProjectListResponseDto;
 import likelion.univ.project.dto.response.ProjectResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -26,7 +27,7 @@ public class GetProjectByUsecase {
     private final UserAdaptor userAdaptor;
     private final UniversityAdaptor universityAdaptor;
 
-    public PageResponse<ProjectResponseDto> execute(Long ordinal, Pageable pageable){
+    public PageResponse<ProjectListResponseDto> execute(Long ordinal, Pageable pageable){
         long recentOrdinal = projectAdaptor.getCurrentOrdinal();
         if(ordinal > recentOrdinal - 5){
             return getProjectResponseDtos(projectAdaptor.findProject(ordinal, pageable));
@@ -36,20 +37,11 @@ public class GetProjectByUsecase {
         }
     }
 
-    public PageResponse<ProjectResponseDto> getProjectResponseDtos(Page<Project> projects) {
-        return PageResponse.of(projects.map(project -> ProjectResponseDto.of(
+    public PageResponse<ProjectListResponseDto> getProjectResponseDtos(Page<Project> projects) {
+        return PageResponse.of(projects.map(project -> ProjectListResponseDto.of(
                 project,
                 getUniversityName(project),
-                projectTechAdaptor.findByProject(project).stream()
-                        .map(projectTech -> projectTech.getTech())
-                        .map(tech -> projectTechAdaptor.findById(tech.getId()))
-                        .collect(Collectors.toList()),
-                projectImageAdaptor.findByProject(project),
-                projectMemberAdaptor.findByProject(project).stream()
-                        .map(projectMember -> projectMember.getUser())
-                        .map(user -> userAdaptor.findById(user.getId()))
-                        .collect(Collectors.toList())))
-        );
+                projectImageAdaptor.findByProject(project).get(0).getImageUrl())));
     }
 
     public String getUniversityName(Project project) {

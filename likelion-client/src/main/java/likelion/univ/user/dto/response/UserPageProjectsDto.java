@@ -30,7 +30,7 @@ public class UserPageProjectsDto {
                 .build();
     }
     public static String getThumbnail(Project project){
-        return project.getImages().isEmpty() ? null : project.getImages().get(0).getImageUrl();
+        return project.getProjectImages().isEmpty() ? null : project.getProjectImages().get(0).getImageUrl();
     }
 
 }

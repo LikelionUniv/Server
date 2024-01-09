@@ -19,4 +19,5 @@ public interface UserRepository extends JpaRepository<User,Long>, UserCustomRepo
     Optional<User> findByIdWithUniversity(Long id);
 
     List<User> findByAuthInfoRoleIn(List<Role> roles);
+    List<User> findAllByIdIn(List<Long> ids);
 }

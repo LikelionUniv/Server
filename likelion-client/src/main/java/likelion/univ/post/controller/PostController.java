@@ -46,7 +46,7 @@ public class PostController {
                     """
                             ### 게시글 상세 조회 api입니다.
                             - 테스트 완료(황제철)
-                            - 게시글 / 댓글에 profile image url이 없으면 boolean 타입만 전달 (url : null 포함x)""")
+                            - 게시글 / 댓글에 profile projectImage url이 없으면 boolean 타입만 전달 (url : null 포함x)""")
     @GetMapping("/community/posts/{postId}")
     public SuccessResponse<PostDetailResponseDto> findPostDetail(@PathVariable Long postId) {
         PostDetailResponseDto response = getPostDetailUseCase.execute(postId);
