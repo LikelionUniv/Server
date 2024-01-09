@@ -21,7 +21,7 @@ public record PostData(
                 post.authorName(),
                 post.authorProfileImageUrl(),
                 post.title(),
-                post.bodySummary(),
+                post.body(),
                 post.thumbnailUrl(),
                 likeCount,
                 commentCount,
