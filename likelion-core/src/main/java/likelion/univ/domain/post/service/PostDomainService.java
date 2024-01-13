@@ -1,11 +1,10 @@
 package likelion.univ.domain.post.service;
 
 import likelion.univ.domain.comment.adaptor.CommentAdaptor;
-import likelion.univ.domain.comment.dto.response.ChildCommentData;
-import likelion.univ.domain.comment.dto.response.ParentCommentData;
 import likelion.univ.domain.follow.adaptor.FollowAdaptor;
 import likelion.univ.domain.like.postlike.adaptor.PostLikeAdaptor;
 import likelion.univ.domain.post.adaptor.PostAdaptor;
+import likelion.univ.domain.post.dto.enums.PostOrderCondition;
 import likelion.univ.domain.post.dto.request.*;
 import likelion.univ.domain.post.dto.response.*;
 import likelion.univ.domain.post.entity.Post;
@@ -98,18 +97,31 @@ public class PostDomainService {
         return new PageImpl<>(postSimpleDataList, pageable, posts.getTotalPages());
     }
     public Page<PostSimpleData> getByCategoriesAndSearchTitle(GetPostsByCategorySearchCommand request) {
+        PostOrderCondition orderCondition = request.orderCondition();
         String searchTitle = request.searchTitle();
         MainCategory mainCategory = request.mainCategory();
         SubCategory subCategory = request.subCategory();
         Pageable pageable = request.pageable();
 
-        return postAdaptor.findByCategoriesAndSearchTitle(searchTitle, mainCategory, subCategory, pageable);
+        if (orderCondition.equals(PostOrderCondition.COMMENT_COUNT_ORDER)) {
+            return postAdaptor.findByCategoriesAndSearchTitleOrderByCommentCount(searchTitle, mainCategory, subCategory, pageable);
+        } else if (orderCondition.equals(PostOrderCondition.LIKE_COUNT_ORDER)) {
+            return postAdaptor.findByCategoriesAndSearchTitleOrderByLikeCount(searchTitle, mainCategory, subCategory, pageable);
+        } // order by created date
+        return postAdaptor.findByCategoriesAndSearchTitleOrderByCreatedDate(searchTitle, mainCategory, subCategory, pageable);
     }
 
     public Page<PostSimpleData> getBySearchTitle(GetPostsBySearchTitleCommand request) {
+        PostOrderCondition orderCondition = request.orderCondition();
         String searchTitle = request.searchTitle();
         Pageable pageable = request.pageable();
-        return postAdaptor.findBySearchTitle(searchTitle, pageable);
+
+        if (orderCondition.equals(PostOrderCondition.LIKE_COUNT_ORDER)) {
+            return postAdaptor.findBySearchTitleOrderByLikeCount(searchTitle, pageable);
+        } else if (orderCondition.equals(PostOrderCondition.COMMENT_COUNT_ORDER)) {
+            return postAdaptor.findBySearchTitleOrderByCommentCount(searchTitle, pageable);
+        }
+        return postAdaptor.findBySearchTitleOrderByCreatedDate(searchTitle, pageable);
     }
 
     @Transactional

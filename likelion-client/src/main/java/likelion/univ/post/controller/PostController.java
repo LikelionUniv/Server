@@ -107,15 +107,16 @@ public class PostController {
     )
     @GetMapping("/community/posts/search")
     public BaseResponse searchPost(
+            @RequestParam PostOrderCondition oc,
             @RequestParam(defaultValue = "검색어") String st,
-            @RequestParam(defaultValue = "전체") String mc,
-            @RequestParam(defaultValue = "전체") String sc,
+            @RequestParam(defaultValue = "전체 게시판") String mc,
+            @RequestParam(defaultValue = "전체 게시판") String sc,
             @ParameterObject @PageableDefault(size = 5, page = 1) Pageable pageable) {
 
-        if (!mc.equals("전체") && (!MainCategory.isValid(mc) || !SubCategory.isValid(sc))) {
+        if (!mc.equals("전체 게시판") && (!MainCategory.isValid(mc) || !SubCategory.isValid(sc))) {
             return ErrorResponse.of(PostErrorCode.CATEGORY_NOT_FOUND);
         }
-        PageResponse<PostResponseDto> response = getPostsBySearchTitleUseCase.execute(st, mc, sc, pageable);
+        PageResponse<PostResponseDto> response = getPostsBySearchTitleUseCase.execute(oc, st, mc, sc, pageable);
         return SuccessResponse.of(response);
     }
 
