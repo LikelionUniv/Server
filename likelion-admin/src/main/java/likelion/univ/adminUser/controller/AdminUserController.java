@@ -7,11 +7,15 @@ import likelion.univ.adminUser.dto.response.UserInfoResponseDto;
 import likelion.univ.adminUser.usecase.DeleteUserUseCase;
 import likelion.univ.adminUser.usecase.FindAllByUnivAdminUseCase;
 import likelion.univ.adminUser.usecase.UpdateUserUseCase;
+import likelion.univ.common.response.PageResponse;
 import likelion.univ.common.response.SliceResponse;
 import likelion.univ.response.SuccessResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springdoc.api.annotations.ParameterObject;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
 @Slf4j
@@ -27,8 +31,8 @@ public class RepresentativeController {
 
     @Operation(summary = "우리 학교 동아리 멤버 전체 조회")
     @GetMapping("/users")
-    public SuccessResponse<Object> findUsersByUnivOfUser(Pageable pageable){
-        SliceResponse<UserInfoResponseDto> response = findAllByUnivAdminUseCase.execute(pageable);
+    public SuccessResponse<Object> findUsersByUnivOfUser(@ParameterObject @PageableDefault(size=12, page = 0,sort="createdDate", direction = Sort.Direction.DESC)Pageable pageable) {
+        PageResponse<UserInfoResponseDto> response = findAllByUnivAdminUseCase.execute(pageable);
         return SuccessResponse.of(response);
     }
 

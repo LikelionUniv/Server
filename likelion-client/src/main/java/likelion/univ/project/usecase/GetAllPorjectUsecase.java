@@ -30,7 +30,8 @@ public class GetAllPorjectUsecase {
 
         return PageResponse.of(projects.map(project -> ProjectListResponseDto.of(project,
                 getUniversityName(project),
-                projectImageAdaptor.findByProject(project).get(0).getImageUrl())));
+                projectImageAdaptor.findByProject(project).isEmpty()?
+                        null : projectImageAdaptor.findByProject(project).get(0).getImageUrl())));
     }
     public String getUniversityName(Project project) {
         if(project.getUniv() != null)

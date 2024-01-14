@@ -7,6 +7,7 @@ import likelion.univ.domain.project.adapter.ProjectAdaptor;
 import likelion.univ.domain.project.adapter.ProjectMemberAdaptor;
 import likelion.univ.domain.project.adapter.ProjectTechAdaptor;
 import likelion.univ.domain.project.entity.Project;
+import likelion.univ.domain.project.entity.ProjectImage;
 import likelion.univ.domain.university.adaptor.UniversityAdaptor;
 import likelion.univ.domain.user.adaptor.UserAdaptor;
 import likelion.univ.project.dto.response.ProjectListResponseDto;
@@ -21,10 +22,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class GetProjectByUsecase {
     private final ProjectAdaptor projectAdaptor;
-    private final ProjectTechAdaptor projectTechAdaptor;
     private final ProjectImageAdaptor projectImageAdaptor;
-    private final ProjectMemberAdaptor projectMemberAdaptor;
-    private final UserAdaptor userAdaptor;
     private final UniversityAdaptor universityAdaptor;
 
     public PageResponse<ProjectListResponseDto> execute(Long ordinal, Pageable pageable){
@@ -38,10 +36,12 @@ public class GetProjectByUsecase {
     }
 
     public PageResponse<ProjectListResponseDto> getProjectResponseDtos(Page<Project> projects) {
+
         return PageResponse.of(projects.map(project -> ProjectListResponseDto.of(
                 project,
                 getUniversityName(project),
-                projectImageAdaptor.findByProject(project).get(0).getImageUrl())));
+                projectImageAdaptor.findByProject(project).isEmpty()?
+                        null : projectImageAdaptor.findByProject(project).get(0).getImageUrl())));
     }
 
     public String getUniversityName(Project project) {
