@@ -28,6 +28,9 @@ public class RedisConfig {
     @Value("${redis.port}")
     private int port;
 
+    @Value("${redis.password}")
+    private String password;
+
 
     public ObjectMapper redisObjectMapper() {
         PolymorphicTypeValidator typeValidator = BasicPolymorphicTypeValidator.builder()
@@ -43,6 +46,7 @@ public class RedisConfig {
     @Bean
     public RedisConnectionFactory redisConnectionFactory() {
         RedisStandaloneConfiguration redisStandaloneConfiguration = new RedisStandaloneConfiguration(host, port);
+        redisStandaloneConfiguration.setPassword(password);
         LettuceConnectionFactory connectionFactory = new LettuceConnectionFactory(redisStandaloneConfiguration);
         return connectionFactory;
     }

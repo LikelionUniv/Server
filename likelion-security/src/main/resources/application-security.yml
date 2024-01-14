@@ -1,7 +1,7 @@
 ## 공통 설정
 jwt:
   secret-key: ${JWT_SECRET_KEY}
-  access-token-exp: ${JWT_ACESS_TOKEN_EXP}
+  access-token-exp: ${JWT_ACCESS_TOKEN_EXP}
   refresh-token-exp: ${JWT_REFRESH_TOKEN_EXP}
 
 --- ## dev 환경 설정
