@@ -76,7 +76,7 @@ public class PostDomainService {
         Pageable pageable = request.pageable();
         Page<Post> posts = postAdaptor.findByCategoriesOrderByCreatedDate(mainCategory, subCategory, pageable);
         List<PostSimpleData> postSimpleDataList = posts.stream().map(PostSimpleData::of).toList();
-        return new PageImpl<>(postSimpleDataList, pageable, posts.getTotalPages());
+        return new PageImpl<>(postSimpleDataList, pageable, posts.getTotalElements());
     }
 
     public Page<PostSimpleData> getByCategoriesOrderByLikeCount(GetPostsByCategoriesCommand request) {
@@ -85,7 +85,7 @@ public class PostDomainService {
         Pageable pageable = request.pageable();
         Page<Post> posts = postAdaptor.findByCategoriesOrderByLikeCount(mainCategory, subCategory, pageable);
         List<PostSimpleData> postSimpleDataList = posts.stream().map(PostSimpleData::of).toList();
-        return new PageImpl<>(postSimpleDataList, pageable, posts.getTotalPages());
+        return new PageImpl<>(postSimpleDataList, pageable, posts.getTotalElements());
     }
 
     public Page<PostSimpleData> getByCategoriesOrderByCommentCount(GetPostsByCategoriesCommand request) {
@@ -94,7 +94,7 @@ public class PostDomainService {
         Pageable pageable = request.pageable();
         Page<Post> posts = postAdaptor.findByCategoriesOrderByCommentCount(mainCategory, subCategory, pageable);
         List<PostSimpleData> postSimpleDataList = posts.stream().map(PostSimpleData::of).toList();
-        return new PageImpl<>(postSimpleDataList, pageable, posts.getTotalPages());
+        return new PageImpl<>(postSimpleDataList, pageable, posts.getTotalElements());
     }
     public Page<PostSimpleData> getByCategoriesAndSearchTitle(GetPostsByCategorySearchCommand request) {
         PostOrderCondition orderCondition = request.orderCondition();

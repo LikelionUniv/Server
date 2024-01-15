@@ -139,7 +139,7 @@ public class PostCustomRepositoryImpl implements PostCustomRepository {
 
     @Override
     public Page<PostSimpleData> findByCategoriesAndSearchTitleOrderByCreatedDate(String searchTitle, MainCategory mainCategory, SubCategory subCategory, Pageable pageable) {
-        long totalSize = getSearchResultSize(searchTitle);
+        long totalSize = getCategorySearchResultSize(searchTitle, mainCategory, subCategory);
 
         List<PostSimpleData> posts = queryFactory
                 .select(postSimpleData())
