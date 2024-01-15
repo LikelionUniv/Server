@@ -62,6 +62,11 @@ public class UserDomainService {
         userAdaptor.delete(user);
     }
 
+    @Transactional
+    public void deleteAll(List<User> users){
+        userAdaptor.deleteAll(users);
+    }
+
 
     public List<User> findDynamicUsers(UserSearchCondition condition) {
         return userAdaptor.findDynamicUsers(condition);

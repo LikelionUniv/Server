@@ -2,6 +2,7 @@ package likelion.univ.domain.user.repository;
 
 import likelion.univ.domain.user.entity.Role;
 import likelion.univ.domain.user.entity.User;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -13,9 +14,11 @@ import java.util.Optional;
 public interface UserRepository extends JpaRepository<User,Long>, UserCustomRepository {
     Optional<User> findByAuthInfoEmail(String email);
     Boolean existsByAuthInfoEmail(String email);
-    Slice<User> findByUniversityInfoUniversityId(Long univId, Pageable pageable);
+    @Query(value = "SELECT u FROM User u join fetch u.universityInfo.university where u.universityInfo.university.id = :univId ",
+            countQuery = "SELECT count(u.id) FROM User u join u.universityInfo.university where u.universityInfo.university.id = :univId")
+    Page<User> findByUniversityInfoUniversityId(Long univId, Pageable pageable);
 
-    @Query("SELECT u FROM User u join fetch u.universityInfo.university where u.id = :id ")
+    @Query(value = "SELECT u FROM User u join fetch u.universityInfo.university where u.id = :id ")
     Optional<User> findByIdWithUniversity(Long id);
 
     List<User> findByAuthInfoRoleIn(List<Role> roles);

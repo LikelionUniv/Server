@@ -7,8 +7,6 @@ import likelion.univ.domain.user.repository.UserRepository;
 import likelion.univ.domain.user.repository.searchcondition.UserSearchCondition;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 
@@ -41,8 +39,11 @@ public class UserAdaptor {
     public void delete(User user){
         userRepository.delete(user);
     }
+    public void deleteAll(List<User> user){
+        userRepository.deleteAll(user);
+    }
 
-    public Slice<User> findUsersByUniversityId(Long id, Pageable pageable) {
+    public Page<User> findByUniversityInfoUniversityId(Long id, Pageable pageable) {
         return userRepository.findByUniversityInfoUniversityId(id, pageable);
     }
 

@@ -21,6 +21,9 @@ public class UniversityAdaptor {
     public List<University> findAll() {
         return universityRepository.findAll();
     }
+    public List<University> findByLocation(String location) {
+        return universityRepository.findByLocation(location);
+    }
 
     public University findById(Long id) {
         return universityRepository.findById(id).get();
