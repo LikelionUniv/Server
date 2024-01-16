@@ -17,10 +17,18 @@ public interface PostCustomRepository extends BaseQueryDslRepository {
 
     Page<Post> findByCategoriesOrderByCommentCount(MainCategory mainCategory, SubCategory subCategory, Pageable pageable);
 
-    Page<PostSimpleData> findByCategoriesAndSearchTitle(String searchTitle, MainCategory mainCategory, SubCategory subCategory, Pageable pageable);
+    Page<PostSimpleData> findByCategoriesAndSearchTitleOrderByCommentCount(String searchTitle, MainCategory mainCategory, SubCategory subCategory, Pageable pageable);
 
-    Page<PostSimpleData> findBySearchTitle(String searchTitle, Pageable pageable);
+    Page<PostSimpleData> findByCategoriesAndSearchTitleOrderByLikeCount(String searchTitle, MainCategory mainCategory, SubCategory subCategory, Pageable pageable);
+
+    Page<PostSimpleData> findByCategoriesAndSearchTitleOrderByCreatedDate(String searchTitle, MainCategory mainCategory, SubCategory subCategory, Pageable pageable);
+
+    Page<PostSimpleData> findBySearchTitleOrderByCreatedDate(String searchTitle, Pageable pageable);
     Page<Post> findByPostLikeAuthorId(Long userId, Pageable pageable, String sort, String search);
     Page<Post> findByCategoriesAndUniversityOrderByCreatedDate(
             MainCategory mainCategory, SubCategory subCategory, Long universityId, Pageable pageable);
+
+    Page<PostSimpleData> findBySearchTitleOrderByCommentCount(String searchTitle, Pageable pageable);
+
+    Page<PostSimpleData> findBySearchTitleOrderByLikeCount(String searchTitle, Pageable pageable);
 }

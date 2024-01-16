@@ -1,7 +1,6 @@
 package likelion.univ.post.usecase;
 
 import likelion.univ.annotation.UseCase;
-import likelion.univ.domain.post.dto.response.PostIdData;
 import likelion.univ.domain.post.dto.request.UpdatePostCommand;
 import likelion.univ.domain.post.service.PostDomainService;
 import likelion.univ.post.dto.request.PostUpdateRequestDto;
@@ -15,7 +14,7 @@ public class EditPostUseCase {
     private final PostDomainService postDomainService;
     private final AuthenticatedUserUtils userUtils;
 
-    public PostIdData execute(Long postId, PostUpdateRequestDto request) {
+    public Long execute(Long postId, PostUpdateRequestDto request) {
         return postDomainService.editPost(buildDTO(postId, request));
     }
 
@@ -23,9 +22,11 @@ public class EditPostUseCase {
         return UpdatePostCommand.builder()
                 .loginUserId(userUtils.getCurrentUserId())
                 .postId(postId)
-                .title(request.getTitle())
-                .thumbnail(request.getThumbnail())
-                .body(request.getBody())
+                .title(request.title())
+                .thumbnail(request.thumbnail())
+                .body(request.body())
+                .mainCategory(request.mainCategory())
+                .subCategory(request.subCategory())
                 .build();
     }
 }

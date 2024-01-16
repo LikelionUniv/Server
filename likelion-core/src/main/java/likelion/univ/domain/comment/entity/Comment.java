@@ -62,9 +62,12 @@ public class Comment extends BaseTimeEntity {
         this.body = body;
         return this.id;
     }
-    public Long softDelete() {
+    public Boolean softDelete() {
+        if (this.getIsDeleted()) {
+            return false;
+        }
         this.isDeleted = true;
-        return this.id;
+        return true;
     }
 
     /* 연관관계 편의 메서드 */
