@@ -57,8 +57,9 @@ public record PostSimpleData(
         return this.shortenString(noImgBody);
     }
     private String removeImageTag(String imageIncluded) {
-        String imageExcluded = imageIncluded.replaceAll("<img\\s.*?>", "");
-        imageExcluded = imageExcluded.replaceAll("<p><\\/p>", "");
+        String imageExcluded = imageIncluded
+                .replaceAll("<img\\s.*?>", "")
+                .replaceAll("<p><\\/p>", "");
         return imageExcluded;
     }
     private String shortenString(String longString) {
