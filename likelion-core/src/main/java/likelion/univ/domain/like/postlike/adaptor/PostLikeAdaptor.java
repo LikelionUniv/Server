@@ -9,6 +9,10 @@ import likelion.univ.domain.post.entity.Post;
 import likelion.univ.domain.user.entity.User;
 import lombok.RequiredArgsConstructor;
 
+import java.util.List;
+
+import static likelion.univ.domain.like.postlike.entity.QPostLike.postLike;
+
 @Adaptor
 @RequiredArgsConstructor
 public class PostLikeAdaptor {
@@ -37,5 +41,8 @@ public class PostLikeAdaptor {
         return postLikeRepository.findByPostAndUser(post, user).orElseThrow(() -> new CommentLikeNotFoundException());
     }
 
+    public List<Long> findPostIdsByUserIdAndPostIdsIn(Long userId, List<Long> postIds){
+        return postLikeRepository.findPostIdsByUserIdAndPostIdsIn(userId, postIds);
+    }
 }
 
