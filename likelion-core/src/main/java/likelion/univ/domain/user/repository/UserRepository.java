@@ -17,6 +17,16 @@ public interface UserRepository extends JpaRepository<User,Long>, UserCustomRepo
     @Query(value = "SELECT u FROM User u join fetch u.universityInfo.university where u.universityInfo.university.id = :univId ",
             countQuery = "SELECT count(u.id) FROM User u join u.universityInfo.university where u.universityInfo.university.id = :univId")
     Page<User> findByUniversityInfoUniversityId(Long univId, Pageable pageable);
+    @Query(value = "SELECT u FROM User u join fetch u.universityInfo.university join fetch u.authInfo " +
+            "where u.universityInfo.university.name like :univName% and u.authInfo.role = :role",
+            countQuery = "SELECT count(u.id) FROM User u join u.universityInfo.university join u.authInfo " +
+                    "where u.universityInfo.university.name like :univName% and u.authInfo.role = :role")
+    Page<User> findByUnivNameAndRole(Role role, String univName, Pageable pageable);
+    Page<User> findAll(Pageable pageable);
+    @Query(value = "SELECT u FROM User u join fetch u.universityInfo.university where u.universityInfo.university.name like :univName% ",
+            countQuery = "SELECT count(u.id) FROM User u join u.universityInfo.university where u.universityInfo.university.name like :univName%")
+    Page<User> findByUniversityInfoUniversityName(String univName, Pageable pageable);
+    Page<User> findByAuthInfoRole(Role role, Pageable pageable);
 
     @Query(value = "SELECT u FROM User u join fetch u.universityInfo.university where u.id = :id ")
     Optional<User> findByIdWithUniversity(Long id);
