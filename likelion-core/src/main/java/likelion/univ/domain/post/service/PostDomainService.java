@@ -11,6 +11,7 @@ import likelion.univ.domain.post.entity.Post;
 import likelion.univ.domain.post.dto.enums.MainCategory;
 import likelion.univ.domain.post.dto.enums.SubCategory;
 import likelion.univ.domain.post.exception.PostNoAuthorizationException;
+import likelion.univ.domain.post.exception.PostNotFoudException;
 import likelion.univ.domain.user.adaptor.UserAdaptor;
 import likelion.univ.domain.user.entity.Profile;
 import likelion.univ.domain.user.entity.UniversityInfo;
@@ -68,6 +69,15 @@ public class PostDomainService {
                 .body(post.getBody())
                 .createdDate(post.getCreatedDate())
                 .build();
+    }
+
+    public PostEditData getPostEditById(Long postId) {
+        PostEditData postEdit = postAdaptor.findPostEditByPostId(postId);
+        if (postEdit == null) {
+            throw new PostNotFoudException();
+        }
+
+        return postEdit;
     }
 
     public Page<PostSimpleData> getByCategoriesOrderByCreatedData(GetPostsByCategoriesCommand request, Pageable pageable) {
