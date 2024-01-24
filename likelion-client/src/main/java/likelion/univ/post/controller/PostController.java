@@ -12,6 +12,7 @@ import likelion.univ.domain.post.exception.PostErrorCode;
 import likelion.univ.post.dto.request.PostCreateRequestDto;
 import likelion.univ.post.dto.request.PostUpdateRequestDto;
 import likelion.univ.post.dto.response.PostDetailResponseDto;
+import likelion.univ.post.dto.response.PostEditResponseDto;
 import likelion.univ.post.dto.response.PostResponseDto;
 import likelion.univ.post.usecase.*;
 import likelion.univ.response.BaseResponse;
@@ -37,6 +38,7 @@ public class PostController {
     private final DeletePostUseCase deletePostUseCase;
     private final GetPostsByCategoriesUseCase getPostsByCategoriesUseCase;
     private final GetPostDetailUseCase getPostDetailUseCase;
+    private final GetPostEditUseCase getPostEditUseCase;
     private final GetPostsBySearchTitleUseCase getPostsBySearchTitleUseCase;
 
     /* ----- read ----- */
@@ -52,6 +54,21 @@ public class PostController {
         PostDetailResponseDto response = getPostDetailUseCase.execute(postId);
         return SuccessResponse.of(response);
     }
+
+    @Operation(
+            summary = "게시글 수정을 위한 데이터 조회",
+            description = """
+                    ### 게시글 수정을 위한 간단 조회 api입니다.
+                    - 테스트 완료(황제철)
+                    - postId에 해당하는 게시글 없으면 404 반환
+                    """
+    )
+    @GetMapping("/community/posts/{postId}/simple")
+    public SuccessResponse<PostEditResponseDto> findPostEdit(@PathVariable Long postId) {
+        PostEditResponseDto response = getPostEditUseCase.execute(postId);
+        return SuccessResponse.of(response);
+    }
+
 
     @Operation(
             summary = "카테고리별 posts 조회",
@@ -119,6 +136,7 @@ public class PostController {
         PageResponse<PostResponseDto> response = getPostsBySearchTitleUseCase.execute(oc, st, mc, sc, pageable);
         return SuccessResponse.of(response);
     }
+
 
     /* ----- command ----- */
     @Operation(

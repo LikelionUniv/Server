@@ -5,7 +5,6 @@ import org.springframework.data.domain.Pageable;
 
 public record GetPostsBySearchTitleCommand(
         PostOrderCondition orderCondition,
-        String searchTitle,
-        Pageable pageable
+        String searchTitle
 ) {
 }
