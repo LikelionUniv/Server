@@ -1,6 +1,7 @@
 package likelion.univ.domain.post.adaptor;
 
 import likelion.univ.annotation.Adaptor;
+import likelion.univ.domain.post.dto.response.PostEditData;
 import likelion.univ.domain.post.dto.response.PostSimpleData;
 import likelion.univ.domain.post.entity.Post;
 import likelion.univ.domain.post.dto.enums.MainCategory;
@@ -20,7 +21,10 @@ public class PostAdaptor {
 
     public Post findById(Long postId) {
         return postRepository.findById(postId).orElseThrow(PostNotFoudException::new);
+    }
 
+    public PostEditData findPostEditByPostId(Long postId) {
+        return postRepository.findPostEditByPostId(postId);
     }
 
     public Long save(Post post) {

@@ -4,7 +4,9 @@ import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import likelion.univ.domain.post.dto.response.PostEditData;
 import likelion.univ.domain.post.dto.response.PostSimpleData;
+import likelion.univ.domain.post.dto.response.QPostEditData;
 import likelion.univ.domain.post.dto.response.QPostSimpleData;
 import likelion.univ.domain.post.entity.Post;
 import likelion.univ.domain.post.dto.enums.MainCategory;
@@ -31,6 +33,15 @@ import static likelion.univ.domain.user.entity.QUser.user;
 public class PostCustomRepositoryImpl implements PostCustomRepository {
 
     private final JPAQueryFactory queryFactory;
+
+    @Override
+    public PostEditData findPostEditByPostId(Long postId) {
+        PostEditData postEditData = queryFactory.select(postEditData())
+                .from(post)
+                .where(post.id.eq(postId))
+                .fetchFirst();
+        return postEditData;
+    }
 
     /* ----- 마이 페이지 ----- */
     @Override
@@ -293,7 +304,6 @@ public class PostCustomRepositoryImpl implements PostCustomRepository {
                 .where(post.title.containsIgnoreCase(searchTitle))
                 .fetch().size();
     }
-
     private static QPostSimpleData postSimpleData() {
         return new QPostSimpleData(
                 post.id,
@@ -306,6 +316,16 @@ public class PostCustomRepositoryImpl implements PostCustomRepository {
                 post.body,
                 post.thumbnail,
                 post.createdDate);
+    }
+    private static QPostEditData postEditData() {
+        return new QPostEditData(
+                post.id,
+                post.title,
+                post.body,
+                post.thumbnail,
+                post.mainCategory,
+                post.subCategory
+        );
     }
 
     private  Page<Post> findByPostLikesWithSort(List<Long> ids, Pageable pageable, OrderSpecifier sort, String search){
