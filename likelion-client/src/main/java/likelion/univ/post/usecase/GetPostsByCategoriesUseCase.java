@@ -4,7 +4,6 @@ import likelion.univ.annotation.UseCase;
 import likelion.univ.common.response.PageResponse;
 import likelion.univ.domain.post.dto.enums.PostOrderCondition;
 import likelion.univ.domain.post.dto.request.GetPostsByCategoriesCommand;
-import likelion.univ.domain.post.dto.response.PostData;
 import likelion.univ.domain.post.dto.response.PostSimpleData;
 import likelion.univ.domain.post.dto.enums.MainCategory;
 import likelion.univ.domain.post.dto.enums.SubCategory;

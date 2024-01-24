@@ -1,5 +1,7 @@
 package likelion.univ.domain.post.dto.response;
 
+import likelion.univ.common.processor.DateCustomFormatter;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -30,7 +32,7 @@ public record PostData(
         );
     }
     public String getFormattedDate() {
-        return this.createdDate().format(DateTimeFormatter.ofPattern("yyyy. MM. dd"));
+        return DateCustomFormatter.format(this.createdDate);
     }
 
 }
