@@ -11,10 +11,9 @@ public record GetPostsByCategorySearchCommand(
         PostOrderCondition orderCondition,
         String searchTitle,
         MainCategory mainCategory,
-        SubCategory subCategory,
-        Pageable pageable
+        SubCategory subCategory
 ) {
-    public GetPostsByCategorySearchCommand(PostOrderCondition orderCondition, String searchTitle, String mainCategory, String subCategory, Pageable pageable) {
-        this(orderCondition, searchTitle, MainCategory.findByTitle(mainCategory), SubCategory.findByTitle(subCategory), pageable);
+    public GetPostsByCategorySearchCommand(PostOrderCondition orderCondition, String searchTitle, String mainCategory, String subCategory) {
+        this(orderCondition, searchTitle, MainCategory.findByTitle(mainCategory), SubCategory.findByTitle(subCategory));
     }
 }

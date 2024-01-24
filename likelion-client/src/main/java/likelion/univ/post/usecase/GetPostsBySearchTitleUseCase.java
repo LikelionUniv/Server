@@ -34,14 +34,14 @@ public class GetPostsBySearchTitleUseCase {
     }
 
     private Page<PostSimpleData> getByCategoriesAndSearchTitle(PostOrderCondition orderCondition, String searchTitle, String mainCategory, String subCategory, Pageable pageable) {
-        GetPostsByCategorySearchCommand request = new GetPostsByCategorySearchCommand(orderCondition, searchTitle, mainCategory, subCategory, pageable);
-        Page<PostSimpleData> postSimpleDataPage = postDomainService.getByCategoriesAndSearchTitle(request);
+        GetPostsByCategorySearchCommand request = new GetPostsByCategorySearchCommand(orderCondition, searchTitle, mainCategory, subCategory);
+        Page<PostSimpleData> postSimpleDataPage = postDomainService.getByCategoriesAndSearchTitle(request, pageable);
         return postSimpleDataPage;
     }
 
     private Page<PostSimpleData> getBySearchTitle(PostOrderCondition orderCondition, String searchTitle, Pageable pageable) {
-        GetPostsBySearchTitleCommand request = new GetPostsBySearchTitleCommand(orderCondition, searchTitle, pageable);
-        Page<PostSimpleData> postSimpleDataPage = postDomainService.getBySearchTitle(request);
+        GetPostsBySearchTitleCommand request = new GetPostsBySearchTitleCommand(orderCondition, searchTitle);
+        Page<PostSimpleData> postSimpleDataPage = postDomainService.getBySearchTitle(request, pageable);
         return postSimpleDataPage;
     }
 }

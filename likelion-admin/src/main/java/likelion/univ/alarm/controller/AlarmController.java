@@ -56,8 +56,7 @@ public class AlarmController {
             description = "대학 대표가 등록된 리크루팅 명단을 확인할 수 있는 API 입니다."
     )
     public SuccessResponse<GetRecruitsDto> getRecruits(@RequestParam int generation) {
-        User universityManager = userUtils.getCurrentUser();
-        GetRecruitsDto response = getRecruitsUsecase.execute(universityManager, generation);
+        GetRecruitsDto response = getRecruitsUsecase.execute(generation);
 
         return SuccessResponse.of(response);
     }

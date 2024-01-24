@@ -2,6 +2,7 @@ package likelion.univ.domain.university.adaptor;
 
 import likelion.univ.annotation.Adaptor;
 import likelion.univ.domain.university.entity.University;
+import likelion.univ.domain.university.entity.UniversityStatus;
 import likelion.univ.domain.university.exception.UniversityNotFoundException;
 import likelion.univ.domain.university.repository.UniversityRepository;
 import lombok.RequiredArgsConstructor;
@@ -19,10 +20,10 @@ public class UniversityAdaptor {
     }
 
     public List<University> findAll() {
-        return universityRepository.findAll();
+        return universityRepository.findAllByUniversityStatus(UniversityStatus.ACTIVE);
     }
     public List<University> findByLocation(String location) {
-        return universityRepository.findByLocation(location);
+        return universityRepository.findByLocationAndUniversityStatus(location, UniversityStatus.ACTIVE);
     }
 
     public University findById(Long id) {

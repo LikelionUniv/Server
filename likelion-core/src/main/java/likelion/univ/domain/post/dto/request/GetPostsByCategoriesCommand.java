@@ -7,7 +7,6 @@ import org.springframework.data.domain.Pageable;
 
 public record GetPostsByCategoriesCommand(
         MainCategory mainCategory,
-        SubCategory subCategory,
-        Pageable pageable
+        SubCategory subCategory
 ) {
 }
