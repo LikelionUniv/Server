@@ -39,7 +39,7 @@ jobs:
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.HOST }}
-          username: ubuntu
+          username: ${{ secrets.SSH_USERNAME }
           key: ${{ secrets.KEY }}
           script: |
             sudo docker rm -f ${{ secrets.DOCKER_CLIENT_API_STAG_CONTAINER }}
