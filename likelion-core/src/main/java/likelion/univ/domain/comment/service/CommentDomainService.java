@@ -83,9 +83,9 @@ public class CommentDomainService {
     /* --------------- 내부 편의 메서드 --------------- */
     private Comment parentCommentBy(CreateParentCommentCommand request) {
         return Comment.builder()
-                .post(postAdaptor.findById(request.getPostId()))
-                .author(userAdaptor.findById(request.getLoginUserId()))
-                .body(request.getBody())
+                .post(postAdaptor.findById(request.postId()))
+                .author(userAdaptor.findById(request.loginUserId()))
+                .body(request.body())
                 .build();
     }
     private Comment childCommentBy(CreateChildCommentCommand request) {

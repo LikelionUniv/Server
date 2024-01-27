@@ -166,14 +166,14 @@ public class PostDomainService {
                 .build();
     }
 
-    private Page<PostData> addCountsData(Page<PostSimpleData> posts, Pageable pageable) {
-        List<PostData> response = posts.stream().map(p -> {
-            Long commentCount = commentAdaptor.countByPostId(p.postId());
-            Long likeCount = postLikeAdaptor.countByPostId(p.postId());
-            return PostData.getInstance(p, likeCount, commentCount);
-        }).toList();
-        return new PageImpl<>(response, pageable, posts.getTotalPages());
-    }
+//    private Page<PostData> addCountsData(Page<PostSimpleData> posts, Pageable pageable) {
+//        List<PostData> response = posts.stream().map(p -> {
+//            Long commentCount = commentAdaptor.countByPostId(p.postId());
+//            Long likeCount = postLikeAdaptor.countByPostId(p.postId());
+//            return PostData.getInstance(p, likeCount, commentCount);
+//        }).toList();
+//        return new PageImpl<>(response, pageable, posts.getTotalPages());
+//    }
 
 
 }

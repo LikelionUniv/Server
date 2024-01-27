@@ -24,9 +24,9 @@ public record PostDetailResponseDto(
         Long authorId,
         @Schema(description = "작성 유저 이름", example = "김멋사")
         String authorName,
-        @Schema(description = "이미지 존재 여부", example = "true")
+        @Schema(description = "프로필 이미지 존재 여부", example = "true")
         Boolean hasAuthorProfileImageUrl,
-        @Schema(description = "이미지가 존재할 경우, 이미지 url", example = "https://s3.~")
+        @Schema(description = "프로필 이미지가 존재할 경우, 이미지 url", example = "https://s3.~")
         @JsonInclude(JsonInclude.Include.NON_NULL)
         String authorProfileImageUrl,
         @Schema(description = "작성자 기수", example = "11")
