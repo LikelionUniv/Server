@@ -37,13 +37,6 @@ public class UserAdaptor {
         return userRepository.save(user);
     }
 
-    public void delete(User user){
-        userRepository.delete(user);
-    }
-    public void deleteAll(List<User> user){
-        userRepository.deleteAll(user);
-    }
-
     public Page<User> findByUniversityInfoUniversityId(Long id, Pageable pageable) {
         return userRepository.findByUniversityInfoUniversityId(id, pageable);
     }

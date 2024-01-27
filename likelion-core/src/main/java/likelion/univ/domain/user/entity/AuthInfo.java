@@ -34,4 +34,8 @@ public class AuthInfo {
                 .role(GUEST)
                 .build();
     }
+
+    public void delete(){
+        this.accountStatus = AccountStatus.Deleted;
+    }
 }
