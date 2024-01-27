@@ -1,12 +1,11 @@
 package likelion.univ.domain.comment.dto.response;
 
 import com.querydsl.core.annotations.QueryProjection;
+import likelion.univ.common.processor.DateCustomFormatter;
 import likelion.univ.domain.comment.entity.Comment;
-import likelion.univ.domain.user.entity.User;
 import lombok.Builder;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 public record ChildCommentData(
         Long commentId,
@@ -45,7 +44,7 @@ public record ChildCommentData(
     }
 
     public String getFormattedDate() {
-        return this.createdDate().format(DateTimeFormatter.ofPattern("yyyy. MM. dd"));
+        return DateCustomFormatter.format(this.createdDate);
     }
 
 }

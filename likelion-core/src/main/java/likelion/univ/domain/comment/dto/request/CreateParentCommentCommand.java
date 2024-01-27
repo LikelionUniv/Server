@@ -4,11 +4,10 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 
-@Data
 @Builder
-@AllArgsConstructor
-public class CreateParentCommentCommand {
-    private Long postId;
-    private Long loginUserId;
-    private String body;
+public record CreateParentCommentCommand(
+        Long postId,
+        Long loginUserId,
+        String body
+) {
 }
