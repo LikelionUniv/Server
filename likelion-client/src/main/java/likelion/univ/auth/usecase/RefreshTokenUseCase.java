@@ -23,7 +23,7 @@ public class RefreshTokenUseCase {
     private final JwtProvider jwtProvider;
     private final UserAdaptor userAdaptor;
     public AccountTokenDto execute(String refreshToken){
-        DecodedJwtToken decodedJwtToken = jwtProvider.decodeToken(refreshToken,REFRESH_TOKEN);
+        DecodedJwtToken decodedJwtToken = decodeRefreshToken(refreshToken);
         User user = userAdaptor.findById(decodedJwtToken.getUserId());
 
         if(refreshTokenRedisService.checkToken(user.getId(), refreshToken)){
