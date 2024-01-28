@@ -10,5 +10,4 @@ public record CommentData(
     List<ParentCommentData> parentComments,
     List<ChildCommentData> childComments
 ) {
-
 }

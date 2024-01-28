@@ -7,9 +7,9 @@ import org.jboss.jandex.Main;
 @Getter
 @RequiredArgsConstructor
 public enum MainCategory {
-    HQ_BOARD("멋대 중앙"),
+    HQ_BOARD("멋쟁이사자처럼"),
     FREE_BOARD("자유게시판"),
-    OVERFLOW("멋사 오버플로우");
+    OVERFLOW("트랙별 소통 채널");
     private final String title;
     public static MainCategory findByTitle(String title) {
         if (title.equals(HQ_BOARD.title)) {

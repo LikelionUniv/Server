@@ -1,5 +1,6 @@
 package likelion.univ.domain.post.dto.response;
 
+import likelion.univ.common.processor.DateCustomFormatter;
 import likelion.univ.domain.comment.dto.response.ChildCommentData;
 import likelion.univ.domain.comment.dto.response.ParentCommentData;
 import likelion.univ.domain.post.dto.enums.MainCategory;
@@ -29,7 +30,7 @@ public record PostDetailData(
         LocalDateTime createdDate
 ) {
     public String getFormattedDate() {
-        return this.createdDate().format(DateTimeFormatter.ofPattern("yyyy. M. d"));
+        return DateCustomFormatter.format(this.createdDate);
     }
 
 }

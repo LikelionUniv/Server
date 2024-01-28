@@ -1,6 +1,7 @@
 package likelion.univ.domain.post.dto.response;
 
 import com.querydsl.core.annotations.QueryProjection;
+import likelion.univ.common.processor.DateCustomFormatter;
 import likelion.univ.domain.post.dto.enums.MainCategory;
 import likelion.univ.domain.post.dto.enums.SubCategory;
 import likelion.univ.domain.post.entity.Post;
@@ -70,7 +71,7 @@ public record PostSimpleData(
     }
 
     public String getFormattedDate() {
-        return this.createdDate().format(DateTimeFormatter.ofPattern("yyyy. M. d"));
+        return DateCustomFormatter.format(this.createdDate);
     }
 
 
