@@ -35,6 +35,9 @@ public class AuthInfo {
                 .build();
     }
 
+    public void updateRole(Role role){
+        this.role = role;
+    }
     public void delete(){
         this.accountStatus = AccountStatus.Deleted;
     }
