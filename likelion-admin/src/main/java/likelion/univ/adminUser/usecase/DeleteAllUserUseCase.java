@@ -1,7 +1,6 @@
 package likelion.univ.adminUser.usecase;
 
 import likelion.univ.adminUser.dto.request.DeletedUserListRequestDto;
-import likelion.univ.adminUser.dto.response.UserInfoResponseDto;
 import likelion.univ.annotation.UseCase;
 import likelion.univ.domain.user.adaptor.UserAdaptor;
 import likelion.univ.domain.user.entity.User;

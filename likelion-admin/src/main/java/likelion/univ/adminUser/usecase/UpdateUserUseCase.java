@@ -21,7 +21,7 @@ public class UpdateUserUseCase {
         User user = userAdaptor.findById(userId);
         userDomainService.updateUser(user, updateUserRequestDto.getName(),
         updateUserRequestDto.getPart(),updateUserRequestDto.getMajor(),
-        updateUserRequestDto.getOrdinal());
+        updateUserRequestDto.getOrdinal(), updateUserRequestDto.getRole());
         return UserInfoResponseDto.of(user);
     }
 }

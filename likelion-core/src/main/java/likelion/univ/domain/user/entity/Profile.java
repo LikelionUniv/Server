@@ -34,4 +34,8 @@ public class Profile {
                 .part(Part.NO_PART)
                 .build();
     }
+
+    public void delete(){
+        this.name = "알수없음";
+    }
 }
