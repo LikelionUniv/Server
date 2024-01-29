@@ -1,5 +1,6 @@
 package likelion.univ.alarm.dto;
 
+import likelion.univ.common.processor.DateCustomFormatter;
 import likelion.univ.domain.recruit.entity.Recruit;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -31,13 +32,15 @@ public class GetRecruitsDto {
         private String name;
         private String phone;
         private String email;
+        private String createdDate;
 
         static RecruitDto from(Recruit recruit) {
             return new RecruitDto(
                     recruit.getId(),
                     recruit.getName(),
                     recruit.getPhoneNumber(),
-                    recruit.getEmail()
+                    recruit.getEmail(),
+                    DateCustomFormatter.format(recruit.getCreatedDate())
             );
         }
     }
