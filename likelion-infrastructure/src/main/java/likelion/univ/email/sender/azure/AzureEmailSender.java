@@ -4,17 +4,23 @@ import com.azure.communication.email.EmailClient;
 import com.azure.communication.email.EmailClientBuilder;
 import com.azure.communication.email.models.*;
 import com.azure.core.credential.AzureKeyCredential;
+import com.azure.core.util.BinaryData;
 import com.azure.core.util.polling.LongRunningOperationStatus;
 import com.azure.core.util.polling.PollResponse;
 import com.azure.core.util.polling.SyncPoller;
 import likelion.univ.annotation.Processor;
 import likelion.univ.email.exception.EmailSendFailed;
+import likelion.univ.email.exception.InvalidAttachment;
 import likelion.univ.email.sender.EmailContent;
 import likelion.univ.email.sender.EmailSender;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.time.Duration;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
@@ -48,9 +54,9 @@ public class AzureEmailSender implements EmailSender {
                                 .toList()
                 )
                 .setSubject(emailContent.getSubject())
-                .setBodyHtml(emailContent.getContents());
+                .setBodyHtml(emailContent.getContents())
+                .setAttachments(getAttachments(emailContent.getAttachments()));
 
-        EmailAttachment emailAttachment;
         return emailMessage;
     }
 
@@ -81,6 +87,25 @@ public class AzureEmailSender implements EmailSender {
             }
         } catch (Exception exception) {
             throw new EmailSendFailed();
+        }
+    }
+
+    private List<EmailAttachment> getAttachments(List<MultipartFile> attachments) {
+        return attachments.stream()
+                .map(attachment -> new EmailAttachment(
+                            attachment.getOriginalFilename(),
+                            attachment.getContentType(),
+                            getBinaryData(attachment)
+                        )
+                )
+                .toList();
+    }
+
+    private BinaryData getBinaryData(MultipartFile attachment) {
+        try {
+            return BinaryData.fromStream(attachment.getInputStream());
+        } catch (IOException e) {
+            throw new InvalidAttachment();
         }
     }
 }
