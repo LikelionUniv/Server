@@ -12,6 +12,7 @@ public class UserInfoResponseDto {
     private Long id;
     private String name;
     private String email;
+    private String univName;
     private String major;
     private Part part;
     private Long ordinal;
@@ -26,6 +27,7 @@ public class UserInfoResponseDto {
                 .part(user.getProfile().getPart())
                 .ordinal(user.getUniversityInfo().getOrdinal())
                 .email(user.getAuthInfo().getEmail())
+                .univName(user.getUniversityInfo().getUniversity().getName())
                 .role(user.getAuthInfo().getRole())
                 .build();
     }
