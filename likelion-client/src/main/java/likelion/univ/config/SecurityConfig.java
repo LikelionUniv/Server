@@ -40,10 +40,18 @@ public class SecurityConfig {
         http
                 .authorizeRequests()
                 .antMatchers(SwaggerUrlPatterns).permitAll()
-//                .antMatchers("/v1/**").hasRole(ROLE_USER)
-                .antMatchers(HttpMethod.POST, "/v1/project").hasRole("UNIVERSITY_ADMIN")
+
+                // community - 2024.01.29 기준 GUEST 유저는 사용 불능하도록 권한 검사 설정
+//                .antMatchers(HttpMethod.GET, "/v1/community/**").authenticated() // 추후 조회에 대하여는 로그인만 요청할 계획이라 주석으로 냅둠
+                .antMatchers(HttpMethod.GET, "/v1/community/**").hasAnyAuthority("USER", "MANAGER", "UNIVERSITY_ADMIN","SUPER_ADMIN")
+                .antMatchers(HttpMethod.POST, "/v1/community/**").hasAnyAuthority("USER", "MANAGER", "UNIVERSITY_ADMIN","SUPER_ADMIN")
+                .antMatchers(HttpMethod.PUT, "/v1/community/**").hasAnyAuthority("USER", "MANAGER", "UNIVERSITY_ADMIN","SUPER_ADMIN")
+                .antMatchers(HttpMethod.PATCH, "/v1/community/**").hasAnyAuthority("USER", "MANAGER", "UNIVERSITY_ADMIN","SUPER_ADMIN")
+                .antMatchers(HttpMethod.DELETE, "/v1/community/**").hasAnyAuthority("USER", "MANAGER", "UNIVERSITY_ADMIN","SUPER_ADMIN")
+
 //                .anyRequest().authenticated();
                 .anyRequest().permitAll(); //임시
+
         return http.build();
     }
 }
