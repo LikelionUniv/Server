@@ -22,4 +22,8 @@ public class RecruitService {
         }
         return recruitAdopter.save(recruit);
     }
+
+    public void delete(long recruitId) {
+        recruitRepository.deleteById(recruitId);
+    }
 }
