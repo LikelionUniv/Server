@@ -2,6 +2,7 @@ package likelion.univ.domain.post.dto.enums;
 
 
 
+import likelion.univ.domain.post.exception.NoSuchCategoryException;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
@@ -45,7 +46,7 @@ public enum SubCategory {
           } else if (title.equals(ETC.title)) {
                return ETC;
           }
-          return null;
+          throw new NoSuchCategoryException();
      }
      public static boolean isValid(String title) {
           if (SubCategory.findByTitle(title) == null) {

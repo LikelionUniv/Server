@@ -91,8 +91,8 @@ public class PostController {
     @GetMapping("/community/posts")
     public BaseResponse findCategorizedPosts(
             @RequestParam PostOrderCondition oc,
-            @RequestParam(defaultValue = "멋대 중앙") String mc,
-            @RequestParam(defaultValue = "공지사항") String sc,
+            @RequestParam(defaultValue = "멋쟁이사자처럼") String mc,
+            @RequestParam(defaultValue = "공지 사항") String sc,
             @ParameterObject @PageableDefault(size = 5, page = 1) Pageable pageable) {
         if (!MainCategory.isValid(mc) || !SubCategory.isValid(sc)) {
             return ErrorResponse.of(PostErrorCode.CATEGORY_NOT_FOUND);

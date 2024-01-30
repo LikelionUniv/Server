@@ -9,7 +9,7 @@ public class AccessProcessor {
 
     private RoleHierarchyImpl roleHierarchy() {
         RoleHierarchyImpl roleHierarchy = new RoleHierarchyImpl();
-        roleHierarchy.setHierarchy("ROLE_SUPER_ADMIN > ROLE_ADMIN > ROLE_MANAGER > ROLE_USER");
+        roleHierarchy.setHierarchy("ROLE_SUPER_ADMIN > ROLE_UNIVERSITY_ADMIN > ROLE_MANAGER > ROLE_USER");
         return roleHierarchy;
     }
 
