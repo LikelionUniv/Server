@@ -1,34 +1,19 @@
 package likelion.univ.config;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import likelion.univ.exception.AccessDeniedRequestException;
 import likelion.univ.exception.GlobalErrorCode;
-import likelion.univ.exception.base.BaseErrorCode;
 import likelion.univ.exception.base.BaseException;
 import likelion.univ.feign.exception.FeignClientException;
 import likelion.univ.response.ErrorResponse;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
-import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.net.BindException;
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.Map;
 
 @RestControllerAdvice
 @Slf4j
