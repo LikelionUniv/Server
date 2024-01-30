@@ -75,6 +75,7 @@ public class UserCustomRepositoryImpl implements UserCustomRepository {
 
     @Override
     public Page<User> findByUnivNameAndRole(Role role, String univName, Pageable pageable){
+        List<Long> ids = getCoveringIndex(null);
         List<User> users =
                 queryFactory
                         .select(user)
@@ -83,11 +84,12 @@ public class UserCustomRepositoryImpl implements UserCustomRepository {
                         .where(startsWithUniversity(univName),
                                 eqRole(role),
                                 user.authInfo.accountStatus.eq(AccountStatus.ACTIVE))
+                        .offset(pageable.getOffset())
                         .orderBy(user.createdDate.desc())
                         .limit(pageable.getPageSize())
                         .fetch();
 
-        return new PageImpl<>(users, pageable, users.size());
+        return PageableExecutionUtils.getPage(users, pageable, ids::size);
 
     }
 
