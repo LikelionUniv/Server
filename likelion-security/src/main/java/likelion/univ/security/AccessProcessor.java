@@ -1,15 +1,8 @@
 package likelion.univ.security;
 
 import likelion.univ.annotation.Processor;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl;
-import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 
 @Processor
 public class AccessProcessor {
