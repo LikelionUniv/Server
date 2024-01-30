@@ -1,6 +1,7 @@
 package likelion.univ.adminUser.dto.request;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import likelion.univ.domain.user.entity.Role;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -26,7 +27,7 @@ public class UpdateUserRequestDto {
     private Long ordinal;
     @NotBlank
     @Schema(description = "역할", example = "MANAGER", required = true)
-    private String role;
+    private Role role;
 
 
 }

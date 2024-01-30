@@ -1,5 +1,6 @@
 package likelion.univ.domain.user.repository;
 
+import likelion.univ.domain.user.entity.Role;
 import likelion.univ.domain.user.entity.User;
 import likelion.univ.domain.user.repository.searchcondition.UserSearchCondition;
 import org.springframework.data.domain.Page;
@@ -15,4 +16,5 @@ public interface UserCustomRepository {
     Slice<User> searchByName(String name, Pageable pageable);
     List<User> findMyFollowingUsersByFollowingIdIn(Long followerId, List<Long> followingIdList);
     Page<User> findAllWithUniversity(Pageable pageable);
+    Page<User> findByUnivNameAndRole(Role role, String univName, Pageable pageable);
 }
