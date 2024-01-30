@@ -41,19 +41,10 @@ public class UserAdaptor {
         return userRepository.findByUniversityInfoUniversityId(id, pageable);
     }
 
-
-    public Page<User> findAll(Pageable pageable) {
-        return userRepository.findAll(pageable);
-    }
-    public Page<User> findByUnivName(String univName, Pageable pageable){
-        return userRepository.findByUniversityInfoUniversityName(univName, pageable);
-    }
-    public Page<User> findByRole(Role role, Pageable pageable){
-        return userRepository.findByAuthInfoRole(role, pageable);
-    }
-    public Page<User> findByUnivNameAndRole(Role role, String univName, Pageable pageable){
+    public Page<User> findByUnivNameAndRole(Role role, String univName, Pageable pageable) {
         return userRepository.findByUnivNameAndRole(role, univName, pageable);
     }
+
     public List<User> findDynamicUsers(UserSearchCondition condition) {
         return userRepository.findDynamicUsers(condition);
     }
