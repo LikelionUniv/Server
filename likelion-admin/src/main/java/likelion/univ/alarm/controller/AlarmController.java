@@ -31,7 +31,7 @@ public class AlarmController {
             description = "이메일 알람을 보내는 API 입니다."
     )
     public SuccessResponse<String> sendEmail(
-            @RequestBody SendEmailDto sendEmailDto,
+            @RequestPart SendEmailDto sendEmailDto,
             @RequestPart(required = false) List<MultipartFile> attachments) {
         sendEmailUseCase.execute(sendEmailDto, attachments);
         return SuccessResponse.of("리크루팅 알람 전송 성공");
