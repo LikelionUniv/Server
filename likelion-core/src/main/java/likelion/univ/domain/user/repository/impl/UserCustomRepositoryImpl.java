@@ -84,6 +84,7 @@ public class UserCustomRepositoryImpl implements UserCustomRepository {
                                 eqRole(role),
                                 user.authInfo.accountStatus.eq(AccountStatus.ACTIVE))
                         .orderBy(user.createdDate.desc())
+                        .limit(pageable.getPageSize())
                         .fetch();
 
         return new PageImpl<>(users, pageable, users.size());

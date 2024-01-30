@@ -29,8 +29,8 @@ public class HeadquatersController {
 
     @Operation(summary = "회원 전체 조회")
     @GetMapping("/users")
-    public SuccessResponse<PageResponse<UserInfoResponseDto>> findUsersByUnivOfUser(
-            @ParameterObject @PageableDefault(size=12, page = 0,
+    public SuccessResponse<PageResponse<UserInfoResponseDto>> findUsersByHeadquaters(
+            @ParameterObject @PageableDefault(size=10, page = 0,
                     sort="createdDate", direction = Sort.Direction.DESC) Pageable pageable,
             @RequestParam(required = false) Role role, @RequestParam(required = false) String univName) {
         PageResponse<UserInfoResponseDto> response = findAllByHeadqueatersUseCase.execute(role, univName, pageable);
