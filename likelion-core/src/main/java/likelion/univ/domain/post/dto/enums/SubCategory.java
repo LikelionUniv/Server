@@ -9,7 +9,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum SubCategory {
      // HQ
-     NOTICE("공지사항"),
+     NOTICE("공지 사항"),
 
      // board
      INFO("정보공유"),
