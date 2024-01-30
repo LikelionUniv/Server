@@ -91,6 +91,11 @@ public class AzureEmailSender implements EmailSender {
     }
 
     private List<EmailAttachment> getAttachments(List<MultipartFile> attachments) {
+
+        if (attachments == null || attachments.size() == 0) {
+            return null;
+        }
+
         return attachments.stream()
                 .map(attachment -> new EmailAttachment(
                             attachment.getOriginalFilename(),
