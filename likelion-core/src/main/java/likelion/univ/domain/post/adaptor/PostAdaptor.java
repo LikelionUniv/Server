@@ -1,6 +1,7 @@
 package likelion.univ.domain.post.adaptor;
 
 import likelion.univ.annotation.Adaptor;
+import likelion.univ.domain.post.dto.response.PostEditData;
 import likelion.univ.domain.post.dto.response.PostSimpleData;
 import likelion.univ.domain.post.entity.Post;
 import likelion.univ.domain.post.dto.enums.MainCategory;
@@ -20,7 +21,10 @@ public class PostAdaptor {
 
     public Post findById(Long postId) {
         return postRepository.findById(postId).orElseThrow(PostNotFoudException::new);
+    }
 
+    public PostEditData findPostEditByPostId(Long postId) {
+        return postRepository.findPostEditByPostId(postId);
     }
 
     public Long save(Post post) {
@@ -59,12 +63,23 @@ public class PostAdaptor {
         return postRepository.findByCategoriesOrderByCommentCount(mainCategory, subCategory, pageable);
     }
 
-    public Page<PostSimpleData> findByCategoriesAndSearchTitle(String searchTitle, MainCategory mainCategory, SubCategory subCategory, Pageable pageable) {
-        return postRepository.findByCategoriesAndSearchTitle(searchTitle, mainCategory, subCategory, pageable);
+    public Page<PostSimpleData> findByCategoriesAndSearchTitleOrderByCreatedDate(String searchTitle, MainCategory mainCategory, SubCategory subCategory, Pageable pageable) {
+        return postRepository.findByCategoriesAndSearchTitleOrderByCreatedDate(searchTitle, mainCategory, subCategory, pageable);
     }
-
-    public Page<PostSimpleData> findBySearchTitle(String searchTitle, Pageable pageable) {
-        return postRepository.findBySearchTitle(searchTitle, pageable);
+    public Page<PostSimpleData> findByCategoriesAndSearchTitleOrderByCommentCount(String searchTitle, MainCategory mainCategory, SubCategory subCategory, Pageable pageable) {
+        return postRepository.findByCategoriesAndSearchTitleOrderByCommentCount(searchTitle, mainCategory, subCategory, pageable);
+    }
+    public Page<PostSimpleData> findByCategoriesAndSearchTitleOrderByLikeCount(String searchTitle, MainCategory mainCategory, SubCategory subCategory, Pageable pageable) {
+        return postRepository.findByCategoriesAndSearchTitleOrderByLikeCount(searchTitle, mainCategory, subCategory, pageable);
+    }
+    public Page<PostSimpleData> findBySearchTitleOrderByCreatedDate(String searchTitle, Pageable pageable) {
+        return postRepository.findBySearchTitleOrderByCreatedDate(searchTitle, pageable);
+    }
+    public Page<PostSimpleData> findBySearchTitleOrderByCommentCount(String searchTitle, Pageable pageable) {
+        return postRepository.findBySearchTitleOrderByCommentCount(searchTitle, pageable);
+    }
+    public Page<PostSimpleData> findBySearchTitleOrderByLikeCount(String searchTitle, Pageable pageable) {
+        return postRepository.findBySearchTitleOrderByLikeCount(searchTitle, pageable);
     }
 
     public Page<Post> findPostsByCategoriesAndUniversityOrderByCreatedDate(

@@ -15,7 +15,10 @@ import likelion.univ.utils.AuthenticatedUserUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @UseCase
 @RequiredArgsConstructor
@@ -23,10 +26,17 @@ public class GetPostsCommentedByMeUseCase {
     private final AuthenticatedUserUtils authentiatedUserUtils;
     private final PostAdaptor postAdaptor;
     private final GetOrCreatePostCountInfoProcessor getOrCreatePostCountInfoProcessor;
+    private final PostLikeAdaptor postLikeAdaptor;
 
     public PageResponse<UserPagePostsDto> execute(Long userId, Pageable pageable){
         Long currentUserId = authentiatedUserUtils.getCurrentUserId();
         Page<Post> posts = postAdaptor.findByCommentAuthorId(userId, pageable);
-        return PageResponse.of(posts.map(p-> UserPagePostsDto.of(p, currentUserId, getOrCreatePostCountInfoProcessor.execute(p.getId()))));
+
+        List<Long> postIds = posts.get().map(p -> p.getId()).collect(Collectors.toList());
+        List<Long> myLikedPostIds = postLikeAdaptor.findPostIdsByUserIdAndPostIdsIn(currentUserId, postIds);
+
+        return PageResponse.of(posts.map(p-> UserPagePostsDto.of(p, currentUserId,
+                getOrCreatePostCountInfoProcessor.execute(p.getId()),
+                myLikedPostIds.contains(p.getId()))));
     }
 }

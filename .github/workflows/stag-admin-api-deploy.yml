@@ -1,8 +1,8 @@
-name: stag-client-api-deploy
+name: stag-admin-api-deploy
 
 on: 
   push: 
-    branches: [ "stag/client" ]
+    branches: [ "stag/admin" ]
   workflow_dispatch:
 
 jobs:
@@ -18,8 +18,8 @@ jobs:
       - name: app clean
         run: ./gradlew clean
         
-      - name: client api build
-        run: ./gradlew :likelion-client:build -x test
+      - name: admin api build
+        run: ./gradlew :likelion-admin:build -x test
 
       - name: Docker login
         uses: docker/login-action@v2
@@ -30,19 +30,19 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v3
         with:
-          context: ./likelion-client
+          context: ./likelion-admin
           push: true
-          tags: ${{ secrets.DOCKER_CLIENT_API_STAG_IMAGE }}
+          tags: ${{ secrets.DOCKER_ADMIN_API_STAG_IMAGE }}
           build-args: PROFILE=stag
 
-      - name: client-api-deploy
+      - name: admin-api-deploy
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.KEY }}
           script: |
-            sudo docker rm -f ${{ secrets.DOCKER_CLIENT_API_STAG_CONTAINER }}
-            sudo docker rmi ${{ secrets.DOCKER_CLIENT_API_STAG_IMAGE }}
+            sudo docker rm -f ${{ secrets.DOCKER_ADMIN_API_STAG_CONTAINER }}
+            sudo docker rmi ${{ secrets.DOCKER_ADMIN_API_STAG_IMAGE }}
             sudo docker-compose -f ${{ secrets.DOCKER_COMPOSE_DIRECTORY }} up -d
             sudo docker image prune -f

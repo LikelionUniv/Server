@@ -4,10 +4,12 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 
-@Data
 @Builder
-@AllArgsConstructor
-public class DeleteCommentCommand {
-    private Long loginUserId;
-    private Long commentId;
+public record DeleteCommentCommand(
+    Long commentId,
+    Long loginUserId
+) {
+    public static DeleteCommentCommand of(Long commentId, Long loginUserId) {
+        return new DeleteCommentCommand(commentId, loginUserId);
+    }
 }

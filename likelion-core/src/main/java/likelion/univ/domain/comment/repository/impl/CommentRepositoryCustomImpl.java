@@ -14,6 +14,7 @@ import java.util.List;
 
 import static likelion.univ.domain.comment.entity.QComment.comment;
 import static likelion.univ.domain.like.commentlike.entity.QCommentLike.commentLike;
+import static likelion.univ.domain.post.entity.QPost.post;
 import static likelion.univ.domain.user.entity.QUser.user;
 
 
@@ -36,6 +37,19 @@ public class CommentRepositoryCustomImpl implements CommentRepositoryCustom {
                         .distinct()
                         .fetch();
         }
+
+        @Override
+        public Long countByPostIdAndIsDeletedEquals(Long postId, Boolean isDeleted) {
+                Long commentCount = queryFactory
+                        .select(comment.id.count())
+                        .from(comment)
+                        .join(comment.post, post)
+                        .on(comment.post.id.eq(postId))
+                        .where(comment.isDeleted.eq(isDeleted))
+                        .fetchFirst();
+                return commentCount;
+        }
+
         @Override
         public List<Comment> findParentCommentsByPostId(Long postId) {
                 List<Long> parentCommentsIds = getParentCommentsIds(postId);

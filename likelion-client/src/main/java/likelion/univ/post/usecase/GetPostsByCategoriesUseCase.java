@@ -4,7 +4,6 @@ import likelion.univ.annotation.UseCase;
 import likelion.univ.common.response.PageResponse;
 import likelion.univ.domain.post.dto.enums.PostOrderCondition;
 import likelion.univ.domain.post.dto.request.GetPostsByCategoriesCommand;
-import likelion.univ.domain.post.dto.response.PostData;
 import likelion.univ.domain.post.dto.response.PostSimpleData;
 import likelion.univ.domain.post.dto.enums.MainCategory;
 import likelion.univ.domain.post.dto.enums.SubCategory;
@@ -27,16 +26,16 @@ public class GetPostsByCategoriesUseCase {
     private final GetOrCreatePostCountInfoProcessor getOrCreatePostCountInfoProcessor;
 
     public PageResponse<PostResponseDto> execute(PostOrderCondition orderCondition, String mainCategory, String subCategory, Pageable pageable) {
-        GetPostsByCategoriesCommand request = new GetPostsByCategoriesCommand(MainCategory.findByTitle(mainCategory), SubCategory.findByTitle(subCategory), pageable);
+        GetPostsByCategoriesCommand request = new GetPostsByCategoriesCommand(MainCategory.findByTitle(mainCategory), SubCategory.findByTitle(subCategory));
         if (orderCondition.equals(PostOrderCondition.LIKE_COUNT_ORDER)) {
-            Page<PostSimpleData> postSimpleDataPage = postDomainService.getByCategoriesOrderByLikeCount(request);
+            Page<PostSimpleData> postSimpleDataPage = postDomainService.getByCategoriesOrderByLikeCount(request, pageable);
             return PageResponse.of(postSimpleDataPage.map(p-> PostResponseDto.of(p, getOrCreatePostCountInfoProcessor.execute(p.postId()))));
 
         } else if (orderCondition.equals(PostOrderCondition.COMMENT_COUNT_ORDER)) {
-            Page<PostSimpleData> postSimpleDataPage = postDomainService.getByCategoriesOrderByCommentCount(request);
+            Page<PostSimpleData> postSimpleDataPage = postDomainService.getByCategoriesOrderByCommentCount(request, pageable);
             return PageResponse.of(postSimpleDataPage.map(p-> PostResponseDto.of(p, getOrCreatePostCountInfoProcessor.execute(p.postId()))));
         }
-        Page<PostSimpleData> postSimpleDataPage = postDomainService.getByCategoriesOrderByCreatedData(request);
+        Page<PostSimpleData> postSimpleDataPage = postDomainService.getByCategoriesOrderByCreatedData(request, pageable);
         return PageResponse.of(postSimpleDataPage.map(p-> PostResponseDto.of(p, getOrCreatePostCountInfoProcessor.execute(p.postId()))));
     }
 }

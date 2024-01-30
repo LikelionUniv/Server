@@ -50,14 +50,23 @@ public class Post extends BaseTimeEntity {
     private SubCategory subCategory;
 
     public void edit(UpdatePostCommand request) {
-        if (request.title() != null)
+        if (request.title() != null) {
             this.title = request.title();
-        if (request.body() != null)
+        }
+        if (request.body() != null) {
             this.body = request.body();
-        if (request.thumbnail() == null)
+        }
+        if (request.thumbnail() == null) {
             this.thumbnail = null;
-        else if (!request.thumbnail().equals(this.getThumbnail()))
+        } else if (!request.thumbnail().equals(this.getThumbnail())) {
             this.thumbnail = request.thumbnail();
+        }
+        if (!request.mainCategory().isBlank()) {
+            this.mainCategory = MainCategory.findByTitle(request.mainCategory());
+        }
+        if (!request.subCategory().isBlank()) {
+            this.subCategory = SubCategory.findByTitle(request.subCategory());
+        }
     }
 
 }

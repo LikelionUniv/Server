@@ -1,17 +1,17 @@
 package likelion.univ.domain.post.service;
 
 import likelion.univ.domain.comment.adaptor.CommentAdaptor;
-import likelion.univ.domain.comment.dto.response.ChildCommentData;
-import likelion.univ.domain.comment.dto.response.ParentCommentData;
 import likelion.univ.domain.follow.adaptor.FollowAdaptor;
 import likelion.univ.domain.like.postlike.adaptor.PostLikeAdaptor;
 import likelion.univ.domain.post.adaptor.PostAdaptor;
+import likelion.univ.domain.post.dto.enums.PostOrderCondition;
 import likelion.univ.domain.post.dto.request.*;
 import likelion.univ.domain.post.dto.response.*;
 import likelion.univ.domain.post.entity.Post;
 import likelion.univ.domain.post.dto.enums.MainCategory;
 import likelion.univ.domain.post.dto.enums.SubCategory;
 import likelion.univ.domain.post.exception.PostNoAuthorizationException;
+import likelion.univ.domain.post.exception.PostNotFoudException;
 import likelion.univ.domain.user.adaptor.UserAdaptor;
 import likelion.univ.domain.user.entity.Profile;
 import likelion.univ.domain.user.entity.UniversityInfo;
@@ -71,67 +71,80 @@ public class PostDomainService {
                 .build();
     }
 
-    public Page<PostSimpleData> getByCategoriesOrderByCreatedData(GetPostsByCategoriesCommand request) {
+    public PostEditData getPostEditById(Long postId) {
+        PostEditData postEdit = postAdaptor.findPostEditByPostId(postId);
+        if (postEdit == null) {
+            throw new PostNotFoudException();
+        }
+
+        return postEdit;
+    }
+
+    public Page<PostSimpleData> getByCategoriesOrderByCreatedData(GetPostsByCategoriesCommand request, Pageable pageable) {
         MainCategory mainCategory = request.mainCategory();
         SubCategory subCategory = request.subCategory();
-        Pageable pageable = request.pageable();
         Page<Post> posts = postAdaptor.findByCategoriesOrderByCreatedDate(mainCategory, subCategory, pageable);
         List<PostSimpleData> postSimpleDataList = posts.stream().map(PostSimpleData::of).toList();
-        return new PageImpl<>(postSimpleDataList, pageable, posts.getTotalPages());
+        return new PageImpl<>(postSimpleDataList, pageable, posts.getTotalElements());
     }
 
-    public Page<PostSimpleData> getByCategoriesOrderByLikeCount(GetPostsByCategoriesCommand request) {
+    public Page<PostSimpleData> getByCategoriesOrderByLikeCount(GetPostsByCategoriesCommand request, Pageable pageable) {
         MainCategory mainCategory = request.mainCategory();
         SubCategory subCategory = request.subCategory();
-        Pageable pageable = request.pageable();
         Page<Post> posts = postAdaptor.findByCategoriesOrderByLikeCount(mainCategory, subCategory, pageable);
         List<PostSimpleData> postSimpleDataList = posts.stream().map(PostSimpleData::of).toList();
-        return new PageImpl<>(postSimpleDataList, pageable, posts.getTotalPages());
+        return new PageImpl<>(postSimpleDataList, pageable, posts.getTotalElements());
     }
 
-    public Page<PostSimpleData> getByCategoriesOrderByCommentCount(GetPostsByCategoriesCommand request) {
+    public Page<PostSimpleData> getByCategoriesOrderByCommentCount(GetPostsByCategoriesCommand request, Pageable pageable) {
         MainCategory mainCategory = request.mainCategory();
         SubCategory subCategory = request.subCategory();
-        Pageable pageable = request.pageable();
         Page<Post> posts = postAdaptor.findByCategoriesOrderByCommentCount(mainCategory, subCategory, pageable);
         List<PostSimpleData> postSimpleDataList = posts.stream().map(PostSimpleData::of).toList();
-        return new PageImpl<>(postSimpleDataList, pageable, posts.getTotalPages());
+        return new PageImpl<>(postSimpleDataList, pageable, posts.getTotalElements());
     }
-    public Page<PostSimpleData> getByCategoriesAndSearchTitle(GetPostsByCategorySearchCommand request) {
+    public Page<PostSimpleData> getByCategoriesAndSearchTitle(GetPostsByCategorySearchCommand request, Pageable pageable) {
+        PostOrderCondition orderCondition = request.orderCondition();
         String searchTitle = request.searchTitle();
         MainCategory mainCategory = request.mainCategory();
         SubCategory subCategory = request.subCategory();
-        Pageable pageable = request.pageable();
 
-        return postAdaptor.findByCategoriesAndSearchTitle(searchTitle, mainCategory, subCategory, pageable);
+        if (orderCondition.equals(PostOrderCondition.COMMENT_COUNT_ORDER)) {
+            return postAdaptor.findByCategoriesAndSearchTitleOrderByCommentCount(searchTitle, mainCategory, subCategory, pageable);
+        } else if (orderCondition.equals(PostOrderCondition.LIKE_COUNT_ORDER)) {
+            return postAdaptor.findByCategoriesAndSearchTitleOrderByLikeCount(searchTitle, mainCategory, subCategory, pageable);
+        } // order by created date
+        return postAdaptor.findByCategoriesAndSearchTitleOrderByCreatedDate(searchTitle, mainCategory, subCategory, pageable);
     }
 
-    public Page<PostSimpleData> getBySearchTitle(GetPostsBySearchTitleCommand request) {
+    public Page<PostSimpleData> getBySearchTitle(GetPostsBySearchTitleCommand request, Pageable pageable) {
+        PostOrderCondition orderCondition = request.orderCondition();
         String searchTitle = request.searchTitle();
-        Pageable pageable = request.pageable();
-        return postAdaptor.findBySearchTitle(searchTitle, pageable);
+
+        if (orderCondition.equals(PostOrderCondition.LIKE_COUNT_ORDER)) {
+            return postAdaptor.findBySearchTitleOrderByLikeCount(searchTitle, pageable);
+        } else if (orderCondition.equals(PostOrderCondition.COMMENT_COUNT_ORDER)) {
+            return postAdaptor.findBySearchTitleOrderByCommentCount(searchTitle, pageable);
+        }
+        return postAdaptor.findBySearchTitleOrderByCreatedDate(searchTitle, pageable);
     }
 
     @Transactional
-    public PostIdData createPost(CreatePostCommand request) {
+    public Long createPost(CreatePostCommand request) {
         Post post = createEntity(request);
         Long savedId = postAdaptor.save(post);
-        return PostIdData.builder()
-                .postId(savedId)
-                .build();
+        return savedId;
     }
 
     @Transactional
-    public PostIdData editPost(UpdatePostCommand request) {
+    public Long editPost(UpdatePostCommand request) {
         Post post = postAdaptor.findById(request.postId());
         if (!(post.getAuthor().getId().equals(request.loginUserId()))) {
             throw new PostNoAuthorizationException();
         }
         post.edit(request);
-        Long savedId = postAdaptor.save(post);
-        return PostIdData.builder()
-                .postId(savedId)
-                .build();
+        Long saveId = postAdaptor.save(post);
+        return saveId;
     }
     @Transactional
     public void deletePost(DeletePostCommand request) {
@@ -153,14 +166,14 @@ public class PostDomainService {
                 .build();
     }
 
-    private Page<PostData> addCountsData(Page<PostSimpleData> posts, Pageable pageable) {
-        List<PostData> response = posts.stream().map(p -> {
-            Long commentCount = commentAdaptor.countByPostId(p.postId());
-            Long likeCount = postLikeAdaptor.countByPostId(p.postId());
-            return PostData.getInstance(p, likeCount, commentCount);
-        }).toList();
-        return new PageImpl<>(response, pageable, posts.getTotalPages());
-    }
+//    private Page<PostData> addCountsData(Page<PostSimpleData> posts, Pageable pageable) {
+//        List<PostData> response = posts.stream().map(p -> {
+//            Long commentCount = commentAdaptor.countByPostId(p.postId());
+//            Long likeCount = postLikeAdaptor.countByPostId(p.postId());
+//            return PostData.getInstance(p, likeCount, commentCount);
+//        }).toList();
+//        return new PageImpl<>(response, pageable, posts.getTotalPages());
+//    }
 
 
 }

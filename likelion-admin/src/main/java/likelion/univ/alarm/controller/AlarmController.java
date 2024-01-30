@@ -6,16 +6,18 @@ import likelion.univ.alarm.dto.EmailAlarmDto;
 import likelion.univ.alarm.dto.GetRecruitsDto;
 import likelion.univ.alarm.dto.RecruitEmailAlarmDto;
 import likelion.univ.alarm.dto.UserListDto;
-import likelion.univ.alarm.usecase.EmailAlarmUsecase;
-import likelion.univ.alarm.usecase.EmailRecruitAlarmUsecase;
-import likelion.univ.alarm.usecase.GetRecruitsUsecase;
-import likelion.univ.alarm.usecase.GetUsersUsecase;
+import likelion.univ.alarm.usecase.*;
+import likelion.univ.domain.recruit.service.RecruitService;
 import likelion.univ.domain.user.entity.User;
 import likelion.univ.domain.user.repository.searchcondition.UserSearchCondition;
 import likelion.univ.response.SuccessResponse;
 import likelion.univ.utils.AuthenticatedUserUtils;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 @Tag(name = "Alarm", description = "알람을 보내는 API")
 @RestController
@@ -27,7 +29,7 @@ public class AlarmController {
     private final EmailRecruitAlarmUsecase emailRecruitAlarmUsecase;
     private final GetRecruitsUsecase getRecruitsUsecase;
     private final GetUsersUsecase getUsersUsecase;
-    private final AuthenticatedUserUtils userUtils;
+    private final DeleteRecruitUsecase deleteRecruitUsecase;
 
     @PostMapping
     @Operation(
@@ -40,13 +42,18 @@ public class AlarmController {
 
     }
 
-    @PostMapping("/recruit")
+    @PostMapping(
+            value = "/recruit" ,
+            consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE}
+    )
     @Operation(
             summary = "리크루팅 알람 전송 API",
             description = "대학 대표(UNIVERSITY_ADMIN)가 리크루팅 이메일 알람을 보내는 API 입니다."
     )
-    public SuccessResponse<String> sendRecruitAlarm(@RequestBody RecruitEmailAlarmDto recruitEmailAlarmDto) {
-        emailRecruitAlarmUsecase.execute(recruitEmailAlarmDto);
+    public SuccessResponse<String> sendRecruitAlarm(
+            @RequestBody RecruitEmailAlarmDto recruitEmailAlarmDto,
+            @RequestPart(required = false) List<MultipartFile> attachments) {
+        emailRecruitAlarmUsecase.execute(recruitEmailAlarmDto, attachments);
         return SuccessResponse.of("리크루팅 알람 전송 성공");
     }
 
@@ -56,10 +63,19 @@ public class AlarmController {
             description = "대학 대표가 등록된 리크루팅 명단을 확인할 수 있는 API 입니다."
     )
     public SuccessResponse<GetRecruitsDto> getRecruits(@RequestParam int generation) {
-        User universityManager = userUtils.getCurrentUser();
-        GetRecruitsDto response = getRecruitsUsecase.execute(universityManager, generation);
+        GetRecruitsDto response = getRecruitsUsecase.execute(generation);
 
         return SuccessResponse.of(response);
+    }
+
+    @DeleteMapping("/recruit/{id}")
+    @Operation(
+            summary = "리크루팅 삭제 API",
+            description = "대학 대표가 등록된 리크루팅 명단을 삭제할 수 있는 API 입니다."
+    )
+    public SuccessResponse<Long> deleteRecruit(@PathVariable Long id) {
+        deleteRecruitUsecase.execute(id);
+        return SuccessResponse.of(id);
     }
 
     @GetMapping("/user")

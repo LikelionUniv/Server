@@ -22,7 +22,7 @@ public class GetOrCreatePostCountInfoProcessor {
     public PostCountInfo execute(Long postId){
         Optional<PostCountInfo> postCountInfo = postCountInfoRedisDao.findById(postId);
         if(postCountInfo.isEmpty()){
-            Long commentCount = commentAdaptor.countByPostId(postId);
+            Long commentCount = commentAdaptor.countByPostIdAndIsDeletedEquals(postId, false);
             Long likeCount = postLikeAdaptor.countByPostId(postId);
             return postCountInfoRedisService.save(postId, commentCount, likeCount);
         }else return postCountInfo.get();

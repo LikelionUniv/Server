@@ -1,7 +1,6 @@
 package likelion.univ.config;
 
 import likelion.univ.exception.GlobalErrorCode;
-import likelion.univ.exception.base.BaseErrorCode;
 import likelion.univ.exception.base.BaseException;
 import likelion.univ.feign.exception.FeignClientException;
 import likelion.univ.response.ErrorResponse;
@@ -87,4 +86,5 @@ public class ClientExceptionHandler {
         ErrorResponse error = ErrorResponse.of(GlobalErrorCode.SERVER_ERROR);
         return ResponseEntity.status(error.getHttpStatus()).body(error);
     }
+
 }

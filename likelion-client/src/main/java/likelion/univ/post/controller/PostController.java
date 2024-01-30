@@ -5,14 +5,13 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import likelion.univ.common.response.PageResponse;
 import likelion.univ.domain.post.dto.enums.PostOrderCondition;
-import likelion.univ.domain.post.dto.response.PostIdData;
 import likelion.univ.domain.post.dto.enums.MainCategory;
 import likelion.univ.domain.post.dto.enums.SubCategory;
-import likelion.univ.domain.post.exception.NoSuchCategoryException;
 import likelion.univ.domain.post.exception.PostErrorCode;
 import likelion.univ.post.dto.request.PostCreateRequestDto;
 import likelion.univ.post.dto.request.PostUpdateRequestDto;
 import likelion.univ.post.dto.response.PostDetailResponseDto;
+import likelion.univ.post.dto.response.PostEditResponseDto;
 import likelion.univ.post.dto.response.PostResponseDto;
 import likelion.univ.post.usecase.*;
 import likelion.univ.response.BaseResponse;
@@ -38,6 +37,7 @@ public class PostController {
     private final DeletePostUseCase deletePostUseCase;
     private final GetPostsByCategoriesUseCase getPostsByCategoriesUseCase;
     private final GetPostDetailUseCase getPostDetailUseCase;
+    private final GetPostEditUseCase getPostEditUseCase;
     private final GetPostsBySearchTitleUseCase getPostsBySearchTitleUseCase;
 
     /* ----- read ----- */
@@ -53,6 +53,21 @@ public class PostController {
         PostDetailResponseDto response = getPostDetailUseCase.execute(postId);
         return SuccessResponse.of(response);
     }
+
+    @Operation(
+            summary = "게시글 수정을 위한 데이터 조회",
+            description = """
+                    ### 게시글 수정을 위한 간단 조회 api입니다.
+                    - 테스트 완료(황제철)
+                    - postId에 해당하는 게시글 없으면 404 반환
+                    """
+    )
+    @GetMapping("/community/posts/{postId}/simple")
+    public SuccessResponse<PostEditResponseDto> findPostEdit(@PathVariable Long postId) {
+        PostEditResponseDto response = getPostEditUseCase.execute(postId);
+        return SuccessResponse.of(response);
+    }
+
 
     @Operation(
             summary = "카테고리별 posts 조회",
@@ -108,17 +123,19 @@ public class PostController {
     )
     @GetMapping("/community/posts/search")
     public BaseResponse searchPost(
+            @RequestParam PostOrderCondition oc,
             @RequestParam(defaultValue = "검색어") String st,
-            @RequestParam(defaultValue = "전체") String mc,
-            @RequestParam(defaultValue = "전체") String sc,
+            @RequestParam(defaultValue = "전체 게시판") String mc,
+            @RequestParam(defaultValue = "전체 게시판") String sc,
             @ParameterObject @PageableDefault(size = 5, page = 1) Pageable pageable) {
 
-        if (!mc.equals("전체") && (!MainCategory.isValid(mc) || !SubCategory.isValid(sc))) {
+        if (!mc.equals("전체 게시판") && (!MainCategory.isValid(mc) || !SubCategory.isValid(sc))) {
             return ErrorResponse.of(PostErrorCode.CATEGORY_NOT_FOUND);
         }
-        PageResponse<PostResponseDto> response = getPostsBySearchTitleUseCase.execute(st, mc, sc, pageable);
+        PageResponse<PostResponseDto> response = getPostsBySearchTitleUseCase.execute(oc, st, mc, sc, pageable);
         return SuccessResponse.of(response);
     }
+
 
     /* ----- command ----- */
     @Operation(
@@ -135,25 +152,25 @@ public class PostController {
                             - **FREE_BOARD(자유게시판)** : INFO(정보공유), GET_MEMBER(팀원모집), GET_PROJECT(플젝모집), SHOWOFF(플젝자랑)
                             - **OVERFLOW(멋사 오버플로우)** : FRONTEND(프론트), BACKEND(백), PM(기획), UXUI(디자인), ETC(기타)""")
     @PostMapping("/community/posts/new")
-    public SuccessResponse<PostIdData> createPost(@RequestBody @Valid PostCreateRequestDto request/*, BindingResult bindingResult*/) {
-        PostIdData response = createPostUseCase.execute(request);
-        return SuccessResponse.of(response);
+    public SuccessResponse<Long> createPost(@RequestBody @Valid PostCreateRequestDto request/*, BindingResult bindingResult*/) {
+        Long savedPostId = createPostUseCase.execute(request);
+        return SuccessResponse.of(savedPostId);
     }
 
     @Operation(
             summary = "게시글 수정",
             description = "제목, 내용, 썸네일 수정 : 수정을 안하는 값은 기존 데이터로 넘겨줘야 함")
     @PatchMapping("/community/posts/{postId}")
-    public SuccessResponse<PostIdData> updatePost(@PathVariable Long postId, @RequestBody PostUpdateRequestDto request) {
-        PostIdData response = editPostUsecase.execute(postId, request);
-        return SuccessResponse.of(response);
+    public SuccessResponse<Long> updatePost(@PathVariable Long postId, @RequestBody PostUpdateRequestDto request) {
+        Long updatedPostId = editPostUsecase.execute(postId, request);
+        return SuccessResponse.of(updatedPostId);
     }
 
     @Operation(
             summary = "게시글 hard delete",
             description = "게시글을 database로부터 hard delete")
     @DeleteMapping("/community/posts/{postId}")
-    public SuccessResponse<? extends PostIdData> deletePost(@PathVariable Long postId) {
+    public SuccessResponse deletePost(@PathVariable Long postId) {
         deletePostUseCase.execute(postId);
         return SuccessResponse.empty();
     }
