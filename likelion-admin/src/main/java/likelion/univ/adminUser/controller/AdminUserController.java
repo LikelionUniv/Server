@@ -35,7 +35,7 @@ public class AdminUserController {
 
     @Operation(summary = "우리 학교 동아리 멤버 전체 조회")
     @GetMapping("/univ/users")
-    public SuccessResponse<PageResponse<UserInfoResponseDto>> findUsersByUnivOfUser(@ParameterObject @PageableDefault(size=12, page = 0,sort="createdDate", direction = Sort.Direction.DESC)Pageable pageable) {
+    public SuccessResponse<PageResponse<UserInfoResponseDto>> findUsersByUnivOfUser(@ParameterObject @PageableDefault(size=10, page = 0,sort="createdDate", direction = Sort.Direction.DESC)Pageable pageable) {
         PageResponse<UserInfoResponseDto> response = findAllByUnivAdminUseCase.execute(pageable);
         return SuccessResponse.of(response);
     }

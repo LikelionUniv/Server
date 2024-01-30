@@ -1,5 +1,6 @@
 package likelion.univ.domain.post.dto.enums;
 
+import likelion.univ.domain.post.exception.NoSuchCategoryException;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.jboss.jandex.Main;
@@ -19,7 +20,7 @@ public enum MainCategory {
         } else if (title.equals(OVERFLOW.title)) {
             return OVERFLOW;
         }
-        return null;
+        throw new NoSuchCategoryException();
     }
 
     public static boolean isValid(String title) {

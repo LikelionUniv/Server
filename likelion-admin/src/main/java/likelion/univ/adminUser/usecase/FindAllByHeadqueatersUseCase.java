@@ -16,17 +16,11 @@ public class FindAllByHeadqueatersUseCase {
 
     private final UserAdaptor userAdaptor;
 
-    public PageResponse execute(Pageable pageable, String role, String univName){
-        Page<User> users = userAdaptor.findAllWithUniversity(pageable);
-        if (role != null && univName == null) {
-            users = userAdaptor.findByRole(Role.valueOf(role), pageable);
-        }else if (role == null && univName != null) {
-            users = userAdaptor.findByUnivName(univName, pageable);
-        }else if (role != null && univName != null){
-            users = userAdaptor.findByUnivNameAndRole(Role.valueOf(role), univName, pageable);
-        }
+    public PageResponse<UserInfoResponseDto> execute(Role role, String univName, Pageable pageable) {
 
-        return PageResponse.of(users.map(u-> UserInfoResponseDto.of(u)));
+        Page<User> users = userAdaptor.findByUnivNameAndRole(role, univName, pageable);
+
+        return PageResponse.of(users.map(u -> UserInfoResponseDto.of(u)));
+
     }
-
 }
