@@ -18,7 +18,7 @@ public class UpdateUserUseCase {
 
 
     public UserInfoResponseDto execute(Long userId, UpdateUserRequestDto updateUserRequestDto){
-        User user = userAdaptor.findById(userId);
+        User user = userAdaptor.findByIdWithUniversity(userId);
         userDomainService.updateUser(user, updateUserRequestDto.getName(),
         updateUserRequestDto.getPart(),updateUserRequestDto.getMajor(),
         updateUserRequestDto.getOrdinal(), updateUserRequestDto.getRole());
