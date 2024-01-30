@@ -7,7 +7,6 @@ import likelion.univ.common.response.PageResponse;
 import likelion.univ.domain.post.dto.enums.PostOrderCondition;
 import likelion.univ.domain.post.dto.enums.MainCategory;
 import likelion.univ.domain.post.dto.enums.SubCategory;
-import likelion.univ.domain.post.exception.NoSuchCategoryException;
 import likelion.univ.domain.post.exception.PostErrorCode;
 import likelion.univ.post.dto.request.PostCreateRequestDto;
 import likelion.univ.post.dto.request.PostUpdateRequestDto;

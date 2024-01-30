@@ -18,5 +18,4 @@ public class AccessProcessor {
         expressionHandler.setRoleHierarchy(roleHierarchy());
         return expressionHandler;
     }
-
 }
