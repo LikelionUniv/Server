@@ -13,7 +13,11 @@ import likelion.univ.domain.user.repository.searchcondition.UserSearchCondition;
 import likelion.univ.response.SuccessResponse;
 import likelion.univ.utils.AuthenticatedUserUtils;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 @Tag(name = "Alarm", description = "알람을 보내는 API")
 @RestController
@@ -38,13 +42,18 @@ public class AlarmController {
 
     }
 
-    @PostMapping("/recruit")
+    @PostMapping(
+            value = "/recruit" ,
+            consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE}
+    )
     @Operation(
             summary = "리크루팅 알람 전송 API",
             description = "대학 대표(UNIVERSITY_ADMIN)가 리크루팅 이메일 알람을 보내는 API 입니다."
     )
-    public SuccessResponse<String> sendRecruitAlarm(@RequestBody RecruitEmailAlarmDto recruitEmailAlarmDto) {
-        emailRecruitAlarmUsecase.execute(recruitEmailAlarmDto);
+    public SuccessResponse<String> sendRecruitAlarm(
+            @RequestBody RecruitEmailAlarmDto recruitEmailAlarmDto,
+            @RequestPart(required = false) List<MultipartFile> attachments) {
+        emailRecruitAlarmUsecase.execute(recruitEmailAlarmDto, attachments);
         return SuccessResponse.of("리크루팅 알람 전송 성공");
     }
 
