@@ -17,7 +17,7 @@ public class FindAllByHeadqueatersUseCase {
     private final UserAdaptor userAdaptor;
 
     public PageResponse execute(Pageable pageable, String role, String univName){
-        Page<User> users = userAdaptor.findAll(pageable);
+        Page<User> users = userAdaptor.findAllWithUniversity(pageable);
         if (role != null && univName == null) {
             users = userAdaptor.findByRole(Role.valueOf(role), pageable);
         }else if (role == null && univName != null) {

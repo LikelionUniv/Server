@@ -76,4 +76,8 @@ public class UserAdaptor {
         }
         return users;
     }
+
+    public Page<User> findAllWithUniversity(Pageable pageable){
+        return userRepository.findAllWithUniversity(pageable);
+    }
 }
