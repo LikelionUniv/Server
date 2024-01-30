@@ -32,7 +32,8 @@ public class UserDomainService {
     @Transactional
     public User signUp(Profile profile, AuthInfo authInfo, UniversityInfo universityInfo){
         User user = User.builder()
-                .profile(profile)                .authInfo(authInfo)
+                .profile(profile)
+                .authInfo(authInfo)
                 .universityInfo(universityInfo)
                 .build();
         return userAdaptor.save(user);

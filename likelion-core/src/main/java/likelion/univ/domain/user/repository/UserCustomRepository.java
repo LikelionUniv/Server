@@ -15,5 +15,6 @@ public interface UserCustomRepository {
     Slice<User> findFollowerUsersByFollowingID(Long userId, Pageable pageable);
     Slice<User> searchByName(String name, Pageable pageable);
     List<User> findMyFollowingUsersByFollowingIdIn(Long followerId, List<Long> followingIdList);
+    Page<User> findAllWithUniversity(Pageable pageable);
     Page<User> findByUnivNameAndRole(Role role, String univName, Pageable pageable);
 }

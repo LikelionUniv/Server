@@ -1,8 +1,13 @@
 package likelion.univ.domain.user.repository.impl;
 
+import com.querydsl.core.types.EntityPath;
+import com.querydsl.core.types.Order;
+import com.querydsl.core.types.OrderSpecifier;
+import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.CaseBuilder;
 import com.querydsl.core.types.dsl.NumberExpression;
+import com.querydsl.core.types.dsl.PathBuilder;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import likelion.univ.common.processor.ConvertSliceProcessor;
 import likelion.univ.domain.user.entity.AccountStatus;
@@ -12,10 +17,8 @@ import likelion.univ.domain.user.entity.User;
 import likelion.univ.domain.user.repository.UserCustomRepository;
 import likelion.univ.domain.user.repository.searchcondition.UserSearchCondition;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Slice;
+import org.springframework.data.domain.*;
+import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.util.StringUtils;
 
 import java.util.List;
@@ -48,6 +51,10 @@ public class UserCustomRepositoryImpl implements UserCustomRepository {
     private BooleanExpression eqUniversity(String searchUniversity) {
         return searchUniversity != null ? user.universityInfo.university.name.eq(searchUniversity) : null;
     }
+    private BooleanExpression startsWithUniversity(String searchUniversity) {
+        return StringUtils.hasText(searchUniversity) ?
+                user.universityInfo.university.name.startsWith(searchUniversity) : null;
+    }
 
     private BooleanExpression eqPart(String searchPart) {
         return searchPart != null ? user.profile.part.eq(Part.valueOf(searchPart)) : null;
@@ -73,9 +80,9 @@ public class UserCustomRepositoryImpl implements UserCustomRepository {
                         .select(user)
                         .from(user)
                         .innerJoin(user.universityInfo.university, university).fetchJoin()
-                        .where(eqUniversity(univName),
-                                (eqRole(role)),
-                                (user.authInfo.accountStatus.eq(AccountStatus.ACTIVE)))
+                        .where(startsWithUniversity(univName),
+                                eqRole(role),
+                                user.authInfo.accountStatus.eq(AccountStatus.ACTIVE))
                         .orderBy(user.createdDate.desc())
                         .fetch();
 
@@ -149,5 +156,37 @@ public class UserCustomRepositoryImpl implements UserCustomRepository {
                         .fetch();
 
         return convertSliceProcessor.execute(users, pageable);
+    }
+
+    @Override
+    public Page<User> findAllWithUniversity(Pageable pageable){
+        List<Long> ids = getCoveringIndex(null);
+        List<User> result = queryFactory.select(user)
+                .from(user)
+                .leftJoin(user.universityInfo.university, university).fetchJoin()
+                .where(user.id.in(ids))
+                .orderBy(getOrders(user, pageable.getSort()))
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetch();
+        return PageableExecutionUtils.getPage(result, pageable, ids::size);
+    }
+
+    private List<Long> getCoveringIndex(Predicate predicate){
+        return queryFactory
+                .select(user.id)
+                .from(user)
+                .where(predicate, user.authInfo.accountStatus.eq(AccountStatus.ACTIVE))
+                .fetch();
+    }
+    private OrderSpecifier<?>[] getOrders(EntityPath<?> qEntity, Sort sort) {
+        return sort.stream().map(it -> getOrder(qEntity, it)).toArray(OrderSpecifier[]::new);
+    }
+    private OrderSpecifier<?> getOrder(EntityPath<?> qEntity, Sort.Order order) {
+        final Order direction = order.isAscending() ? Order.ASC : Order.DESC;
+        final String property = order.getProperty();
+        PathBuilder<?> pathBuilder =
+                new PathBuilder<>(qEntity.getType(), qEntity.getMetadata().getName());
+        return new OrderSpecifier(direction, pathBuilder.get(property));
     }
 }
