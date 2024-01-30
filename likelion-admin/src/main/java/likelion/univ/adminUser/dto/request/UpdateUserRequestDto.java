@@ -24,6 +24,9 @@ public class UpdateUserRequestDto {
     @NotBlank
     @Schema(description = "기수", example = "11", required = true)
     private Long ordinal;
+    @NotBlank
+    @Schema(description = "역할", example = "MANAGER", required = true)
+    private String role;
 
 
 }

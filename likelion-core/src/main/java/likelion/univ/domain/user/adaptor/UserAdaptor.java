@@ -1,6 +1,7 @@
 package likelion.univ.domain.user.adaptor;
 
 import likelion.univ.annotation.Adaptor;
+import likelion.univ.domain.user.entity.Role;
 import likelion.univ.domain.user.entity.User;
 import likelion.univ.domain.user.exception.UserNotFoundException;
 import likelion.univ.domain.user.repository.UserRepository;
@@ -36,20 +37,22 @@ public class UserAdaptor {
         return userRepository.save(user);
     }
 
-    public void delete(User user){
-        userRepository.delete(user);
-    }
-    public void deleteAll(List<User> user){
-        userRepository.deleteAll(user);
-    }
-
     public Page<User> findByUniversityInfoUniversityId(Long id, Pageable pageable) {
         return userRepository.findByUniversityInfoUniversityId(id, pageable);
     }
 
 
-    public List<User> findAll() {
-        return userRepository.findAll();
+    public Page<User> findAll(Pageable pageable) {
+        return userRepository.findAll(pageable);
+    }
+    public Page<User> findByUnivName(String univName, Pageable pageable){
+        return userRepository.findByUniversityInfoUniversityName(univName, pageable);
+    }
+    public Page<User> findByRole(Role role, Pageable pageable){
+        return userRepository.findByAuthInfoRole(role, pageable);
+    }
+    public Page<User> findByUnivNameAndRole(Role role, String univName, Pageable pageable){
+        return userRepository.findByUnivNameAndRole(role, univName, pageable);
     }
     public List<User> findDynamicUsers(UserSearchCondition condition) {
         return userRepository.findDynamicUsers(condition);
@@ -72,5 +75,9 @@ public class UserAdaptor {
             throw new UserNotFoundException();
         }
         return users;
+    }
+
+    public Page<User> findAllWithUniversity(Pageable pageable){
+        return userRepository.findAllWithUniversity(pageable);
     }
 }

@@ -6,10 +6,8 @@ import likelion.univ.alarm.dto.EmailAlarmDto;
 import likelion.univ.alarm.dto.GetRecruitsDto;
 import likelion.univ.alarm.dto.RecruitEmailAlarmDto;
 import likelion.univ.alarm.dto.UserListDto;
-import likelion.univ.alarm.usecase.EmailAlarmUsecase;
-import likelion.univ.alarm.usecase.EmailRecruitAlarmUsecase;
-import likelion.univ.alarm.usecase.GetRecruitsUsecase;
-import likelion.univ.alarm.usecase.GetUsersUsecase;
+import likelion.univ.alarm.usecase.*;
+import likelion.univ.domain.recruit.service.RecruitService;
 import likelion.univ.domain.user.entity.User;
 import likelion.univ.domain.user.repository.searchcondition.UserSearchCondition;
 import likelion.univ.response.SuccessResponse;
@@ -27,7 +25,7 @@ public class AlarmController {
     private final EmailRecruitAlarmUsecase emailRecruitAlarmUsecase;
     private final GetRecruitsUsecase getRecruitsUsecase;
     private final GetUsersUsecase getUsersUsecase;
-    private final AuthenticatedUserUtils userUtils;
+    private final DeleteRecruitUsecase deleteRecruitUsecase;
 
     @PostMapping
     @Operation(
@@ -59,6 +57,16 @@ public class AlarmController {
         GetRecruitsDto response = getRecruitsUsecase.execute(generation);
 
         return SuccessResponse.of(response);
+    }
+
+    @DeleteMapping("/recruit/{id}")
+    @Operation(
+            summary = "리크루팅 삭제 API",
+            description = "대학 대표가 등록된 리크루팅 명단을 삭제할 수 있는 API 입니다."
+    )
+    public SuccessResponse<Long> deleteRecruit(@PathVariable Long id) {
+        deleteRecruitUsecase.execute(id);
+        return SuccessResponse.of(id);
     }
 
     @GetMapping("/user")

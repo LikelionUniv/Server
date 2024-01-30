@@ -10,7 +10,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -48,23 +47,30 @@ public class UserDomainService {
 
     @Transactional
     public void updateUser(User user, String name, String part,
-                           String major, Long ordinal){
+                           String major, Long ordinal, String role){
 
         user.getProfile().updateProfile(name,Part.valueOf(part));
         user.getUniversityInfo().updateUniversityInfo(major,ordinal);
-
+        user.getAuthInfo().updateRole(Role.valueOf(role));
 
         userAdaptor.save(user);
     }
 
     @Transactional
     public void deleteUser(User user){
-        userAdaptor.delete(user);
+        user.getAuthInfo().delete();
+        user.getProfile().delete();
+
+        userAdaptor.save(user);
     }
 
     @Transactional
     public void deleteAll(List<User> users){
-        userAdaptor.deleteAll(users);
+        users.stream().forEach(user ->{
+            user.getAuthInfo().delete();
+            user.getProfile().delete();
+            userAdaptor.save(user);
+        });
     }
 
 
