@@ -22,6 +22,8 @@ import static likelion.univ.constant.StaticValue.SwaggerUrlPatterns;
 public class SecurityConfig {
     private final FilterProcessor filterProcessor;
     private final AccessProcessor accessProcessor;
+    private final CustomAuthenticationEntryPoint entryPoint;
+
 
     @Bean
     public BCryptPasswordEncoder encoder() {
@@ -35,8 +37,9 @@ public class SecurityConfig {
         http.formLogin().disable();
         http.sessionManagement( ).sessionCreationPolicy(SessionCreationPolicy.STATELESS); // JWT이용으로 세션 이용 x
         filterProcessor.common(http);
+        http.exceptionHandling().authenticationEntryPoint(entryPoint); // 로그인 x 유저에 대한 Custom ErrorResponse 제공
         http.authorizeRequests().expressionHandler(accessProcessor.expressionHandler());
-
+        
         http
                 .authorizeRequests()
                 .antMatchers(SwaggerUrlPatterns).permitAll()
@@ -48,6 +51,7 @@ public class SecurityConfig {
                 .antMatchers(HttpMethod.PUT, "/v1/community/**").hasAnyAuthority("USER", "MANAGER", "UNIVERSITY_ADMIN","SUPER_ADMIN")
                 .antMatchers(HttpMethod.PATCH, "/v1/community/**").hasAnyAuthority("USER", "MANAGER", "UNIVERSITY_ADMIN","SUPER_ADMIN")
                 .antMatchers(HttpMethod.DELETE, "/v1/community/**").hasAnyAuthority("USER", "MANAGER", "UNIVERSITY_ADMIN","SUPER_ADMIN")
+
 
 //                .anyRequest().authenticated();
                 .anyRequest().permitAll(); //임시
