@@ -4,6 +4,7 @@ import likelion.univ.annotation.UseCase;
 import likelion.univ.domain.post.dto.enums.MainCategory;
 import likelion.univ.domain.post.dto.enums.SubCategory;
 import likelion.univ.domain.post.dto.request.CreatePostCommand;
+import likelion.univ.domain.post.exception.NoSuchCategoryException;
 import likelion.univ.domain.post.service.PostDomainService;
 import likelion.univ.post.dto.request.PostCreateRequestDto;
 import likelion.univ.utils.AuthenticatedUserUtils;
