@@ -76,6 +76,13 @@ public class UserCustomRepositoryImpl implements UserCustomRepository {
     @Override
     public Page<User> findByUnivNameAndRole(Role role, String univName, Pageable pageable){
         List<Long> ids = getCoveringIndex(null);
+        NumberExpression<Integer> partOrder = new CaseBuilder()
+                .when(user.profile.part.eq(Part.PM)).then(1)
+                .when(user.profile.part.eq(Part.DESIGNER)).then(2)
+                .when(user.profile.part.eq(Part.PM_DESIGNER)).then(3)
+                .when(user.profile.part.eq(Part.FRONTEND)).then(4)
+                .when(user.profile.part.eq(Part.BACKEND)).then(5)
+                .otherwise(6);
         List<User> users =
                 queryFactory
                         .select(user)
@@ -87,7 +94,7 @@ public class UserCustomRepositoryImpl implements UserCustomRepository {
                         .offset(pageable.getOffset())
                         .orderBy(user.universityInfo.ordinal.desc(),
                                 user.universityInfo.university.name.asc(),
-                                user.authInfo.role.asc(),
+                                partOrder.asc(),
                                 user.profile.name.asc())
                         .limit(pageable.getPageSize())
                         .fetch();
