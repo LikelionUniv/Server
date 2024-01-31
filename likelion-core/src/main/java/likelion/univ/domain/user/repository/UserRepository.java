@@ -13,12 +13,6 @@ import java.util.Optional;
 public interface UserRepository extends JpaRepository<User,Long>, UserCustomRepository {
     Optional<User> findByAuthInfoEmail(String email);
     Boolean existsByAuthInfoEmail(String email);
-    @Query(value = "SELECT u FROM User u join fetch u.universityInfo.university " +
-            "where u.universityInfo.university.id = :univId and u.authInfo.accountStatus= 'ACTIVE' ",
-            countQuery = "SELECT count(u.id) FROM User u join u.universityInfo.university " +
-                    "where u.universityInfo.university.id = :univId and u.authInfo.accountStatus= 'ACTIVE'")
-    Page<User> findByUniversityInfoUniversityId(Long univId, Pageable pageable);
-
     @Query(value = "SELECT u FROM User u join fetch u.universityInfo.university where u.id = :id ")
     Optional<User> findByIdWithUniversity(Long id);
 

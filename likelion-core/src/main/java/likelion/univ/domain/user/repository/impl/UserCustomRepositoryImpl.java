@@ -60,6 +60,10 @@ public class UserCustomRepositoryImpl implements UserCustomRepository {
         return searchPart != null ? user.profile.part.eq(Part.valueOf(searchPart)) : null;
     }
 
+    private BooleanExpression eqUnivId(Long univId) {
+        return univId != null ? user.universityInfo.university.id.eq(univId) : null;
+    }
+
     private BooleanExpression eqRole(Role role) {
         return role != null ?
                 switch (role){
@@ -72,6 +76,33 @@ public class UserCustomRepositoryImpl implements UserCustomRepository {
                 : null;
     }
 
+    @Override
+    public Page<User> findByUniversityInfoUniversityId(Long univId, Pageable pageable){
+        List<Long> ids = getCoveringIndex(null);
+        NumberExpression<Integer> partOrder = new CaseBuilder()
+                .when(user.profile.part.eq(Part.PM)).then(1)
+                .when(user.profile.part.eq(Part.DESIGNER)).then(2)
+                .when(user.profile.part.eq(Part.PM_DESIGNER)).then(3)
+                .when(user.profile.part.eq(Part.FRONTEND)).then(4)
+                .when(user.profile.part.eq(Part.BACKEND)).then(5)
+                .otherwise(6);
+        List<User> users =
+                queryFactory
+                        .select(user)
+                        .from(user)
+                        .innerJoin(user.universityInfo.university, university).fetchJoin()
+                        .where( eqUnivId(univId),
+                                user.id.in(ids))
+                        .offset(pageable.getOffset())
+                        .orderBy(user.universityInfo.ordinal.desc(),
+                                user.universityInfo.university.name.asc(),
+                                partOrder.asc(),
+                                user.profile.name.asc())
+                        .limit(pageable.getPageSize())
+                        .fetch();
+
+        return PageableExecutionUtils.getPage(users, pageable, ids::size);
+    }
 
     @Override
     public Page<User> findByUnivNameAndRole(Role role, String univName, Pageable pageable){
