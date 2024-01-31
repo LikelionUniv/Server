@@ -85,7 +85,10 @@ public class UserCustomRepositoryImpl implements UserCustomRepository {
                                 eqRole(role),
                                 user.id.in(ids))
                         .offset(pageable.getOffset())
-                        .orderBy(user.createdDate.desc())
+                        .orderBy(user.universityInfo.ordinal.desc(),
+                                user.universityInfo.university.name.asc(),
+                                user.authInfo.role.asc(),
+                                user.profile.name.asc())
                         .limit(pageable.getPageSize())
                         .fetch();
 
