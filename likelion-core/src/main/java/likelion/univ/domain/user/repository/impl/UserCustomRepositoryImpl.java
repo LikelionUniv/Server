@@ -78,7 +78,7 @@ public class UserCustomRepositoryImpl implements UserCustomRepository {
 
     @Override
     public Page<User> findByUniversityInfoUniversityId(Long univId, Pageable pageable){
-        List<Long> ids = getCoveringIndexByUniversityId(univId);
+        List<Long> ids = getCoveringIndex(null);
         NumberExpression<Integer> partOrder = new CaseBuilder()
                 .when(user.profile.part.eq(Part.PM)).then(1)
                 .when(user.profile.part.eq(Part.DESIGNER)).then(2)
@@ -91,7 +91,8 @@ public class UserCustomRepositoryImpl implements UserCustomRepository {
                         .select(user)
                         .from(user)
                         .innerJoin(user.universityInfo.university, university).fetchJoin()
-                        .where(user.id.in(ids))
+                        .where( eqUnivId(univId),
+                                user.id.in(ids))
                         .offset(pageable.getOffset())
                         .orderBy(user.universityInfo.ordinal.desc(),
                                 user.universityInfo.university.name.asc(),
@@ -220,14 +221,6 @@ public class UserCustomRepositoryImpl implements UserCustomRepository {
                 .select(user.id)
                 .from(user)
                 .where(predicate, user.authInfo.accountStatus.eq(AccountStatus.ACTIVE))
-                .fetch();
-    }
-    private List<Long> getCoveringIndexByUniversityId(Long univId){
-        return queryFactory
-                .select(user.id)
-                .from(user)
-                .where(user.authInfo.accountStatus.eq(AccountStatus.ACTIVE),
-                        eqUnivId(univId))
                 .fetch();
     }
     private OrderSpecifier<?>[] getOrders(EntityPath<?> qEntity, Sort sort) {
