@@ -45,13 +45,14 @@ public class UserDomainService {
         return user;
     }
 
+
     @Transactional
     public void updateUser(User user, String name, String part,
-                           String major, Long ordinal, String role){
+                           String major, Long ordinal, Role role){
 
         user.getProfile().updateProfile(name,Part.valueOf(part));
         user.getUniversityInfo().updateUniversityInfo(major,ordinal);
-        user.getAuthInfo().updateRole(Role.valueOf(role));
+        user.getAuthInfo().updateRole(role);
 
         userAdaptor.save(user);
     }

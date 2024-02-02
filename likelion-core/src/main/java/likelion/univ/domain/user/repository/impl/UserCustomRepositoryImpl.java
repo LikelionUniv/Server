@@ -12,14 +12,12 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import likelion.univ.common.processor.ConvertSliceProcessor;
 import likelion.univ.domain.user.entity.AccountStatus;
 import likelion.univ.domain.user.entity.Part;
+import likelion.univ.domain.user.entity.Role;
 import likelion.univ.domain.user.entity.User;
 import likelion.univ.domain.user.repository.UserCustomRepository;
 import likelion.univ.domain.user.repository.searchcondition.UserSearchCondition;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Slice;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.*;
 import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.util.StringUtils;
 
@@ -53,9 +51,87 @@ public class UserCustomRepositoryImpl implements UserCustomRepository {
     private BooleanExpression eqUniversity(String searchUniversity) {
         return searchUniversity != null ? user.universityInfo.university.name.eq(searchUniversity) : null;
     }
+    private BooleanExpression startsWithUniversity(String searchUniversity) {
+        return StringUtils.hasText(searchUniversity) ?
+                user.universityInfo.university.name.startsWith(searchUniversity) : null;
+    }
 
     private BooleanExpression eqPart(String searchPart) {
         return searchPart != null ? user.profile.part.eq(Part.valueOf(searchPart)) : null;
+    }
+
+    private BooleanExpression eqUnivId(Long univId) {
+        return univId != null ? user.universityInfo.university.id.eq(univId) : null;
+    }
+
+    private BooleanExpression eqRole(Role role) {
+        return role != null ?
+                switch (role){
+                    case GUEST -> user.authInfo.role.eq(Role.GUEST);
+                    case USER -> user.authInfo.role.eq(Role.USER);
+                    case MANAGER -> user.authInfo.role.eq(Role.MANAGER);
+                    case UNIVERSITY_ADMIN -> user.authInfo.role.eq(Role.UNIVERSITY_ADMIN);
+                    case SUPER_ADMIN -> user.authInfo.role.eq(Role.SUPER_ADMIN);
+                }
+                : null;
+    }
+
+    @Override
+    public Page<User> findByUniversityInfoUniversityId(Long univId, Pageable pageable){
+        List<Long> ids = getCoveringIndex(null);
+        NumberExpression<Integer> partOrder = new CaseBuilder()
+                .when(user.profile.part.eq(Part.PM)).then(1)
+                .when(user.profile.part.eq(Part.DESIGNER)).then(2)
+                .when(user.profile.part.eq(Part.PM_DESIGNER)).then(3)
+                .when(user.profile.part.eq(Part.FRONTEND)).then(4)
+                .when(user.profile.part.eq(Part.BACKEND)).then(5)
+                .otherwise(6);
+        List<User> users =
+                queryFactory
+                        .select(user)
+                        .from(user)
+                        .innerJoin(user.universityInfo.university, university).fetchJoin()
+                        .where( eqUnivId(univId),
+                                user.id.in(ids))
+                        .offset(pageable.getOffset())
+                        .orderBy(user.universityInfo.ordinal.desc(),
+                                user.universityInfo.university.name.asc(),
+                                partOrder.asc(),
+                                user.profile.name.asc())
+                        .limit(pageable.getPageSize())
+                        .fetch();
+
+        return PageableExecutionUtils.getPage(users, pageable, ids::size);
+    }
+
+    @Override
+    public Page<User> findByUnivNameAndRole(Role role, String univName, Pageable pageable){
+        List<Long> ids = getCoveringIndex(null);
+        NumberExpression<Integer> partOrder = new CaseBuilder()
+                .when(user.profile.part.eq(Part.PM)).then(1)
+                .when(user.profile.part.eq(Part.DESIGNER)).then(2)
+                .when(user.profile.part.eq(Part.PM_DESIGNER)).then(3)
+                .when(user.profile.part.eq(Part.FRONTEND)).then(4)
+                .when(user.profile.part.eq(Part.BACKEND)).then(5)
+                .otherwise(6);
+        List<User> users =
+                queryFactory
+                        .select(user)
+                        .from(user)
+                        .innerJoin(user.universityInfo.university, university).fetchJoin()
+                        .where(startsWithUniversity(univName),
+                                eqRole(role),
+                                user.id.in(ids))
+                        .offset(pageable.getOffset())
+                        .orderBy(user.universityInfo.ordinal.desc(),
+                                user.universityInfo.university.name.asc(),
+                                partOrder.asc(),
+                                user.profile.name.asc())
+                        .limit(pageable.getPageSize())
+                        .fetch();
+
+        return PageableExecutionUtils.getPage(users, pageable, ids::size);
+
     }
 
 

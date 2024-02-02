@@ -13,34 +13,6 @@ import java.util.Optional;
 public interface UserRepository extends JpaRepository<User,Long>, UserCustomRepository {
     Optional<User> findByAuthInfoEmail(String email);
     Boolean existsByAuthInfoEmail(String email);
-    @Query(value = "SELECT u FROM User u join fetch u.universityInfo.university " +
-            "where u.universityInfo.university.id = :univId and u.authInfo.accountStatus= 'ACTIVE' ",
-            countQuery = "SELECT count(u.id) FROM User u join u.universityInfo.university " +
-                    "where u.universityInfo.university.id = :univId and u.authInfo.accountStatus= 'ACTIVE'")
-    Page<User> findByUniversityInfoUniversityId(Long univId, Pageable pageable);
-    @Query(value = "SELECT u FROM User u join fetch u.universityInfo.university " +
-            "where u.universityInfo.university.name like :univName% and u.authInfo.role = :role " +
-            "and u.authInfo.accountStatus= 'ACTIVE'",
-            countQuery = "SELECT count(u.id) FROM User u join u.universityInfo.university " +
-                    "where u.universityInfo.university.name like :univName% and u.authInfo.role = :role " +
-                    "and u.authInfo.accountStatus= 'ACTIVE'")
-    Page<User> findByUnivNameAndRole(Role role, String univName, Pageable pageable);
-    @Query(value = "SELECT u FROM User u " +
-            "where u.authInfo.accountStatus= 'ACTIVE'",
-            countQuery = "SELECT count(u.id) FROM User u  " +
-                    "where u.authInfo.accountStatus= 'ACTIVE'")
-    Page<User> findAll(Pageable pageable);
-    @Query(value = "SELECT u FROM User u join fetch u.universityInfo.university " +
-            "where u.universityInfo.university.name like :univName% and u.authInfo.accountStatus= 'ACTIVE'",
-            countQuery = "SELECT count(u.id) FROM User u join u.universityInfo.university " +
-                    "where u.universityInfo.university.name like :univName% and u.authInfo.accountStatus= 'ACTIVE'")
-    Page<User> findByUniversityInfoUniversityName(String univName, Pageable pageable);
-    @Query(value = "SELECT u FROM User u join fetch u.universityInfo.university " +
-            "where u.authInfo.role = :role and u.authInfo.accountStatus= 'ACTIVE'",
-            countQuery = "SELECT count(u.id) FROM User u join u.universityInfo.university " +
-                    "where  u.authInfo.role = :role and u.authInfo.accountStatus= 'ACTIVE'")
-    Page<User> findByAuthInfoRole(Role role, Pageable pageable);
-
     @Query(value = "SELECT u FROM User u join fetch u.universityInfo.university where u.id = :id ")
     Optional<User> findByIdWithUniversity(Long id);
 
