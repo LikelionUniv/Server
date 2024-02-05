@@ -38,7 +38,8 @@ public class SecurityConfig {
                 .authorizeRequests()
                 .antMatchers(SwaggerUrlPatterns)
                 .permitAll()
-/*                .antMatchers("/univAdmin/**").hasRole(ADMIN)*/
+                .antMatchers("/v1/univAdmin/**").hasRole("MANAGER")
+                .antMatchers("/v1/headquaters/**").hasRole("SUPER_ADMIN")
 //                .antMatchers("/v1/**").hasRole(ROLE_USER)
 //                .anyRequest().authenticated();
                 .anyRequest().permitAll(); //임시
