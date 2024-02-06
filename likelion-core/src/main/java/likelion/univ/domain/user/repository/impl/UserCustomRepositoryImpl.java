@@ -113,6 +113,7 @@ public class UserCustomRepositoryImpl implements UserCustomRepository {
                 .when(user.profile.part.eq(Part.FRONTEND)).then(4)
                 .when(user.profile.part.eq(Part.BACKEND)).then(5)
                 .otherwise(6);
+
         List<User> users =
                 queryFactory
                         .select(user)
@@ -130,6 +131,7 @@ public class UserCustomRepositoryImpl implements UserCustomRepository {
                         .fetch();
 
         return PageableExecutionUtils.getPage(users, pageable, ids::size);
+
 
     }
 
