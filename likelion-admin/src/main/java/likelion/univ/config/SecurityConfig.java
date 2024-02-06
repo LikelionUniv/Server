@@ -38,7 +38,7 @@ public class SecurityConfig {
                 .authorizeRequests()
                 .antMatchers(SwaggerUrlPatterns)
                 .permitAll()
-                .antMatchers("/v1/univAdmin/**").hasAnyRole("MANAGER", "UNIVERSITY_ADMIN")
+                .antMatchers("/v1/univAdmin/**").hasRole("MANAGER")
                 .antMatchers("/v1/headquaters/**").hasRole("SUPER_ADMIN")
 //                .antMatchers("/v1/**").hasRole(ROLE_USER)
 //                .anyRequest().authenticated();
