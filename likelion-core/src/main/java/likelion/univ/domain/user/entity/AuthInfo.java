@@ -40,5 +40,6 @@ public class AuthInfo {
     }
     public void delete(){
         this.accountStatus = AccountStatus.Deleted;
+        this.email = null;
     }
 }
