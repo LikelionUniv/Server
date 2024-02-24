@@ -5,10 +5,8 @@ import com.azure.communication.email.EmailClientBuilder;
 import com.azure.communication.email.models.*;
 import com.azure.core.credential.AzureKeyCredential;
 import com.azure.core.util.BinaryData;
-import com.azure.core.util.polling.LongRunningOperationStatus;
 import com.azure.core.util.polling.PollResponse;
 import com.azure.core.util.polling.SyncPoller;
-import likelion.univ.annotation.Processor;
 import likelion.univ.email.exception.EmailSendFailed;
 import likelion.univ.email.exception.InvalidAttachment;
 import likelion.univ.email.sender.EmailContent;
@@ -18,9 +16,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.time.Duration;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
@@ -61,31 +57,10 @@ public class AzureEmailSender implements EmailSender {
     }
 
     private void sendEmail(EmailClient emailClient, EmailMessage message) {
-        try {
-            SyncPoller<EmailSendResult, EmailSendResult> poller = emailClient.beginSend(message, null);
+        SyncPoller<EmailSendResult, EmailSendResult> poller = emailClient.beginSend(message, null);
+        PollResponse<EmailSendResult> response = poller.waitForCompletion();
 
-            PollResponse<EmailSendResult> pollResponse = null;
-
-            Duration timeElapsed = Duration.ofSeconds(0);
-            Duration POLLER_WAIT_TIME = Duration.ofSeconds(10);
-
-            while (pollResponse == null
-                    || pollResponse.getStatus() == LongRunningOperationStatus.NOT_STARTED
-                    || pollResponse.getStatus() == LongRunningOperationStatus.IN_PROGRESS) {
-                pollResponse = poller.poll();
-
-                Thread.sleep(POLLER_WAIT_TIME.toMillis());
-                timeElapsed = timeElapsed.plus(POLLER_WAIT_TIME);
-
-                if (timeElapsed.compareTo(POLLER_WAIT_TIME.multipliedBy(18)) >= 0) {
-                    throw new EmailSendFailed();
-                }
-            }
-
-            if (!poller.getFinalResult().getStatus().equals(EmailSendStatus.SUCCEEDED)) {
-                throw new EmailSendFailed();
-            }
-        } catch (Exception exception) {
+        if (!response.getValue().getStatus().equals(EmailSendStatus.SUCCEEDED)) {
             throw new EmailSendFailed();
         }
     }
@@ -98,9 +73,9 @@ public class AzureEmailSender implements EmailSender {
 
         return attachments.stream()
                 .map(attachment -> new EmailAttachment(
-                            attachment.getOriginalFilename(),
-                            attachment.getContentType(),
-                            getBinaryData(attachment)
+                                attachment.getOriginalFilename(),
+                                attachment.getContentType(),
+                                getBinaryData(attachment)
                         )
                 )
                 .toList();
