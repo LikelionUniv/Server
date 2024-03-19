@@ -5,12 +5,13 @@ import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.Headers;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.GeneratePresignedUrlRequest;
-import likelion.univ.annotation.Processor;
-import lombok.RequiredArgsConstructor;
-
 import java.net.URL;
 import java.util.Date;
+import likelion.univ.annotation.Processor;
+import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Profile;
 
+@Profile("!test")
 @Processor
 @RequiredArgsConstructor
 public class GeneratePresignedUrlProcessor {
@@ -19,9 +20,9 @@ public class GeneratePresignedUrlProcessor {
 
     public String execute(String fileName) {
         GeneratePresignedUrlRequest generatePresignedUrlRequest =
-            new GeneratePresignedUrlRequest(s3Properties.getBucket(), fileName)
-                    .withMethod(HttpMethod.PUT)
-                    .withExpiration(getPreSignedUrlExpiration());
+                new GeneratePresignedUrlRequest(s3Properties.getBucket(), fileName)
+                        .withMethod(HttpMethod.PUT)
+                        .withExpiration(getPreSignedUrlExpiration());
         generatePresignedUrlRequest.addRequestParameter(
                 Headers.S3_CANNED_ACL,
                 CannedAccessControlList.PublicRead.toString());
