@@ -1,12 +1,14 @@
 package likelion.univ.domain.example.entity;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import likelion.univ.common.entity.BaseTimeEntity;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import javax.persistence.*;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -17,23 +19,26 @@ public class Example extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
-//<<<<<<< HEAD
+    //<<<<<<< HEAD
     private String columns;
     private String body;
+
     @Builder
     public Example(String column, String body) {
         this.columns = column;
         this.body = body;
     }
-    public void updateColumn(String column){
-        this.columns = column;}
+
+    public void updateColumn(String column) {
+        this.columns = column;
+    }
+
     //=======
 //    @Builder
 //    public Example(String body) {
 //        this.body = body;
 //    }
-    public void editBody(String body){
+    public void editBody(String body) {
         this.body = body;
 //>>>>>>> main
     }
