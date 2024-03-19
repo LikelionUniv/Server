@@ -24,8 +24,8 @@ public class EditExampleUseCase {
         Transaction을 배제한 도메인에 영향을 주지않는 service라고 생각하시면 쉽습니다.
         Transaction의 영역의 로직은 domainservice 혹의 엔티티에 구현해주세요. (but, 엔티티에 구현은 최대한 자제)(예를들어 유저의경우 changeProfile 같은걸 엔티티에 구현)
     */
-    public void excute(Long id,CreateExampleRequestDto createExampleRequestDto){
-        exampleDomainService.editExample(id,createExampleRequestDto.getBody());
+    public void excute(Long id, CreateExampleRequestDto createExampleRequestDto) {
+        exampleDomainService.editExample(id, createExampleRequestDto.body());
     }
 
 }
