@@ -46,3 +46,6 @@ jobs:
             sudo docker rmi ${{ secrets.DOCKER_ADMIN_API_STAG_IMAGE }}
             sudo docker-compose -f ${{ secrets.DOCKER_COMPOSE_DIRECTORY }} up -d
             sudo docker image prune -f
+
+
+            
