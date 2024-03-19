@@ -1,0 +1,27 @@
+spring:
+  profiles:
+    include:
+      - common-test
+      - core-test
+      - infrastructure-test
+      - security-test
+      - redis-test
+    active: test
+
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB
+
+server:
+  port: 8090
+  servlet:
+    context-path: /api/admin
+
+springdoc:
+  default-consumes-media-type: application/json;charset=UTF-8
+  default-produces-media-type: application/json;charset=UTF-8
+  api-docs:
+    enabled: false
+  swagger-ui:
+    enabled: false

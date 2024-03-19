@@ -1,12 +1,12 @@
-## 공통 설정
 spring:
   profiles:
     include:
-      - common
-      - core
-      - infrastructure
-      - security
-      - redis
+      - common-test
+      - core-test
+      - infrastructure-test
+      - security-test
+      - redis-test
+    active: test
   data:
     web:
       pageable: ##페이징
