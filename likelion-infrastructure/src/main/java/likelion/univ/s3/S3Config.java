@@ -8,15 +8,19 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
+import org.springframework.context.annotation.Profile;
 
+@Profile("!test")
 @Configuration
 @RequiredArgsConstructor
 public class S3Config {
     private final S3Properties s3Properties;
+
     @Bean
     @Primary
-    public BasicAWSCredentials awsCredentialsProvider(){
-        BasicAWSCredentials basicAWSCredentials = new BasicAWSCredentials(s3Properties.getAccessKey(), s3Properties.getSecretKey());
+    public BasicAWSCredentials awsCredentialsProvider() {
+        BasicAWSCredentials basicAWSCredentials = new BasicAWSCredentials(s3Properties.getAccessKey(),
+                s3Properties.getSecretKey());
         return basicAWSCredentials;
     }
 

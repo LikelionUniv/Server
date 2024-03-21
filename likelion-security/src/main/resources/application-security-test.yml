@@ -1,0 +1,4 @@
+jwt:
+  secret-key: "testSecrettestSecrettestSecrettestSecrettestSecrettestSecrettestSecret"
+  access-token-exp: 100000
+  refresh-token-exp: 100000
