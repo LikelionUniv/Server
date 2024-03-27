@@ -3,12 +3,15 @@ package likelion.univ.adminUser.dto.response;
 import likelion.univ.domain.user.entity.Part;
 import likelion.univ.domain.user.entity.Role;
 import likelion.univ.domain.user.entity.User;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
 
 @Data
 @Builder
 @AllArgsConstructor
 public class UserInfoResponseDto {
+
     private Long id;
     private String name;
     private String email;
@@ -18,8 +21,7 @@ public class UserInfoResponseDto {
     private Long ordinal;
     private Role role;
 
-
-    public static UserInfoResponseDto of(User user){
+    public static UserInfoResponseDto of(User user) {
         return new UserInfoResponseDtoBuilder()
                 .id(user.getId())
                 .name(user.getProfile().getName())

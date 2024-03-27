@@ -1,12 +1,11 @@
 package likelion.univ.alarm.usecase;
 
+import java.util.List;
 import likelion.univ.alarm.dto.GetAlarmsDto;
 import likelion.univ.annotation.UseCase;
 import likelion.univ.domain.alarm.entity.Alarm;
 import likelion.univ.domain.alarm.service.AlarmDomainService;
 import lombok.RequiredArgsConstructor;
-
-import java.util.List;
 
 @UseCase
 @RequiredArgsConstructor

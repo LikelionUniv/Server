@@ -15,13 +15,14 @@ import org.springframework.data.domain.Pageable;
 public class FindAllByUnivAdminUseCase {
 
     private final UserAdaptor userAdaptor;
-    private final AuthenticatedUserUtils authentiatedUserUtils;
+    private final AuthenticatedUserUtils authenticatedUserUtils;
 
     public PageResponse execute(Pageable pageable) {
-        User user = authentiatedUserUtils.getCurrentUser();
-
-        Page<User> users = userAdaptor.findByUniversityInfoUniversityId(user.getUniversityInfo().getUniversity().getId(), pageable);
-
-        return PageResponse.of(users.map(u->UserInfoResponseDto.of(u)));
+        User user = authenticatedUserUtils.getCurrentUser();
+        Page<User> users = userAdaptor.findByUniversityInfoUniversityId(
+                user.getUniversityInfo().getUniversity().getId(),
+                pageable
+        );
+        return PageResponse.of(users.map(UserInfoResponseDto::of));
     }
 }

@@ -10,15 +10,15 @@ import io.swagger.v3.oas.models.info.License;
 import io.swagger.v3.oas.models.security.SecurityRequirement;
 import io.swagger.v3.oas.models.security.SecurityScheme;
 import io.swagger.v3.oas.models.servers.Server;
+import java.util.List;
+import javax.servlet.ServletContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpHeaders;
 
-import javax.servlet.ServletContext;
-import java.util.List;
-
 @Configuration
 public class SwaggerConfig {
+
     @Bean
     public OpenAPI openAPI(ServletContext servletContext) {
         String contextPath = servletContext.getContextPath();
@@ -32,11 +32,13 @@ public class SwaggerConfig {
                 .components(new Components()
                         .addSecuritySchemes("Authorization(accessToken)", securityScheme()));
     }
+
     @Bean
     public ModelResolver modelResolver(ObjectMapper objectMapper) {
         return new ModelResolver(objectMapper);
     }
-    private Info info(){
+
+    private Info info() {
         return new Info()
                 .title("Likelion-Univ Admin API")
                 .version("v1")
@@ -46,7 +48,8 @@ public class SwaggerConfig {
                         .name("Likelion-Univ")
                         .email("tmfrk0426@gmail.com"));
     }
-    private License license(){
+
+    private License license() {
         License license = new License();
         license.setUrl("https://github.com/LikelionUniv/LikelionUniv-Server");
         license.setName("멋쟁이 사자처럼");
@@ -63,7 +66,7 @@ public class SwaggerConfig {
     }
 
     // Security 요청 설정
-    private SecurityRequirement securityItem(){
+    private SecurityRequirement securityItem() {
         SecurityRequirement securityItem = new SecurityRequirement();
         securityItem.addList("Authorization(accessToken)");
         return securityItem;

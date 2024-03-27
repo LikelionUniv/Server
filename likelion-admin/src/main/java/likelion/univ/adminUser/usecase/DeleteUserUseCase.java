@@ -13,8 +13,8 @@ public class DeleteUserUseCase {
     private final UserAdaptor userAdaptor;
     private final UserDomainService userDomainService;
 
-    public void execute(Long userId){
-        User user=userAdaptor.findById(userId);
+    public void execute(Long userId) {
+        User user = userAdaptor.findById(userId);
         userDomainService.deleteUser(user);
     }
 }

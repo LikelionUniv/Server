@@ -1,12 +1,11 @@
 package likelion.univ.alarm.dto;
 
+import java.util.List;
 import likelion.univ.common.processor.DateCustomFormatter;
 import likelion.univ.domain.alarm.entity.Alarm;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import java.util.List;
 
 @Getter
 @NoArgsConstructor

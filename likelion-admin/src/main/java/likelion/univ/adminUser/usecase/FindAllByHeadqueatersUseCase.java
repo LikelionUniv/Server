@@ -17,10 +17,7 @@ public class FindAllByHeadqueatersUseCase {
     private final UserAdaptor userAdaptor;
 
     public PageResponse<UserInfoResponseDto> execute(Role role, String univName, Pageable pageable) {
-
         Page<User> users = userAdaptor.findByUnivNameAndRole(role, univName, pageable);
-
-        return PageResponse.of(users.map(u -> UserInfoResponseDto.of(u)));
-
+        return PageResponse.of(users.map(UserInfoResponseDto::of));
     }
 }

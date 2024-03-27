@@ -16,12 +16,13 @@ public class UpdateUserUseCase {
     private final UserAdaptor userAdaptor;
     private final UserDomainService userDomainService;
 
-
-    public UserInfoResponseDto execute(Long userId, UpdateUserRequestDto updateUserRequestDto){
+    public UserInfoResponseDto execute(Long userId, UpdateUserRequestDto updateUserRequestDto) {
         User user = userAdaptor.findByIdWithUniversity(userId);
-        userDomainService.updateUser(user, updateUserRequestDto.getName(),
-        updateUserRequestDto.getPart(),updateUserRequestDto.getMajor(),
-        updateUserRequestDto.getOrdinal(), updateUserRequestDto.getRole());
+        userDomainService.updateUser(
+                user, updateUserRequestDto.getName(),
+                updateUserRequestDto.getPart(), updateUserRequestDto.getMajor(),
+                updateUserRequestDto.getOrdinal(), updateUserRequestDto.getRole()
+        );
         return UserInfoResponseDto.of(user);
     }
 }

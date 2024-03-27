@@ -1,13 +1,12 @@
 package likelion.univ.alarm.usecase;
 
+import java.util.List;
 import likelion.univ.alarm.dto.SendEmailDto;
 import likelion.univ.annotation.UseCase;
 import likelion.univ.email.sender.EmailContent;
 import likelion.univ.email.sender.EmailSender;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.util.List;
 
 @UseCase
 @RequiredArgsConstructor
@@ -22,7 +21,6 @@ public class SendEmailUseCase {
                 .receivers(sendEmailDto.getReceivers())
                 .attachments(attachments)
                 .build();
-
         emailSender.send(emailContent);
     }
 }
