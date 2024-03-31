@@ -10,6 +10,7 @@ import org.springframework.boot.context.properties.ConstructorBinding;
 @ConfigurationProperties(prefix = "google")
 @ConstructorBinding
 public class GoogleProperties {
+    
     private String iss;
     private String clientId;
     private String clientSecret;

@@ -15,6 +15,7 @@ import org.springframework.context.annotation.Profile;
 @Processor
 @RequiredArgsConstructor
 public class GeneratePresignedUrlProcessor {
+
     private final AmazonS3 amazonS3;
     private final S3Properties s3Properties;
 
@@ -25,7 +26,8 @@ public class GeneratePresignedUrlProcessor {
                         .withExpiration(getPreSignedUrlExpiration());
         generatePresignedUrlRequest.addRequestParameter(
                 Headers.S3_CANNED_ACL,
-                CannedAccessControlList.PublicRead.toString());
+                CannedAccessControlList.PublicRead.toString()
+        );
         URL presignedUrl = amazonS3.generatePresignedUrl(generatePresignedUrlRequest);
         return presignedUrl.toString();
     }

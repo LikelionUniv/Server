@@ -19,18 +19,14 @@ public class S3Config {
     @Bean
     @Primary
     public BasicAWSCredentials awsCredentialsProvider() {
-        BasicAWSCredentials basicAWSCredentials = new BasicAWSCredentials(s3Properties.getAccessKey(),
-                s3Properties.getSecretKey());
-        return basicAWSCredentials;
+        return new BasicAWSCredentials(s3Properties.getAccessKey(), s3Properties.getSecretKey());
     }
 
     @Bean
     public AmazonS3 amazonS3() {
-        AmazonS3 s3Builder = AmazonS3ClientBuilder.standard()
+        return AmazonS3ClientBuilder.standard()
                 .withRegion(s3Properties.getRegion())
                 .withCredentials(new AWSStaticCredentialsProvider(awsCredentialsProvider()))
                 .build();
-        return s3Builder;
     }
-
 }
