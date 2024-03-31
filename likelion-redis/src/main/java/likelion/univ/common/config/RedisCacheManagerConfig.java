@@ -2,6 +2,7 @@ package likelion.univ.common.config;
 
 import static likelion.univ.common.constant.RedisKey.GOOGLE_PUBLIC_KEYS;
 import static likelion.univ.common.constant.RedisKey.KAKAO_PUBLIC_KEYS;
+import static org.springframework.data.redis.serializer.RedisSerializationContext.SerializationPair;
 
 import java.time.Duration;
 import java.util.HashMap;
@@ -16,7 +17,6 @@ import org.springframework.data.redis.cache.RedisCacheConfiguration;
 import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
-import org.springframework.data.redis.serializer.RedisSerializationContext;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 @Profile("!test")
@@ -31,22 +31,21 @@ public class RedisCacheManagerConfig {
     public CacheManager redisCacheManager() {
         RedisCacheConfiguration redisCacheConfiguration = RedisCacheConfiguration.defaultCacheConfig()
                 .serializeKeysWith(
-                        RedisSerializationContext.SerializationPair.fromSerializer(new StringRedisSerializer()))
-                .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(
-                        new GenericJackson2JsonRedisSerializer()))
-                .entryTtl(Duration.ofDays(1L));
-
-        RedisCacheManager redisCacheManager = RedisCacheManager.RedisCacheManagerBuilder
+                        SerializationPair.fromSerializer(new StringRedisSerializer())
+                ).serializeValuesWith(
+                        SerializationPair.fromSerializer(new GenericJackson2JsonRedisSerializer())
+                ).entryTtl(Duration.ofDays(1L));
+        return RedisCacheManager.RedisCacheManagerBuilder
                 .fromConnectionFactory(redisConnectionFactory)
                 .cacheDefaults(redisCacheConfiguration)
                 .withInitialCacheConfigurations(customConfigurationMap(redisCacheConfiguration))
                 .build();
-        return redisCacheManager;
     }
 
     /* 커스텀하여 만료기간 설정 */
     private Map<String, RedisCacheConfiguration> customConfigurationMap(
-            RedisCacheConfiguration redisCacheConfiguration) {
+            RedisCacheConfiguration redisCacheConfiguration
+    ) {
         Map<String, RedisCacheConfiguration> customConfigurationMap = new HashMap<>();
         customConfigurationMap.put(KAKAO_PUBLIC_KEYS, redisCacheConfiguration.entryTtl(Duration.ofDays(1L)));
         customConfigurationMap.put(GOOGLE_PUBLIC_KEYS, redisCacheConfiguration.entryTtl(Duration.ofDays(1L)));

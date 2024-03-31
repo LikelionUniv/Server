@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class PostCountInfo {
+
     private Long commentCount;
     private Long likeCount;
 }

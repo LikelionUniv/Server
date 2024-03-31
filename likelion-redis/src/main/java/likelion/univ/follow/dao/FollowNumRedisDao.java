@@ -1,12 +1,12 @@
 package likelion.univ.follow.dao;
 
+import static likelion.univ.common.constant.RedisKey.USER_FOLLOW_NUM;
+import static likelion.univ.common.constant.RedisKey.USER_FOLLOW_NUM_EXPIRE_SEC;
+
 import likelion.univ.annotation.RedisRepository;
 import likelion.univ.common.base.BaseRedisRepository;
 import likelion.univ.follow.entity.FollowNum;
 import org.springframework.data.redis.core.RedisTemplate;
-
-import static likelion.univ.common.constant.RedisKey.USER_FOLLOW_NUM;
-import static likelion.univ.common.constant.RedisKey.USER_FOLLOW_NUM_EXPIRE_SEC;
 
 @RedisRepository
 public class FollowNumRedisDao extends BaseRedisRepository<FollowNum> {

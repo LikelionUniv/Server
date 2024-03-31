@@ -8,9 +8,10 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class PostCountInfoRedisService {
+
     private final PostCountInfoRedisDao postCountInfoRedisDao;
 
-    public PostCountInfo save(Long postId, Long commentCount, Long likeCount){
+    public PostCountInfo save(Long postId, Long commentCount, Long likeCount) {
         PostCountInfo postCountInfo = PostCountInfo.builder()
                 .commentCount(commentCount)
                 .likeCount(likeCount)
