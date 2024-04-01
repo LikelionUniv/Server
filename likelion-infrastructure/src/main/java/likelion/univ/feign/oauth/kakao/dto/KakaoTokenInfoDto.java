@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 public class KakaoTokenInfoDto {
-   
     private String accessToken;
     private String refreshToken;
     private String idToken;

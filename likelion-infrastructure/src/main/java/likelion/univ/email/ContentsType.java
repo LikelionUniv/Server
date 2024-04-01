@@ -7,7 +7,6 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 public enum ContentsType {
-
     HTML("html", (contents) -> {
         EmailMessage emailMessage = new EmailMessage();
         return emailMessage.setBodyHtml(contents);

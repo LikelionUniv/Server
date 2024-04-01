@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestParam;
         configuration = RequestGoogleTokenErrorDecode.class
 )
 public interface RequestGoogleTokenClient {
-
     @PostMapping("/token?grant_type=authorization_code")
     GoogleTokenInfoDto getToken(
             @RequestParam("client_id") String clientId,

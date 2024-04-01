@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.GetMapping;
         name = "RequestGooglePublicKeysClient",
         url = "https://www.googleapis.com/oauth2/v3/certs")
 public interface RequestGooglePublicKeysClient {
-
     @GetMapping
     PublicKeysDto getPublicKeys();
 }

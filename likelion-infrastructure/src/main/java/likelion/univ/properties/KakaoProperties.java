@@ -10,7 +10,6 @@ import org.springframework.boot.context.properties.ConstructorBinding;
 @ConfigurationProperties(prefix = "kakao")
 @ConstructorBinding
 public class KakaoProperties {
-    
     private String iss;
     private String clientId;
     private String clientSecret;

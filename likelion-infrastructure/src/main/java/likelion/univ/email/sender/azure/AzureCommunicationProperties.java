@@ -10,7 +10,6 @@ import org.springframework.boot.context.properties.ConstructorBinding;
 @ConfigurationProperties(prefix = "cloud.azure.communication")
 @ConstructorBinding
 public class AzureCommunicationProperties {
-
     private final String endpoint;
     private final String credential;
     private final String sender;

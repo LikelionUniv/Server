@@ -13,7 +13,6 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 @Slf4j
 public class RequestGoogleTokenErrorDecode implements ErrorDecoder {
-
     private final ObjectMapper objectMapper;
 
     @Override

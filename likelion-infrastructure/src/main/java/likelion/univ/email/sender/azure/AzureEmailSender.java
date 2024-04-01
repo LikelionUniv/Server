@@ -24,7 +24,6 @@ import org.springframework.web.multipart.MultipartFile;
 @Component
 @RequiredArgsConstructor
 public class AzureEmailSender implements EmailSender {
-
     private final AzureCommunicationProperties properties;
 
     @Override
