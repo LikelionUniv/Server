@@ -1,11 +1,11 @@
 package likelion.univ.domain.donation_history.repository.impl.condition;
 
+import static likelion.univ.domain.donation_history.entity.QDonationHistory.donationHistory;
+
 import com.querydsl.core.types.OrderSpecifier;
 import likelion.univ.exception.SortTypeNotMatchedException;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-
-import static likelion.univ.domain.donation_history.entity.QDonationHistory.donationHistory;
 
 
 @Getter
@@ -24,8 +24,9 @@ public enum DonationSortType {
         }
         throw new SortTypeNotMatchedException();
     }
-    public static OrderSpecifier toOrderSpecifier(String value){
-        switch (DonationSortType.fromValue(value)){
+
+    public static OrderSpecifier toOrderSpecifier(String value) {
+        switch (DonationSortType.fromValue(value)) {
             case VIEW_COUNT:
                 return donationHistory.viewCount.desc();
             default:

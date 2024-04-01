@@ -30,5 +30,5 @@ public class ProjectMemberService {
         Project project = projectAdaptor.findById(id);
         projectMemberAdaptor.deleteByProject(project);
     }
-    
+
 }

@@ -1,5 +1,6 @@
 package likelion.univ.comment.usecase;
 
+import java.util.List;
 import likelion.univ.annotation.UseCase;
 import likelion.univ.comment.dto.response.CommentResponseDto;
 import likelion.univ.domain.comment.dto.request.GetCommentCommand;
@@ -9,8 +10,6 @@ import likelion.univ.domain.comment.dto.response.ParentCommentData;
 import likelion.univ.domain.comment.service.CommentDomainService;
 import likelion.univ.utils.AuthenticatedUserUtils;
 import lombok.RequiredArgsConstructor;
-
-import java.util.List;
 
 @UseCase
 @RequiredArgsConstructor
@@ -26,7 +25,9 @@ public class GetCommentUseCase {
         List<ParentCommentData> parentCommentData = commentData.parentComments();
         List<ChildCommentData> childCommentData = commentData.childComments();
 
-        List<CommentResponseDto> response = parentCommentData.stream().map(pc -> CommentResponseDto.of(pc, childCommentData, authenticatedUser.getCurrentUserId(), postAuthorId)).toList();
+        List<CommentResponseDto> response = parentCommentData.stream()
+                .map(pc -> CommentResponseDto.of(pc, childCommentData, authenticatedUser.getCurrentUserId(),
+                        postAuthorId)).toList();
         return response;
     }
 }
