@@ -1,5 +1,6 @@
 package likelion.univ.config;
 
+import java.net.BindException;
 import likelion.univ.exception.GlobalErrorCode;
 import likelion.univ.exception.base.BaseException;
 import likelion.univ.feign.exception.FeignClientException;
@@ -12,8 +13,6 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
-
-import java.net.BindException;
 
 @RestControllerAdvice
 @Slf4j
@@ -32,14 +31,15 @@ public class ClientExceptionHandler {
 
     /* @ModelAttribute 으로 binding error 발생시 BindException 발생 */
     @ExceptionHandler(BindException.class)
-    private ResponseEntity<ErrorResponse>  handleBindException(BindException e) {
+    private ResponseEntity<ErrorResponse> handleBindException(BindException e) {
         ErrorResponse error = ErrorResponse.of(GlobalErrorCode.INVALID_HTTP_MESSAGE_BODY);
         return ResponseEntity.status(error.getHttpStatus()).body(error);
     }
 
     /* enum type 일치하지 않아 binding 못할 경우 발생 */
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
-    private ResponseEntity<ErrorResponse>  handleMethodArgumentTypeMismatchException(MethodArgumentTypeMismatchException e) {
+    private ResponseEntity<ErrorResponse> handleMethodArgumentTypeMismatchException(
+            MethodArgumentTypeMismatchException e) {
         log.error("MethodArgumentTypeMismatchException Error", e);
         ErrorResponse error = ErrorResponse.of(GlobalErrorCode.INVALID_HTTP_MESSAGE_BODY);
         return ResponseEntity.status(error.getHttpStatus()).body(error);
@@ -47,41 +47,42 @@ public class ClientExceptionHandler {
 
     /* 지원하지 않은 HTTP method 호출 할 경우 발생 */
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
-    private ResponseEntity<ErrorResponse>  handleHttpRequestMethodNotSupportedException(HttpRequestMethodNotSupportedException e) {
+    private ResponseEntity<ErrorResponse> handleHttpRequestMethodNotSupportedException(
+            HttpRequestMethodNotSupportedException e) {
         log.error("HttpRequestMethodNotSupportedException Error", e);
-
         ErrorResponse error = ErrorResponse.of(GlobalErrorCode.UNSUPPORTED_HTTP_METHOD);
         return ResponseEntity.status(error.getHttpStatus()).body(error);
     }
+
     /* request 값을 읽을 수 없을 때 발생 */
     @ExceptionHandler(HttpMessageNotReadableException.class)
-    protected ResponseEntity<ErrorResponse>  handleHttpMessageNotReadableException(HttpMessageNotReadableException e) {
+    protected ResponseEntity<ErrorResponse> handleHttpMessageNotReadableException(HttpMessageNotReadableException e) {
         log.error("HttpMessageNotReadableException error", e);
         ErrorResponse error = ErrorResponse.of(GlobalErrorCode.BAD_REQUEST_ERROR);
-
         return ResponseEntity.status(error.getHttpStatus()).body(error);
     }
 
     /* Feign Client 에러 */
     @ExceptionHandler(FeignClientException.class)
-    private ResponseEntity<ErrorResponse>  handleFeignClientException(FeignClientException e) {
+    private ResponseEntity<ErrorResponse> handleFeignClientException(FeignClientException e) {
         log.error("FeignClientError : " + e.getMethodKey());
         log.error(e.getMessage());
-        ErrorResponse error = ErrorResponse.of(e.getCode(),e.getMessage(), e.getHttpStatus());
+        ErrorResponse error = ErrorResponse.of(e.getCode(), e.getMessage(), e.getHttpStatus());
         return ResponseEntity.status(error.getHttpStatus()).body(error);
     }
 
     /* 비지니스 로직 에러 */
     @ExceptionHandler(BaseException.class)
-    private ResponseEntity<ErrorResponse>  handleBusinessException(BaseException e) {
+    private ResponseEntity<ErrorResponse> handleBusinessException(BaseException e) {
         log.error("BusinessError ");
         log.error(e.getErrorCode().getMessage());
         ErrorResponse error = ErrorResponse.of(e.getErrorCode());
         return ResponseEntity.status(error.getHttpStatus()).body(error);
     }
+
     /* 나머지 예외 처리 */
     @ExceptionHandler(Exception.class)
-    private ResponseEntity<ErrorResponse>  handleException(Exception e) {
+    private ResponseEntity<ErrorResponse> handleException(Exception e) {
         log.error("Exception Error ", e);
         ErrorResponse error = ErrorResponse.of(GlobalErrorCode.SERVER_ERROR);
         return ResponseEntity.status(error.getHttpStatus()).body(error);

@@ -19,9 +19,9 @@ public class LoginUseCase {
     private final UserDomainService userDomainService;
     private final GenerateAccountTokenProcessor generateAccountTokenProcessor;
 
-    public AccountTokenDto execute(String loginType, String idToken){
+    public AccountTokenDto execute(String loginType, String idToken) {
         UserInfoFromIdToken userInfo = loginByIdTokenProcessor.execute(loginType, idToken);
-        if (!userAdaptor.checkEmail(userInfo.getEmail())){
+        if (!userAdaptor.checkEmail(userInfo.getEmail())) {
             return AccountTokenDto.notRegistered();
         }
 

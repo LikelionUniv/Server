@@ -13,9 +13,8 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableAsync
 @SpringBootApplication
 public class LikelionClientApplication {
-
-	public static void main(String[] args) {
-		SpringApplication.run(LikelionClientApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(LikelionClientApplication.class, args);
+    }
 
 }

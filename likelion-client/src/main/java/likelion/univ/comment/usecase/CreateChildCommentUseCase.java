@@ -3,7 +3,6 @@ package likelion.univ.comment.usecase;
 import likelion.univ.annotation.UseCase;
 import likelion.univ.comment.dto.request.CommentCreateChildRequestDto;
 import likelion.univ.domain.comment.dto.request.CreateChildCommentCommand;
-import likelion.univ.domain.comment.dto.response.SimpleCommentData;
 import likelion.univ.domain.comment.service.CommentDomainService;
 import likelion.univ.post.entity.PostCountInfo;
 import likelion.univ.post.processor.GetOrCreatePostCountInfoProcessor;
@@ -28,6 +27,7 @@ public class CreateChildCommentUseCase {
         Long likeCount = postCountInfo.getLikeCount();
         updatePostCountInfoProcessor.execute(postId, ++commentCount, likeCount);
     }
+
     private CreateChildCommentCommand serviceDtoBy(Long parentCommentId, CommentCreateChildRequestDto request) {
         return CreateChildCommentCommand.builder()
                 .parentCommentId(parentCommentId)

@@ -1,11 +1,10 @@
 package likelion.univ.auth.dto.response;
 
+import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
-import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Data;
-
-import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
 
 @Data
 @Builder
@@ -16,14 +15,15 @@ public class AccountTokenDto {
     private String refreshToken;
     private Boolean isRegistered;
 
-    public static AccountTokenDto of(String accessToken,String refreshToken){
+    public static AccountTokenDto of(String accessToken, String refreshToken) {
         return AccountTokenDto.builder()
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)
                 .isRegistered(true)
                 .build();
     }
-    public static AccountTokenDto notRegistered(){
+
+    public static AccountTokenDto notRegistered() {
         return AccountTokenDto.builder()
                 .accessToken(null)
                 .refreshToken(null)

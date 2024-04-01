@@ -10,14 +10,14 @@ public class UniversityDetailResponseDto {
     private String universityName;
     private String location;
     private String image;
-    private String recuriteUrl;
+    private String recruitUrl;
 
-    public static UniversityDetailResponseDto of(University university){
+    public static UniversityDetailResponseDto of(University university) {
         return UniversityDetailResponseDto.builder()
                 .universityName(university.getName())
                 .location(university.getLocation())
                 .image(university.getImage())
-                .recuriteUrl(university.getRecruiteUrl())
+                .recruitUrl(university.getRecruiteUrl())
                 .build();
     }
 

@@ -13,7 +13,7 @@ public class AccountUserInfoDto {
     private String role;
     private String name;
 
-    public static AccountUserInfoDto of(User user, String universityName){
+    public static AccountUserInfoDto of(User user, String universityName) {
         return AccountUserInfoDto.builder()
                 .userId(user.getId())
                 .profileImage(user.getProfile().getProfileImage())

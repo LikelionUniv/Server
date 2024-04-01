@@ -4,10 +4,10 @@ import likelion.univ.domain.project.entity.Project;
 import likelion.univ.domain.project.entity.enums.Output;
 import lombok.Builder;
 import lombok.Getter;
+
 @Getter
 @Builder
 public class UserPageProjectsDto {
-
     private Long projectId;
     private String serviceName;
     private Output outPut;
@@ -17,7 +17,7 @@ public class UserPageProjectsDto {
     private String activity;
     private String thumbnail;
 
-    public static UserPageProjectsDto of(Project project){
+    public static UserPageProjectsDto of(Project project) {
         return UserPageProjectsDto.builder()
                 .projectId(project.getId())
                 .serviceName(project.getServiceName())
@@ -29,7 +29,8 @@ public class UserPageProjectsDto {
                 .thumbnail(getThumbnail(project))
                 .build();
     }
-    public static String getThumbnail(Project project){
+
+    public static String getThumbnail(Project project) {
         return project.getProjectImages().isEmpty() ? null : project.getProjectImages().get(0).getImageUrl();
     }
 

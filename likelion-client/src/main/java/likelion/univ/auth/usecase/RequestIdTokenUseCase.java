@@ -2,12 +2,12 @@ package likelion.univ.auth.usecase;
 
 
 import likelion.univ.annotation.UseCase;
+import likelion.univ.auth.dto.response.IdTokenDto;
+import likelion.univ.domain.user.exception.NotSupportedLoginTypeException;
 import likelion.univ.feign.oauth.google.RequestGoogleTokenClient;
 import likelion.univ.feign.oauth.google.dto.GoogleTokenInfoDto;
 import likelion.univ.feign.oauth.kakao.RequestKakaoTokenClient;
 import likelion.univ.feign.oauth.kakao.dto.KakaoTokenInfoDto;
-import likelion.univ.auth.dto.response.IdTokenDto;
-import likelion.univ.domain.user.exception.NotSupportedLoginTypeException;
 import likelion.univ.properties.GoogleProperties;
 import likelion.univ.properties.KakaoProperties;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +19,8 @@ public class RequestIdTokenUseCase {
     private final RequestGoogleTokenClient requestGoogleTokenClient;
     private final KakaoProperties kakaoProperties;
     private final GoogleProperties googleProperties;
-    public IdTokenDto execute(String loginType, String code){
+
+    public IdTokenDto execute(String loginType, String code) {
         switch (loginType) {
             case "kakao":
                 KakaoTokenInfoDto kakaoTokenInfoDto = requestKakaoTokenClient.getToken(
@@ -39,7 +40,7 @@ public class RequestIdTokenUseCase {
         throw new NotSupportedLoginTypeException();
     }
 
-    public IdTokenDto executeForLocal(String loginType, String code){
+    public IdTokenDto executeForLocal(String loginType, String code) {
         switch (loginType) {
             case "kakao":
                 KakaoTokenInfoDto kakaoTokenInfoDto = requestKakaoTokenClient.getToken(

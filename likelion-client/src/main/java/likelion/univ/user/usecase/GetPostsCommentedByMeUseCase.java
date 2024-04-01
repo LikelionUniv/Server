@@ -1,41 +1,35 @@
 package likelion.univ.user.usecase;
 
+import java.util.List;
+import java.util.stream.Collectors;
 import likelion.univ.annotation.UseCase;
 import likelion.univ.common.response.PageResponse;
+import likelion.univ.domain.like.postlike.adaptor.PostLikeAdaptor;
 import likelion.univ.domain.post.adaptor.PostAdaptor;
 import likelion.univ.domain.post.entity.Post;
 import likelion.univ.post.processor.GetOrCreatePostCountInfoProcessor;
 import likelion.univ.user.dto.response.UserPagePostsDto;
-import likelion.univ.domain.comment.adaptor.CommentAdaptor;
-import likelion.univ.domain.like.postlike.adaptor.PostLikeAdaptor;
-import likelion.univ.post.dao.PostCountInfoRedisDao;
-import likelion.univ.post.entity.PostCountInfo;
-import likelion.univ.post.service.PostCountInfoRedisService;
 import likelion.univ.utils.AuthenticatedUserUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
-
 @UseCase
 @RequiredArgsConstructor
 public class GetPostsCommentedByMeUseCase {
-    private final AuthenticatedUserUtils authentiatedUserUtils;
+    private final AuthenticatedUserUtils authenticatedUserUtils;
     private final PostAdaptor postAdaptor;
     private final GetOrCreatePostCountInfoProcessor getOrCreatePostCountInfoProcessor;
     private final PostLikeAdaptor postLikeAdaptor;
 
-    public PageResponse<UserPagePostsDto> execute(Long userId, Pageable pageable){
-        Long currentUserId = authentiatedUserUtils.getCurrentUserId();
+    public PageResponse<UserPagePostsDto> execute(Long userId, Pageable pageable) {
+        Long currentUserId = authenticatedUserUtils.getCurrentUserId();
         Page<Post> posts = postAdaptor.findByCommentAuthorId(userId, pageable);
 
         List<Long> postIds = posts.get().map(p -> p.getId()).collect(Collectors.toList());
         List<Long> myLikedPostIds = postLikeAdaptor.findPostIdsByUserIdAndPostIdsIn(currentUserId, postIds);
 
-        return PageResponse.of(posts.map(p-> UserPagePostsDto.of(p, currentUserId,
+        return PageResponse.of(posts.map(p -> UserPagePostsDto.of(p, currentUserId,
                 getOrCreatePostCountInfoProcessor.execute(p.getId()),
                 myLikedPostIds.contains(p.getId()))));
     }

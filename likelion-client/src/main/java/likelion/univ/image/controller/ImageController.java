@@ -7,7 +7,11 @@ import likelion.univ.image.usecase.CreateDraftPresignedUrlUseCase;
 import likelion.univ.image.usecase.CreatePresignedUrlUseCase;
 import likelion.univ.response.SuccessResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
@@ -23,9 +27,11 @@ public class ImageController {
         ImageUrlResponseDto imageUrlResponseDto = createDraftPresignedUrlUseCase.execute("project", fileNameExtension);
         return SuccessResponse.of(imageUrlResponseDto);
     }
+
     @Operation(summary = "user 프로필 이미지용입니다.")
     @GetMapping("/user/{userId}")
-    public SuccessResponse<Object> getUserPresignedUrl(@PathVariable Long userId , @RequestParam String fileNameExtension) {
+    public SuccessResponse<Object> getUserPresignedUrl(@PathVariable Long userId,
+                                                       @RequestParam String fileNameExtension) {
         ImageUrlResponseDto imageUrlResponseDto = createPresignedUrlUseCase.execute("user", userId, fileNameExtension);
         return SuccessResponse.of(imageUrlResponseDto);
     }

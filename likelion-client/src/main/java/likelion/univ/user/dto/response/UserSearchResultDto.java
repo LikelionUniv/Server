@@ -14,7 +14,7 @@ public class UserSearchResultDto {
     private Long ordinal;
     private String part;
 
-    public static UserSearchResultDto of(User user){
+    public static UserSearchResultDto of(User user) {
         return UserSearchResultDto.builder()
                 .userId(user.getId())
                 .name(user.getProfile().getName())

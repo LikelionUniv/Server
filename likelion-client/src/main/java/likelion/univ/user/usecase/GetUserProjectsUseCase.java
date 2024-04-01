@@ -14,7 +14,7 @@ import org.springframework.data.domain.Pageable;
 public class GetUserProjectsUseCase {
     private final ProjectAdaptor projectAdaptor;
 
-    public PageResponse<UserPageProjectsDto> execute(Long userId, Pageable pageable){
+    public PageResponse<UserPageProjectsDto> execute(Long userId, Pageable pageable) {
         Page<Project> projects = projectAdaptor.findByProjectMember(userId, pageable);
         return PageResponse.of(projects.map(p -> UserPageProjectsDto.of(p)));
     }

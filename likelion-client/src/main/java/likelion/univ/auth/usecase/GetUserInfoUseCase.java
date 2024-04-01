@@ -11,14 +11,16 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class GetUserInfoUseCase {
 
-    private final AuthenticatedUserUtils authentiatedUserUtils;
+    private final AuthenticatedUserUtils authenticatedUserUtils;
     private final UserAdaptor userAdaptor;
 
-    public AccountUserInfoDto execute(){
-        Long currentUserId = authentiatedUserUtils.getCurrentUserId();
+    public AccountUserInfoDto execute() {
+        Long currentUserId = authenticatedUserUtils.getCurrentUserId();
         User user = userAdaptor.findByIdWithUniversity(currentUserId);
-        if(user.getUniversityInfo().getUniversity() == null)
+        if (user.getUniversityInfo().getUniversity() == null) {
             return AccountUserInfoDto.of(user, null);
-        else return AccountUserInfoDto.of(user, user.getUniversityInfo().getUniversity().getName());
+        } else {
+            return AccountUserInfoDto.of(user, user.getUniversityInfo().getUniversity().getName());
+        }
     }
 }

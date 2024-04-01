@@ -11,14 +11,12 @@ import lombok.RequiredArgsConstructor;
 @UseCase
 @RequiredArgsConstructor
 public class CreateRecruitUsecase {
-
     private final RecruitService recruitService;
     private final UniversityService universityService;
 
     public Long execute(CreateRecruitDto createRecruitDto, String universityName) {
         University university = universityService.findByName(universityName);
         Recruit recruit = createRecruitDto.toEntity(university);
-
         return recruitService.register(recruit);
     }
 }

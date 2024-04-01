@@ -14,7 +14,7 @@ public class FollowUserInfoDto {
     private String part;
     private Boolean isFollowed;
 
-    public static FollowUserInfoDto of(User user, Boolean isFollowed){
+    public static FollowUserInfoDto of(User user, Boolean isFollowed) {
         return FollowUserInfoDto.builder()
                 .userId(user.getId())
                 .name(user.getProfile().getName())

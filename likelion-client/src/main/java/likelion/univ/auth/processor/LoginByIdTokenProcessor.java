@@ -1,10 +1,10 @@
 package likelion.univ.auth.processor;
 
 import likelion.univ.annotation.Processor;
-import likelion.univ.feign.oauth.oidc.PublicKeyDto;
-import likelion.univ.feign.oauth.oidc.PublicKeysDto;
 import likelion.univ.domain.user.exception.NotSupportedLoginTypeException;
 import likelion.univ.exception.IncorrectIssuerTokenException;
+import likelion.univ.feign.oauth.oidc.PublicKeyDto;
+import likelion.univ.feign.oauth.oidc.PublicKeysDto;
 import likelion.univ.jwt.JwtIdTokenProvider;
 import likelion.univ.jwt.dto.UserInfoFromIdToken;
 import likelion.univ.properties.GoogleProperties;
@@ -21,7 +21,7 @@ public class LoginByIdTokenProcessor {
     private final KakaoProperties kakaoProperties;
     private final GoogleProperties googleProperties;
 
-    public UserInfoFromIdToken execute(String loginType, String idToken){
+    public UserInfoFromIdToken execute(String loginType, String idToken) {
         String kid = jwtIdTokenProvider.getKid(idToken);
         PublicKeysDto publicKeys = new PublicKeysDto();
         String iss = new String();

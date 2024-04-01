@@ -21,8 +21,8 @@ public class SoftDeleteCommentUseCase {
 
     public void execute(Long commentId) {
         Long loginUserId = userUtils.getCurrentUserId();
-        DeleteCommentData deleteCommentData = commentDomainService.deleteCommentSoft(DeleteCommentCommand.of(commentId, loginUserId));
-
+        DeleteCommentData deleteCommentData = commentDomainService.deleteCommentSoft(
+                DeleteCommentCommand.of(commentId, loginUserId));
         if (deleteCommentData.isDeleted()) {
             Long postId = deleteCommentData.postId();
             // redis update

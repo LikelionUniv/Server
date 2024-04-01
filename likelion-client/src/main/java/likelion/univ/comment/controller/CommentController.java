@@ -2,17 +2,29 @@ package likelion.univ.comment.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import java.util.List;
 import likelion.univ.comment.dto.request.CommentCreateChildRequestDto;
 import likelion.univ.comment.dto.request.CommentCreateParentRequestDto;
 import likelion.univ.comment.dto.request.CommentUpdateRequestDto;
 import likelion.univ.comment.dto.response.CommentResponseDto;
-import likelion.univ.comment.usecase.*;
+import likelion.univ.comment.usecase.CreateChildCommentUseCase;
+import likelion.univ.comment.usecase.CreateParentCommentUseCase;
+import likelion.univ.comment.usecase.GetCommentUseCase;
+import likelion.univ.comment.usecase.HardDeleteCommentUseCase;
+import likelion.univ.comment.usecase.SoftDeleteCommentUseCase;
+import likelion.univ.comment.usecase.UpdateCommentUseCase;
 import likelion.univ.response.SuccessResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 
 @Slf4j
@@ -43,21 +55,24 @@ public class CommentController {
     /* command */
     @Operation(summary = "댓글 작성", description = "부모 댓글을 생성합니다.")
     @PostMapping("/comments/parent")
-    public SuccessResponse createParentComment(@RequestParam Long postId, @RequestBody CommentCreateParentRequestDto request) {
+    public SuccessResponse createParentComment(@RequestParam Long postId,
+                                               @RequestBody CommentCreateParentRequestDto request) {
         createParentCommentUseCase.execute(postId, request);
         return SuccessResponse.of(null, "201");
     }
 
     @Operation(summary = "대댓글 작성", description = "자식 댓글을 생성합니다.")
     @PostMapping("/comments/{parentCommentId}/child")
-    public SuccessResponse createChildComment(@PathVariable Long parentCommentId, @RequestBody CommentCreateChildRequestDto request) {
+    public SuccessResponse createChildComment(@PathVariable Long parentCommentId,
+                                              @RequestBody CommentCreateChildRequestDto request) {
         createChildCommentUseCase.execute(parentCommentId, request);
         return SuccessResponse.of(null, "201");
     }
 
     @Operation(summary = "댓글 내용 수정", description = "댓글의 내용(body only)을 수정합니다.")
     @PatchMapping("/{commentId}")
-    public SuccessResponse<Long> updateComment(@PathVariable Long commentId, @RequestBody CommentUpdateRequestDto request) {
+    public SuccessResponse<Long> updateComment(@PathVariable Long commentId,
+                                               @RequestBody CommentUpdateRequestDto request) {
         Long updatedCommentId = updateCommentUseCase.execute(commentId, request);
         return SuccessResponse.of(updatedCommentId);
     }

@@ -8,7 +8,11 @@ import likelion.univ.auth.processor.LoginByIdTokenProcessor;
 import likelion.univ.domain.university.adaptor.UniversityAdaptor;
 import likelion.univ.domain.university.entity.University;
 import likelion.univ.domain.user.adaptor.UserAdaptor;
-import likelion.univ.domain.user.entity.*;
+import likelion.univ.domain.user.entity.AuthInfo;
+import likelion.univ.domain.user.entity.LoginType;
+import likelion.univ.domain.user.entity.Profile;
+import likelion.univ.domain.user.entity.UniversityInfo;
+import likelion.univ.domain.user.entity.User;
 import likelion.univ.domain.user.exception.EmailAlreadyRegistered;
 import likelion.univ.domain.user.service.UserDomainService;
 import likelion.univ.jwt.dto.UserInfoFromIdToken;
@@ -25,9 +29,9 @@ public class SignUpUseCase {
 
     public AccountTokenDto execute(String loginType,
                                    String idToken,
-                                   SignUpRequestDto signUpRequestDto){
+                                   SignUpRequestDto signUpRequestDto) {
         UserInfoFromIdToken userInfo = loginByIdTokenProcessor.execute(loginType, idToken);
-        if (!userAdaptor.checkEmail(userInfo.getEmail())){
+        if (!userAdaptor.checkEmail(userInfo.getEmail())) {
             Profile profile = Profile.fromName(signUpRequestDto.getName());
 
             University university = universityAdaptor.findByName(signUpRequestDto.getUniversityName());
@@ -37,6 +41,8 @@ public class SignUpUseCase {
             AuthInfo authInfo = AuthInfo.authInfoForSignUp((LoginType.fromValue(loginType)), userInfo.getEmail());
             User user = userDomainService.signUp(profile, authInfo, universityInfo);
             return generateAccountTokenProcessor.createToken(user);
-        }else throw new EmailAlreadyRegistered();
+        } else {
+            throw new EmailAlreadyRegistered();
+        }
     }
 }

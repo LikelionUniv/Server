@@ -18,13 +18,13 @@ public class DeleteProjectUsecase {
     private final ProjectTechService projectTechService;
     private final ProjectImageService projectImageService;
     private final ProjectMemberService projectMemberService;
-    private  final ProjectService projectService;
+    private final ProjectService projectService;
     private final ProjectAdaptor projectAdaptor;
 
     public void execute(Long projectId) {
         Project project = projectAdaptor.findById(projectId);
 
-        authenticatedUserUtils.checkidentification(project.getAuthor().getId());
+        authenticatedUserUtils.checkIdentification(project.getAuthor().getId());
 
         projectTechService.deleteProjectTech(projectId);
         projectImageService.deleteImage(projectId);

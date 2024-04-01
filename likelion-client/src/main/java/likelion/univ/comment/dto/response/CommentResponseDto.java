@@ -2,14 +2,10 @@ package likelion.univ.comment.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.v3.oas.annotations.media.Schema;
+import java.util.List;
 import likelion.univ.domain.comment.dto.response.ChildCommentData;
 import likelion.univ.domain.comment.dto.response.ParentCommentData;
 import lombok.Builder;
-
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.List;
-import java.util.stream.Stream;
 
 @Builder
 public record CommentResponseDto(
@@ -44,9 +40,12 @@ public record CommentResponseDto(
         @JsonInclude(JsonInclude.Include.NON_EMPTY)
         List<ChildCommentResponseDto> childComments
 ) {
-    public static CommentResponseDto of(ParentCommentData parentComment, List<ChildCommentData> allChildComments, Long loginUserId, Long postAuthorId) {
-        List<ChildCommentData> childCommentData = allChildComments.stream().filter(i -> i.parentId().equals(parentComment.commentId())).toList();
-        List<ChildCommentResponseDto> childComments = childCommentData.stream().map(c -> ChildCommentResponseDto.of(c, loginUserId, postAuthorId)).toList();
+    public static CommentResponseDto of(ParentCommentData parentComment, List<ChildCommentData> allChildComments,
+                                        Long loginUserId, Long postAuthorId) {
+        List<ChildCommentData> childCommentData = allChildComments.stream()
+                .filter(i -> i.parentId().equals(parentComment.commentId())).toList();
+        List<ChildCommentResponseDto> childComments = childCommentData.stream()
+                .map(c -> ChildCommentResponseDto.of(c, loginUserId, postAuthorId)).toList();
         return CommentResponseDto.builder()
                 .commentId(parentComment.commentId())
                 .userId(parentComment.userId())
@@ -64,6 +63,5 @@ public record CommentResponseDto(
                 .childComments(childComments)
                 .build();
     }
-
-
+    
 }

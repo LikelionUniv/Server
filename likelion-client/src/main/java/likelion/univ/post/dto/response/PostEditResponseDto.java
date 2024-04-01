@@ -18,7 +18,9 @@ public record PostEditResponseDto(
         String subCategory
 ) {
     public static PostEditResponseDto of(PostEditData postEditData) {
-        PostEditResponseDto responseDto = new PostEditResponseDto(postEditData.postId(), postEditData.title(), postEditData.body(), postEditData.thumbnail(), postEditData.mainCategory().getTitle(), postEditData.subCategory().getTitle());
+        PostEditResponseDto responseDto = new PostEditResponseDto(postEditData.postId(), postEditData.title(),
+                postEditData.body(), postEditData.thumbnail(), postEditData.mainCategory().getTitle(),
+                postEditData.subCategory().getTitle());
         return responseDto;
     }
 }

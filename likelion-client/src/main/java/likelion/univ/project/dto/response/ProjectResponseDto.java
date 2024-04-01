@@ -1,21 +1,18 @@
 package likelion.univ.project.dto.response;
 
-import likelion.univ.domain.project.entity.ProjectImage;
-import likelion.univ.domain.project.entity.Project;
-import likelion.univ.domain.project.entity.Tech;
-import likelion.univ.domain.project.entity.enums.Output;
-import likelion.univ.domain.user.entity.User;
-import lombok.Builder;
-import lombok.Data;
-
 import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
+import likelion.univ.domain.project.entity.Project;
+import likelion.univ.domain.project.entity.ProjectImage;
+import likelion.univ.domain.project.entity.Tech;
+import likelion.univ.domain.project.entity.enums.Output;
+import lombok.Builder;
+import lombok.Data;
 
 @Data
 @Builder
 public class ProjectResponseDto {
-
     private Long id;
     private String activity;
     private Output outPut;
@@ -31,7 +28,9 @@ public class ProjectResponseDto {
     private List<String> imageUrl;
     private List<ProjectMemberResponseDto> members;
 
-    public static ProjectResponseDto of(Project project, String univ, List<Tech> projectTeches, List<ProjectImage> projectImages, List<ProjectMemberResponseDto> projectMembers) {
+    public static ProjectResponseDto of(Project project, String univ, List<Tech> projectTeches,
+                                        List<ProjectImage> projectImages,
+                                        List<ProjectMemberResponseDto> projectMembers) {
         return ProjectResponseDto.builder()
                 .id(project.getId())
                 .activity(project.getActivity())

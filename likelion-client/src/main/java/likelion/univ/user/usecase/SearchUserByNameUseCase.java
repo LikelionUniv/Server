@@ -14,7 +14,7 @@ import org.springframework.data.domain.Slice;
 public class SearchUserByNameUseCase {
     private final UserAdaptor userAdaptor;
 
-    public SliceResponse execute(String name, Pageable pageable){
+    public SliceResponse execute(String name, Pageable pageable) {
         Slice<User> userSlice = userAdaptor.searchByName(name, pageable);
         return SliceResponse.of(userSlice.map(u -> UserSearchResultDto.of(u)));
     }

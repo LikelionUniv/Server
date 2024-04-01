@@ -11,9 +11,9 @@ import lombok.RequiredArgsConstructor;
 public class GetDonationHistoryDetailsUseCase {
     private final DonationHistoryDomainService donationHistoryDomainService;
 
-    public DonationHistoriesDetailsResponseDto execute(Long donationHistoryId){
+    public DonationHistoriesDetailsResponseDto execute(Long donationHistoryId) {
         DonationHistory donationHistory = donationHistoryDomainService.getAndViewCountUp(donationHistoryId);
         /* 임시 (유저 도메인 배포 후 변경 예정) */
-        return DonationHistoriesDetailsResponseDto.of(donationHistory,false);
+        return DonationHistoriesDetailsResponseDto.of(donationHistory, false);
     }
 }

@@ -11,11 +11,12 @@ import org.springframework.data.domain.Pageable;
 
 @UseCase
 @RequiredArgsConstructor
-public class SearchDontionHistoryUseCase {
+public class SearchDontaionHistoryUseCase {
     private final DonationHistoryAdaptor donationHistoryAdaptor;
 
-    public PageResponse<DonationHistoriesSearchResponseDto> execute(String sort, String search, Pageable pageable){
-        Page<DonationHistory> donationHistories = donationHistoryAdaptor.searchDonationHistoryWithSort(pageable, sort, search);
-        return PageResponse.of(donationHistories.map(d ->DonationHistoriesSearchResponseDto.of(d)));
+    public PageResponse<DonationHistoriesSearchResponseDto> execute(String sort, String search, Pageable pageable) {
+        Page<DonationHistory> donationHistories = donationHistoryAdaptor.searchDonationHistoryWithSort(pageable, sort,
+                search);
+        return PageResponse.of(donationHistories.map(d -> DonationHistoriesSearchResponseDto.of(d)));
     }
 }

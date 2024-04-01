@@ -6,7 +6,11 @@ import likelion.univ.follow.usecase.CancelFollowUseCase;
 import likelion.univ.follow.usecase.FollowUserUseCase;
 import likelion.univ.response.SuccessResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
@@ -18,7 +22,7 @@ public class FollowController {
 
     @Operation(summary = "팔로우 ", description = "해당 유저를 팔로우 합니다.")
     @PostMapping("/{userId}")
-    public SuccessResponse<Object> follow(@PathVariable("userId") Long userId){
+    public SuccessResponse<Object> follow(@PathVariable("userId") Long userId) {
         followUserUseCase.execute(userId);
         return SuccessResponse.empty();
     }

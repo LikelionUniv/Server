@@ -25,7 +25,7 @@ public class ProfileEditRequestDto {
     @Schema(description = "트랙(파트)", example = "BACKEND", required = true, enumAsRef = true)
     private Part part;
 
-    public Profile toProfile(){
+    public Profile toProfile() {
         return Profile.builder()
                 .name(name)
                 .profileImage(profileImage)

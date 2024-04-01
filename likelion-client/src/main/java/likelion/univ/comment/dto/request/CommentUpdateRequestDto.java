@@ -1,10 +1,12 @@
 package likelion.univ.comment.dto.request;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.*;
-
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Builder

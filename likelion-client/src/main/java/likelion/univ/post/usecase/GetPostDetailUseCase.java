@@ -16,13 +16,13 @@ public class GetPostDetailUseCase {
     private final AuthenticatedUserUtils authenticatedUserUtils;
     private final GetOrCreatePostCountInfoProcessor getOrCreatePostCountInfoProcessor;
 
-
     public PostDetailResponseDto execute(Long postId) {
         Long loginUserId = authenticatedUserUtils.getCurrentUserId();
         GetPostDetailCommand serviceRequestDto = new GetPostDetailCommand(postId, loginUserId);
 
         PostDetailData serviceResponseDto = postDomainService.getPostDetail(serviceRequestDto);
-        PostDetailResponseDto response = PostDetailResponseDto.of(serviceResponseDto, getOrCreatePostCountInfoProcessor.execute(serviceResponseDto.postId()), loginUserId);
+        PostDetailResponseDto response = PostDetailResponseDto.of(serviceResponseDto,
+                getOrCreatePostCountInfoProcessor.execute(serviceResponseDto.postId()), loginUserId);
         return response;
     }
 }
