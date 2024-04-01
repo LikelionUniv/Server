@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/v1/community/comment-likes")
 @Tag(name = "댓글 좋아요", description = "커뮤니티 APIs")
 public class CommentLikeController {
+
     private final CreateOrDeleteCommentLikeUsecase createOrDeleteCommentLikeUsecase;
 
     @Operation(summary = "댓글 좋아요 수행 / 취소", description = """

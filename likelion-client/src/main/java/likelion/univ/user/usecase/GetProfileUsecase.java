@@ -15,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 @UseCase
 @RequiredArgsConstructor
 public class GetProfileUsecase {
+
     private final AuthenticatedUserUtils authenticatedUserUtils;
     private final UserAdaptor userAdaptor;
     private final FollowNumRedisDao followNumRedisDao;

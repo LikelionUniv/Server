@@ -8,6 +8,7 @@ import lombok.Getter;
 @Getter
 @Builder
 public class ProjectListResponseDto {
+
     private Long id;
     private String activity;
     private Output outPut;

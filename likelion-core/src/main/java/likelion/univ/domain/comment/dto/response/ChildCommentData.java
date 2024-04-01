@@ -18,11 +18,11 @@ public record ChildCommentData(
         Boolean isDeleted,
         LocalDateTime createdDate
 ) {
+
     @Builder
     @QueryProjection
     public ChildCommentData {
     }
-
 
     public static ChildCommentData of(Comment comment, Boolean isLikedByLoginUser) {
         return ChildCommentData.builder()

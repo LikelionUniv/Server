@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 @UseCase
 @RequiredArgsConstructor
 public class CreateOrDeleteCommentLikeUsecase {
+
     private final AuthenticatedUserUtils userUtils;
     private final CommentLikeDomainService commentLikeDomainService;
 

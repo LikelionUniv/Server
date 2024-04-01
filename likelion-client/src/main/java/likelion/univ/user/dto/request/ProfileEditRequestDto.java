@@ -11,6 +11,7 @@ import org.jetbrains.annotations.NotNull;
 @Getter
 @NoArgsConstructor
 public class ProfileEditRequestDto {
+
     @NotNull
     @Schema(description = "이름", example = "김슬기", required = true)
     private String name;

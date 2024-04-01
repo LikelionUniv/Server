@@ -44,6 +44,7 @@ public record PostDetailResponseDto(
         @Schema(description = "게시글 작성일자", example = "2023. 6. 15")
         String createdDate
 ) {
+
     public PostDetailResponseDto(PostDetailData post, Integer likeCount, Integer commentCount, Long loginUserId) {
         this(
                 post.postId(),

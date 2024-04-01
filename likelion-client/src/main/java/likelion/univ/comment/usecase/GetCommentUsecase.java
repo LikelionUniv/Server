@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 @UseCase
 @RequiredArgsConstructor
 public class GetCommentUsecase {
+
     private final CommentDomainService commentDomainService;
     private final AuthenticatedUserUtils authenticatedUser;
 

@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 @UseCase
 @RequiredArgsConstructor
 public class EditProfileUsecase {
+
     private final AuthenticatedUserUtils authenticatedUserUtils;
     private final UserDomainService userDomainService;
 

@@ -21,6 +21,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"email", "loginType"})})
 public class User extends BaseTimeEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

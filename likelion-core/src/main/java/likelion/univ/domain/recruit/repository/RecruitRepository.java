@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface RecruitRepository extends JpaRepository<Recruit, Long> {
+
     List<Recruit> findAllByGenerationAndUniversityName(Integer generation, String universityName);
 
     Boolean existsByEmailAndGeneration(String email, Integer generation);

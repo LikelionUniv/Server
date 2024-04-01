@@ -17,6 +17,7 @@ import org.springframework.data.domain.Pageable;
 @UseCase
 @RequiredArgsConstructor
 public class GetUserLikedPostsUsecase {
+
     private final AuthenticatedUserUtils authenticatedUserUtils;
     private final PostAdaptor postAdaptor;
     private final GetOrCreatePostCountInfoProcessor getOrCreatePostCountInfoProcessor;

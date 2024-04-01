@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(value = "/v1/image")
 @Tag(name = "이미지 업로드", description = "Presigned-url 발급 API")
 public class ImageController {
+
     private final CreatePresignedUrlUsecase createPresignedUrlUsecase;
     private final CreateDraftPresignedUrlUsecase createDraftPresignedUrlUsecase;
 

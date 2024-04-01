@@ -11,6 +11,7 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum DonationSortType {
+
     CREATED_DATE("created_date"),
     VIEW_COUNT("view_count");
 

@@ -7,6 +7,7 @@ import likelion.univ.domain.university.entity.UniversityStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface UniversityRepository extends JpaRepository<University, Long> {
+
     Optional<University> findByName(String name);
 
     List<University> findByLocationAndUniversityStatus(String location, UniversityStatus status);

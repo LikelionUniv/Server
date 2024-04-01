@@ -21,6 +21,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 public class ProjectRequestDto {
+
     @NotBlank
     @Schema(example = "해커톤")
     private String activity;

@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor
 public enum SubCategory {
+
     // HQ
     NOTICE("공지사항"),
 

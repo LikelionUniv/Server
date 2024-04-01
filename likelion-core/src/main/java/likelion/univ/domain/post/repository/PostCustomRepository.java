@@ -10,6 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 public interface PostCustomRepository extends BaseQueryDslRepository {
+
     PostEditData findPostEditByPostId(Long postId);
 
     Page<Post> findByCommentAuthorId(Long userId, Pageable pageable);

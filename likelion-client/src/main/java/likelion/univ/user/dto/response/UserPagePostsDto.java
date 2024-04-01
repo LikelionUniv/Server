@@ -10,6 +10,7 @@ import lombok.Getter;
 @Getter
 @Builder
 public class UserPagePostsDto {
+
     private Long id;
     private String title;
     private String body;

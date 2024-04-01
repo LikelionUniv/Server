@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 
 public interface UserCustomRepository {
+
     List<User> findDynamicUsers(UserSearchCondition condition);
 
     Slice<User> findFollowingUsersByFollowerID(Long userId, Pageable pageable);

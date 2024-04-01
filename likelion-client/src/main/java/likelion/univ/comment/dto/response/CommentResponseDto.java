@@ -40,6 +40,7 @@ public record CommentResponseDto(
         @JsonInclude(JsonInclude.Include.NON_EMPTY)
         List<ChildCommentResponseDto> childComments
 ) {
+
     public static CommentResponseDto of(ParentCommentData parentComment, List<ChildCommentData> allChildComments,
                                         Long loginUserId, Long postAuthorId) {
         List<ChildCommentData> childCommentData = allChildComments.stream()

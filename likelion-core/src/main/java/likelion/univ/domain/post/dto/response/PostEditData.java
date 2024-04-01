@@ -12,6 +12,7 @@ public record PostEditData(
         MainCategory mainCategory,
         SubCategory subCategory
 ) {
+
     @QueryProjection
     public PostEditData(Long postId, String title, String body, String thumbnail, MainCategory mainCategory,
                         SubCategory subCategory) {

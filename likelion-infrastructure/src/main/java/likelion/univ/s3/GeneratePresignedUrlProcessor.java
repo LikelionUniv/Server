@@ -15,6 +15,7 @@ import org.springframework.context.annotation.Profile;
 @Processor
 @RequiredArgsConstructor
 public class GeneratePresignedUrlProcessor {
+
     private final AmazonS3 amazonS3;
     private final S3Properties s3Properties;
 

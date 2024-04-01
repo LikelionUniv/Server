@@ -10,6 +10,7 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum ExampleErrorCode implements BaseErrorCode {
+
     CREATE_EXAMPLE_BAD_REQUEST(BAD_REQUEST, "EXAMPLE_400", "example을 생성하는 데 잘못된 요청을 하였습니다."),
     EXAMPLE_NOT_FOUND(NOT_FOUND, "EXAMPLE_404", "예시가 존재하지 않습니다.");
 

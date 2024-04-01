@@ -15,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 @Processor
 @RequiredArgsConstructor
 public class LoginByIdTokenProcessor {
+
     private final PublicKeyProcessor publicKeyProcessor;
     private final JwtIdTokenProvider jwtIdTokenProvider;
 

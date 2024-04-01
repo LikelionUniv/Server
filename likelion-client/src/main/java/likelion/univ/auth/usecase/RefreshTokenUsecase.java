@@ -18,6 +18,7 @@ import lombok.RequiredArgsConstructor;
 @UseCase
 @RequiredArgsConstructor
 public class RefreshTokenUsecase {
+
     private final RefreshTokenRedisService refreshTokenRedisService;
     private final GenerateAccountTokenProcessor generateAccountTokenProcessor;
     private final JwtProvider jwtProvider;

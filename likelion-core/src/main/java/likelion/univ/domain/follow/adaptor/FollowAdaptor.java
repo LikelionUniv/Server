@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 @Adaptor
 @RequiredArgsConstructor
 public class FollowAdaptor {
+
     private final FollowRepository followRepository;
 
     public Boolean hasFollowedUser(Long followerId, Long followingId) {

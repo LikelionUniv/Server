@@ -9,6 +9,7 @@ import lombok.Data;
 @Data
 @Builder
 public class AccountTokenDto {
+
     @JsonInclude(NON_NULL)
     private String accessToken;
     @JsonInclude(NON_NULL)

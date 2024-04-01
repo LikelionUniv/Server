@@ -12,6 +12,7 @@ import org.springframework.data.domain.Slice;
 @UseCase
 @RequiredArgsConstructor
 public class SearchUserByNameUsecase {
+
     private final UserAdaptor userAdaptor;
 
     public SliceResponse execute(String name, Pageable pageable) {

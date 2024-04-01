@@ -14,6 +14,7 @@ import org.springframework.data.domain.Pageable;
 @UseCase
 @RequiredArgsConstructor
 public class GetProjectByUsecase {
+
     private final ProjectAdaptor projectAdaptor;
     private final ProjectImageAdaptor projectImageAdaptor;
     private final UniversityAdaptor universityAdaptor;

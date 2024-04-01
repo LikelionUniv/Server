@@ -12,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 @UseCase
 @RequiredArgsConstructor
 public class SearchDonationHistoryUsecase {
+
     private final DonationHistoryAdaptor donationHistoryAdaptor;
 
     public PageResponse<DonationHistoriesSearchResponseDto> execute(String sort, String search, Pageable pageable) {

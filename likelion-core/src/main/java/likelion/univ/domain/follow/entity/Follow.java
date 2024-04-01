@@ -20,6 +20,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"follower_id", "following_id"})})
 public class Follow extends BaseTimeEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

@@ -18,6 +18,7 @@ import org.springframework.data.domain.Pageable;
 
 @RequiredArgsConstructor
 public class ProjectCustomRepositoryImpl implements ProjectCustomRepository {
+
     private final JPAQueryFactory queryFactory;
 
     @Override

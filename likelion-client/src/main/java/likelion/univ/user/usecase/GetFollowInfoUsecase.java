@@ -14,6 +14,7 @@ import org.springframework.data.domain.Slice;
 @UseCase
 @RequiredArgsConstructor
 public class GetFollowInfoUsecase {
+
     private final AuthenticatedUserUtils authenticatedUserUtils;
     private final UserAdaptor userAdaptor;
 

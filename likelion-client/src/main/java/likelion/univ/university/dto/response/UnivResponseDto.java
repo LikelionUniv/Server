@@ -6,6 +6,7 @@ import lombok.Data;
 @Data
 @Builder
 public class UnivResponseDto {
+
     private String name;
 
     public static UnivResponseDto of(String name) {

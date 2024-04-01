@@ -8,6 +8,7 @@ import org.springframework.data.domain.SliceImpl;
 
 @Processor
 public class ConvertSliceProcessor<T> {
+
     public Slice<T> execute(List<T> contents, Pageable pageable) {
         if (hasNext(contents, pageable)) {
             return new SliceImpl<>(subContentOne(contents, pageable), pageable, true);

@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 @UseCase
 @RequiredArgsConstructor
 public class CreateRecruitUsecase {
+
     private final RecruitService recruitService;
     private final UniversityService universityService;
 

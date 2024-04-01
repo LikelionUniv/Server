@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 @Processor
 @RequiredArgsConstructor
 public class GenerateAccountTokenProcessor {
+
     private final JwtProvider jwtProvider;
     private final RefreshTokenRedisService refreshTokenRedisService;
 

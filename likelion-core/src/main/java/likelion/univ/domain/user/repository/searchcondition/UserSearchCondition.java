@@ -8,6 +8,7 @@ import lombok.Getter;
 @Builder
 @AllArgsConstructor
 public class UserSearchCondition {
+
     private String name;
     private String university;
     private String part;

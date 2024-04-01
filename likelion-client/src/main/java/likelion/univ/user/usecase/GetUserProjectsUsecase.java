@@ -12,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 @UseCase
 @RequiredArgsConstructor
 public class GetUserProjectsUsecase {
+
     private final ProjectAdaptor projectAdaptor;
 
     public PageResponse<UserPageProjectsDto> execute(Long userId, Pageable pageable) {

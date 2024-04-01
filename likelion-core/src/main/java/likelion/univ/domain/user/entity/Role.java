@@ -6,6 +6,7 @@ import lombok.Getter;
 @AllArgsConstructor
 @Getter
 public enum Role {
+
     GUEST("GUEST"),
     USER("USER"), /* 아기사자 */
     MANAGER("MANAGER"), /* 운영진 */

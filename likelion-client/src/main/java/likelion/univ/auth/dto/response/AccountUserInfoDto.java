@@ -7,6 +7,7 @@ import lombok.Getter;
 @Getter
 @Builder
 public class AccountUserInfoDto {
+
     private Long userId;
     private String profileImage;
     private String universityName;

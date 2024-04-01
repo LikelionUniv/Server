@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 @UseCase
 @RequiredArgsConstructor
 public class GetPostEditUsecase {
+
     private final PostDomainService postDomainService;
 
     public PostEditResponseDto execute(Long postId) {

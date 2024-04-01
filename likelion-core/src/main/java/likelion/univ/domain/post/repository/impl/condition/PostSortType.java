@@ -10,6 +10,7 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum PostSortType {
+
     CREATED_DATE("created_date"),
     LIKE("like"),
     COMMENT("comment");

@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 @UseCase
 @RequiredArgsConstructor
 public class FollowUserUsecase {
+
     private final AuthenticatedUserUtils authenticatedUserUtils;
     private final FollowAdaptor followAdaptor;
     private final FollowNumRedisDao followNumRedisDao;

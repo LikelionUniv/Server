@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true) //읽기 전용 모드
 @RequiredArgsConstructor
 public class ProjectImageService {
+
     private final ProjectAdaptor projectAdaptor;
     private final ProjectImageAdaptor projectImageAdaptor;
 

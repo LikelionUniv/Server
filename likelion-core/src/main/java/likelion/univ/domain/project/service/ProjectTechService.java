@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class ProjectTechService {
+
     private final ProjectAdaptor projectAdaptor;
     private final ProjectTechAdaptor projectTechAdaptor;
 

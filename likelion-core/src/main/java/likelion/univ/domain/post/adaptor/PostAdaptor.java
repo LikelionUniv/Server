@@ -16,6 +16,7 @@ import org.springframework.data.domain.Pageable;
 @Adaptor
 @RequiredArgsConstructor
 public class PostAdaptor {
+
     private final PostRepository postRepository;
 
     public Post findById(Long postId) {

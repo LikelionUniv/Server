@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 @Adaptor
 @RequiredArgsConstructor
 public class AlarmAdaptor {
+
     private final AlarmRepository alarmRepository;
 
     public Alarm save(Alarm alarm) {

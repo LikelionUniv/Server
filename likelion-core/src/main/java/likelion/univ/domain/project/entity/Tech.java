@@ -13,6 +13,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Tech {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

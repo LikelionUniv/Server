@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 @RequiredArgsConstructor
 public class CommentLikeDomainService {
+
     private final UserAdaptor userAdaptor;
     private final CommentAdaptor commentAdaptor;
     private final CommentLikeAdaptor commentLikeAdaptor;

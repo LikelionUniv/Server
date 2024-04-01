@@ -10,6 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class EmailContent {
+
     private String subject;
     private String contentsType;
     private String contents;

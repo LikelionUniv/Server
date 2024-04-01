@@ -16,6 +16,7 @@ import org.springframework.data.domain.Pageable;
 @UseCase
 @RequiredArgsConstructor
 public class GetPostsBySearchTitleUsecase {
+
     private final PostDomainService postDomainService;
     private final GetOrCreatePostCountInfoProcessor getOrCreatePostCountInfoProcessor;
 

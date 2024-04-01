@@ -8,6 +8,7 @@ import lombok.Getter;
 @Getter
 @Builder
 public class UserPageProjectsDto {
+
     private Long projectId;
     private String serviceName;
     private Output outPut;

@@ -15,6 +15,7 @@ import java.util.stream.Collectors;
 import org.springframework.data.domain.Sort;
 
 public interface BaseQueryDslRepository {
+
     default OrderSpecifier[] getOrdersBySort(EntityPathBase<?> qEntity, Sort sort) {
         return sort.stream()
                 .map(order -> createOrderSpecifier(qEntity, order))

@@ -13,6 +13,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class CommentCreateParentRequestDto {
+
     @NotBlank
     @Schema(description = "댓글 내용", example = "댓글 내용입니다.")
     private String body;

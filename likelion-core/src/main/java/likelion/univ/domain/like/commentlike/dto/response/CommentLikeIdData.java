@@ -7,6 +7,7 @@ import lombok.Builder;
 public record CommentLikeIdData(
         Long commentLikeId
 ) {
+
     public static CommentLikeIdData of(Long commentLikeId) {
         return CommentLikeIdData.builder()
                 .commentLikeId(commentLikeId)

@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 @Adaptor
 @RequiredArgsConstructor
 public class UniversityAdaptor {
+
     private final UniversityRepository universityRepository;
 
     public University findByName(String name) {

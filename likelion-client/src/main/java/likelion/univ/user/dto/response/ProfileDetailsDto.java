@@ -7,6 +7,7 @@ import lombok.Getter;
 @Getter
 @Builder
 public class ProfileDetailsDto {
+
     private Long id;
     private String profileImage;
     private String name;

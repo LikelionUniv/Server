@@ -10,6 +10,7 @@ import lombok.Data;
 @Builder
 @AllArgsConstructor
 public class PostDeleteRequestDto {
+
     @NotNull
     @Schema(description = "지우려는 게시글 id")
     private Long postId;

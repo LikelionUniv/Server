@@ -7,6 +7,7 @@ import likelion.univ.domain.user.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface CommentLikeRepository extends JpaRepository<CommentLike, Long> {
+
     List<CommentLike> findByUser(User user);
 
     Boolean existsByCommentIdAndUserId(Long commentId, Long userId);

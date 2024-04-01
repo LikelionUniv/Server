@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 @UseCase
 @RequiredArgsConstructor
 public class CreatePresignedUrlUsecase {
+
     private final GeneratePresignedUrlProcessor generatePresignedUrlProcessor;
     private final S3Properties s3Properties;
 

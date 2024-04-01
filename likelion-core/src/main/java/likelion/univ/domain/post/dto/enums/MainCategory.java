@@ -7,9 +7,11 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor
 public enum MainCategory {
+
     HQ_BOARD("멋쟁이사자처럼"),
     FREE_BOARD("자유게시판"),
     OVERFLOW("트랙별 소통 채널");
+
     private final String title;
 
     public static MainCategory findByTitle(String title) {

@@ -7,6 +7,7 @@ import lombok.Data;
 @Data
 @Builder
 public class UniversityDetailResponseDto {
+
     private String universityName;
     private String location;
     private String image;

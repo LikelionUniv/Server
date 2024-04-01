@@ -17,6 +17,7 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 @RestControllerAdvice
 @Slf4j
 public class ClientExceptionHandler {
+
     /*
          javax.validation.Valid or @Validated 으로 binding error 발생시 발생
            주로 @RequestBody, @RequestPart 어노테이션에서 발생

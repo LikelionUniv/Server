@@ -31,6 +31,7 @@ import org.springframework.util.StringUtils;
 
 @RequiredArgsConstructor
 public class UserCustomRepositoryImpl implements UserCustomRepository {
+
     private final JPAQueryFactory queryFactory;
     private final ConvertSliceProcessor convertSliceProcessor;
 

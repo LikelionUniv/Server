@@ -7,6 +7,7 @@ import likelion.univ.domain.user.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface PostLikeRepository extends JpaRepository<PostLike, Long>, PostLikeCustomRepository {
+
     Optional<PostLike> findByPostAndUser(Post post, User user);
 
     Long countByPostId(Long postId);

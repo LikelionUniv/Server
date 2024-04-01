@@ -19,6 +19,7 @@ import org.springframework.util.StringUtils;
 
 @RequiredArgsConstructor
 public class DonationHistoryCustomRepositoryImpl implements DonationHistoryCustomRepository {
+
     private final JPAQueryFactory queryFactory;
 
     @Override

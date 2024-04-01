@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 
 public interface FollowRepository extends JpaRepository<Follow, Long> {
+
     Long countByFollowerId(Long followerId);
 
     Long countByFollowingId(Long followingId);

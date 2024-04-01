@@ -8,6 +8,7 @@ import lombok.Getter;
 @Getter
 @Builder
 public class DonationHistoriesSearchResponseDto {
+
     private Long donationHistoryId;
     private Long authorId;
     private String authorName;

@@ -12,6 +12,7 @@ public record GetPostsByCategorySearchCommand(
         MainCategory mainCategory,
         SubCategory subCategory
 ) {
+
     public GetPostsByCategorySearchCommand(PostOrderCondition orderCondition, String searchTitle, String mainCategory,
                                            String subCategory) {
         this(orderCondition, searchTitle, MainCategory.findByTitle(mainCategory), SubCategory.findByTitle(subCategory));

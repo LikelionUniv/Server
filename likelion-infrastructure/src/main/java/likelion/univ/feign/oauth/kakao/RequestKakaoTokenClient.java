@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
         configuration = RequestKakaoTokenErrorDecoder.class
 )
 public interface RequestKakaoTokenClient {
+
     @PostMapping("/oauth/token?grant_type=authorization_code")
     KakaoTokenInfoDto getToken(
             @RequestParam("client_id") String clientId,

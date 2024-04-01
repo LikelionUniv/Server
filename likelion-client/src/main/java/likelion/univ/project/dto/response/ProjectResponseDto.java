@@ -13,6 +13,7 @@ import lombok.Data;
 @Data
 @Builder
 public class ProjectResponseDto {
+
     private Long id;
     private String activity;
     private Output outPut;

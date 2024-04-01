@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 public interface ProjectMemberRepository extends JpaRepository<ProjectMember, Long> {
+
     @Query("SELECT m FROM ProjectMember m join fetch m.user where m.project = :project")
     public List<ProjectMember> findByProject(Project project);
 

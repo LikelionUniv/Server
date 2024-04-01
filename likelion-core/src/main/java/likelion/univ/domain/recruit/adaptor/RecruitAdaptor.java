@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 @Adaptor
 @RequiredArgsConstructor
 public class RecruitAdaptor {
+
     private final RecruitRepository recruitRepository;
 
     public Long save(Recruit recruit) {

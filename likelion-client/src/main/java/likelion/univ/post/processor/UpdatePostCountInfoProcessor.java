@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 @Processor
 @RequiredArgsConstructor
 public class UpdatePostCountInfoProcessor {
+
     private final PostCountInfoRedisService postCountInfoRedisService;
 
     public void execute(Long postId, Long commentCount, Long likeCount) {

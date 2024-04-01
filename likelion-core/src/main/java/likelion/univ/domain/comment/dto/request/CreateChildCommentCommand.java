@@ -8,6 +8,7 @@ import lombok.Data;
 @Builder
 @AllArgsConstructor
 public class CreateChildCommentCommand {
+
     private Long parentCommentId;
     private Long loginUserId;
     private String body;

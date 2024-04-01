@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 @UseCase
 @RequiredArgsConstructor
 public class GetPostDetailUsecase {
+
     private final PostDomainService postDomainService;
     private final AuthenticatedUserUtils authenticatedUserUtils;
     private final GetOrCreatePostCountInfoProcessor getOrCreatePostCountInfoProcessor;

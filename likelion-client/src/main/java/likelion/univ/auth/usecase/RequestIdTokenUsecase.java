@@ -15,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 @UseCase
 @RequiredArgsConstructor
 public class RequestIdTokenUsecase {
+
     private final RequestKakaoTokenClient requestKakaoTokenClient;
     private final RequestGoogleTokenClient requestGoogleTokenClient;
     private final KakaoProperties kakaoProperties;

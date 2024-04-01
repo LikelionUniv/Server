@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 @Adaptor
 @RequiredArgsConstructor
 public class ProjectTechAdaptor {
+
     private final TechRepository techRepository;
     private final ProjectTechRepository projectTechRepository;
 

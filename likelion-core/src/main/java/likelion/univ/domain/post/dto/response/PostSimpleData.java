@@ -22,6 +22,7 @@ public record PostSimpleData(
         LocalDateTime createdDate
 
 ) {
+
     @QueryProjection
     public PostSimpleData(Long postId, Long authorId, MainCategory mainCategory, SubCategory subCategory,
                           String authorName, String authorProfileImageUrl, String title, String body,

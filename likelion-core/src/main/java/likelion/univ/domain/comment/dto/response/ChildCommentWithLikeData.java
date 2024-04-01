@@ -17,6 +17,7 @@ public record ChildCommentWithLikeData(
         Boolean isDeleted,
         LocalDateTime createdDate
 ) {
+
     public static ChildCommentWithLikeData of(Comment comment, Boolean isLikedByLoginUser) {
         return ChildCommentWithLikeData.builder()
                 .commentId(comment.getId())

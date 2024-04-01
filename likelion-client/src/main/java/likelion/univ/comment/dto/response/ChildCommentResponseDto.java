@@ -35,6 +35,7 @@ public record ChildCommentResponseDto(
         @Schema(description = "대댓글 생성 일자", example = "yyyy. MM. dd")
         String createdDate
 ) {
+
     public static ChildCommentResponseDto of(ChildCommentData childComment, Long loginUserId, Long postAuthorId) {
         return ChildCommentResponseDto.builder()
                 .commentId(childComment.commentId())

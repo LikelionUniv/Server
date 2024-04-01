@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 @UseCase
 @RequiredArgsConstructor
 public class CreateOrDeletePostLikeUsecase {
+
     private final PostLikeDomainService postLikeDomainService;
     private final AuthenticatedUserUtils userUtils;
     private final GetOrCreatePostCountInfoProcessor getOrCreatePostCountInfoProcessor;

@@ -33,6 +33,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/v1/community")
 @Tag(name = "댓글", description = "커뮤니티 APIs")
 public class CommentController {
+
     private final CreateParentCommentUsecase createParentCommentUsecase;
     private final CreateChildCommentUsecase createChildCommentUsecase;
     private final UpdateCommentUsecase updateCommentUsecase;

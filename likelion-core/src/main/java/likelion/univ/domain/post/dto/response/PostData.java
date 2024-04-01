@@ -15,6 +15,7 @@ public record PostData(
         Long commentCount,
         LocalDateTime createdDate
 ) {
+
     public static PostData getInstance(PostSimpleData post, Long likeCount, Long commentCount) {
         return new PostData(
                 post.postId(),

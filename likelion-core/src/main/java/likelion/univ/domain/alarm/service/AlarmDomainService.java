@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class AlarmDomainService {
+
     private final AlarmAdaptor alarmAdaptor;
     private final AlarmRepository alarmRepository;
 

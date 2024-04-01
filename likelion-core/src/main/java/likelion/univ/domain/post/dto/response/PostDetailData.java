@@ -23,6 +23,7 @@ public record PostDetailData(
         String body,
         LocalDateTime createdDate
 ) {
+
     public String getFormattedDate() {
         return DateCustomFormatter.format(this.createdDate);
     }

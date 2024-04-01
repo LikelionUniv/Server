@@ -16,14 +16,20 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 public class University extends BaseTimeEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @Column(unique = true)
     private String name;
+
     private String location;
+
     private String image;
+
     private String recruitUrl;
+    
     @Enumerated(EnumType.STRING)
     private UniversityStatus universityStatus = UniversityStatus.ACTIVE;
 }

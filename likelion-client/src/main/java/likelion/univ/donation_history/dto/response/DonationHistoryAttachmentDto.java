@@ -7,6 +7,7 @@ import lombok.Getter;
 @Getter
 @Builder
 public class DonationHistoryAttachmentDto {
+
     private String fileName;
     private String fileExtension;
     private String fileUrl;

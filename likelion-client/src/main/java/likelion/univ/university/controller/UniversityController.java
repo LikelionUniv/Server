@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(value = "/v1/university")
 @Tag(name = "University", description = "대학교 API")
 public class UniversityController {
+
     private final GetUnivUsecase getUnivUsecase;
     private final GetTotalUnivDetailsUsecase getTotalUnivDetailsUsecase;
     private final GetLocationUnivDetailsUsecase getLocationUnivDetailsUsecase;

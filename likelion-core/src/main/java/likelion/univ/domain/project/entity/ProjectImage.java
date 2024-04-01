@@ -16,6 +16,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ProjectImage {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;

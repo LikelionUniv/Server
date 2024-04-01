@@ -19,12 +19,16 @@ import lombok.NoArgsConstructor;
 @Builder
 @Getter
 public class AuthInfo {
+
     @Enumerated(EnumType.STRING)
     private LoginType loginType;
+
     @Column(unique = true)
     private String email;
+
     @Enumerated(EnumType.STRING)
     private AccountStatus accountStatus;
+
     // 01000000000 형태로
     private String phoneNumber;
 

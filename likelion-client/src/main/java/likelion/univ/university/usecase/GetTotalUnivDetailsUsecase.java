@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 @UseCase
 @RequiredArgsConstructor
 public class GetTotalUnivDetailsUsecase {
+
     private final UniversityAdaptor universityAdaptor;
 
     public List<UniversityDetailResponseDto> execute() {

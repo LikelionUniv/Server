@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 @UseCase
 @RequiredArgsConstructor
 public class CreateParentCommentUsecase {
+
     private final AuthenticatedUserUtils userUtils;
     private final CommentDomainService commentDomainService;
     private final GetOrCreatePostCountInfoProcessor getOrCreatePostCountInfoProcessor;

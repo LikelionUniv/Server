@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 @Adaptor
 @RequiredArgsConstructor
 public class CommentLikeAdaptor {
+
     private final CommentLikeRepository commentLikeRepository;
 
     public Long save(CommentLike commentLike) {

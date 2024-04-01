@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 @UseCase
 @RequiredArgsConstructor
 public class LoginUsecase {
+
     private final LoginByIdTokenProcessor loginByIdTokenProcessor;
     private final UserAdaptor userAdaptor;
     private final UserDomainService userDomainService;

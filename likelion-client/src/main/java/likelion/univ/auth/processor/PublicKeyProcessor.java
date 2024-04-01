@@ -16,6 +16,7 @@ import org.springframework.cache.annotation.Cacheable;
 @Processor
 @RequiredArgsConstructor
 public class PublicKeyProcessor {
+
     private final RequestKakaoTokenClient requestKakaoTokenClient;
     private final RequestGooglePublicKeysClient requestGooglePublicKeysClient;
 

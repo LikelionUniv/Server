@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 @Adaptor
 @RequiredArgsConstructor
 public class ExampleAdaptor {
+
     private final ExampleRepository exampleRepository;
 
     public void save(Example example) {

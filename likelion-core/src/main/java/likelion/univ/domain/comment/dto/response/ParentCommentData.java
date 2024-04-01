@@ -17,6 +17,7 @@ public record ParentCommentData(
         Boolean isDeleted,
         LocalDateTime createdDate
 ) {
+
     @Builder
     @QueryProjection
     public ParentCommentData {

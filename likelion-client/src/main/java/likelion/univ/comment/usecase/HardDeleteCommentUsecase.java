@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 @UseCase
 @RequiredArgsConstructor
 public class HardDeleteCommentUsecase {
+
     private final AuthenticatedUserUtils userUtils;
     private final CommentDomainService commentDomainService;
 

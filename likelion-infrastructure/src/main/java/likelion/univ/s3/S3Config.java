@@ -14,6 +14,7 @@ import org.springframework.context.annotation.Profile;
 @Configuration
 @RequiredArgsConstructor
 public class S3Config {
+
     private final S3Properties s3Properties;
 
     @Bean

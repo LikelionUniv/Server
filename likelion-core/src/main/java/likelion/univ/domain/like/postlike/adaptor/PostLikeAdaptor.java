@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 @Adaptor
 @RequiredArgsConstructor
 public class PostLikeAdaptor {
+
     private final PostLikeRepository postLikeRepository;
 
     public Boolean existsByPostIdAndAuthorId(Long postId, long userId) {

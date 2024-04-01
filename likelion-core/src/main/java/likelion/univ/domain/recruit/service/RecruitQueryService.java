@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class RecruitQueryService {
+
     private final RecruitRepository recruitRepository;
 
     public List<Recruit> queryAllByUniversityNameAndGeneration(String universityName, Integer generation) {

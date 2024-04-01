@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CommentLikeRequestDto {
+    
     @NotNull
     @Schema(description = "좋아요를 누르는 댓글 id")
     private Long commentId;

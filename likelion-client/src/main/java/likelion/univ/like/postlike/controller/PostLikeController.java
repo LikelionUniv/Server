@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/v1/community/post-likes")
 @Tag(name = "게시글 좋아요", description = "커뮤니티 APIs")
 public class PostLikeController {
+
     private final CreateOrDeletePostLikeUsecase createOrDeletePostLikeUsecase;
 
     @Operation(summary = "게시글 좋아요 수행", description = "게시글 좋아요를 생성함")

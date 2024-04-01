@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 public class AuthenticatedUserUtils {
+
     private final UserAdaptor userAdaptor;
 
     public Long getCurrentUserId() {

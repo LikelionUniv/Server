@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 @UseCase
 @RequiredArgsConstructor
 public class GetDonationHistoryDetailsUsecase {
+
     private final DonationHistoryDomainService donationHistoryDomainService;
 
     public DonationHistoriesDetailsResponseDto execute(Long donationHistoryId) {

@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(value = "/v1/follow")
 @Tag(name = "팔로우", description = "팔로우 관련 API입니다.")
 public class FollowController {
+
     private final FollowUserUsecase followUserUsecase;
     private final CancelFollowUsecase cancelFollowUsecase;
 

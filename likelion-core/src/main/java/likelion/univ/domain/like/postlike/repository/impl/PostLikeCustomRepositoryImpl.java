@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 public class PostLikeCustomRepositoryImpl implements PostLikeCustomRepository {
+
     private final JPAQueryFactory queryFactory;
 
     @Override

@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 public class GoogleTokenInfoDto {
+
     private String accessToken;
     private String idToken;
     private String refreshToken;

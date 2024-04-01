@@ -19,6 +19,7 @@ import org.springframework.http.HttpHeaders;
 
 @Configuration
 public class SwaggerConfig {
+
     @Bean
     public OpenAPI openAPI(ServletContext servletContext) {
         String contextPath = servletContext.getContextPath();

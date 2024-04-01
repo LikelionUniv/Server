@@ -11,6 +11,7 @@ import lombok.Data;
 @Builder
 @AllArgsConstructor
 public class PostCreateRequestDto {
+
     @NotBlank
     @Schema(description = "제목", example = "LIKELIONUNIV 프로젝트 회고", required = true)
     private String title;

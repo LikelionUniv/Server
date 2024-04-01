@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 @UseCase
 @RequiredArgsConstructor
 public class EditPostUsecase {
+
     private final PostDomainService postDomainService;
     private final AuthenticatedUserUtils userUtils;
 

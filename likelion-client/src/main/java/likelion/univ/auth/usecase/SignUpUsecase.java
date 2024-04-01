@@ -21,6 +21,7 @@ import lombok.RequiredArgsConstructor;
 @UseCase
 @RequiredArgsConstructor
 public class SignUpUsecase {
+
     private final UniversityAdaptor universityAdaptor;
     private final UserDomainService userDomainService;
     private final UserAdaptor userAdaptor;

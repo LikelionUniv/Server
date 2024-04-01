@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(value = "/v1/donation_history")
 @Tag(name = "기부금 게시판", description = "기부금 게시판관련 API입니다.")
 public class DonationHistoryController {
+
     private final SearchDonationHistoryUsecase searchDonationHistoryUsecase;
     private final GetDonationHistoryDetailsUsecase getDonationHistoryDetailsUsecase;
 

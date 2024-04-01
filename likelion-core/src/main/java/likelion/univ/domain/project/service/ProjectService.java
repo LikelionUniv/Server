@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 @RequiredArgsConstructor
 public class ProjectService {
+
     private final ProjectAdaptor projectAdaptor;
 
     public Project createProject(Project project) {

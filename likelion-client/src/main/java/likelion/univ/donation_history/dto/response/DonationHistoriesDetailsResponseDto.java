@@ -10,6 +10,7 @@ import lombok.Getter;
 @Getter
 @Builder
 public class DonationHistoriesDetailsResponseDto {
+
     private Long donationHistoryId;
     private Long authorId;
     private String authorName;
