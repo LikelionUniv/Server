@@ -1,9 +1,7 @@
 package likelion.univ.domain.like.commentlike.dto.response;
 
 import likelion.univ.domain.like.commentlike.entity.CommentLike;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
 
 @Builder
 public record CommentLikeIdData(

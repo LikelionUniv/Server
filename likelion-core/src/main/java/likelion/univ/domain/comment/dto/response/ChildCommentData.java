@@ -1,11 +1,10 @@
 package likelion.univ.domain.comment.dto.response;
 
 import com.querydsl.core.annotations.QueryProjection;
+import java.time.LocalDateTime;
 import likelion.univ.common.processor.DateCustomFormatter;
 import likelion.univ.domain.comment.entity.Comment;
 import lombok.Builder;
-
-import java.time.LocalDateTime;
 
 public record ChildCommentData(
         Long commentId,
@@ -21,7 +20,8 @@ public record ChildCommentData(
 ) {
     @Builder
     @QueryProjection
-    public ChildCommentData {}
+    public ChildCommentData {
+    }
 
 
     public static ChildCommentData of(Comment comment, Boolean isLikedByLoginUser) {

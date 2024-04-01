@@ -1,11 +1,14 @@
 package likelion.univ.domain.user.entity;
 
-import lombok.*;
-
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Embeddable
 @Getter
@@ -13,7 +16,6 @@ import javax.persistence.Enumerated;
 @AllArgsConstructor
 @Builder
 public class Profile {
-
     private String name;
     private String profileImage;
 
@@ -28,14 +30,14 @@ public class Profile {
         this.part = part;
     }
 
-    public static Profile fromName(String name){
+    public static Profile fromName(String name) {
         return Profile.builder()
                 .name(name)
                 .part(Part.NO_PART)
                 .build();
     }
 
-    public void delete(){
+    public void delete() {
         this.name = "알수없음";
     }
 }

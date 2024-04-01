@@ -7,13 +7,15 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
 
 
-public interface FollowRepository extends JpaRepository<Follow,Long> {
+public interface FollowRepository extends JpaRepository<Follow, Long> {
     Long countByFollowerId(Long followerId);
+
     Long countByFollowingId(Long followingId);
+
     @Modifying
     @Transactional
     @Query(value = "insert into follow(created_date, modified_date, follower_id, following_id)"
-            + "values (now(), now(), :currentId , :userId)", nativeQuery = true)
+                   + "values (now(), now(), :currentId , :userId)", nativeQuery = true)
     void save(Long currentId, Long userId);
 
     boolean existsByFollowerIdAndFollowingId(Long followerId, Long followingId);

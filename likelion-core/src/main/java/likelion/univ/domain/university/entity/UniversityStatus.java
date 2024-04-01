@@ -8,6 +8,5 @@ import lombok.Getter;
 public enum UniversityStatus {
     ACTIVE("ACTIVE"),
     DEACTIVE("DEACTIVE");
-
     private String value;
 }

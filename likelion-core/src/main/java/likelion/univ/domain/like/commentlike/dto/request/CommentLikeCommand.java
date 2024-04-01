@@ -6,5 +6,5 @@ import lombok.Builder;
 public record CommentLikeCommand(
         Long loginUserId,
         Long commentId
-){
+) {
 }

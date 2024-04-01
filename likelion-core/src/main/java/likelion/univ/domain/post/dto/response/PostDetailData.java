@@ -1,16 +1,10 @@
 package likelion.univ.domain.post.dto.response;
 
+import java.time.LocalDateTime;
 import likelion.univ.common.processor.DateCustomFormatter;
-import likelion.univ.domain.comment.dto.response.ChildCommentData;
-import likelion.univ.domain.comment.dto.response.ParentCommentData;
 import likelion.univ.domain.post.dto.enums.MainCategory;
 import likelion.univ.domain.post.dto.enums.SubCategory;
 import lombok.Builder;
-
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.time.format.FormatStyle;
-import java.util.List;
 
 @Builder
 public record PostDetailData(

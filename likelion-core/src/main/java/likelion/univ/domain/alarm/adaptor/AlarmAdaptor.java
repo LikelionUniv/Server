@@ -11,10 +11,13 @@ import lombok.RequiredArgsConstructor;
 public class AlarmAdaptor {
     private final AlarmRepository alarmRepository;
 
-    public Alarm save(Alarm alarm){ return alarmRepository.save(alarm);}
+    public Alarm save(Alarm alarm) {
+        return alarmRepository.save(alarm);
+    }
 
     public void existsByOrdinalAndEmailAndAlarmType(Long ordinal, String email) {
-        if (alarmRepository.existsByOrdinalAndEmail(ordinal, email))
+        if (alarmRepository.existsByOrdinalAndEmail(ordinal, email)) {
             throw new EmailAlreadyRegisteredAsAlarmException();
+        }
     }
 }

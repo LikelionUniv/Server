@@ -1,12 +1,11 @@
 package likelion.univ.domain.project.adapter;
 
+import java.util.List;
 import likelion.univ.annotation.Adaptor;
-import likelion.univ.domain.project.entity.ProjectImage;
 import likelion.univ.domain.project.entity.Project;
+import likelion.univ.domain.project.entity.ProjectImage;
 import likelion.univ.domain.project.repository.ProjectImageRepository;
 import lombok.RequiredArgsConstructor;
-
-import java.util.List;
 
 @Adaptor
 @RequiredArgsConstructor
@@ -26,7 +25,7 @@ public class ProjectImageAdaptor {
         projectImageRepository.deleteByProject(project);
     }
 
-    public void save(ProjectImage projectImage){
+    public void save(ProjectImage projectImage) {
         projectImageRepository.save(projectImage);
     }
 }

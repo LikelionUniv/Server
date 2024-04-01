@@ -13,10 +13,11 @@ import org.springframework.data.domain.Pageable;
 public class DonationHistoryAdaptor {
     private final DonationHistoryRepository donationHistoryRepository;
 
-    public DonationHistory findById(Long id){
-        return donationHistoryRepository.findById(id).orElseThrow(()-> new DonationHistoryNotFoundException());
+    public DonationHistory findById(Long id) {
+        return donationHistoryRepository.findById(id).orElseThrow(() -> new DonationHistoryNotFoundException());
     }
-    public Page<DonationHistory> searchDonationHistoryWithSort(Pageable pageable, String sort, String search){
+
+    public Page<DonationHistory> searchDonationHistoryWithSort(Pageable pageable, String sort, String search) {
         return donationHistoryRepository.searchDonationHistoryWithSort(pageable, sort, search);
     }
 }

@@ -17,7 +17,7 @@ public class UniversityDetailResponseDto {
                 .universityName(university.getName())
                 .location(university.getLocation())
                 .image(university.getImage())
-                .recruitUrl(university.getRecruiteUrl())
+                .recruitUrl(university.getRecruitUrl())
                 .build();
     }
 

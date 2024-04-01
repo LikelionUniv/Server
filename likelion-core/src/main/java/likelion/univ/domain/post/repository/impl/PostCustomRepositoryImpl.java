@@ -1,16 +1,25 @@
 package likelion.univ.domain.post.repository.impl;
 
+import static likelion.univ.domain.comment.entity.QComment.comment;
+import static likelion.univ.domain.like.postlike.entity.QPostLike.postLike;
+import static likelion.univ.domain.post.entity.QPost.post;
+import static likelion.univ.domain.university.entity.QUniversity.university;
+import static likelion.univ.domain.user.entity.QUser.user;
+
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+import likelion.univ.domain.post.dto.enums.MainCategory;
+import likelion.univ.domain.post.dto.enums.SubCategory;
 import likelion.univ.domain.post.dto.response.PostEditData;
 import likelion.univ.domain.post.dto.response.PostSimpleData;
 import likelion.univ.domain.post.dto.response.QPostEditData;
 import likelion.univ.domain.post.dto.response.QPostSimpleData;
 import likelion.univ.domain.post.entity.Post;
-import likelion.univ.domain.post.dto.enums.MainCategory;
-import likelion.univ.domain.post.dto.enums.SubCategory;
 import likelion.univ.domain.post.repository.PostCustomRepository;
 import likelion.univ.domain.post.repository.impl.condition.PostSortType;
 import lombok.RequiredArgsConstructor;
@@ -18,16 +27,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.util.StringUtils;
-
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import static likelion.univ.domain.comment.entity.QComment.comment;
-import static likelion.univ.domain.like.postlike.entity.QPostLike.postLike;
-import static likelion.univ.domain.post.entity.QPost.post;
-import static likelion.univ.domain.university.entity.QUniversity.university;
-import static likelion.univ.domain.user.entity.QUser.user;
 
 @RequiredArgsConstructor
 public class PostCustomRepositoryImpl implements PostCustomRepository {
@@ -45,32 +44,36 @@ public class PostCustomRepositoryImpl implements PostCustomRepository {
 
     /* ----- 마이 페이지 ----- */
     @Override
-    public Page<Post> findByCommentAuthorId(Long userId, Pageable pageable){
+    public Page<Post> findByCommentAuthorId(Long userId, Pageable pageable) {
         List<Long> ids = getCoveringIndexByComment(comment.author.id.eq(userId)
-                                                     .and(comment.isDeleted.isFalse()));
+                .and(comment.isDeleted.isFalse()));
         return findByCoveringIndexOrderByCreatedDate(ids, pageable);
     }
+
     @Override
-    public Page<Post> findByPostLikeAuthorId(Long userId, Pageable pageable){
+    public Page<Post> findByPostLikeAuthorId(Long userId, Pageable pageable) {
         List<Long> ids = getCoveringIndexByPostLike(postLike.user.id.eq(userId));
         return findByCoveringIndexOrderByCreatedDate(ids, pageable);
     }
 
     /* ----- 커뮤니티 ----- */
     @Override
-    public Page<Post> findByCategoriesOrderByCreatedDate(MainCategory mainCategory, SubCategory subCategory, Pageable pageable) {
+    public Page<Post> findByCategoriesOrderByCreatedDate(MainCategory mainCategory, SubCategory subCategory,
+                                                         Pageable pageable) {
         List<Long> ids = getCoveringIndexByPost(post.mainCategory.eq(mainCategory)
-                                                    .and(post.subCategory.eq(subCategory)));
+                .and(post.subCategory.eq(subCategory)));
         return findByCoveringIndexOrderByCreatedDate(ids, pageable);
     }
 
     @Override
-    public Page<Post> findByCategoriesOrderByLikeCount(MainCategory mainCategory, SubCategory subCategory, Pageable pageable) {
+    public Page<Post> findByCategoriesOrderByLikeCount(MainCategory mainCategory, SubCategory subCategory,
+                                                       Pageable pageable) {
         List<Long> ids = getCoveringIndexByPost(post.mainCategory.eq(mainCategory)
                 .and(post.subCategory.eq(subCategory)));
         return findByCoveringIndexOrderByLikeCount(ids, pageable);
     }
-    public Page<Post> findByPostLikeAuthorId(Long userId, Pageable pageable, String sort, String search){
+
+    public Page<Post> findByPostLikeAuthorId(Long userId, Pageable pageable, String sort, String search) {
         List<Long> ids = getCoveringIndexByPostLike(postLike.user.id.eq(userId));
         return findByPostLikesWithSort(ids, pageable, PostSortType.toOrderSpecifier(sort), search);
     }
@@ -80,7 +83,7 @@ public class PostCustomRepositoryImpl implements PostCustomRepository {
             MainCategory mainCategory, SubCategory subCategory, Long universityId, Pageable pageable) {
 
         List<Long> ids = queryFactory
-                .select(post.id, post.createdDate,post.postLikes.size(), post.comments.size())
+                .select(post.id, post.createdDate, post.postLikes.size(), post.comments.size())
                 .from(post)
                 .join(post.author, user)
                 .join(user.universityInfo.university, university)
@@ -104,14 +107,18 @@ public class PostCustomRepositoryImpl implements PostCustomRepository {
     }
 
     @Override
-    public Page<Post> findByCategoriesOrderByCommentCount(MainCategory mainCategory, SubCategory subCategory, Pageable pageable) {
+    public Page<Post> findByCategoriesOrderByCommentCount(MainCategory mainCategory, SubCategory subCategory,
+                                                          Pageable pageable) {
         List<Long> ids = getCoveringIndexByPost(post.mainCategory.eq(mainCategory)
                 .and(post.subCategory.eq(subCategory)));
         return findByCoveringIndexOrderByCommentCount(ids, pageable);
     }
 
     @Override
-    public Page<PostSimpleData> findByCategoriesAndSearchTitleOrderByCommentCount(String searchTitle, MainCategory mainCategory, SubCategory subCategory, Pageable pageable) {
+    public Page<PostSimpleData> findByCategoriesAndSearchTitleOrderByCommentCount(String searchTitle,
+                                                                                  MainCategory mainCategory,
+                                                                                  SubCategory subCategory,
+                                                                                  Pageable pageable) {
         long totalSize = getCategorySearchResultSize(searchTitle, mainCategory, subCategory);
 
         List<PostSimpleData> posts = queryFactory
@@ -130,7 +137,10 @@ public class PostCustomRepositoryImpl implements PostCustomRepository {
     }
 
     @Override
-    public Page<PostSimpleData> findByCategoriesAndSearchTitleOrderByLikeCount(String searchTitle, MainCategory mainCategory, SubCategory subCategory, Pageable pageable) {
+    public Page<PostSimpleData> findByCategoriesAndSearchTitleOrderByLikeCount(String searchTitle,
+                                                                               MainCategory mainCategory,
+                                                                               SubCategory subCategory,
+                                                                               Pageable pageable) {
         long totalSize = getCategorySearchResultSize(searchTitle, mainCategory, subCategory);
 
         List<PostSimpleData> posts = queryFactory
@@ -149,7 +159,10 @@ public class PostCustomRepositoryImpl implements PostCustomRepository {
     }
 
     @Override
-    public Page<PostSimpleData> findByCategoriesAndSearchTitleOrderByCreatedDate(String searchTitle, MainCategory mainCategory, SubCategory subCategory, Pageable pageable) {
+    public Page<PostSimpleData> findByCategoriesAndSearchTitleOrderByCreatedDate(String searchTitle,
+                                                                                 MainCategory mainCategory,
+                                                                                 SubCategory subCategory,
+                                                                                 Pageable pageable) {
         long totalSize = getCategorySearchResultSize(searchTitle, mainCategory, subCategory);
 
         List<PostSimpleData> posts = queryFactory
@@ -158,8 +171,8 @@ public class PostCustomRepositoryImpl implements PostCustomRepository {
                 .join(post.author, user)
                 .where(
                         post.title.containsIgnoreCase(searchTitle)
-                    .and(post.mainCategory.eq(mainCategory)
-                    .and(post.subCategory.eq(subCategory))))
+                                .and(post.mainCategory.eq(mainCategory)
+                                        .and(post.subCategory.eq(subCategory))))
                 .offset(pageable.getOffset())
                 .orderBy(post.createdDate.desc())
                 .limit(pageable.getPageSize())
@@ -220,6 +233,7 @@ public class PostCustomRepositoryImpl implements PostCustomRepository {
     private List<Long> getCoveringIndexByComment(Predicate predicate) {
         return queryFactory.select(comment.post.id).from(comment).where(predicate).fetch();
     }
+
     private List<Long> getCoveringIndexByPostLike(Predicate predicate) {
         return queryFactory.select(postLike.post.id).from(postLike).where(predicate).fetch();
     }
@@ -227,6 +241,7 @@ public class PostCustomRepositoryImpl implements PostCustomRepository {
     private BooleanExpression searchCondition(String search) {
         return StringUtils.hasText(search) ? post.body.contains(search).or(post.title.contains(search)) : null;
     }
+
     private List<Long> getCoveringIndexByPost(Predicate predicate) {
         return queryFactory
                 .select(post.id)
@@ -235,7 +250,7 @@ public class PostCustomRepositoryImpl implements PostCustomRepository {
                 .fetch();
     }
 
-    private  Page<Post> findByCoveringIndexOrderByCreatedDate(List<Long> ids, Pageable pageable) {
+    private Page<Post> findByCoveringIndexOrderByCreatedDate(List<Long> ids, Pageable pageable) {
         List<Post> posts =
                 queryFactory
                         .select(post)
@@ -249,8 +264,8 @@ public class PostCustomRepositoryImpl implements PostCustomRepository {
         return new PageImpl<>(posts, pageable, ids.size());
     }
 
-    private  Page<Post> findByUniversityAndCoveringIndexOrderByCreatedDate(List<Long> ids, Pageable pageable,
-                                                                           Long universityId){
+    private Page<Post> findByUniversityAndCoveringIndexOrderByCreatedDate(List<Long> ids, Pageable pageable,
+                                                                          Long universityId) {
         List<Post> posts =
                 queryFactory
                         .select(post)
@@ -276,6 +291,7 @@ public class PostCustomRepositoryImpl implements PostCustomRepository {
                 .fetch();
         return new PageImpl<>(posts, pageable, ids.size());
     }
+
     private Page<Post> findByCoveringIndexOrderByCommentCount(List<Long> ids, Pageable pageable) {
         List<Post> posts = queryFactory
                 .selectFrom(post)
@@ -295,6 +311,7 @@ public class PostCustomRepositoryImpl implements PostCustomRepository {
                 .where(post.title.containsIgnoreCase(searchTitle))
                 .fetch().size();
     }
+
     private int getCategorySearchResultSize(String searchTitle, MainCategory mainCategory, SubCategory subCategory) {
         return queryFactory
                 .select(post.id)
@@ -304,6 +321,7 @@ public class PostCustomRepositoryImpl implements PostCustomRepository {
                 .where(post.title.containsIgnoreCase(searchTitle))
                 .fetch().size();
     }
+
     private static QPostSimpleData postSimpleData() {
         return new QPostSimpleData(
                 post.id,
@@ -317,6 +335,7 @@ public class PostCustomRepositoryImpl implements PostCustomRepository {
                 post.thumbnail,
                 post.createdDate);
     }
+
     private static QPostEditData postEditData() {
         return new QPostEditData(
                 post.id,
@@ -328,7 +347,7 @@ public class PostCustomRepositoryImpl implements PostCustomRepository {
         );
     }
 
-    private  Page<Post> findByPostLikesWithSort(List<Long> ids, Pageable pageable, OrderSpecifier sort, String search){
+    private Page<Post> findByPostLikesWithSort(List<Long> ids, Pageable pageable, OrderSpecifier sort, String search) {
         List<Post> posts =
                 queryFactory
                         .selectDistinct(post)
@@ -346,15 +365,16 @@ public class PostCustomRepositoryImpl implements PostCustomRepository {
         return new PageImpl<>(posts, pageable, ids.size());
     }
 
-    private OrderSpecifier[] getOrderSpecifierByPageable(Pageable pageable){
+    private OrderSpecifier[] getOrderSpecifierByPageable(Pageable pageable) {
         OrderSpecifier[] orderSpecifiers = getOrdersBySort(post, pageable.getSort());
         return Arrays.stream(orderSpecifiers).map(orderSpecifier -> convertToPostOrderSpecifier(orderSpecifier))
                 .collect(Collectors.toList()).toArray(new OrderSpecifier[0]);
     }
-    private OrderSpecifier convertToPostOrderSpecifier(OrderSpecifier orderSpecifier){
-        if(orderSpecifier.getTarget().equals(post.postLikes)){
+
+    private OrderSpecifier convertToPostOrderSpecifier(OrderSpecifier orderSpecifier) {
+        if (orderSpecifier.getTarget().equals(post.postLikes)) {
             return post.postLikes.size().desc();
-        }else if(orderSpecifier.getTarget().equals(post.comments)){
+        } else if (orderSpecifier.getTarget().equals(post.comments)) {
             return post.comments.size().desc();
         }
         return orderSpecifier;

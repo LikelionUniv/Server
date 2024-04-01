@@ -13,7 +13,7 @@ public class DonationHistoryDomainService {
     private final DonationHistoryAdaptor donationHistoryAdaptor;
 
     @Transactional
-    public DonationHistory getAndViewCountUp(Long donationHistoryId){
+    public DonationHistory getAndViewCountUp(Long donationHistoryId) {
         DonationHistory donationHistory = donationHistoryAdaptor.findById(donationHistoryId);
         donationHistory.viewCountUp();
         return donationHistory;

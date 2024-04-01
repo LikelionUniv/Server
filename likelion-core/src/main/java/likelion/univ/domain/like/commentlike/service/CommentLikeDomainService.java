@@ -1,13 +1,11 @@
 package likelion.univ.domain.like.commentlike.service;
 
 import likelion.univ.domain.comment.adaptor.CommentAdaptor;
-import likelion.univ.domain.comment.entity.Comment;
 import likelion.univ.domain.comment.exception.NotAuthorizedException;
 import likelion.univ.domain.like.commentlike.adaptor.CommentLikeAdaptor;
 import likelion.univ.domain.like.commentlike.dto.request.CommentLikeCommand;
 import likelion.univ.domain.like.commentlike.entity.CommentLike;
 import likelion.univ.domain.user.adaptor.UserAdaptor;
-import likelion.univ.domain.user.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,8 +21,6 @@ public class CommentLikeDomainService {
     public boolean createOrDeleteCommentLike(CommentLikeCommand request) throws NotAuthorizedException {
         Long commentId = request.commentId();
         Long loginUserId = request.loginUserId();
-//        Comment comment = commentAdaptor.findById(commentId);
-//        User user = userAdaptor.findById(loginUserId);
 
         // 이미 좋아요 했으면 취소
         if (existsCommentLike(commentId, loginUserId)) {

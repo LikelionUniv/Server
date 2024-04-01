@@ -14,12 +14,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 public class Example extends BaseTimeEntity {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    //<<<<<<< HEAD
     private String columns;
     private String body;
 
@@ -40,6 +38,6 @@ public class Example extends BaseTimeEntity {
 //    }
     public void editBody(String body) {
         this.body = body;
-//>>>>>>> main
+
     }
 }

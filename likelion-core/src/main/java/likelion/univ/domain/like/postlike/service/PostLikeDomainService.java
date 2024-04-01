@@ -2,10 +2,10 @@ package likelion.univ.domain.like.postlike.service;
 
 import likelion.univ.domain.comment.exception.NotAuthorizedException;
 import likelion.univ.domain.like.postlike.adaptor.PostLikeAdaptor;
+import likelion.univ.domain.like.postlike.dto.PostLikeCommand;
 import likelion.univ.domain.like.postlike.entity.PostLike;
 import likelion.univ.domain.post.adaptor.PostAdaptor;
 import likelion.univ.domain.post.entity.Post;
-import likelion.univ.domain.like.postlike.dto.PostLikeCommand;
 import likelion.univ.domain.user.adaptor.UserAdaptor;
 import likelion.univ.domain.user.entity.User;
 import lombok.RequiredArgsConstructor;

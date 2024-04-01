@@ -10,7 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class UniversityService {
-
     private final UniversityAdaptor universityAdaptor;
 
     public University findByName(String name) {

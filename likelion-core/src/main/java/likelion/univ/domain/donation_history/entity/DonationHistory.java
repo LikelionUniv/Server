@@ -1,22 +1,27 @@
 package likelion.univ.domain.donation_history.entity;
 
-import likelion.univ.common.entity.BaseTimeEntity;
-import likelion.univ.domain.project.entity.ProjectMember;
-import likelion.univ.domain.user.entity.User;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-
-import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import likelion.univ.common.entity.BaseTimeEntity;
+import likelion.univ.domain.user.entity.User;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class DonationHistory extends BaseTimeEntity {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -27,16 +32,16 @@ public class DonationHistory extends BaseTimeEntity {
 
     private String title;
 
-    @Column(columnDefinition="TEXT")
+    @Column(columnDefinition = "TEXT")
     private String body;
 
     private Long viewCount = Long.valueOf(0);
 
     @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name="donation_history_id", insertable = false, updatable = false)
+    @JoinColumn(name = "donation_history_id", insertable = false, updatable = false)
     private List<DonationHistoryAttachment> attachments = new ArrayList<>();
 
-    public void viewCountUp(){
+    public void viewCountUp() {
         this.viewCount += 1;
     }
 }

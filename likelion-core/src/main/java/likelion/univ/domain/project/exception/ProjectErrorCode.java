@@ -1,11 +1,11 @@
 package likelion.univ.domain.project.exception;
 
+import static likelion.univ.constant.StaticValue.BAD_REQUEST;
+import static likelion.univ.constant.StaticValue.NOT_FOUND;
+
 import likelion.univ.exception.base.BaseErrorCode;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-
-import static likelion.univ.constant.StaticValue.BAD_REQUEST;
-import static likelion.univ.constant.StaticValue.NOT_FOUND;
 
 @Getter
 @AllArgsConstructor

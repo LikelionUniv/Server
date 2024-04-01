@@ -12,7 +12,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 @RequiredArgsConstructor
 public class RecruitService {
-
     private final RecruitAdopter recruitAdopter;
     private final RecruitRepository recruitRepository;
 

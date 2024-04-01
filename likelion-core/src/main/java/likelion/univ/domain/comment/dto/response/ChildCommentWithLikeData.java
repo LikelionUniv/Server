@@ -1,9 +1,8 @@
 package likelion.univ.domain.comment.dto.response;
 
+import java.time.LocalDateTime;
 import likelion.univ.domain.comment.entity.Comment;
 import lombok.Builder;
-
-import java.time.LocalDateTime;
 
 @Builder
 public record ChildCommentWithLikeData(
