@@ -6,11 +6,11 @@ import likelion.univ.auth.dto.request.SignUpRequestDto;
 import likelion.univ.auth.dto.response.AccountTokenDto;
 import likelion.univ.auth.dto.response.AccountUserInfoDto;
 import likelion.univ.auth.dto.response.IdTokenDto;
-import likelion.univ.auth.usecase.GetUserInfoUseCase;
-import likelion.univ.auth.usecase.LoginUseCase;
-import likelion.univ.auth.usecase.RefreshTokenUseCase;
-import likelion.univ.auth.usecase.RequestIdTokenUseCase;
-import likelion.univ.auth.usecase.SignUpUseCase;
+import likelion.univ.auth.usecase.GetUserInfoUsecase;
+import likelion.univ.auth.usecase.LoginUsecase;
+import likelion.univ.auth.usecase.RefreshTokenUsecase;
+import likelion.univ.auth.usecase.RequestIdTokenUsecase;
+import likelion.univ.auth.usecase.SignUpUsecase;
 import likelion.univ.response.SuccessResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,11 +27,11 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "Auth", description = "인증 API")
 public class AuthController {
 
-    private final LoginUseCase loginUseCase;
-    private final RequestIdTokenUseCase requestIdTokenUseCase;
-    private final SignUpUseCase signUpUseCase;
-    private final RefreshTokenUseCase refreshTokenUseCase;
-    private final GetUserInfoUseCase getUserInfoUsecase;
+    private final LoginUsecase loginUsecase;
+    private final RequestIdTokenUsecase requestIdTokenUsecase;
+    private final SignUpUsecase signUpUsecase;
+    private final RefreshTokenUsecase refreshTokenUsecase;
+    private final GetUserInfoUsecase getUserInfoUsecase;
 
     @Operation(summary = "id token 발급", description = "인가 코드로 id token을 발급받습니다.")
     @GetMapping("/{logintype}/idtoken")
@@ -39,7 +39,7 @@ public class AuthController {
             @RequestParam("code") String code,
             @PathVariable("logintype") String loginType) {
 
-        IdTokenDto idTokenDto = requestIdTokenUseCase.execute(loginType, code);
+        IdTokenDto idTokenDto = requestIdTokenUsecase.execute(loginType, code);
         return SuccessResponse.of(idTokenDto);
     }
 
@@ -50,7 +50,7 @@ public class AuthController {
             @RequestParam("code") String code,
             @PathVariable("logintype") String loginType) {
 
-        IdTokenDto idTokenDto = requestIdTokenUseCase.executeForLocal(loginType, code);
+        IdTokenDto idTokenDto = requestIdTokenUsecase.executeForLocal(loginType, code);
         return SuccessResponse.of(idTokenDto);
     }
 
@@ -60,7 +60,7 @@ public class AuthController {
             @RequestParam("idtoken") String idToken,
             @PathVariable("logintype") String loginType) {
 
-        AccountTokenDto accountTokenDto = loginUseCase.execute(loginType, idToken);
+        AccountTokenDto accountTokenDto = loginUsecase.execute(loginType, idToken);
         return SuccessResponse.of(accountTokenDto);
     }
 
@@ -70,7 +70,7 @@ public class AuthController {
             @RequestParam("idtoken") String idToken,
             @PathVariable("logintype") String loginType,
             @RequestBody SignUpRequestDto signUpRequestDto) {
-        AccountTokenDto accountTokenDto = signUpUseCase.execute(loginType, idToken, signUpRequestDto);
+        AccountTokenDto accountTokenDto = signUpUsecase.execute(loginType, idToken, signUpRequestDto);
         return SuccessResponse.of(accountTokenDto);
     }
 
@@ -85,7 +85,7 @@ public class AuthController {
     @PostMapping("/refresh")
     public SuccessResponse<Object> refreshToken(
             @RequestParam("token") String refreshToken) {
-        AccountTokenDto accountTokenDto = refreshTokenUseCase.execute(refreshToken);
+        AccountTokenDto accountTokenDto = refreshTokenUsecase.execute(refreshToken);
         return SuccessResponse.of(accountTokenDto);
     }
 }

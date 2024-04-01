@@ -14,13 +14,13 @@ import likelion.univ.post.dto.request.PostUpdateRequestDto;
 import likelion.univ.post.dto.response.PostDetailResponseDto;
 import likelion.univ.post.dto.response.PostEditResponseDto;
 import likelion.univ.post.dto.response.PostResponseDto;
-import likelion.univ.post.usecase.CreatePostUseCase;
-import likelion.univ.post.usecase.DeletePostUseCase;
-import likelion.univ.post.usecase.EditPostUseCase;
-import likelion.univ.post.usecase.GetPostDetailUseCase;
-import likelion.univ.post.usecase.GetPostEditUseCase;
-import likelion.univ.post.usecase.GetPostsByCategoriesUseCase;
-import likelion.univ.post.usecase.GetPostsBySearchTitleUseCase;
+import likelion.univ.post.usecase.CreatePostUsecase;
+import likelion.univ.post.usecase.DeletePostUsecase;
+import likelion.univ.post.usecase.EditPostUsecase;
+import likelion.univ.post.usecase.GetPostDetailUsecase;
+import likelion.univ.post.usecase.GetPostEditUsecase;
+import likelion.univ.post.usecase.GetPostsByCategoriesUsecase;
+import likelion.univ.post.usecase.GetPostsBySearchTitleUsecase;
 import likelion.univ.response.BaseResponse;
 import likelion.univ.response.ErrorResponse;
 import likelion.univ.response.SuccessResponse;
@@ -45,13 +45,13 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "게시글", description = "커뮤니티 APIs")
 public class PostController {
 
-    private final CreatePostUseCase createPostUseCase;
-    private final EditPostUseCase editPostUsecase;
-    private final DeletePostUseCase deletePostUseCase;
-    private final GetPostsByCategoriesUseCase getPostsByCategoriesUseCase;
-    private final GetPostDetailUseCase getPostDetailUseCase;
-    private final GetPostEditUseCase getPostEditUseCase;
-    private final GetPostsBySearchTitleUseCase getPostsBySearchTitleUseCase;
+    private final CreatePostUsecase createPostUsecase;
+    private final EditPostUsecase editPostUsecase;
+    private final DeletePostUsecase deletePostUsecase;
+    private final GetPostsByCategoriesUsecase getPostsByCategoriesUsecase;
+    private final GetPostDetailUsecase getPostDetailUsecase;
+    private final GetPostEditUsecase getPostEditUsecase;
+    private final GetPostsBySearchTitleUsecase getPostsBySearchTitleUsecase;
 
     /* ----- read ----- */
     @Operation(
@@ -63,7 +63,7 @@ public class PostController {
                             - 게시글 / 댓글에 profile projectImage url이 없으면 boolean 타입만 전달 (url : null 포함x)""")
     @GetMapping("/community/posts/{postId}")
     public SuccessResponse<PostDetailResponseDto> findPostDetail(@PathVariable Long postId) {
-        PostDetailResponseDto response = getPostDetailUseCase.execute(postId);
+        PostDetailResponseDto response = getPostDetailUsecase.execute(postId);
         return SuccessResponse.of(response);
     }
 
@@ -77,7 +77,7 @@ public class PostController {
     )
     @GetMapping("/community/posts/{postId}/simple")
     public SuccessResponse<PostEditResponseDto> findPostEdit(@PathVariable Long postId) {
-        PostEditResponseDto response = getPostEditUseCase.execute(postId);
+        PostEditResponseDto response = getPostEditUsecase.execute(postId);
         return SuccessResponse.of(response);
     }
 
@@ -110,7 +110,7 @@ public class PostController {
         if (!MainCategory.isValid(mc) || !SubCategory.isValid(sc)) {
             return ErrorResponse.of(PostErrorCode.CATEGORY_NOT_FOUND);
         }
-        PageResponse<PostResponseDto> response = getPostsByCategoriesUseCase.execute(oc, mc, sc, pageable);
+        PageResponse<PostResponseDto> response = getPostsByCategoriesUsecase.execute(oc, mc, sc, pageable);
         return SuccessResponse.of(response);
     }
 
@@ -145,7 +145,7 @@ public class PostController {
         if (!mc.equals("전체 게시판") && (!MainCategory.isValid(mc) || !SubCategory.isValid(sc))) {
             return ErrorResponse.of(PostErrorCode.CATEGORY_NOT_FOUND);
         }
-        PageResponse<PostResponseDto> response = getPostsBySearchTitleUseCase.execute(oc, st, mc, sc, pageable);
+        PageResponse<PostResponseDto> response = getPostsBySearchTitleUsecase.execute(oc, st, mc, sc, pageable);
         return SuccessResponse.of(response);
     }
 
@@ -167,7 +167,7 @@ public class PostController {
     @PostMapping("/community/posts/new")
     public SuccessResponse<Long> createPost(
             @RequestBody @Valid PostCreateRequestDto request/*, BindingResult bindingResult*/) {
-        Long savedPostId = createPostUseCase.execute(request);
+        Long savedPostId = createPostUsecase.execute(request);
         return SuccessResponse.of(savedPostId);
     }
 
@@ -185,7 +185,7 @@ public class PostController {
             description = "게시글을 database로부터 hard delete")
     @DeleteMapping("/community/posts/{postId}")
     public SuccessResponse deletePost(@PathVariable Long postId) {
-        deletePostUseCase.execute(postId);
+        deletePostUsecase.execute(postId);
         return SuccessResponse.empty();
     }
 }

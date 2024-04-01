@@ -7,12 +7,12 @@ import likelion.univ.comment.dto.request.CommentCreateChildRequestDto;
 import likelion.univ.comment.dto.request.CommentCreateParentRequestDto;
 import likelion.univ.comment.dto.request.CommentUpdateRequestDto;
 import likelion.univ.comment.dto.response.CommentResponseDto;
-import likelion.univ.comment.usecase.CreateChildCommentUseCase;
-import likelion.univ.comment.usecase.CreateParentCommentUseCase;
-import likelion.univ.comment.usecase.GetCommentUseCase;
-import likelion.univ.comment.usecase.HardDeleteCommentUseCase;
-import likelion.univ.comment.usecase.SoftDeleteCommentUseCase;
-import likelion.univ.comment.usecase.UpdateCommentUseCase;
+import likelion.univ.comment.usecase.CreateChildCommentUsecase;
+import likelion.univ.comment.usecase.CreateParentCommentUsecase;
+import likelion.univ.comment.usecase.GetCommentUsecase;
+import likelion.univ.comment.usecase.HardDeleteCommentUsecase;
+import likelion.univ.comment.usecase.SoftDeleteCommentUsecase;
+import likelion.univ.comment.usecase.UpdateCommentUsecase;
 import likelion.univ.response.SuccessResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -33,12 +33,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/v1/community")
 @Tag(name = "댓글", description = "커뮤니티 APIs")
 public class CommentController {
-    private final CreateParentCommentUseCase createParentCommentUseCase;
-    private final CreateChildCommentUseCase createChildCommentUseCase;
-    private final UpdateCommentUseCase updateCommentUseCase;
-    private final SoftDeleteCommentUseCase softDeleteCommentUseCase;
-    private final HardDeleteCommentUseCase hardDeleteCommentUseCase;
-    private final GetCommentUseCase getCommentUseCase;
+    private final CreateParentCommentUsecase createParentCommentUsecase;
+    private final CreateChildCommentUsecase createChildCommentUsecase;
+    private final UpdateCommentUsecase updateCommentUsecase;
+    private final SoftDeleteCommentUsecase softDeleteCommentUsecase;
+    private final HardDeleteCommentUsecase hardDeleteCommentUsecase;
+    private final GetCommentUsecase getCommentUsecase;
 
     /* read */
     @Operation(summary = "게시글에 대한 댓글 전체 조회",
@@ -48,7 +48,7 @@ public class CommentController {
                     """)
     @GetMapping("/comments")
     public SuccessResponse<List<CommentResponseDto>> getCommentsByPost(@RequestParam Long postId) {
-        List<CommentResponseDto> response = getCommentUseCase.execute(postId);
+        List<CommentResponseDto> response = getCommentUsecase.execute(postId);
         return SuccessResponse.of(response);
     }
 
@@ -57,7 +57,7 @@ public class CommentController {
     @PostMapping("/comments/parent")
     public SuccessResponse createParentComment(@RequestParam Long postId,
                                                @RequestBody CommentCreateParentRequestDto request) {
-        createParentCommentUseCase.execute(postId, request);
+        createParentCommentUsecase.execute(postId, request);
         return SuccessResponse.of(null, "201");
     }
 
@@ -65,7 +65,7 @@ public class CommentController {
     @PostMapping("/comments/{parentCommentId}/child")
     public SuccessResponse createChildComment(@PathVariable Long parentCommentId,
                                               @RequestBody CommentCreateChildRequestDto request) {
-        createChildCommentUseCase.execute(parentCommentId, request);
+        createChildCommentUsecase.execute(parentCommentId, request);
         return SuccessResponse.of(null, "201");
     }
 
@@ -73,14 +73,14 @@ public class CommentController {
     @PatchMapping("/{commentId}")
     public SuccessResponse<Long> updateComment(@PathVariable Long commentId,
                                                @RequestBody CommentUpdateRequestDto request) {
-        Long updatedCommentId = updateCommentUseCase.execute(commentId, request);
+        Long updatedCommentId = updateCommentUsecase.execute(commentId, request);
         return SuccessResponse.of(updatedCommentId);
     }
 
     @Operation(summary = "댓글 soft 삭제", description = "댓글을 soft delete 합니다.")
     @PatchMapping("/disable/{commentId}")
     public SuccessResponse deleteCommentSoft(@PathVariable Long commentId) {
-        softDeleteCommentUseCase.execute(commentId);// soft delete
+        softDeleteCommentUsecase.execute(commentId);// soft delete
         return SuccessResponse.empty();
     }
 
@@ -90,7 +90,7 @@ public class CommentController {
 
     @DeleteMapping("/{commentId}")
     public SuccessResponse deleteCommentHard(@PathVariable Long commentId) {
-        hardDeleteCommentUseCase.execute(commentId);
+        hardDeleteCommentUsecase.execute(commentId);
         return SuccessResponse.empty();
     }
 }

@@ -6,8 +6,8 @@ import java.util.List;
 import likelion.univ.response.SuccessResponse;
 import likelion.univ.university.dto.response.UnivResponseDto;
 import likelion.univ.university.dto.response.UniversityDetailResponseDto;
-import likelion.univ.university.usecase.GetLocationUnivDetailsUseCase;
-import likelion.univ.university.usecase.GetTotalUnivDetailsUseCase;
+import likelion.univ.university.usecase.GetLocationUnivDetailsUsecase;
+import likelion.univ.university.usecase.GetTotalUnivDetailsUsecase;
 import likelion.univ.university.usecase.GetUnivUsecase;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,8 +23,8 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "University", description = "대학교 API")
 public class UniversityController {
     private final GetUnivUsecase getUnivUsecase;
-    private final GetTotalUnivDetailsUseCase getTotalUnivDetailsUseCase;
-    private final GetLocationUnivDetailsUseCase getLocationUnivDetailsUseCase;
+    private final GetTotalUnivDetailsUsecase getTotalUnivDetailsUsecase;
+    private final GetLocationUnivDetailsUsecase getLocationUnivDetailsUsecase;
 
     //-----------대학교 조회 --------//
     @GetMapping("/")
@@ -37,7 +37,7 @@ public class UniversityController {
     @GetMapping("/all")
     @Operation(summary = "대학교 전체 조회", description = "대학교 잔체를 조회합니다.")
     public SuccessResponse<List<UniversityDetailResponseDto>> getAllUnivList() {
-        List<UniversityDetailResponseDto> result = getTotalUnivDetailsUseCase.execute();
+        List<UniversityDetailResponseDto> result = getTotalUnivDetailsUsecase.execute();
         return SuccessResponse.of(result);
     }
 
@@ -45,7 +45,7 @@ public class UniversityController {
     @Operation(summary = "지역별 대학교 조회", description = "대학교를 지역별로 조회합니다.")
     public SuccessResponse<List<UniversityDetailResponseDto>> getLocalUnivList(
             @PathVariable("location") String location) {
-        List<UniversityDetailResponseDto> result = getLocationUnivDetailsUseCase.execute(location);
+        List<UniversityDetailResponseDto> result = getLocationUnivDetailsUsecase.execute(location);
         return SuccessResponse.of(result);
     }
 }

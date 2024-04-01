@@ -11,14 +11,14 @@ import likelion.univ.user.dto.response.ProfileDetailsDto;
 import likelion.univ.user.dto.response.UserPagePostsDto;
 import likelion.univ.user.dto.response.UserPageProjectsDto;
 import likelion.univ.user.dto.response.UserSearchResultDto;
-import likelion.univ.user.usecase.EditProfileUseCase;
-import likelion.univ.user.usecase.GetFollowInfoUseCase;
-import likelion.univ.user.usecase.GetPostsCommentedByMeUseCase;
-import likelion.univ.user.usecase.GetProfileUseCase;
-import likelion.univ.user.usecase.GetUserLikedPostsUseCase;
-import likelion.univ.user.usecase.GetUserPostsUseCase;
-import likelion.univ.user.usecase.GetUserProjectsUseCase;
-import likelion.univ.user.usecase.SearchUserByNameUseCase;
+import likelion.univ.user.usecase.EditProfileUsecase;
+import likelion.univ.user.usecase.GetFollowInfoUsecase;
+import likelion.univ.user.usecase.GetPostsCommentedByMeUsecase;
+import likelion.univ.user.usecase.GetProfileUsecase;
+import likelion.univ.user.usecase.GetUserLikedPostsUsecase;
+import likelion.univ.user.usecase.GetUserPostsUsecase;
+import likelion.univ.user.usecase.GetUserProjectsUsecase;
+import likelion.univ.user.usecase.SearchUserByNameUsecase;
 import lombok.RequiredArgsConstructor;
 import org.springdoc.api.annotations.ParameterObject;
 import org.springframework.data.domain.Pageable;
@@ -36,19 +36,19 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(value = "/v1/user")
 @Tag(name = "유저페이지", description = "유저페이지관련 API입니다.")
 public class UserController {
-    private final GetProfileUseCase getProfileUseCase;
-    private final EditProfileUseCase editProfileUseCase;
-    private final GetUserPostsUseCase getUserPostsUseCase;
-    private final GetPostsCommentedByMeUseCase getPostsCommentedByMeUseCase;
-    private final GetFollowInfoUseCase getFollowingListUseCase;
-    private final SearchUserByNameUseCase searchUserByNameUseCase;
-    private final GetUserLikedPostsUseCase getUserLikedPostsUseCase;
-    private final GetUserProjectsUseCase getUserProjectsUseCase;
+    private final GetProfileUsecase getProfileUsecase;
+    private final EditProfileUsecase editProfileUsecase;
+    private final GetUserPostsUsecase getUserPostsUsecase;
+    private final GetPostsCommentedByMeUsecase getPostsCommentedByMeUsecase;
+    private final GetFollowInfoUsecase getFollowingListUsecase;
+    private final SearchUserByNameUsecase searchUserByNameUsecase;
+    private final GetUserLikedPostsUsecase getUserLikedPostsUsecase;
+    private final GetUserProjectsUsecase getUserProjectsUsecase;
 
     @Operation(summary = "유저페이지 프로필 조회", description = "해당 유저의 프로필 정보를 조회합니다.")
     @GetMapping("/{userId}/profile")
     public SuccessResponse<Object> getProfile(@PathVariable Long userId) {
-        ProfileDetailsDto profileDetailsDto = getProfileUseCase.execute(userId);
+        ProfileDetailsDto profileDetailsDto = getProfileUsecase.execute(userId);
         return SuccessResponse.of(profileDetailsDto);
     }
 
@@ -56,7 +56,7 @@ public class UserController {
     @PatchMapping("/{userId}/profile")
     public SuccessResponse<Object> editProfile(@PathVariable Long userId,
                                                @RequestBody ProfileEditRequestDto profileEditRequestDto) {
-        editProfileUseCase.execute(userId, profileEditRequestDto);
+        editProfileUsecase.execute(userId, profileEditRequestDto);
         return SuccessResponse.empty();
     }
 
@@ -64,7 +64,7 @@ public class UserController {
     @GetMapping("/{userId}/following")
     public SuccessResponse<Object> getFollowingList(@PathVariable Long userId,
                                                     @ParameterObject @PageableDefault(size = 4, page = 0) Pageable pageable) {
-        SliceResponse<FollowUserInfoDto> followingUsers = getFollowingListUseCase.executeForFollowing(userId, pageable);
+        SliceResponse<FollowUserInfoDto> followingUsers = getFollowingListUsecase.executeForFollowing(userId, pageable);
         return SuccessResponse.of(followingUsers);
     }
 
@@ -72,7 +72,7 @@ public class UserController {
     @GetMapping("/{userId}/follower")
     public SuccessResponse<Object> getFollowerList(@PathVariable Long userId,
                                                    @ParameterObject @PageableDefault(size = 4, page = 0) Pageable pageable) {
-        SliceResponse<FollowUserInfoDto> followerUsers = getFollowingListUseCase.executeForFollower(userId, pageable);
+        SliceResponse<FollowUserInfoDto> followerUsers = getFollowingListUsecase.executeForFollower(userId, pageable);
         return SuccessResponse.of(followerUsers);
     }
 
@@ -80,7 +80,7 @@ public class UserController {
     @GetMapping("/{userId}/posts")
     public SuccessResponse<Object> getPostsWritedByUser(@PathVariable Long userId,
                                                         @ParameterObject @PageableDefault(size = 6, page = 1) Pageable pageable) {
-        PageResponse<UserPagePostsDto> myPagePostsPage = getUserPostsUseCase.execute(userId, pageable);
+        PageResponse<UserPagePostsDto> myPagePostsPage = getUserPostsUsecase.execute(userId, pageable);
         return SuccessResponse.of(myPagePostsPage);
     }
 
@@ -90,7 +90,7 @@ public class UserController {
                                                        @RequestParam(value = "sort", required = false, defaultValue = "created_date") String sort,
                                                        @RequestParam(value = "search", required = false) String search,
                                                        @ParameterObject @PageableDefault(size = 6, page = 0) Pageable pageable) {
-        PageResponse<UserPagePostsDto> myPagePostsPageLikedByUser = getUserLikedPostsUseCase.execute(userId, pageable,
+        PageResponse<UserPagePostsDto> myPagePostsPageLikedByUser = getUserLikedPostsUsecase.execute(userId, pageable,
                 sort, search);
         return SuccessResponse.of(myPagePostsPageLikedByUser);
     }
@@ -100,7 +100,7 @@ public class UserController {
     @GetMapping("/{userId}/posts/comment")
     public SuccessResponse<Object> getPostsCommentedByUser(@PathVariable Long userId,
                                                            @ParameterObject @PageableDefault(size = 6, page = 0) Pageable pageable) {
-        PageResponse<UserPagePostsDto> myPagePostsPageCommentedByUser = getPostsCommentedByMeUseCase.execute(userId,
+        PageResponse<UserPagePostsDto> myPagePostsPageCommentedByUser = getPostsCommentedByMeUsecase.execute(userId,
                 pageable);
         return SuccessResponse.of(myPagePostsPageCommentedByUser);
     }
@@ -109,7 +109,7 @@ public class UserController {
     @GetMapping("/search")
     public SuccessResponse<Object> searchUser(@RequestParam(required = false) String name,
                                               @ParameterObject @PageableDefault(size = 4, page = 0) Pageable pageable) {
-        SliceResponse<UserSearchResultDto> searchedUsers = searchUserByNameUseCase.execute(name, pageable);
+        SliceResponse<UserSearchResultDto> searchedUsers = searchUserByNameUsecase.execute(name, pageable);
         return SuccessResponse.of(searchedUsers);
     }
 
@@ -118,7 +118,7 @@ public class UserController {
     @GetMapping("/{userId}/projects")
     public SuccessResponse<Object> getMyProjects(@PathVariable Long userId,
                                                  @ParameterObject @PageableDefault(size = 6, page = 0) Pageable pageable) {
-        PageResponse<UserPageProjectsDto> myPageProjects = getUserProjectsUseCase.execute(userId, pageable);
+        PageResponse<UserPageProjectsDto> myPageProjects = getUserProjectsUsecase.execute(userId, pageable);
         return SuccessResponse.of(myPageProjects);
     }
 //

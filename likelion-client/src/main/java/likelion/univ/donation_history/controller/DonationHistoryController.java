@@ -5,8 +5,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import likelion.univ.common.response.PageResponse;
 import likelion.univ.donation_history.dto.response.DonationHistoriesDetailsResponseDto;
 import likelion.univ.donation_history.dto.response.DonationHistoriesSearchResponseDto;
-import likelion.univ.donation_history.usecase.GetDonationHistoryDetailsUseCase;
-import likelion.univ.donation_history.usecase.SearchDontaionHistoryUseCase;
+import likelion.univ.donation_history.usecase.GetDonationHistoryDetailsUsecase;
+import likelion.univ.donation_history.usecase.SearchDonationHistoryUsecase;
 import likelion.univ.response.SuccessResponse;
 import lombok.RequiredArgsConstructor;
 import org.springdoc.api.annotations.ParameterObject;
@@ -23,8 +23,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(value = "/v1/donation_history")
 @Tag(name = "기부금 게시판", description = "기부금 게시판관련 API입니다.")
 public class DonationHistoryController {
-    private final SearchDontaionHistoryUseCase searchDontaionHistoryUseCase;
-    private final GetDonationHistoryDetailsUseCase getDonationHistoryDetailsUseCase;
+    private final SearchDonationHistoryUsecase searchDonationHistoryUsecase;
+    private final GetDonationHistoryDetailsUsecase getDonationHistoryDetailsUsecase;
 
     @Operation(summary = "기부금 게시글 목록 검색", description = "기부금 게시글을 검색합니다. 파라미터로 search를 포함하지 않을 시 전체 조회입니다.")
     @GetMapping("")
@@ -32,7 +32,7 @@ public class DonationHistoryController {
             @RequestParam(value = "sort", required = false, defaultValue = "created_date") String sort,
             @RequestParam(value = "search", required = false) String search,
             @ParameterObject @PageableDefault(size = 10, page = 0) Pageable pageable) {
-        PageResponse<DonationHistoriesSearchResponseDto> result = searchDontaionHistoryUseCase.execute(sort, search,
+        PageResponse<DonationHistoriesSearchResponseDto> result = searchDonationHistoryUsecase.execute(sort, search,
                 pageable);
         return SuccessResponse.of(result);
     }
@@ -40,7 +40,7 @@ public class DonationHistoryController {
     @Operation(summary = "기부금 게시글 상세정보", description = "해당 기부금 게시글의 상세정보를 조회합니다.")
     @GetMapping("/{donationHistoryId}")
     public SuccessResponse<Object> searchDonationHistories(@PathVariable Long donationHistoryId) {
-        DonationHistoriesDetailsResponseDto result = getDonationHistoryDetailsUseCase.execute(donationHistoryId);
+        DonationHistoriesDetailsResponseDto result = getDonationHistoryDetailsUsecase.execute(donationHistoryId);
         return SuccessResponse.of(result);
     }
 }
