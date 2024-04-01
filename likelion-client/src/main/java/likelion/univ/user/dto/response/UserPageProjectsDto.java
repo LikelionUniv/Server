@@ -33,5 +33,4 @@ public class UserPageProjectsDto {
     public static String getThumbnail(Project project) {
         return project.getProjectImages().isEmpty() ? null : project.getProjectImages().get(0).getImageUrl();
     }
-
 }

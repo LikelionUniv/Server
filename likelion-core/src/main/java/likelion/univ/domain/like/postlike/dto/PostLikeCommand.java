@@ -4,5 +4,4 @@ public record PostLikeCommand(
         Long postId,
         Long loginUserId
 ) {
-
 }

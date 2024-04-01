@@ -16,5 +16,4 @@ public interface ProjectRepository extends JpaRepository<Project, Long>, Project
 
     @Query("SELECT MAX(p.ordinal) FROM Project p")
     int findLatestOrdinal();
-
 }

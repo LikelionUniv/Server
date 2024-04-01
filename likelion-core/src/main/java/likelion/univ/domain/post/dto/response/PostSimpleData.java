@@ -75,6 +75,4 @@ public record PostSimpleData(
     public String getFormattedDate() {
         return DateCustomFormatter.format(this.createdDate);
     }
-
-
 }

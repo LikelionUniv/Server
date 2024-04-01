@@ -9,5 +9,4 @@ public interface CommentRepositoryCustom {
     List<Comment> findChildCommentsByPostId(Long postId);
 
     Long countByPostIdAndIsDeletedEquals(Long postId, Boolean isDeleted);
-
 }

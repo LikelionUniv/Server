@@ -38,5 +38,4 @@ public class CommentLikeAdaptor {
     public Boolean existsByCommentIdAndUserId(Long commentId, Long userId) {
         return commentLikeRepository.existsByCommentIdAndUserId(commentId, userId);
     }
-
 }

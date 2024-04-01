@@ -13,5 +13,4 @@ import lombok.NoArgsConstructor;
 public class GoogleErrorResponseDto {
     private String error;
     private String errorDescription;
-
 }

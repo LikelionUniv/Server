@@ -43,5 +43,4 @@ public class ProjectTechAdaptor {
     public void save(ProjectTech projectTech) {
         projectTechRepository.save(projectTech);
     }
-
 }

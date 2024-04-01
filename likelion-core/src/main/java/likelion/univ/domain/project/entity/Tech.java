@@ -22,6 +22,5 @@ public class Tech {
     @Builder
     public Tech(String techName) {
         this.techName = techName;
-
     }
 }

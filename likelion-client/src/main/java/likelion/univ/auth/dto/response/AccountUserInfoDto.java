@@ -22,5 +22,4 @@ public class AccountUserInfoDto {
                 .name(user.getProfile().getName())
                 .build();
     }
-
 }

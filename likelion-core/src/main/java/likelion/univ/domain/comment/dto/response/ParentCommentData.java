@@ -43,5 +43,4 @@ public record ParentCommentData(
     public String getFormattedDate() {
         return DateCustomFormatter.format(this.createdDate);
     }
-
 }

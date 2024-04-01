@@ -20,5 +20,4 @@ public class UniversityDetailResponseDto {
                 .recruitUrl(university.getRecruitUrl())
                 .build();
     }
-
 }

@@ -60,5 +60,4 @@ public record PostResponseDto(
     public static PostResponseDto of(PostSimpleData post, PostCountInfo postCountInfo) {
         return new PostResponseDto(post, postCountInfo.getLikeCount(), postCountInfo.getCommentCount());
     }
-
 }

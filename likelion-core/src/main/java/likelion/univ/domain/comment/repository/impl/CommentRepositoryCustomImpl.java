@@ -68,33 +68,5 @@ public class CommentRepositoryCustomImpl implements CommentRepositoryCustom {
                 .where(comment.parentComment.isNull())
                 .fetch();
     }
-
-//        private static QParentCommentData parentCommentData() {
-//                return new QParentCommentData(
-//                        comment.id,
-//                        comment.author.id,
-//                        comment.author.profile.name,
-//                        comment.author.profile.profileImage,
-//                        comment.commentLikes.size(),
-//                        comment.body,
-//                        comment.isDeleted,
-//                        comment.createdDate
-//                );
-//        }
-//
-//        private static QChildCommentData childCommentData() {
-//                return new QChildCommentData(
-//                        comment.id,
-//                        comment.parentComment.id,
-//                        comment.author.id,
-//                        comment.author.profile.name,
-//                        comment.author.profile.profileImage,
-//                        comment.commentLikes.size(),
-//                        comment.body,
-//                        comment.isDeleted,
-//                        comment.createdDate
-//                );
-//        }
-
 }
 

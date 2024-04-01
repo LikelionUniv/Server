@@ -38,6 +38,5 @@ public class Example extends BaseTimeEntity {
 //    }
     public void editBody(String body) {
         this.body = body;
-
     }
 }

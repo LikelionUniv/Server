@@ -4,5 +4,4 @@ public record GetPostDetailCommand(
         Long postId,
         Long loginUserId
 ) {
-
 }

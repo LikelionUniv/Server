@@ -188,5 +188,4 @@ public class PostController {
         deletePostUseCase.execute(postId);
         return SuccessResponse.empty();
     }
-
 }

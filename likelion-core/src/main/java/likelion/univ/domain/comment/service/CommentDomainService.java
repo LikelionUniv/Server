@@ -131,5 +131,4 @@ public class CommentDomainService {
     private Long getAuthorId(Long commentId) {
         return commentAdaptor.findById(commentId).getAuthor().getId();
     }
-
 }

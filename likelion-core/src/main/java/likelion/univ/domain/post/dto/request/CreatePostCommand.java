@@ -13,5 +13,4 @@ public record CreatePostCommand(
         MainCategory mainCategory,
         SubCategory subCategory
 ) {
-
 }

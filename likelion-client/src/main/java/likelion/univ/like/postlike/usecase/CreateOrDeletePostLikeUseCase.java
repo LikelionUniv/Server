@@ -36,6 +36,4 @@ public class CreateOrDeletePostLikeUseCase {
     private PostLikeCommand getServiceDto(PostLikeRequestDto request) {
         return new PostLikeCommand(request.postId(), userUtils.getCurrentUserId());
     }
-
-
 }

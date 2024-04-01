@@ -7,5 +7,4 @@ public record CommentLikeDeleteCommand(
         Long commentId,
         Long loginUserId
 ) {
-
 }

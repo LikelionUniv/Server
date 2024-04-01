@@ -52,5 +52,4 @@ public record ChildCommentResponseDto(
                 .createdDate(childComment.getFormattedDate())
                 .build();
     }
-
 }

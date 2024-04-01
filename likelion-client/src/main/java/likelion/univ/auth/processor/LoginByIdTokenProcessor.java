@@ -49,5 +49,4 @@ public class LoginByIdTokenProcessor {
                 .orElseThrow(() -> new IncorrectIssuerTokenException());
         return jwtIdTokenProvider.getUserInfo(idToken, publicKeyProcessor.generatePublicKey(key), iss, aud);
     }
-
 }

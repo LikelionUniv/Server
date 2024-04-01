@@ -178,5 +178,4 @@ public class PostDomainService {
                 .subCategory(request.subCategory())
                 .build();
     }
-
 }

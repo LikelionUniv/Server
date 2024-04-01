@@ -24,5 +24,4 @@ public class UserSearchResultDto {
                 .part(user.getProfile().getPart().getValue())
                 .build();
     }
-
 }

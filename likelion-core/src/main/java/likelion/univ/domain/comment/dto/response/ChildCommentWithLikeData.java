@@ -35,6 +35,5 @@ public record ChildCommentWithLikeData(
     private static Integer getLikeCount(Comment comment) {
         return Math.toIntExact(comment.getCommentLikes().size());
     }
-
 }
 

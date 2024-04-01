@@ -54,5 +54,4 @@ public class ProjectAdaptor {
     public Page<Project> findByProjectMember(Long userId, Pageable pageable) {
         return projectRepository.findByProjectMember(userId, pageable);
     }
-
 }

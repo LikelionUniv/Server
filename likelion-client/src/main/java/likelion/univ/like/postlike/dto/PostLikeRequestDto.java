@@ -8,5 +8,4 @@ public record PostLikeRequestDto(
         @Schema(description = "좋아요를 누르는 게시글 id")
         Long postId
 ) {
-
 }

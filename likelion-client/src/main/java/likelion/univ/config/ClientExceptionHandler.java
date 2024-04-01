@@ -87,5 +87,4 @@ public class ClientExceptionHandler {
         ErrorResponse error = ErrorResponse.of(GlobalErrorCode.SERVER_ERROR);
         return ResponseEntity.status(error.getHttpStatus()).body(error);
     }
-
 }

@@ -1,4 +1,4 @@
-package likelion.univ.domain.recruit.adopter;
+package likelion.univ.domain.recruit.adaptor;
 
 import likelion.univ.annotation.Adaptor;
 import likelion.univ.domain.recruit.entity.Recruit;
@@ -8,7 +8,7 @@ import lombok.RequiredArgsConstructor;
 
 @Adaptor
 @RequiredArgsConstructor
-public class RecruitAdopter {
+public class RecruitAdaptor {
     private final RecruitRepository recruitRepository;
 
     public Long save(Recruit recruit) {

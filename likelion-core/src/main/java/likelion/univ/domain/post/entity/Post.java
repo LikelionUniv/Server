@@ -82,5 +82,4 @@ public class Post extends BaseTimeEntity {
             this.subCategory = SubCategory.findByTitle(request.subCategory());
         }
     }
-
 }

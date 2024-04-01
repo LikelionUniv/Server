@@ -34,5 +34,4 @@ public class CommentLikeController {
         }
         return SuccessResponse.of("좋아요가 취소되었습니다.");
     }
-
 }

@@ -33,5 +33,4 @@ public class GetUserLikedPostsUseCase {
                 getOrCreatePostCountInfoProcessor.execute(p.getId()),
                 myLikedPostIds.contains(p.getId()))));
     }
-
 }

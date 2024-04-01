@@ -84,5 +84,4 @@ public record PostDetailResponseDto(
         return new PostDetailResponseDto(post, Math.toIntExact(postCountInfo.getLikeCount()),
                 Math.toIntExact(postCountInfo.getCommentCount()), loginUserId);
     }
-
 }
