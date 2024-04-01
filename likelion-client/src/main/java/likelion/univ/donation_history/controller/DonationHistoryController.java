@@ -31,7 +31,8 @@ public class DonationHistoryController {
     public SuccessResponse<Object> searchDonationHistories(
             @RequestParam(value = "sort", required = false, defaultValue = "created_date") String sort,
             @RequestParam(value = "search", required = false) String search,
-            @ParameterObject @PageableDefault(size = 10, page = 0) Pageable pageable) {
+            @ParameterObject @PageableDefault(size = 10, page = 0) Pageable pageable
+    ) {
         PageResponse<DonationHistoriesSearchResponseDto> result = searchDonationHistoryUsecase.execute(sort, search,
                 pageable);
         return SuccessResponse.of(result);
@@ -39,7 +40,9 @@ public class DonationHistoryController {
 
     @Operation(summary = "기부금 게시글 상세정보", description = "해당 기부금 게시글의 상세정보를 조회합니다.")
     @GetMapping("/{donationHistoryId}")
-    public SuccessResponse<Object> searchDonationHistories(@PathVariable Long donationHistoryId) {
+    public SuccessResponse<Object> searchDonationHistories(
+            @PathVariable Long donationHistoryId
+    ) {
         DonationHistoriesDetailsResponseDto result = getDonationHistoryDetailsUsecase.execute(donationHistoryId);
         return SuccessResponse.of(result);
     }

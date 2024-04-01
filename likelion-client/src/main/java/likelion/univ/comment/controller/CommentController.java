@@ -47,7 +47,9 @@ public class CommentController {
                     - 게시글 id
                     """)
     @GetMapping("/comments")
-    public SuccessResponse<List<CommentResponseDto>> getCommentsByPost(@RequestParam Long postId) {
+    public SuccessResponse<List<CommentResponseDto>> getCommentsByPost(
+            @RequestParam Long postId
+    ) {
         List<CommentResponseDto> response = getCommentUsecase.execute(postId);
         return SuccessResponse.of(response);
     }
@@ -55,31 +57,39 @@ public class CommentController {
     /* command */
     @Operation(summary = "댓글 작성", description = "부모 댓글을 생성합니다.")
     @PostMapping("/comments/parent")
-    public SuccessResponse createParentComment(@RequestParam Long postId,
-                                               @RequestBody CommentCreateParentRequestDto request) {
+    public SuccessResponse createParentComment(
+            @RequestParam Long postId,
+            @RequestBody CommentCreateParentRequestDto request
+    ) {
         createParentCommentUsecase.execute(postId, request);
         return SuccessResponse.of(null, "201");
     }
 
     @Operation(summary = "대댓글 작성", description = "자식 댓글을 생성합니다.")
     @PostMapping("/comments/{parentCommentId}/child")
-    public SuccessResponse createChildComment(@PathVariable Long parentCommentId,
-                                              @RequestBody CommentCreateChildRequestDto request) {
+    public SuccessResponse createChildComment(
+            @PathVariable Long parentCommentId,
+            @RequestBody CommentCreateChildRequestDto request
+    ) {
         createChildCommentUsecase.execute(parentCommentId, request);
         return SuccessResponse.of(null, "201");
     }
 
     @Operation(summary = "댓글 내용 수정", description = "댓글의 내용(body only)을 수정합니다.")
     @PatchMapping("/{commentId}")
-    public SuccessResponse<Long> updateComment(@PathVariable Long commentId,
-                                               @RequestBody CommentUpdateRequestDto request) {
+    public SuccessResponse<Long> updateComment(
+            @PathVariable Long commentId,
+            @RequestBody CommentUpdateRequestDto request
+    ) {
         Long updatedCommentId = updateCommentUsecase.execute(commentId, request);
         return SuccessResponse.of(updatedCommentId);
     }
 
     @Operation(summary = "댓글 soft 삭제", description = "댓글을 soft delete 합니다.")
     @PatchMapping("/disable/{commentId}")
-    public SuccessResponse deleteCommentSoft(@PathVariable Long commentId) {
+    public SuccessResponse deleteCommentSoft(
+            @PathVariable Long commentId
+    ) {
         softDeleteCommentUsecase.execute(commentId);// soft delete
         return SuccessResponse.empty();
     }
@@ -89,7 +99,9 @@ public class CommentController {
             (주의) 시스템 관리자용이므로 클라이언트에 노출되지 않도록 합니다.""")
 
     @DeleteMapping("/{commentId}")
-    public SuccessResponse deleteCommentHard(@PathVariable Long commentId) {
+    public SuccessResponse deleteCommentHard(
+            @PathVariable Long commentId
+    ) {
         hardDeleteCommentUsecase.execute(commentId);
         return SuccessResponse.empty();
     }

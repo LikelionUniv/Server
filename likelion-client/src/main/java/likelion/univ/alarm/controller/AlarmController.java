@@ -22,8 +22,10 @@ public class AlarmController {
 
     @Operation(summary = "알람 등록", description = "이메일과 알람 타입을 입력받아 해당 기수의 알람을 등록합니다.")
     @PostMapping("/{ordinal}/register")
-    public SuccessResponse registerAlarm(@PathVariable Long ordinal,
-                                         @RequestBody @Valid AlarmRegisterRequestDto alarmRegisterRequestDto) {
+    public SuccessResponse registerAlarm(
+            @PathVariable Long ordinal,
+            @RequestBody @Valid AlarmRegisterRequestDto alarmRegisterRequestDto
+    ) {
         registerAlarmUsecase.execute(ordinal, alarmRegisterRequestDto);
         return SuccessResponse.empty();
     }

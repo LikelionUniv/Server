@@ -22,14 +22,18 @@ public class FollowController {
 
     @Operation(summary = "팔로우 ", description = "해당 유저를 팔로우 합니다.")
     @PostMapping("/{userId}")
-    public SuccessResponse<Object> follow(@PathVariable("userId") Long userId) {
+    public SuccessResponse<Object> follow(
+            @PathVariable("userId") Long userId
+    ) {
         followUserUsecase.execute(userId);
         return SuccessResponse.empty();
     }
 
     @Operation(summary = "팔로우 취소", description = "해당 유저를 팔로우 취소 합니다.")
     @DeleteMapping("/{userId}")
-    public SuccessResponse<Object> deleteFollow(@PathVariable("userId") Long userId) {
+    public SuccessResponse<Object> deleteFollow(
+            @PathVariable("userId") Long userId
+    ) {
         cancelFollowUsecase.execute(userId);
         return SuccessResponse.empty();
     }

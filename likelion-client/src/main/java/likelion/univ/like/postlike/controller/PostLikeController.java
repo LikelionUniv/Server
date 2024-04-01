@@ -21,7 +21,9 @@ public class PostLikeController {
 
     @Operation(summary = "게시글 좋아요 수행", description = "게시글 좋아요를 생성함")
     @PostMapping("")
-    public SuccessResponse createOrDeletePostLike(@RequestBody PostLikeRequestDto request) {
+    public SuccessResponse createOrDeletePostLike(
+            @RequestBody PostLikeRequestDto request
+    ) {
         boolean likeCreated = createOrDeletePostLikeUsecase.execute(request);
         if (likeCreated) {
             return SuccessResponse.of("좋아요가 생성되었습니다.", "201");

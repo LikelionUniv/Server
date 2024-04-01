@@ -23,15 +23,19 @@ public class ImageController {
 
     @Operation(summary = "project 이미지용입니다.")
     @GetMapping("/project")
-    public SuccessResponse<Object> getProjectPresignedUrl(@RequestParam String fileNameExtension) {
+    public SuccessResponse<Object> getProjectPresignedUrl(
+            @RequestParam String fileNameExtension
+    ) {
         ImageUrlResponseDto imageUrlResponseDto = createDraftPresignedUrlUsecase.execute("project", fileNameExtension);
         return SuccessResponse.of(imageUrlResponseDto);
     }
 
     @Operation(summary = "user 프로필 이미지용입니다.")
     @GetMapping("/user/{userId}")
-    public SuccessResponse<Object> getUserPresignedUrl(@PathVariable Long userId,
-                                                       @RequestParam String fileNameExtension) {
+    public SuccessResponse<Object> getUserPresignedUrl(
+            @PathVariable Long userId,
+            @RequestParam String fileNameExtension
+    ) {
         ImageUrlResponseDto imageUrlResponseDto = createPresignedUrlUsecase.execute("user", userId, fileNameExtension);
         return SuccessResponse.of(imageUrlResponseDto);
     }

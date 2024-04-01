@@ -37,8 +37,8 @@ public class AuthController {
     @GetMapping("/{logintype}/idtoken")
     public SuccessResponse<Object> getIdToken(
             @RequestParam("code") String code,
-            @PathVariable("logintype") String loginType) {
-
+            @PathVariable("logintype") String loginType
+    ) {
         IdTokenDto idTokenDto = requestIdTokenUsecase.execute(loginType, code);
         return SuccessResponse.of(idTokenDto);
     }
@@ -48,8 +48,8 @@ public class AuthController {
     @GetMapping("/{logintype}/idtoken/local")
     public SuccessResponse<Object> getIdTokenForLocal(
             @RequestParam("code") String code,
-            @PathVariable("logintype") String loginType) {
-
+            @PathVariable("logintype") String loginType
+    ) {
         IdTokenDto idTokenDto = requestIdTokenUsecase.executeForLocal(loginType, code);
         return SuccessResponse.of(idTokenDto);
     }
@@ -58,8 +58,8 @@ public class AuthController {
     @PostMapping("/{logintype}/login")
     public SuccessResponse<Object> login(
             @RequestParam("idtoken") String idToken,
-            @PathVariable("logintype") String loginType) {
-
+            @PathVariable("logintype") String loginType
+    ) {
         AccountTokenDto accountTokenDto = loginUsecase.execute(loginType, idToken);
         return SuccessResponse.of(accountTokenDto);
     }
@@ -69,7 +69,8 @@ public class AuthController {
     public SuccessResponse<Object> signUp(
             @RequestParam("idtoken") String idToken,
             @PathVariable("logintype") String loginType,
-            @RequestBody SignUpRequestDto signUpRequestDto) {
+            @RequestBody SignUpRequestDto signUpRequestDto
+    ) {
         AccountTokenDto accountTokenDto = signUpUsecase.execute(loginType, idToken, signUpRequestDto);
         return SuccessResponse.of(accountTokenDto);
     }
@@ -84,7 +85,8 @@ public class AuthController {
     @Operation(summary = "토큰 재발급", description = "refresh token으로 access token을 재발급합니다.")
     @PostMapping("/refresh")
     public SuccessResponse<Object> refreshToken(
-            @RequestParam("token") String refreshToken) {
+            @RequestParam("token") String refreshToken
+    ) {
         AccountTokenDto accountTokenDto = refreshTokenUsecase.execute(refreshToken);
         return SuccessResponse.of(accountTokenDto);
     }

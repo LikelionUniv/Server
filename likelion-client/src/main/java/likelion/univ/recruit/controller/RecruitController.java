@@ -22,9 +22,10 @@ public class RecruitController {
 
     @PostMapping("/{universityName}")
     @Operation(summary = "리크루팅 등록", description = "리크루팅 알람에 등록하는 API 입니다.")
-    public SuccessResponse register(@RequestBody CreateRecruitDto createRecruitDto,
-                                    @PathVariable String universityName) {
-
+    public SuccessResponse register(
+            @RequestBody CreateRecruitDto createRecruitDto,
+            @PathVariable String universityName
+    ) {
         Long recruitId = createRecruitUsecase.execute(createRecruitDto, universityName);
         return SuccessResponse.of(recruitId);
     }

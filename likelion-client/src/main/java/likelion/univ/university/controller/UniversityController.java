@@ -44,7 +44,8 @@ public class UniversityController {
     @GetMapping("/{location}")
     @Operation(summary = "지역별 대학교 조회", description = "대학교를 지역별로 조회합니다.")
     public SuccessResponse<List<UniversityDetailResponseDto>> getLocalUnivList(
-            @PathVariable("location") String location) {
+            @PathVariable("location") String location
+    ) {
         List<UniversityDetailResponseDto> result = getLocationUnivDetailsUsecase.execute(location);
         return SuccessResponse.of(result);
     }

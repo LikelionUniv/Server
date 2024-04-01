@@ -62,7 +62,9 @@ public class PostController {
                             - 테스트 완료(황제철)
                             - 게시글 / 댓글에 profile projectImage url이 없으면 boolean 타입만 전달 (url : null 포함x)""")
     @GetMapping("/community/posts/{postId}")
-    public SuccessResponse<PostDetailResponseDto> findPostDetail(@PathVariable Long postId) {
+    public SuccessResponse<PostDetailResponseDto> findPostDetail(
+            @PathVariable Long postId
+    ) {
         PostDetailResponseDto response = getPostDetailUsecase.execute(postId);
         return SuccessResponse.of(response);
     }
@@ -76,7 +78,9 @@ public class PostController {
                     """
     )
     @GetMapping("/community/posts/{postId}/simple")
-    public SuccessResponse<PostEditResponseDto> findPostEdit(@PathVariable Long postId) {
+    public SuccessResponse<PostEditResponseDto> findPostEdit(
+            @PathVariable Long postId
+    ) {
         PostEditResponseDto response = getPostEditUsecase.execute(postId);
         return SuccessResponse.of(response);
     }
@@ -106,7 +110,8 @@ public class PostController {
             @RequestParam PostOrderCondition oc,
             @RequestParam(defaultValue = "멋쟁이사자처럼") String mc,
             @RequestParam(defaultValue = "공지 사항") String sc,
-            @ParameterObject @PageableDefault(size = 5, page = 1) Pageable pageable) {
+            @ParameterObject @PageableDefault(size = 5, page = 1) Pageable pageable
+    ) {
         if (!MainCategory.isValid(mc) || !SubCategory.isValid(sc)) {
             return ErrorResponse.of(PostErrorCode.CATEGORY_NOT_FOUND);
         }
@@ -140,7 +145,8 @@ public class PostController {
             @RequestParam(defaultValue = "검색어") String st,
             @RequestParam(defaultValue = "전체 게시판") String mc,
             @RequestParam(defaultValue = "전체 게시판") String sc,
-            @ParameterObject @PageableDefault(size = 5, page = 1) Pageable pageable) {
+            @ParameterObject @PageableDefault(size = 5, page = 1) Pageable pageable
+    ) {
 
         if (!mc.equals("전체 게시판") && (!MainCategory.isValid(mc) || !SubCategory.isValid(sc))) {
             return ErrorResponse.of(PostErrorCode.CATEGORY_NOT_FOUND);
@@ -166,7 +172,8 @@ public class PostController {
                             - **OVERFLOW(멋사 오버플로우)** : FRONTEND(프론트), BACKEND(백), PM(기획), UXUI(디자인), ETC(기타)""")
     @PostMapping("/community/posts/new")
     public SuccessResponse<Long> createPost(
-            @RequestBody @Valid PostCreateRequestDto request/*, BindingResult bindingResult*/) {
+            @RequestBody @Valid PostCreateRequestDto request
+    ) {
         Long savedPostId = createPostUsecase.execute(request);
         return SuccessResponse.of(savedPostId);
     }
@@ -175,7 +182,10 @@ public class PostController {
             summary = "게시글 수정",
             description = "제목, 내용, 썸네일 수정 : 수정을 안하는 값은 기존 데이터로 넘겨줘야 함")
     @PatchMapping("/community/posts/{postId}")
-    public SuccessResponse<Long> updatePost(@PathVariable Long postId, @RequestBody PostUpdateRequestDto request) {
+    public SuccessResponse<Long> updatePost(
+            @PathVariable Long postId,
+            @RequestBody PostUpdateRequestDto request
+    ) {
         Long updatedPostId = editPostUsecase.execute(postId, request);
         return SuccessResponse.of(updatedPostId);
     }
@@ -184,7 +194,9 @@ public class PostController {
             summary = "게시글 hard delete",
             description = "게시글을 database로부터 hard delete")
     @DeleteMapping("/community/posts/{postId}")
-    public SuccessResponse deletePost(@PathVariable Long postId) {
+    public SuccessResponse deletePost(
+            @PathVariable Long postId
+    ) {
         deletePostUsecase.execute(postId);
         return SuccessResponse.empty();
     }
