@@ -1,14 +1,14 @@
 package likelion.univ.donation_history.dto.response;
 
+import java.time.LocalDate;
 import likelion.univ.domain.donation_history.entity.DonationHistory;
 import lombok.Builder;
 import lombok.Getter;
 
-import java.time.LocalDate;
-
 @Getter
 @Builder
 public class DonationHistoriesSearchResponseDto {
+
     private Long donationHistoryId;
     private Long authorId;
     private String authorName;
@@ -17,7 +17,7 @@ public class DonationHistoriesSearchResponseDto {
     private LocalDate createdDate;
     private Long viewCount;
 
-    public static DonationHistoriesSearchResponseDto of(DonationHistory donationHistory){
+    public static DonationHistoriesSearchResponseDto of(DonationHistory donationHistory) {
         return DonationHistoriesSearchResponseDto.builder()
                 .donationHistoryId(donationHistory.getId())
                 .authorId(donationHistory.getAuthor().getId())

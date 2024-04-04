@@ -8,6 +8,7 @@ import lombok.Data;
 @Builder
 @AllArgsConstructor
 public class SimpleCommentData {
+
     private Long commentId;
     private Long postId;
 

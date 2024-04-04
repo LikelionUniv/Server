@@ -1,9 +1,13 @@
 package likelion.univ.domain.donation_history.repository.impl;
 
+import static likelion.univ.domain.donation_history.entity.QDonationHistory.donationHistory;
+import static likelion.univ.domain.user.entity.QUser.user;
+
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import java.util.List;
 import likelion.univ.domain.donation_history.entity.DonationHistory;
 import likelion.univ.domain.donation_history.repository.DonationHistoryCustomRepository;
 import likelion.univ.domain.donation_history.repository.impl.condition.DonationSortType;
@@ -13,18 +17,13 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.util.StringUtils;
 
-import java.util.List;
-
-import static likelion.univ.domain.donation_history.entity.QDonationHistory.donationHistory;
-import static likelion.univ.domain.donation_history.entity.QDonationHistoryAttachment.donationHistoryAttachment;
-import static likelion.univ.domain.user.entity.QUser.user;
-
 @RequiredArgsConstructor
 public class DonationHistoryCustomRepositoryImpl implements DonationHistoryCustomRepository {
+
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public Page<DonationHistory> searchDonationHistoryWithSort(Pageable pageable, String sort, String search){
+    public Page<DonationHistory> searchDonationHistoryWithSort(Pageable pageable, String sort, String search) {
         List<Long> ids = getCoveringIndex(searchCondition(search));
         return findDonationHistoryWithSort(ids, pageable, DonationSortType.toOrderSpecifier(sort));
     }
@@ -34,10 +33,11 @@ public class DonationHistoryCustomRepositoryImpl implements DonationHistoryCusto
     }
 
     private BooleanExpression searchCondition(String search) {
-        return StringUtils.hasText(search) ? donationHistory.body.contains(search).or(donationHistory.title.contains(search)) : null;
+        return StringUtils.hasText(search) ? donationHistory.body.contains(search)
+                .or(donationHistory.title.contains(search)) : null;
     }
 
-    private  Page<DonationHistory> findDonationHistoryWithSort(List<Long> ids, Pageable pageable, OrderSpecifier sort){
+    private Page<DonationHistory> findDonationHistoryWithSort(List<Long> ids, Pageable pageable, OrderSpecifier sort) {
         List<DonationHistory> donationHistories =
                 queryFactory
                         .select(donationHistory)

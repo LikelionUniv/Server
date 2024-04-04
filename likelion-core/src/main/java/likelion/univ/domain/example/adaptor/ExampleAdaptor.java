@@ -9,15 +9,19 @@ import lombok.RequiredArgsConstructor;
 @Adaptor
 @RequiredArgsConstructor
 public class ExampleAdaptor {
+
     private final ExampleRepository exampleRepository;
 
     public void save(Example example) {
         exampleRepository.save(example);
     }
-    public Example findById(Long id){
+
+    public Example findById(Long id) {
         return exampleRepository.findById(id)
                 .orElseThrow(() -> new ExampleNotFoundException());
     }
-    public void delete(Example example) {exampleRepository.delete(example);
+
+    public void delete(Example example) {
+        exampleRepository.delete(example);
     }
 }

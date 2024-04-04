@@ -1,14 +1,13 @@
 package likelion.univ.domain.project.service;
 
-import likelion.univ.domain.project.adapter.ProjectImageAdaptor;
+import java.util.List;
 import likelion.univ.domain.project.adapter.ProjectAdaptor;
-import likelion.univ.domain.project.entity.ProjectImage;
+import likelion.univ.domain.project.adapter.ProjectImageAdaptor;
 import likelion.univ.domain.project.entity.Project;
+import likelion.univ.domain.project.entity.ProjectImage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 @Service
 @Transactional(readOnly = true) //읽기 전용 모드
@@ -28,7 +27,7 @@ public class ProjectImageService {
     @Transactional
     public void updateImage(Project project, List<ProjectImage> projectImages) {
         projectImageAdaptor.deleteByProject(project); //기존 사진 모두 삭제
-        if(projectImages != null) {
+        if (projectImages != null) {
             projectImageAdaptor.saveAll(projectImages);
         }
     }

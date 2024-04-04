@@ -19,7 +19,6 @@ public class Example extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    //<<<<<<< HEAD
     private String columns;
     private String body;
 
@@ -33,13 +32,7 @@ public class Example extends BaseTimeEntity {
         this.columns = column;
     }
 
-    //=======
-//    @Builder
-//    public Example(String body) {
-//        this.body = body;
-//    }
     public void editBody(String body) {
         this.body = body;
-//>>>>>>> main
     }
 }

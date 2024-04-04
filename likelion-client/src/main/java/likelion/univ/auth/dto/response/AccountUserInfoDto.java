@@ -7,13 +7,14 @@ import lombok.Getter;
 @Getter
 @Builder
 public class AccountUserInfoDto {
+
     private Long userId;
     private String profileImage;
     private String universityName;
     private String role;
     private String name;
 
-    public static AccountUserInfoDto of(User user, String universityName){
+    public static AccountUserInfoDto of(User user, String universityName) {
         return AccountUserInfoDto.builder()
                 .userId(user.getId())
                 .profileImage(user.getProfile().getProfileImage())
@@ -22,5 +23,4 @@ public class AccountUserInfoDto {
                 .name(user.getProfile().getName())
                 .build();
     }
-
 }

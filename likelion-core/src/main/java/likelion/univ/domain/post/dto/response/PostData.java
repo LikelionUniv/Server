@@ -1,9 +1,7 @@
 package likelion.univ.domain.post.dto.response;
 
-import likelion.univ.common.processor.DateCustomFormatter;
-
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+import likelion.univ.common.processor.DateCustomFormatter;
 
 public record PostData(
         Long postId,
@@ -17,6 +15,7 @@ public record PostData(
         Long commentCount,
         LocalDateTime createdDate
 ) {
+
     public static PostData getInstance(PostSimpleData post, Long likeCount, Long commentCount) {
         return new PostData(
                 post.postId(),
@@ -31,8 +30,8 @@ public record PostData(
                 post.createdDate()
         );
     }
+
     public String getFormattedDate() {
         return DateCustomFormatter.format(this.createdDate);
     }
-
 }

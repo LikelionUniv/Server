@@ -3,9 +3,10 @@ package likelion.univ.post.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import javax.validation.Valid;
 import likelion.univ.common.response.PageResponse;
-import likelion.univ.domain.post.dto.enums.PostOrderCondition;
 import likelion.univ.domain.post.dto.enums.MainCategory;
+import likelion.univ.domain.post.dto.enums.PostOrderCondition;
 import likelion.univ.domain.post.dto.enums.SubCategory;
 import likelion.univ.domain.post.exception.PostErrorCode;
 import likelion.univ.post.dto.request.PostCreateRequestDto;
@@ -13,7 +14,13 @@ import likelion.univ.post.dto.request.PostUpdateRequestDto;
 import likelion.univ.post.dto.response.PostDetailResponseDto;
 import likelion.univ.post.dto.response.PostEditResponseDto;
 import likelion.univ.post.dto.response.PostResponseDto;
-import likelion.univ.post.usecase.*;
+import likelion.univ.post.usecase.CreatePostUsecase;
+import likelion.univ.post.usecase.DeletePostUsecase;
+import likelion.univ.post.usecase.EditPostUsecase;
+import likelion.univ.post.usecase.GetPostDetailUsecase;
+import likelion.univ.post.usecase.GetPostEditUsecase;
+import likelion.univ.post.usecase.GetPostsByCategoriesUsecase;
+import likelion.univ.post.usecase.GetPostsBySearchTitleUsecase;
 import likelion.univ.response.BaseResponse;
 import likelion.univ.response.ErrorResponse;
 import likelion.univ.response.SuccessResponse;
@@ -21,9 +28,15 @@ import lombok.RequiredArgsConstructor;
 import org.springdoc.api.annotations.ParameterObject;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.web.bind.annotation.*;
-
-import javax.validation.Valid;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 
 @RestController
@@ -32,13 +45,13 @@ import javax.validation.Valid;
 @Tag(name = "게시글", description = "커뮤니티 APIs")
 public class PostController {
 
-    private final CreatePostUseCase createPostUseCase;
-    private final EditPostUseCase editPostUsecase;
-    private final DeletePostUseCase deletePostUseCase;
-    private final GetPostsByCategoriesUseCase getPostsByCategoriesUseCase;
-    private final GetPostDetailUseCase getPostDetailUseCase;
-    private final GetPostEditUseCase getPostEditUseCase;
-    private final GetPostsBySearchTitleUseCase getPostsBySearchTitleUseCase;
+    private final CreatePostUsecase createPostUsecase;
+    private final EditPostUsecase editPostUsecase;
+    private final DeletePostUsecase deletePostUsecase;
+    private final GetPostsByCategoriesUsecase getPostsByCategoriesUsecase;
+    private final GetPostDetailUsecase getPostDetailUsecase;
+    private final GetPostEditUsecase getPostEditUsecase;
+    private final GetPostsBySearchTitleUsecase getPostsBySearchTitleUsecase;
 
     /* ----- read ----- */
     @Operation(
@@ -49,8 +62,10 @@ public class PostController {
                             - 테스트 완료(황제철)
                             - 게시글 / 댓글에 profile projectImage url이 없으면 boolean 타입만 전달 (url : null 포함x)""")
     @GetMapping("/community/posts/{postId}")
-    public SuccessResponse<PostDetailResponseDto> findPostDetail(@PathVariable Long postId) {
-        PostDetailResponseDto response = getPostDetailUseCase.execute(postId);
+    public SuccessResponse<PostDetailResponseDto> findPostDetail(
+            @PathVariable Long postId
+    ) {
+        PostDetailResponseDto response = getPostDetailUsecase.execute(postId);
         return SuccessResponse.of(response);
     }
 
@@ -63,11 +78,12 @@ public class PostController {
                     """
     )
     @GetMapping("/community/posts/{postId}/simple")
-    public SuccessResponse<PostEditResponseDto> findPostEdit(@PathVariable Long postId) {
-        PostEditResponseDto response = getPostEditUseCase.execute(postId);
+    public SuccessResponse<PostEditResponseDto> findPostEdit(
+            @PathVariable Long postId
+    ) {
+        PostEditResponseDto response = getPostEditUsecase.execute(postId);
         return SuccessResponse.of(response);
     }
-
 
     @Operation(
             summary = "카테고리별 posts 조회",
@@ -93,33 +109,34 @@ public class PostController {
             @RequestParam PostOrderCondition oc,
             @RequestParam(defaultValue = "멋쟁이사자처럼") String mc,
             @RequestParam(defaultValue = "공지 사항") String sc,
-            @ParameterObject @PageableDefault(size = 5, page = 1) Pageable pageable) {
+            @ParameterObject @PageableDefault(size = 5, page = 1) Pageable pageable
+    ) {
         if (!MainCategory.isValid(mc) || !SubCategory.isValid(sc)) {
             return ErrorResponse.of(PostErrorCode.CATEGORY_NOT_FOUND);
         }
-        PageResponse<PostResponseDto> response = getPostsByCategoriesUseCase.execute(oc, mc, sc, pageable);
+        PageResponse<PostResponseDto> response = getPostsByCategoriesUsecase.execute(oc, mc, sc, pageable);
         return SuccessResponse.of(response);
     }
 
     @Operation(
             summary = "게시글 제목으로 검색",
             description = """
-                            ### Search Title(st)
-                            - 대소문자 구분 없이 제목 일부를 검색어로 활용 가능
-                            - 최신순 정렬 기준 조회
-                            - **카테고리는 한글로 기입하되, 띄어쓰기 준수**
-                            
-                            ### Main Category(mc)
-                            - **ALL**(전체 게시글 대상 검색)
-                            - **HQ_BOARD**(멋대 중앙)
-                            - **FREE_BOARD**(자유게시판)
-                            - **OVERFLOW**(멋사 오버플로우)
+                    ### Search Title(st)
+                    - 대소문자 구분 없이 제목 일부를 검색어로 활용 가능
+                    - 최신순 정렬 기준 조회
+                    - **카테고리는 한글로 기입하되, 띄어쓰기 준수**
+                                                
+                    ### Main Category(mc)
+                    - **ALL**(전체 게시글 대상 검색)
+                    - **HQ_BOARD**(멋대 중앙)
+                    - **FREE_BOARD**(자유게시판)
+                    - **OVERFLOW**(멋사 오버플로우)
 
-                            ### Sub Category(sc)
-                            - **ALL** : (mainCategory에서 "ALL"로 설정하면 sub category는 아무거나 해도 되지만, 가급적 ALL 권장)
-                            - **HQ_BOARD(멋대 중앙)** : NOTICE(공지사항), QNA(질문건의), INFO(정보공유)
-                            - **FREE_BOARD(자유게시판)** : INFO(정보공유), GET_MEMBER(팀원모집), GET_PROJECT(플젝모집), SHOWOFF(플젝자랑)
-                            - **OVERFLOW(멋사 오버플로우)** : FRONTEND(프론트), BACKEND(백), PM(기획), UXUI(디자인), ETC(기타)"""
+                    ### Sub Category(sc)
+                    - **ALL** : (mainCategory에서 "ALL"로 설정하면 sub category는 아무거나 해도 되지만, 가급적 ALL 권장)
+                    - **HQ_BOARD(멋대 중앙)** : NOTICE(공지사항), QNA(질문건의), INFO(정보공유)
+                    - **FREE_BOARD(자유게시판)** : INFO(정보공유), GET_MEMBER(팀원모집), GET_PROJECT(플젝모집), SHOWOFF(플젝자랑)
+                    - **OVERFLOW(멋사 오버플로우)** : FRONTEND(프론트), BACKEND(백), PM(기획), UXUI(디자인), ETC(기타)"""
     )
     @GetMapping("/community/posts/search")
     public BaseResponse searchPost(
@@ -127,12 +144,13 @@ public class PostController {
             @RequestParam(defaultValue = "검색어") String st,
             @RequestParam(defaultValue = "전체 게시판") String mc,
             @RequestParam(defaultValue = "전체 게시판") String sc,
-            @ParameterObject @PageableDefault(size = 5, page = 1) Pageable pageable) {
+            @ParameterObject @PageableDefault(size = 5, page = 1) Pageable pageable
+    ) {
 
         if (!mc.equals("전체 게시판") && (!MainCategory.isValid(mc) || !SubCategory.isValid(sc))) {
             return ErrorResponse.of(PostErrorCode.CATEGORY_NOT_FOUND);
         }
-        PageResponse<PostResponseDto> response = getPostsBySearchTitleUseCase.execute(oc, st, mc, sc, pageable);
+        PageResponse<PostResponseDto> response = getPostsBySearchTitleUsecase.execute(oc, st, mc, sc, pageable);
         return SuccessResponse.of(response);
     }
 
@@ -152,8 +170,10 @@ public class PostController {
                             - **FREE_BOARD(자유게시판)** : INFO(정보공유), GET_MEMBER(팀원모집), GET_PROJECT(플젝모집), SHOWOFF(플젝자랑)
                             - **OVERFLOW(멋사 오버플로우)** : FRONTEND(프론트), BACKEND(백), PM(기획), UXUI(디자인), ETC(기타)""")
     @PostMapping("/community/posts/new")
-    public SuccessResponse<Long> createPost(@RequestBody @Valid PostCreateRequestDto request/*, BindingResult bindingResult*/) {
-        Long savedPostId = createPostUseCase.execute(request);
+    public SuccessResponse<Long> createPost(
+            @RequestBody @Valid PostCreateRequestDto request
+    ) {
+        Long savedPostId = createPostUsecase.execute(request);
         return SuccessResponse.of(savedPostId);
     }
 
@@ -161,7 +181,10 @@ public class PostController {
             summary = "게시글 수정",
             description = "제목, 내용, 썸네일 수정 : 수정을 안하는 값은 기존 데이터로 넘겨줘야 함")
     @PatchMapping("/community/posts/{postId}")
-    public SuccessResponse<Long> updatePost(@PathVariable Long postId, @RequestBody PostUpdateRequestDto request) {
+    public SuccessResponse<Long> updatePost(
+            @PathVariable Long postId,
+            @RequestBody PostUpdateRequestDto request
+    ) {
         Long updatedPostId = editPostUsecase.execute(postId, request);
         return SuccessResponse.of(updatedPostId);
     }
@@ -170,9 +193,10 @@ public class PostController {
             summary = "게시글 hard delete",
             description = "게시글을 database로부터 hard delete")
     @DeleteMapping("/community/posts/{postId}")
-    public SuccessResponse deletePost(@PathVariable Long postId) {
-        deletePostUseCase.execute(postId);
+    public SuccessResponse deletePost(
+            @PathVariable Long postId
+    ) {
+        deletePostUsecase.execute(postId);
         return SuccessResponse.empty();
     }
-
 }

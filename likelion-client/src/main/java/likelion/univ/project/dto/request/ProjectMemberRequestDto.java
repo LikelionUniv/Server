@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 public class ProjectMemberRequestDto {
+
     private Long userId;
     private Part part;
 }

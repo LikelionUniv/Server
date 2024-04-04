@@ -1,10 +1,9 @@
 package likelion.univ.common.response;
 
+import java.util.List;
 import lombok.Builder;
 import lombok.Getter;
 import org.springframework.data.domain.Slice;
-
-import java.util.List;
 
 @Getter
 @Builder
@@ -17,7 +16,7 @@ public class SliceResponse<T> {
 
     public static SliceResponse of(Slice slice) {
         return SliceResponse.builder()
-                .currentPage(slice.getNumber()+1)
+                .currentPage(slice.getNumber() + 1)
                 .size(slice.getNumberOfElements())
                 .hasNext(slice.hasNext())
                 .data(slice.getContent())

@@ -9,7 +9,7 @@ public class IdTokenDto {
 
     private String idToken;
 
-    public static IdTokenDto of(String idToken){
+    public static IdTokenDto of(String idToken) {
         return IdTokenDto.builder()
                 .idToken(idToken)
                 .build();

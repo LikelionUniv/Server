@@ -1,11 +1,17 @@
 package likelion.univ.domain.user.entity;
 
-import lombok.*;
-
-import javax.persistence.*;
-
 import static likelion.univ.domain.user.entity.AccountStatus.ACTIVE;
 import static likelion.univ.domain.user.entity.Role.GUEST;
+
+import javax.persistence.Column;
+import javax.persistence.Embeddable;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Embeddable
 @AllArgsConstructor
@@ -16,10 +22,13 @@ public class AuthInfo {
 
     @Enumerated(EnumType.STRING)
     private LoginType loginType;
+
     @Column(unique = true)
     private String email;
+
     @Enumerated(EnumType.STRING)
     private AccountStatus accountStatus;
+
     // 01000000000 형태로
     private String phoneNumber;
 
@@ -35,10 +44,11 @@ public class AuthInfo {
                 .build();
     }
 
-    public void updateRole(Role role){
+    public void updateRole(Role role) {
         this.role = role;
     }
-    public void delete(){
+
+    public void delete() {
         this.accountStatus = AccountStatus.Deleted;
         this.email = null;
     }

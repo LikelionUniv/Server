@@ -6,6 +6,7 @@ import lombok.Getter;
 @AllArgsConstructor
 @Getter
 public enum UniversityStatus {
+
     ACTIVE("ACTIVE"),
     DEACTIVE("DEACTIVE");
 

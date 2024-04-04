@@ -1,14 +1,14 @@
 package likelion.univ.common.response;
 
+import java.util.List;
 import lombok.Builder;
 import lombok.Getter;
 import org.springframework.data.domain.Page;
 
-import java.util.List;
-
 @Getter
 @Builder
 public class PageResponse<T> {
+
     private int totalPage;
     private Long totalElements;
     private int pagingSize;
@@ -18,13 +18,12 @@ public class PageResponse<T> {
     private Boolean isEmpty;
     private List<T> data;
 
-
     public static PageResponse of(Page page) {
         return PageResponse.builder()
                 .totalPage(page.getTotalPages())
                 .totalElements(page.getTotalElements())
                 .pagingSize(page.getSize())
-                .currentPage(page.getNumber()+1)
+                .currentPage(page.getNumber() + 1)
                 .isFirst(page.isFirst())
                 .isLast(page.isLast())
                 .isEmpty(page.isEmpty())

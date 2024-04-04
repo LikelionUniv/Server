@@ -2,16 +2,10 @@ package likelion.univ.post.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.v3.oas.annotations.media.Schema;
-import likelion.univ.comment.dto.response.CommentResponseDto;
-import likelion.univ.domain.comment.dto.response.ChildCommentData;
-import likelion.univ.domain.comment.dto.response.ParentCommentData;
-import likelion.univ.domain.post.dto.enums.MainCategory;
-import likelion.univ.domain.post.dto.enums.SubCategory;
-import likelion.univ.domain.post.dto.response.PostDetailData;
-import likelion.univ.domain.post.dto.response.PostSimpleData;
-import likelion.univ.post.entity.PostCountInfo;
-
 import java.util.List;
+import likelion.univ.comment.dto.response.CommentResponseDto;
+import likelion.univ.domain.post.dto.response.PostDetailData;
+import likelion.univ.post.entity.PostCountInfo;
 
 public record PostDetailResponseDto(
         @Schema(description = "게시글 pk", example = "1")
@@ -50,6 +44,7 @@ public record PostDetailResponseDto(
         @Schema(description = "게시글 작성일자", example = "2023. 6. 15")
         String createdDate
 ) {
+
     public PostDetailResponseDto(PostDetailData post, Integer likeCount, Integer commentCount, Long loginUserId) {
         this(
                 post.postId(),
@@ -85,8 +80,9 @@ public record PostDetailResponseDto(
         commentCount += comments.stream().mapToInt(i -> Math.toIntExact(i.childComments().size())).sum();
         return commentCount;
     }
-    public static PostDetailResponseDto of(PostDetailData post, PostCountInfo postCountInfo, long loginUserId) {
-        return new PostDetailResponseDto(post, Math.toIntExact(postCountInfo.getLikeCount()), Math.toIntExact(postCountInfo.getCommentCount()), loginUserId);
-    }
 
+    public static PostDetailResponseDto of(PostDetailData post, PostCountInfo postCountInfo, long loginUserId) {
+        return new PostDetailResponseDto(post, Math.toIntExact(postCountInfo.getLikeCount()),
+                Math.toIntExact(postCountInfo.getCommentCount()), loginUserId);
+    }
 }

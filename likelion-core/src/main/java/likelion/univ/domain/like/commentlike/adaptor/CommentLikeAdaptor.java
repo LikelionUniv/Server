@@ -1,5 +1,6 @@
 package likelion.univ.domain.like.commentlike.adaptor;
 
+import java.util.List;
 import likelion.univ.annotation.Adaptor;
 import likelion.univ.domain.like.commentlike.entity.CommentLike;
 import likelion.univ.domain.like.commentlike.exception.CommentLikeNotFoundException;
@@ -7,11 +8,10 @@ import likelion.univ.domain.like.commentlike.repository.CommentLikeRepository;
 import likelion.univ.domain.user.entity.User;
 import lombok.RequiredArgsConstructor;
 
-import java.util.List;
-
 @Adaptor
 @RequiredArgsConstructor
 public class CommentLikeAdaptor {
+
     private final CommentLikeRepository commentLikeRepository;
 
     public Long save(CommentLike commentLike) {
@@ -22,6 +22,7 @@ public class CommentLikeAdaptor {
         return commentLikeRepository.findById(id)
                 .orElseThrow(CommentLikeNotFoundException::new);
     }
+
     public void delete(CommentLike commentLike) {
         commentLikeRepository.delete(commentLike);
     }
@@ -31,11 +32,11 @@ public class CommentLikeAdaptor {
     }
 
     public CommentLike findByCommentIdAndUserId(Long commentId, Long userId) {
-        return commentLikeRepository.findByCommentIdAndUserId(commentId, userId).orElseThrow(() -> new CommentLikeNotFoundException());
+        return commentLikeRepository.findByCommentIdAndUserId(commentId, userId)
+                .orElseThrow(() -> new CommentLikeNotFoundException());
     }
 
     public Boolean existsByCommentIdAndUserId(Long commentId, Long userId) {
         return commentLikeRepository.existsByCommentIdAndUserId(commentId, userId);
     }
-
 }

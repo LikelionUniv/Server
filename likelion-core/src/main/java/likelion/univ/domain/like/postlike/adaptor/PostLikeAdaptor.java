@@ -1,5 +1,6 @@
 package likelion.univ.domain.like.postlike.adaptor;
 
+import java.util.List;
 import likelion.univ.annotation.Adaptor;
 import likelion.univ.domain.like.commentlike.exception.CommentLikeNotFoundException;
 import likelion.univ.domain.like.postlike.entity.PostLike;
@@ -9,13 +10,10 @@ import likelion.univ.domain.post.entity.Post;
 import likelion.univ.domain.user.entity.User;
 import lombok.RequiredArgsConstructor;
 
-import java.util.List;
-
-import static likelion.univ.domain.like.postlike.entity.QPostLike.postLike;
-
 @Adaptor
 @RequiredArgsConstructor
 public class PostLikeAdaptor {
+
     private final PostLikeRepository postLikeRepository;
 
     public Boolean existsByPostIdAndAuthorId(Long postId, long userId) {
@@ -26,6 +24,7 @@ public class PostLikeAdaptor {
         PostLike savedLike = postLikeRepository.save(postLike);
         return savedLike.getId();
     }
+
     public void delete(PostLike postLike) {
         postLikeRepository.delete(postLike);
     }
@@ -33,7 +32,8 @@ public class PostLikeAdaptor {
     public PostLike findById(Long postLikeId) {
         return postLikeRepository.findById(postLikeId).orElseThrow(() -> new PostLikeNotFoundException());
     }
-    public Long countByPostId(Long postId){
+
+    public Long countByPostId(Long postId) {
         return postLikeRepository.countByPostId(postId);
     }
 
@@ -41,7 +41,7 @@ public class PostLikeAdaptor {
         return postLikeRepository.findByPostAndUser(post, user).orElseThrow(() -> new CommentLikeNotFoundException());
     }
 
-    public List<Long> findPostIdsByUserIdAndPostIdsIn(Long userId, List<Long> postIds){
+    public List<Long> findPostIdsByUserIdAndPostIdsIn(Long userId, List<Long> postIds) {
         return postLikeRepository.findPostIdsByUserIdAndPostIdsIn(userId, postIds);
     }
 }

@@ -1,17 +1,17 @@
 package likelion.univ.post.dto.request;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 
 @Data
 @Builder
 @AllArgsConstructor
 public class PostCreateRequestDto {
+
     @NotBlank
     @Schema(description = "제목", example = "LIKELIONUNIV 프로젝트 회고", required = true)
     private String title;

@@ -1,6 +1,7 @@
 package likelion.univ.common.constant;
 
 public class RedisKey {
+
     public static final int DEFAULT_EXPIRE_DAY = 1;
 
     public static final String KAKAO_PUBLIC_KEYS = "kakaoPublicKeys";

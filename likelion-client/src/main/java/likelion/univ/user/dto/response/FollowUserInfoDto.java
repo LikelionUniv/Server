@@ -7,6 +7,7 @@ import lombok.Getter;
 @Getter
 @Builder
 public class FollowUserInfoDto {
+
     private Long userId;
     private String name;
     private String profileImage;
@@ -14,7 +15,7 @@ public class FollowUserInfoDto {
     private String part;
     private Boolean isFollowed;
 
-    public static FollowUserInfoDto of(User user, Boolean isFollowed){
+    public static FollowUserInfoDto of(User user, Boolean isFollowed) {
         return FollowUserInfoDto.builder()
                 .userId(user.getId())
                 .name(user.getProfile().getName())

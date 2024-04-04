@@ -1,14 +1,13 @@
 package likelion.univ.domain.project.entity;
 
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Getter
@@ -22,8 +21,7 @@ public class Tech {
     private String techName;
 
     @Builder
-    public Tech(String techName){
+    public Tech(String techName) {
         this.techName = techName;
-
     }
 }

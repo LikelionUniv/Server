@@ -8,6 +8,7 @@ import lombok.Data;
 @Builder
 @AllArgsConstructor
 public class UpdateCommentCommand {
+
     private Long commentId;
     private Long loginUserId;
     private String body;

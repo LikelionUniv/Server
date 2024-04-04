@@ -6,6 +6,7 @@ import lombok.Data;
 @Data
 @Builder
 public class ImageUrlResponseDto {
+
     private String presignedUrl;
     private String imageUrl;
     private String fileName;

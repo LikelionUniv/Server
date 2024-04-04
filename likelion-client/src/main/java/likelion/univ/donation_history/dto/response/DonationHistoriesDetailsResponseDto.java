@@ -1,16 +1,16 @@
 package likelion.univ.donation_history.dto.response;
 
+import java.time.LocalDate;
+import java.util.List;
+import java.util.stream.Collectors;
 import likelion.univ.domain.donation_history.entity.DonationHistory;
 import lombok.Builder;
 import lombok.Getter;
 
-import java.time.LocalDate;
-import java.util.List;
-import java.util.stream.Collectors;
-
 @Getter
 @Builder
 public class DonationHistoriesDetailsResponseDto {
+
     private Long donationHistoryId;
     private Long authorId;
     private String authorName;
@@ -22,7 +22,7 @@ public class DonationHistoriesDetailsResponseDto {
     private Long viewCount;
     private List<DonationHistoryAttachmentDto> attachments;
 
-    public static DonationHistoriesDetailsResponseDto of(DonationHistory donationHistory, Boolean isAuthor){
+    public static DonationHistoriesDetailsResponseDto of(DonationHistory donationHistory, Boolean isAuthor) {
         return DonationHistoriesDetailsResponseDto.builder()
                 .donationHistoryId(donationHistory.getId())
                 .authorId(donationHistory.getAuthor().getId())

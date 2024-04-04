@@ -1,17 +1,18 @@
 package likelion.univ.security;
 
+import java.util.ArrayList;
 import likelion.univ.environment.ProfileProcessor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import java.util.ArrayList;
-
 @Configuration
 @RequiredArgsConstructor
 public class CorsConfig implements WebMvcConfigurer {
+    
     private final ProfileProcessor profileProcessor;
+
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         ArrayList<String> allowedOriginPatterns = new ArrayList<>();

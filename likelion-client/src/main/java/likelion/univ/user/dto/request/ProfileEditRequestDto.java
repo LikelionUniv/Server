@@ -11,6 +11,7 @@ import org.jetbrains.annotations.NotNull;
 @Getter
 @NoArgsConstructor
 public class ProfileEditRequestDto {
+
     @NotNull
     @Schema(description = "이름", example = "김슬기", required = true)
     private String name;
@@ -25,7 +26,7 @@ public class ProfileEditRequestDto {
     @Schema(description = "트랙(파트)", example = "BACKEND", required = true, enumAsRef = true)
     private Part part;
 
-    public Profile toProfile(){
+    public Profile toProfile() {
         return Profile.builder()
                 .name(name)
                 .profileImage(profileImage)

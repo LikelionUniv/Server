@@ -1,17 +1,16 @@
 package likelion.univ.project.dto.request;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import java.time.LocalDate;
+import java.util.List;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import likelion.univ.domain.project.entity.Project;
 import likelion.univ.domain.project.entity.enums.Output;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import java.time.LocalDate;
-import java.util.List;
 
 /**
  * thumnail 제외
@@ -26,7 +25,6 @@ public class ProjectRequestDto {
     @NotBlank
     @Schema(example = "해커톤")
     private String activity;
-
 
     @Schema(example = "WEB")
     private Output outPut;
@@ -45,7 +43,6 @@ public class ProjectRequestDto {
     @NotNull
     @Schema(example = "2023-10-10")
     private LocalDate startDate;
-
 
     @NotNull
     @Schema(example = "2023-11-14")
@@ -67,12 +64,12 @@ public class ProjectRequestDto {
     private List<String> imageUrl;
 
     @Schema(example = "[{" +
-            "   \"userId\" : \"3\"," +
-            "   \"part\" : \"BACKEND\"" +
-            "},{" +
-            "   \"userId\" : \"2\"," +
-            "   \"part\" : \"FRONTEND\"" +
-            "}]")
+                      "   \"userId\" : \"3\"," +
+                      "   \"part\" : \"BACKEND\"" +
+                      "},{" +
+                      "   \"userId\" : \"2\"," +
+                      "   \"part\" : \"FRONTEND\"" +
+                      "}]")
     private List<ProjectMemberRequestDto> projectMembers;
 
     public Project toEntity() {
@@ -88,5 +85,4 @@ public class ProjectRequestDto {
                 .productionUrl(productionUrl)
                 .build();
     }
-
 }

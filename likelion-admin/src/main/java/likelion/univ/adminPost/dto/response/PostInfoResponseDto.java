@@ -1,18 +1,16 @@
 package likelion.univ.adminPost.dto.response;
 
-import likelion.univ.domain.post.adaptor.PostAdaptor;
+import java.time.LocalDateTime;
 import likelion.univ.domain.post.entity.Post;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.time.LocalDateTime;
 
 @Data
 @Builder
 @AllArgsConstructor
 public class PostInfoResponseDto {
+
     private Long id;
     private String title;
     private String body;
@@ -21,10 +19,7 @@ public class PostInfoResponseDto {
     private Long commentsCounts;
     private LocalDateTime createDate;
 
-    private PostAdaptor postAdaptor;
-
-
-    public static PostInfoResponseDto of(Post post, Long postLikeCount, Long commentsCounts){
+    public static PostInfoResponseDto of(Post post, Long postLikeCount, Long commentsCounts) {
         return new PostInfoResponseDtoBuilder()
                 .id(post.getId())
                 .title(post.getTitle())
@@ -34,7 +29,6 @@ public class PostInfoResponseDto {
                 .commentsCounts(commentsCounts)
                 .createDate(post.getCreatedDate())
                 .build();
-
     }
 }
 

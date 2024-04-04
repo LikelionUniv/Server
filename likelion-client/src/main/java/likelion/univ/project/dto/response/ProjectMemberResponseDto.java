@@ -20,6 +20,7 @@ public class ProjectMemberResponseDto {
                 .part(part)
                 .build();
     }
+
     public static ProjectMemberResponseDto of(ProjectMember projectMember) {
         return ProjectMemberResponseDto.builder()
                 .userId(projectMember.getUser().getId())

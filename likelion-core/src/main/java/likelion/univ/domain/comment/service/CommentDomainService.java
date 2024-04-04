@@ -1,8 +1,16 @@
 package likelion.univ.domain.comment.service;
 
+import java.util.List;
 import likelion.univ.domain.comment.adaptor.CommentAdaptor;
-import likelion.univ.domain.comment.dto.request.*;
-import likelion.univ.domain.comment.dto.response.*;
+import likelion.univ.domain.comment.dto.request.CreateChildCommentCommand;
+import likelion.univ.domain.comment.dto.request.CreateParentCommentCommand;
+import likelion.univ.domain.comment.dto.request.DeleteCommentCommand;
+import likelion.univ.domain.comment.dto.request.GetCommentCommand;
+import likelion.univ.domain.comment.dto.request.UpdateCommentCommand;
+import likelion.univ.domain.comment.dto.response.ChildCommentData;
+import likelion.univ.domain.comment.dto.response.CommentData;
+import likelion.univ.domain.comment.dto.response.DeleteCommentData;
+import likelion.univ.domain.comment.dto.response.ParentCommentData;
 import likelion.univ.domain.comment.entity.Comment;
 import likelion.univ.domain.comment.exception.NotAuthorizedException;
 import likelion.univ.domain.like.commentlike.adaptor.CommentLikeAdaptor;
@@ -13,12 +21,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-
 @Service
 @Transactional
 @RequiredArgsConstructor
 public class CommentDomainService {
+
     private final CommentAdaptor commentAdaptor;
     private final PostAdaptor postAdaptor;
     private final UserAdaptor userAdaptor;
@@ -33,18 +40,19 @@ public class CommentDomainService {
         List<Comment> parentComments = commentAdaptor.findParentCommentsByPostId(postId);
         List<Comment> childComments = commentAdaptor.findChildCommentsByPostId(postId);
 
-        List<ParentCommentData> parentCommentData = parentComments.stream().map(i -> ParentCommentData.of(i, commentLikeAdaptor.existsByCommentIdAndUserId(i.getId(), loginUserId))).toList();
-        List<ChildCommentData> childCommentData = childComments.stream().map(i -> ChildCommentData.of(i, commentLikeAdaptor.existsByCommentIdAndUserId(i.getId(), loginUserId))).toList();
+        List<ParentCommentData> parentCommentData = parentComments.stream().map(i -> ParentCommentData.of(i,
+                commentLikeAdaptor.existsByCommentIdAndUserId(i.getId(), loginUserId))).toList();
+        List<ChildCommentData> childCommentData = childComments.stream()
+                .map(i -> ChildCommentData.of(i, commentLikeAdaptor.existsByCommentIdAndUserId(i.getId(), loginUserId)))
+                .toList();
 
         return new CommentData(authorId, parentCommentData, childCommentData);
     }
-
 
     public void createParentComment(CreateParentCommentCommand request) {
         Comment parentComment = parentCommentBy(request);
         commentAdaptor.save(parentComment);
     }
-
 
     public Long createChildComment(CreateChildCommentCommand request) {
         Comment childComment = childCommentBy(request);
@@ -52,7 +60,6 @@ public class CommentDomainService {
         commentAdaptor.save(childComment);
         return postId;
     }
-
 
     public Long updateCommentBody(UpdateCommentCommand request) {
         if (isAuthorized(request)) {
@@ -79,7 +86,6 @@ public class CommentDomainService {
     }
 
 
-
     /* --------------- 내부 편의 메서드 --------------- */
     private Comment parentCommentBy(CreateParentCommentCommand request) {
         return Comment.builder()
@@ -88,6 +94,7 @@ public class CommentDomainService {
                 .body(request.body())
                 .build();
     }
+
     private Comment childCommentBy(CreateChildCommentCommand request) {
         Comment comment = Comment.builder()
                 .post(getPostFromParentComment(request))
@@ -122,5 +129,4 @@ public class CommentDomainService {
     private Long getAuthorId(Long commentId) {
         return commentAdaptor.findById(commentId).getAuthor().getId();
     }
-
 }

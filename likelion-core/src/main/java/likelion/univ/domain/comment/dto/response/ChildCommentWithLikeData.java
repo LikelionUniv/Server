@@ -1,9 +1,8 @@
 package likelion.univ.domain.comment.dto.response;
 
+import java.time.LocalDateTime;
 import likelion.univ.domain.comment.entity.Comment;
 import lombok.Builder;
-
-import java.time.LocalDateTime;
 
 @Builder
 public record ChildCommentWithLikeData(
@@ -18,6 +17,7 @@ public record ChildCommentWithLikeData(
         Boolean isDeleted,
         LocalDateTime createdDate
 ) {
+
     public static ChildCommentWithLikeData of(Comment comment, Boolean isLikedByLoginUser) {
         return ChildCommentWithLikeData.builder()
                 .commentId(comment.getId())
@@ -36,6 +36,5 @@ public record ChildCommentWithLikeData(
     private static Integer getLikeCount(Comment comment) {
         return Math.toIntExact(comment.getCommentLikes().size());
     }
-
 }
 

@@ -1,11 +1,10 @@
 package likelion.univ.refreshtoken.entity;
 
 
-import likelion.univ.common.constant.RedisKey;
-import lombok.*;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.redis.core.RedisHash;
-import javax.persistence.GeneratedValue;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
 @AllArgsConstructor

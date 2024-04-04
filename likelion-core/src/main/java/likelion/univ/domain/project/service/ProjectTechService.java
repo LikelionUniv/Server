@@ -1,5 +1,7 @@
 package likelion.univ.domain.project.service;
 
+import java.util.ArrayList;
+import java.util.List;
 import likelion.univ.domain.project.adapter.ProjectAdaptor;
 import likelion.univ.domain.project.adapter.ProjectTechAdaptor;
 import likelion.univ.domain.project.entity.Project;
@@ -8,9 +10,6 @@ import likelion.univ.domain.project.entity.Tech;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Service
 @Transactional(readOnly = true)
@@ -41,6 +40,7 @@ public class ProjectTechService {
         }
         projectTechAdaptor.saveAll(projectTeches);
     }
+
     @Transactional
     public void updateProjectTech(Project project, List<String> teches) {
         projectTechAdaptor.deleteByProject(project);
@@ -51,12 +51,13 @@ public class ProjectTechService {
                 Tech tech = projectTechAdaptor.findByName(techName.toUpperCase());
 
                 Tech persistedTech;
-                if(tech == null) {
+                if (tech == null) {
                     Tech newTech = Tech.builder().techName(techName.toUpperCase()).build();
                     projectTechAdaptor.saveTech(newTech);
                     persistedTech = newTech;
-                } else
+                } else {
                     persistedTech = tech;
+                }
 
                 ProjectTech projectTech = new ProjectTech(project, persistedTech);
                 projectTeches.add(projectTech);

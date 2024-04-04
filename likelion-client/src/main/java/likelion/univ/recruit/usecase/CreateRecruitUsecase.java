@@ -18,7 +18,6 @@ public class CreateRecruitUsecase {
     public Long execute(CreateRecruitDto createRecruitDto, String universityName) {
         University university = universityService.findByName(universityName);
         Recruit recruit = createRecruitDto.toEntity(university);
-
         return recruitService.register(recruit);
     }
 }

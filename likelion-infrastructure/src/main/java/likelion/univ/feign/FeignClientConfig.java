@@ -6,13 +6,13 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import feign.codec.Decoder;
 import feign.jackson.JacksonDecoder;
-import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 
 @Configuration
 public class FeignClientConfig {
+
     @Bean
     public Decoder feignDecoder() {
         return new JacksonDecoder(customObjectMapper());
@@ -26,5 +26,4 @@ public class FeignClientConfig {
         objectMapper.configure(DeserializationFeature.ADJUST_DATES_TO_CONTEXT_TIME_ZONE, false);
         return objectMapper;
     }
-
 }

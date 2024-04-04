@@ -1,5 +1,20 @@
 package likelion.univ.domain.project.entity;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import likelion.univ.common.entity.BaseTimeEntity;
 import likelion.univ.domain.project.entity.enums.Output;
 import likelion.univ.domain.university.entity.University;
@@ -9,11 +24,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
-
-import javax.persistence.*;
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Getter
@@ -59,19 +69,20 @@ public class Project extends BaseTimeEntity {
     private String productionUrl;
 
     @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name="project_id", insertable = false, updatable = false)
+    @JoinColumn(name = "project_id", insertable = false, updatable = false)
     private List<ProjectMember> projectMembers = new ArrayList<>();
 
     @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name="project_id", insertable = false, updatable = false)
+    @JoinColumn(name = "project_id", insertable = false, updatable = false)
     private List<ProjectImage> projectImages = new ArrayList<>();
 
     @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name="project_id", insertable = false, updatable = false)
+    @JoinColumn(name = "project_id", insertable = false, updatable = false)
     private List<ProjectTech> teches = new ArrayList<>();
 
     @Builder
-    public Project(String activity, Output outPut, String serviceName, long ordinal, University univ, LocalDate startDate, LocalDate endDate, String description, String content, String productionUrl) {
+    public Project(String activity, Output outPut, String serviceName, long ordinal, University univ,
+                   LocalDate startDate, LocalDate endDate, String description, String content, String productionUrl) {
         this.activity = activity;
         this.outPut = outPut;
         this.serviceName = serviceName;

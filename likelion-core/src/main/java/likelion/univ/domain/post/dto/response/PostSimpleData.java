@@ -1,31 +1,32 @@
 package likelion.univ.domain.post.dto.response;
 
 import com.querydsl.core.annotations.QueryProjection;
+import java.time.LocalDateTime;
 import likelion.univ.common.processor.DateCustomFormatter;
 import likelion.univ.domain.post.dto.enums.MainCategory;
 import likelion.univ.domain.post.dto.enums.SubCategory;
 import likelion.univ.domain.post.entity.Post;
 import lombok.Builder;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-
 @Builder
 public record PostSimpleData(
-    Long postId,
-    Long authorId,
-    MainCategory mainCategory,
-    SubCategory subCategory,
-    String authorName,
-    String authorProfileImageUrl,
-    String title,
-    String body,
-    String thumbnailUrl,
-    LocalDateTime createdDate
+        Long postId,
+        Long authorId,
+        MainCategory mainCategory,
+        SubCategory subCategory,
+        String authorName,
+        String authorProfileImageUrl,
+        String title,
+        String body,
+        String thumbnailUrl,
+        LocalDateTime createdDate
 
 ) {
+
     @QueryProjection
-    public PostSimpleData(Long postId, Long authorId, MainCategory mainCategory, SubCategory subCategory, String authorName, String authorProfileImageUrl, String title, String body, String thumbnailUrl, LocalDateTime createdDate) {
+    public PostSimpleData(Long postId, Long authorId, MainCategory mainCategory, SubCategory subCategory,
+                          String authorName, String authorProfileImageUrl, String title, String body,
+                          String thumbnailUrl, LocalDateTime createdDate) {
         this.postId = postId;
         this.authorId = authorId;
         this.mainCategory = mainCategory;
@@ -57,12 +58,14 @@ public record PostSimpleData(
         String noImgBody = this.removeImageTag(this.body);
         return this.shortenString(noImgBody);
     }
+
     private String removeImageTag(String imageIncluded) {
         String imageExcluded = imageIncluded
                 .replaceAll("<img\\s.*?>", "")
                 .replaceAll("<p><\\/p>", "");
         return imageExcluded;
     }
+
     private String shortenString(String longString) {
         if (longString.length() < 300) {
             return longString;
@@ -73,6 +76,4 @@ public record PostSimpleData(
     public String getFormattedDate() {
         return DateCustomFormatter.format(this.createdDate);
     }
-
-
 }

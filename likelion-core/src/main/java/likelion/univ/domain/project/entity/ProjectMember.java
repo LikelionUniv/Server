@@ -1,13 +1,20 @@
 package likelion.univ.domain.project.entity;
 
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import likelion.univ.domain.user.entity.Part;
 import likelion.univ.domain.user.entity.User;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import javax.persistence.*;
 
 @Entity
 @Getter
@@ -36,5 +43,7 @@ public class ProjectMember {
         this.part = part;
     }
 
-    public void updateProject(){this.project = project;}
+    public void updateProject() {
+        this.project = project;
+    }
 }

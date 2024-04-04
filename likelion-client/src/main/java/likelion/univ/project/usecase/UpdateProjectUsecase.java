@@ -1,10 +1,11 @@
 package likelion.univ.project.usecase;
 
+import java.util.List;
+import java.util.stream.Collectors;
 import likelion.univ.annotation.UseCase;
 import likelion.univ.domain.project.adapter.ProjectAdaptor;
-import likelion.univ.domain.project.adapter.ProjectTechAdaptor;
-import likelion.univ.domain.project.entity.ProjectImage;
 import likelion.univ.domain.project.entity.Project;
+import likelion.univ.domain.project.entity.ProjectImage;
 import likelion.univ.domain.project.entity.ProjectMember;
 import likelion.univ.domain.project.service.ProjectImageService;
 import likelion.univ.domain.project.service.ProjectMemberService;
@@ -21,9 +22,6 @@ import likelion.univ.utils.AuthenticatedUserUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 @UseCase
 @RequiredArgsConstructor
 public class UpdateProjectUsecase {
@@ -34,7 +32,6 @@ public class UpdateProjectUsecase {
     private final ProjectImageService projectImageService;
     private final ProjectMemberService projectMemberService;
     private final ProjectAdaptor projectAdaptor;
-    private final ProjectTechAdaptor projectTechAdaptor;
     private final UserAdaptor userAdaptor;
     private final UniversityAdaptor universityAdaptor;
 
@@ -43,23 +40,20 @@ public class UpdateProjectUsecase {
 
         Project project = projectAdaptor.findById(projectId);
 
-        authenticatedUserUtils.checkidentification(project.getAuthor().getId());
+        authenticatedUserUtils.checkIdentification(project.getAuthor().getId());
 
         List<String> techNames = projectRequestDto.getProjectTeches();
-//        List<Tech> techList = techNames.stream()
-//                .flatMap(techName -> projectTechAdaptor.findByName(techName.toUpperCase()).stream())
-//                .collect(Collectors.toList());
 
         List<ProjectImage> projectImage = projectRequestDto.getImageUrl().stream()
                 .map(imageUrl -> new ProjectImage(project, imageUrl))
                 .collect(Collectors.toList());
 
         Project editProject = projectRequestDto.toEntity();
-        if(!projectRequestDto.getUniv().isEmpty())
+        if (!projectRequestDto.getUniv().isEmpty()) {
             editProject.updateUniv(universityAdaptor.findByName(projectRequestDto.getUniv()));
-        else
+        } else {
             editProject.updateUniv(null);
-
+        }
 
         List<ProjectMemberRequestDto> projectMembersRequest = projectRequestDto.getProjectMembers();
         List<Long> ids = projectMembersRequest.stream()
@@ -70,7 +64,7 @@ public class UpdateProjectUsecase {
                 .map(p -> matchProjectMembers(p, project, requestUsers)).toList();
 
         projectService.updateProject(projectId, editProject);
-        projectTechService.updateProjectTech(project,techNames);
+        projectTechService.updateProjectTech(project, techNames);
         projectImageService.updateImage(project, projectImage);
         projectMemberService.updateProjectMember(project, projectMembers);
 
@@ -78,11 +72,13 @@ public class UpdateProjectUsecase {
     }
 
     /* projectMemberRequestDto의 userId와 일치하는 user를 유저리스트에서 찾아서 ProjectMember로 변환합니다.*/
-    private ProjectMember matchProjectMembers(ProjectMemberRequestDto projectMemberRequestDto, Project project, List<User> users){
+    private ProjectMember matchProjectMembers(ProjectMemberRequestDto projectMemberRequestDto, Project project,
+                                              List<User> users) {
         return users.stream().distinct().filter(user -> user.getId().equals(projectMemberRequestDto.getUserId()))
                 .findFirst().map(user -> createProjectMember(project, user, projectMemberRequestDto.getPart())).get();
     }
-    private ProjectMember createProjectMember(Project project, User user, Part part){
+
+    private ProjectMember createProjectMember(Project project, User user, Part part) {
         return ProjectMember.builder()
                 .project(project)
                 .user(user)

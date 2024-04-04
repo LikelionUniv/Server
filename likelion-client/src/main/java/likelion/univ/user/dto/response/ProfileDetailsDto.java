@@ -7,6 +7,7 @@ import lombok.Getter;
 @Getter
 @Builder
 public class ProfileDetailsDto {
+
     private Long id;
     private String profileImage;
     private String name;
@@ -21,7 +22,7 @@ public class ProfileDetailsDto {
     private String introduction;
     private Boolean isMine;
 
-    public static ProfileDetailsDto of(User user, Boolean isMine,Long followerNum, Long followingNum){
+    public static ProfileDetailsDto of(User user, Boolean isMine, Long followerNum, Long followingNum) {
         return ProfileDetailsDto.builder()
                 .id(user.getId())
                 .profileImage(user.getProfile().getProfileImage())

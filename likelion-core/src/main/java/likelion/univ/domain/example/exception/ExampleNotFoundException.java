@@ -1,6 +1,5 @@
 package likelion.univ.domain.example.exception;
 
-import likelion.univ.exception.base.BaseErrorCode;
 import likelion.univ.exception.base.BaseException;
 
 public class ExampleNotFoundException extends BaseException {

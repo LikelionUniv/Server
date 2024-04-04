@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 public class AuthenticatedUserUtils {
+
     private final UserAdaptor userAdaptor;
 
     public Long getCurrentUserId() {
@@ -20,8 +21,9 @@ public class AuthenticatedUserUtils {
         return userAdaptor.findById(getCurrentUserId());
     }
 
-    public void checkidentification(Long userId){
-        if(!SecurityUtils.getCurrentUserId().equals(userId))
+    public void checkIdentification(Long userId) {
+        if (!SecurityUtils.getCurrentUserId().equals(userId)) {
             throw new UserNotMatchException();
+        }
     }
 }

@@ -17,8 +17,16 @@ public record PostEditResponseDto(
         @Schema(description = "게시글 서브 카테고리", example = "정보공유")
         String subCategory
 ) {
+
     public static PostEditResponseDto of(PostEditData postEditData) {
-        PostEditResponseDto responseDto = new PostEditResponseDto(postEditData.postId(), postEditData.title(), postEditData.body(), postEditData.thumbnail(), postEditData.mainCategory().getTitle(), postEditData.subCategory().getTitle());
+        PostEditResponseDto responseDto = new PostEditResponseDto(
+                postEditData.postId(),
+                postEditData.title(),
+                postEditData.body(),
+                postEditData.thumbnail(),
+                postEditData.mainCategory().getTitle(),
+                postEditData.subCategory().getTitle()
+        );
         return responseDto;
     }
 }

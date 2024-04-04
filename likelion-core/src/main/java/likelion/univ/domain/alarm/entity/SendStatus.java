@@ -6,6 +6,7 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum SendStatus {
+
     NOT_SENT("NOT_SENT"),
     RESERVED("RESERVED"),
     SENT("SENT");

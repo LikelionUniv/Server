@@ -2,11 +2,17 @@ package likelion.univ.email.sender.azure;
 
 import com.azure.communication.email.EmailClient;
 import com.azure.communication.email.EmailClientBuilder;
-import com.azure.communication.email.models.*;
+import com.azure.communication.email.models.EmailAddress;
+import com.azure.communication.email.models.EmailAttachment;
+import com.azure.communication.email.models.EmailMessage;
+import com.azure.communication.email.models.EmailSendResult;
+import com.azure.communication.email.models.EmailSendStatus;
 import com.azure.core.credential.AzureKeyCredential;
 import com.azure.core.util.BinaryData;
 import com.azure.core.util.polling.PollResponse;
 import com.azure.core.util.polling.SyncPoller;
+import java.io.IOException;
+import java.util.List;
 import likelion.univ.email.exception.EmailSendFailed;
 import likelion.univ.email.exception.InvalidAttachment;
 import likelion.univ.email.sender.EmailContent;
@@ -14,9 +20,6 @@ import likelion.univ.email.sender.EmailSender;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.io.IOException;
-import java.util.List;
 
 @Component
 @RequiredArgsConstructor
@@ -66,11 +69,9 @@ public class AzureEmailSender implements EmailSender {
     }
 
     private List<EmailAttachment> getAttachments(List<MultipartFile> attachments) {
-
         if (attachments == null || attachments.size() == 0) {
             return null;
         }
-
         return attachments.stream()
                 .map(attachment -> new EmailAttachment(
                                 attachment.getOriginalFilename(),

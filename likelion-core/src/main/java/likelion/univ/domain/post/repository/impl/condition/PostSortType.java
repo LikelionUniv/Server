@@ -1,15 +1,16 @@
 package likelion.univ.domain.post.repository.impl.condition;
 
+import static likelion.univ.domain.post.entity.QPost.post;
+
 import com.querydsl.core.types.OrderSpecifier;
 import likelion.univ.exception.SortTypeNotMatchedException;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-import static likelion.univ.domain.post.entity.QPost.post;
-
 @Getter
 @AllArgsConstructor
 public enum PostSortType {
+
     CREATED_DATE("created_date"),
     LIKE("like"),
     COMMENT("comment");
@@ -24,8 +25,9 @@ public enum PostSortType {
         }
         throw new SortTypeNotMatchedException();
     }
-    public static OrderSpecifier toOrderSpecifier(String value){
-        switch (PostSortType.fromValue(value)){
+
+    public static OrderSpecifier toOrderSpecifier(String value) {
+        switch (PostSortType.fromValue(value)) {
             case LIKE:
                 return post.postLikes.size().desc();
             case COMMENT:

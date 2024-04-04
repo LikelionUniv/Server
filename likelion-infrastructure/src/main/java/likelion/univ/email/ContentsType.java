@@ -1,10 +1,9 @@
 package likelion.univ.email;
 
 import com.azure.communication.email.models.EmailMessage;
-import lombok.RequiredArgsConstructor;
-
 import java.util.Arrays;
 import java.util.function.Function;
+import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 public enum ContentsType {

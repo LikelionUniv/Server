@@ -1,12 +1,11 @@
 package likelion.univ.domain.project.adapter;
 
+import java.util.List;
 import likelion.univ.annotation.Adaptor;
 import likelion.univ.domain.project.entity.Project;
 import likelion.univ.domain.project.entity.ProjectMember;
 import likelion.univ.domain.project.repository.ProjectMemberRepository;
 import lombok.RequiredArgsConstructor;
-
-import java.util.List;
 
 @Adaptor
 @RequiredArgsConstructor
