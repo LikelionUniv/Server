@@ -21,7 +21,7 @@ public class PostLikeController {
     private final CreateOrDeletePostLikeUsecase createOrDeletePostLikeUsecase;
 
     @Operation(summary = "게시글 좋아요 수행", description = "게시글 좋아요를 생성함")
-    @PostMapping("")
+    @PostMapping
     public SuccessResponse createOrDeletePostLike(
             @RequestBody PostLikeRequestDto request
     ) {

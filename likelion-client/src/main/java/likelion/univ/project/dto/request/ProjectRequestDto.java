@@ -26,7 +26,6 @@ public class ProjectRequestDto {
     @Schema(example = "해커톤")
     private String activity;
 
-
     @Schema(example = "WEB")
     private Output outPut;
 
@@ -44,7 +43,6 @@ public class ProjectRequestDto {
     @NotNull
     @Schema(example = "2023-10-10")
     private LocalDate startDate;
-
 
     @NotNull
     @Schema(example = "2023-11-14")

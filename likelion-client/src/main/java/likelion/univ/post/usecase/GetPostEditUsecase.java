@@ -14,7 +14,6 @@ public class GetPostEditUsecase {
 
     public PostEditResponseDto execute(Long postId) {
         PostEditData postEdit = postDomainService.getPostEditById(postId);
-        PostEditResponseDto response = PostEditResponseDto.of(postEdit);
-        return response;
+        return PostEditResponseDto.of(postEdit);
     }
 }

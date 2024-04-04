@@ -85,7 +85,6 @@ public class PostController {
         return SuccessResponse.of(response);
     }
 
-
     @Operation(
             summary = "카테고리별 posts 조회",
             description =

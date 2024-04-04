@@ -28,22 +28,22 @@ public class UniversityController {
     private final GetLocationUnivDetailsUsecase getLocationUnivDetailsUsecase;
 
     //-----------대학교 조회 --------//
-    @GetMapping("/")
     @Operation(summary = "대학교 조회", description = "대학교를 조회합니다.")
+    @GetMapping("/")
     public SuccessResponse<Object> getAllUniv() {
         List<UnivResponseDto> univList = getUnivUsecase.execute();
         return SuccessResponse.of(univList);
     }
 
-    @GetMapping("/all")
     @Operation(summary = "대학교 전체 조회", description = "대학교 잔체를 조회합니다.")
+    @GetMapping("/all")
     public SuccessResponse<List<UniversityDetailResponseDto>> getAllUnivList() {
         List<UniversityDetailResponseDto> result = getTotalUnivDetailsUsecase.execute();
         return SuccessResponse.of(result);
     }
 
-    @GetMapping("/{location}")
     @Operation(summary = "지역별 대학교 조회", description = "대학교를 지역별로 조회합니다.")
+    @GetMapping("/{location}")
     public SuccessResponse<List<UniversityDetailResponseDto>> getLocalUnivList(
             @PathVariable("location") String location
     ) {

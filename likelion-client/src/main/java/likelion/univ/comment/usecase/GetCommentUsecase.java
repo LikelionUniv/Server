@@ -27,8 +27,12 @@ public class GetCommentUsecase {
         List<ChildCommentData> childCommentData = commentData.childComments();
 
         List<CommentResponseDto> response = parentCommentData.stream()
-                .map(pc -> CommentResponseDto.of(pc, childCommentData, authenticatedUser.getCurrentUserId(),
-                        postAuthorId)).toList();
+                .map(pc -> CommentResponseDto.of(
+                        pc,
+                        childCommentData,
+                        authenticatedUser.getCurrentUserId(),
+                        postAuthorId)
+                ).toList();
         return response;
     }
 }

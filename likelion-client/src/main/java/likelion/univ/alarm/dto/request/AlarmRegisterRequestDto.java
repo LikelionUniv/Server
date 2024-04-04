@@ -12,7 +12,7 @@ import org.jetbrains.annotations.NotNull;
 @Getter
 @NoArgsConstructor
 public class AlarmRegisterRequestDto {
-    
+
     @NotNull
     @Schema(description = "이메일", example = "tmfrk0426@gmail.com", required = true)
     @Email(message = "이메일 형식이 올바르지 않습니다.")

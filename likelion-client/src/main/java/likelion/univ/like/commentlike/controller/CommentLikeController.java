@@ -26,7 +26,7 @@ public class CommentLikeController {
             - commentId에 대하여 댓글 좋아요 수행
             - 만약 이미 좋아요를 했으면 좋아요 hard delete 수행
             """)
-    @PostMapping("")
+    @PostMapping
     public SuccessResponse createOrDeleteCommentLike(
             @RequestBody CommentLikeRequestDto request
     ) throws NotAuthorizedException {

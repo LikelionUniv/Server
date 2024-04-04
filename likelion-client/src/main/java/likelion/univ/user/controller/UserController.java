@@ -36,7 +36,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(value = "/v1/user")
 @Tag(name = "유저페이지", description = "유저페이지관련 API입니다.")
 public class UserController {
-    
+
     private final GetProfileUsecase getProfileUsecase;
     private final EditProfileUsecase editProfileUsecase;
     private final GetUserPostsUsecase getUserPostsUsecase;
@@ -108,7 +108,6 @@ public class UserController {
         return SuccessResponse.of(myPagePostsPageLikedByUser);
     }
 
-
     @Operation(summary = "해당 유저가 댓글 쓴 게시글 조회", description = "해당 유저가 댓글을 작성한 게시글을 조회합니다.")
     @GetMapping("/{userId}/posts/comment")
     public SuccessResponse<Object> getPostsCommentedByUser(
@@ -129,7 +128,6 @@ public class UserController {
         SliceResponse<UserSearchResultDto> searchedUsers = searchUserByNameUsecase.execute(name, pageable);
         return SuccessResponse.of(searchedUsers);
     }
-
 
     @Operation(summary = "내가 참여한 프로젝트 조회", description = "참여한 프로젝트를 조회합니다.")
     @GetMapping("/{userId}/projects")

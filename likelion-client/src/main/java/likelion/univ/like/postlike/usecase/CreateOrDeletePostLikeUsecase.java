@@ -30,7 +30,6 @@ public class CreateOrDeletePostLikeUsecase {
         } else {
             updatePostCountInfoProcessor.execute(postId, commentCount, --likeCount);
         }
-
         return hasCreated;
     }
 

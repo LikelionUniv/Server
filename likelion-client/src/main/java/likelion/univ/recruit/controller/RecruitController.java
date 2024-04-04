@@ -20,8 +20,8 @@ public class RecruitController {
 
     private final CreateRecruitUsecase createRecruitUsecase;
 
-    @PostMapping("/{universityName}")
     @Operation(summary = "리크루팅 등록", description = "리크루팅 알람에 등록하는 API 입니다.")
+    @PostMapping("/{universityName}")
     public SuccessResponse register(
             @RequestBody CreateRecruitDto createRecruitDto,
             @PathVariable String universityName

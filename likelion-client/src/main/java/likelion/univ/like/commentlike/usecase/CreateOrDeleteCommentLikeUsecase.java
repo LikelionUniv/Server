@@ -17,8 +17,7 @@ public class CreateOrDeleteCommentLikeUsecase {
 
     public boolean execute(CommentLikeRequestDto request) throws NotAuthorizedException {
         CommentLikeCommand serviceDto = getServiceDto(request);
-        boolean isCreated = commentLikeDomainService.createOrDeleteCommentLike(serviceDto);
-        return isCreated;
+        return commentLikeDomainService.createOrDeleteCommentLike(serviceDto);
     }
 
     private CommentLikeCommand getServiceDto(CommentLikeRequestDto request) {

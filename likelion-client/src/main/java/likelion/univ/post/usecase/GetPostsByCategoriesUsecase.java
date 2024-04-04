@@ -21,8 +21,12 @@ public class GetPostsByCategoriesUsecase {
     private final PostDomainService postDomainService;
     private final GetOrCreatePostCountInfoProcessor getOrCreatePostCountInfoProcessor;
 
-    public PageResponse<PostResponseDto> execute(PostOrderCondition orderCondition, String mainCategory,
-                                                 String subCategory, Pageable pageable) {
+    public PageResponse<PostResponseDto> execute(
+            PostOrderCondition orderCondition,
+            String mainCategory,
+            String subCategory,
+            Pageable pageable
+    ) {
         GetPostsByCategoriesCommand request = new GetPostsByCategoriesCommand(MainCategory.findByTitle(mainCategory),
                 SubCategory.findByTitle(subCategory));
         if (orderCondition.equals(PostOrderCondition.LIKE_COUNT_ORDER)) {

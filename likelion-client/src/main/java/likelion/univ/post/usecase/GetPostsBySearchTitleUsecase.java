@@ -20,8 +20,13 @@ public class GetPostsBySearchTitleUsecase {
     private final PostDomainService postDomainService;
     private final GetOrCreatePostCountInfoProcessor getOrCreatePostCountInfoProcessor;
 
-    public PageResponse<PostResponseDto> execute(PostOrderCondition orderCondition, String searchTitle,
-                                                 String mainCategory, String subCategory, Pageable pageable) {
+    public PageResponse<PostResponseDto> execute(
+            PostOrderCondition orderCondition,
+            String searchTitle,
+            String mainCategory,
+            String subCategory,
+            Pageable pageable
+    ) {
         if (isSearchWithCategories(mainCategory)) {
             Page<PostSimpleData> postSimpleDataPage = getByCategoriesAndSearchTitle(orderCondition, searchTitle,
                     mainCategory, subCategory, pageable);
@@ -38,19 +43,28 @@ public class GetPostsBySearchTitleUsecase {
         return !mainCategory.equals("전체 게시판");
     }
 
-    private Page<PostSimpleData> getByCategoriesAndSearchTitle(PostOrderCondition orderCondition, String searchTitle,
-                                                               String mainCategory, String subCategory,
-                                                               Pageable pageable) {
-        GetPostsByCategorySearchCommand request = new GetPostsByCategorySearchCommand(orderCondition, searchTitle,
-                mainCategory, subCategory);
-        Page<PostSimpleData> postSimpleDataPage = postDomainService.getByCategoriesAndSearchTitle(request, pageable);
-        return postSimpleDataPage;
+    private Page<PostSimpleData> getByCategoriesAndSearchTitle(
+            PostOrderCondition orderCondition,
+            String searchTitle,
+            String mainCategory,
+            String subCategory,
+            Pageable pageable
+    ) {
+        GetPostsByCategorySearchCommand request = new GetPostsByCategorySearchCommand(
+                orderCondition,
+                searchTitle,
+                mainCategory,
+                subCategory
+        );
+        return postDomainService.getByCategoriesAndSearchTitle(request, pageable);
     }
 
-    private Page<PostSimpleData> getBySearchTitle(PostOrderCondition orderCondition, String searchTitle,
-                                                  Pageable pageable) {
+    private Page<PostSimpleData> getBySearchTitle(
+            PostOrderCondition orderCondition,
+            String searchTitle,
+            Pageable pageable
+    ) {
         GetPostsBySearchTitleCommand request = new GetPostsBySearchTitleCommand(orderCondition, searchTitle);
-        Page<PostSimpleData> postSimpleDataPage = postDomainService.getBySearchTitle(request, pageable);
-        return postSimpleDataPage;
+        return postDomainService.getBySearchTitle(request, pageable);
     }
 }

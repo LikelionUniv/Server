@@ -95,10 +95,12 @@ public class CommentController {
         return SuccessResponse.empty();
     }
 
-    @Operation(summary = "(시스템용) 댓글 완전 삭제", description = """
-            댓글을 hard delete 합니다.
-            (주의) 시스템 관리자용이므로 클라이언트에 노출되지 않도록 합니다.""")
-
+    @Operation(
+            summary = "(시스템용) 댓글 완전 삭제",
+            description = """
+                    댓글을 hard delete 합니다.
+                    (주의) 시스템 관리자용이므로 클라이언트에 노출되지 않도록 합니다.
+                    """)
     @DeleteMapping("/{commentId}")
     public SuccessResponse deleteCommentHard(
             @PathVariable Long commentId

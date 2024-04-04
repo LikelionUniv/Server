@@ -19,9 +19,14 @@ public record PostEditResponseDto(
 ) {
 
     public static PostEditResponseDto of(PostEditData postEditData) {
-        PostEditResponseDto responseDto = new PostEditResponseDto(postEditData.postId(), postEditData.title(),
-                postEditData.body(), postEditData.thumbnail(), postEditData.mainCategory().getTitle(),
-                postEditData.subCategory().getTitle());
+        PostEditResponseDto responseDto = new PostEditResponseDto(
+                postEditData.postId(),
+                postEditData.title(),
+                postEditData.body(),
+                postEditData.thumbnail(),
+                postEditData.mainCategory().getTitle(),
+                postEditData.subCategory().getTitle()
+        );
         return responseDto;
     }
 }

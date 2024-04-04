@@ -16,8 +16,9 @@ public class SearchDonationHistoryUsecase {
     private final DonationHistoryAdaptor donationHistoryAdaptor;
 
     public PageResponse<DonationHistoriesSearchResponseDto> execute(String sort, String search, Pageable pageable) {
-        Page<DonationHistory> donationHistories = donationHistoryAdaptor.searchDonationHistoryWithSort(pageable, sort,
-                search);
-        return PageResponse.of(donationHistories.map(d -> DonationHistoriesSearchResponseDto.of(d)));
+        Page<DonationHistory> donationHistories = donationHistoryAdaptor.searchDonationHistoryWithSort(
+                pageable, sort, search
+        );
+        return PageResponse.of(donationHistories.map(DonationHistoriesSearchResponseDto::of));
     }
 }

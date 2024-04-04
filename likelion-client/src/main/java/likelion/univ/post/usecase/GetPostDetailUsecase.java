@@ -22,8 +22,10 @@ public class GetPostDetailUsecase {
         GetPostDetailCommand serviceRequestDto = new GetPostDetailCommand(postId, loginUserId);
 
         PostDetailData serviceResponseDto = postDomainService.getPostDetail(serviceRequestDto);
-        PostDetailResponseDto response = PostDetailResponseDto.of(serviceResponseDto,
-                getOrCreatePostCountInfoProcessor.execute(serviceResponseDto.postId()), loginUserId);
-        return response;
+        return PostDetailResponseDto.of(
+                serviceResponseDto,
+                getOrCreatePostCountInfoProcessor.execute(serviceResponseDto.postId()),
+                loginUserId
+        );
     }
 }
