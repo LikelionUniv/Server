@@ -11,7 +11,7 @@ import org.springframework.data.domain.Pageable;
 @Adaptor
 @RequiredArgsConstructor
 public class DonationHistoryAdaptor {
-    
+
     private final DonationHistoryRepository donationHistoryRepository;
 
     public DonationHistory findById(Long id) {

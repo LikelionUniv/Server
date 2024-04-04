@@ -15,7 +15,7 @@ import org.springframework.data.domain.Slice;
 @Adaptor
 @RequiredArgsConstructor
 public class UserAdaptor {
-    
+
     private final UserRepository userRepository;
 
     public User findById(Long id) {

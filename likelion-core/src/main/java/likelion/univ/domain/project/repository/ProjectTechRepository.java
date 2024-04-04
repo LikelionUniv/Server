@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ProjectTechRepository extends JpaRepository<ProjectTech, Long> {
 
-    public List<ProjectTech> findByProject(Project project);
+    List<ProjectTech> findByProject(Project project);
 
-    public void deleteByProject(Project project);
+    void deleteByProject(Project project);
 }

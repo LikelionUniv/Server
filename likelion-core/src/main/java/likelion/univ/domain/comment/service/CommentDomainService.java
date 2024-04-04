@@ -49,12 +49,10 @@ public class CommentDomainService {
         return new CommentData(authorId, parentCommentData, childCommentData);
     }
 
-
     public void createParentComment(CreateParentCommentCommand request) {
         Comment parentComment = parentCommentBy(request);
         commentAdaptor.save(parentComment);
     }
-
 
     public Long createChildComment(CreateChildCommentCommand request) {
         Comment childComment = childCommentBy(request);
@@ -62,7 +60,6 @@ public class CommentDomainService {
         commentAdaptor.save(childComment);
         return postId;
     }
-
 
     public Long updateCommentBody(UpdateCommentCommand request) {
         if (isAuthorized(request)) {

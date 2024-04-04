@@ -21,13 +21,11 @@ public class ProjectAdaptor {
     }
 
     public Project save(Project project) {
-
         try {
             projectRepository.save(project);
         } catch (Exception e) {
             throw new CreateProjectBadRequestException();
         }
-
         return project;
     }
 

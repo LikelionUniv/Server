@@ -42,7 +42,6 @@ public class PostLikeDomainService {
         return postLikeAdaptor.existsByPostIdAndAuthorId(postId, loginUserId);
     }
 
-
     private boolean isAuthorized(PostLike findPostLike, Long loginUserId) {
         Long authorId = findPostLike.getUser().getId();
         return loginUserId.equals(authorId);

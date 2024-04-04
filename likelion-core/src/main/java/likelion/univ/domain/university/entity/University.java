@@ -29,7 +29,7 @@ public class University extends BaseTimeEntity {
     private String image;
 
     private String recruitUrl;
-    
+
     @Enumerated(EnumType.STRING)
     private UniversityStatus universityStatus = UniversityStatus.ACTIVE;
 }

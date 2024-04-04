@@ -32,11 +32,6 @@ public class Example extends BaseTimeEntity {
         this.columns = column;
     }
 
-    //=======
-//    @Builder
-//    public Example(String body) {
-//        this.body = body;
-//    }
     public void editBody(String body) {
         this.body = body;
     }

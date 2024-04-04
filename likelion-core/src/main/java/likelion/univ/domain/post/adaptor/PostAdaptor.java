@@ -52,41 +52,56 @@ public class PostAdaptor {
         return postRepository.findByPostLikeAuthorId(userId, pageable, sort, search);
     }
 
-    public Page<Post> findByCategoriesOrderByCreatedDate(MainCategory mainCategory, SubCategory subCategory,
-                                                         Pageable pageable) {
+    public Page<Post> findByCategoriesOrderByCreatedDate(
+            MainCategory mainCategory,
+            SubCategory subCategory,
+            Pageable pageable
+    ) {
         return postRepository.findByCategoriesOrderByCreatedDate(mainCategory, subCategory, pageable);
     }
 
-    public Page<Post> findByCategoriesOrderByLikeCount(MainCategory mainCategory, SubCategory subCategory,
-                                                       Pageable pageable) {
+    public Page<Post> findByCategoriesOrderByLikeCount(
+            MainCategory mainCategory,
+            SubCategory subCategory,
+            Pageable pageable
+    ) {
         return postRepository.findByCategoriesOrderByLikeCount(mainCategory, subCategory, pageable);
     }
 
-    public Page<Post> findByCategoriesOrderByCommentCount(MainCategory mainCategory, SubCategory subCategory,
-                                                          Pageable pageable) {
+    public Page<Post> findByCategoriesOrderByCommentCount(
+            MainCategory mainCategory,
+            SubCategory subCategory,
+            Pageable pageable
+    ) {
         return postRepository.findByCategoriesOrderByCommentCount(mainCategory, subCategory, pageable);
     }
 
-    public Page<PostSimpleData> findByCategoriesAndSearchTitleOrderByCreatedDate(String searchTitle,
-                                                                                 MainCategory mainCategory,
-                                                                                 SubCategory subCategory,
-                                                                                 Pageable pageable) {
+    public Page<PostSimpleData> findByCategoriesAndSearchTitleOrderByCreatedDate(
+            String searchTitle,
+            MainCategory mainCategory,
+            SubCategory subCategory,
+            Pageable pageable
+    ) {
         return postRepository.findByCategoriesAndSearchTitleOrderByCreatedDate(searchTitle, mainCategory, subCategory,
                 pageable);
     }
 
-    public Page<PostSimpleData> findByCategoriesAndSearchTitleOrderByCommentCount(String searchTitle,
-                                                                                  MainCategory mainCategory,
-                                                                                  SubCategory subCategory,
-                                                                                  Pageable pageable) {
+    public Page<PostSimpleData> findByCategoriesAndSearchTitleOrderByCommentCount(
+            String searchTitle,
+            MainCategory mainCategory,
+            SubCategory subCategory,
+            Pageable pageable
+    ) {
         return postRepository.findByCategoriesAndSearchTitleOrderByCommentCount(searchTitle, mainCategory, subCategory,
                 pageable);
     }
 
-    public Page<PostSimpleData> findByCategoriesAndSearchTitleOrderByLikeCount(String searchTitle,
-                                                                               MainCategory mainCategory,
-                                                                               SubCategory subCategory,
-                                                                               Pageable pageable) {
+    public Page<PostSimpleData> findByCategoriesAndSearchTitleOrderByLikeCount(
+            String searchTitle,
+            MainCategory mainCategory,
+            SubCategory subCategory,
+            Pageable pageable
+    ) {
         return postRepository.findByCategoriesAndSearchTitleOrderByLikeCount(searchTitle, mainCategory, subCategory,
                 pageable);
     }

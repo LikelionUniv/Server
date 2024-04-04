@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ProjectImageRepository extends JpaRepository<ProjectImage, Long> {
 
-    public List<ProjectImage> findByProject(Project project);
+    List<ProjectImage> findByProject(Project project);
 
-    public void deleteByProject(Project project);
+    void deleteByProject(Project project);
 }

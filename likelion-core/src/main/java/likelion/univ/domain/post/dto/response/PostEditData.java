@@ -14,8 +14,14 @@ public record PostEditData(
 ) {
 
     @QueryProjection
-    public PostEditData(Long postId, String title, String body, String thumbnail, MainCategory mainCategory,
-                        SubCategory subCategory) {
+    public PostEditData(
+            Long postId,
+            String title,
+            String body,
+            String thumbnail,
+            MainCategory mainCategory,
+            SubCategory subCategory
+    ) {
         this.postId = postId;
         this.title = title;
         this.body = body;

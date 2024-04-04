@@ -50,7 +50,6 @@ public class UserDomainService {
         return user;
     }
 
-
     @Transactional
     public void updateUser(User user, String name, String part,
                            String major, Long ordinal, Role role) {
@@ -78,7 +77,6 @@ public class UserDomainService {
             userAdaptor.save(user);
         });
     }
-
 
     public List<User> findDynamicUsers(UserSearchCondition condition) {
         return userAdaptor.findDynamicUsers(condition);

@@ -141,7 +141,6 @@ public class UserCustomRepositoryImpl implements UserCustomRepository {
         return PageableExecutionUtils.getPage(users, pageable, ids::size);
     }
 
-
     @Override
     public Slice<User> findFollowingUsersByFollowerID(Long followerId, Pageable pageable) {
         List<User> users =

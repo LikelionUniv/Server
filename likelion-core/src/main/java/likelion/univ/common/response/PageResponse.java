@@ -18,7 +18,6 @@ public class PageResponse<T> {
     private Boolean isEmpty;
     private List<T> data;
 
-
     public static PageResponse of(Page page) {
         return PageResponse.builder()
                 .totalPage(page.getTotalPages())
