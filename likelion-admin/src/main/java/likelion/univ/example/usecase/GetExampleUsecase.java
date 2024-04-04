@@ -11,8 +11,8 @@ import lombok.RequiredArgsConstructor;
 
 @UseCase
 @RequiredArgsConstructor
-public class GetExampleUseCase {
-    
+public class GetExampleUsecase {
+
     /* 예시로 적어놓은 유저어댑터 및 도메인서비스입니다. 필요하지않는 싱글톤 인스턴스들은 제거해주세요. */
     private final UserAdaptor userAdaptor;
     private final UserDomainService userDomainService;

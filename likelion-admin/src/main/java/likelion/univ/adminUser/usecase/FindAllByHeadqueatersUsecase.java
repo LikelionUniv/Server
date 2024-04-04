@@ -12,7 +12,7 @@ import org.springframework.data.domain.Pageable;
 
 @UseCase
 @RequiredArgsConstructor
-public class FindAllByHeadqueatersUseCase {
+public class FindAllByHeadqueatersUsecase {
 
     private final UserAdaptor userAdaptor;
 

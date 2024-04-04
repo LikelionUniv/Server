@@ -11,7 +11,7 @@ import lombok.RequiredArgsConstructor;
 
 @UseCase
 @RequiredArgsConstructor
-public class UpdateUserUseCase {
+public class UpdateUserUsecase {
 
     private final UserAdaptor userAdaptor;
     private final UserDomainService userDomainService;

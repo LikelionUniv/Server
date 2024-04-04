@@ -9,7 +9,7 @@ import lombok.RequiredArgsConstructor;
 
 @UseCase
 @RequiredArgsConstructor
-public class GetAlarmsUseCase {
+public class GetAlarmsUsecase {
 
     private final AlarmDomainService alarmDomainService;
 

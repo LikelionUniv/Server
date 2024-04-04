@@ -7,7 +7,7 @@ import lombok.Data;
 @Data
 @Builder
 public class ExampleInfoResponseDto {
-    
+
     private String body;
 
     public static ExampleInfoResponseDto of(Example example) {

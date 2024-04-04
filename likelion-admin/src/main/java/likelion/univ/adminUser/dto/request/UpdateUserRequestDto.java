@@ -16,7 +16,7 @@ public class UpdateUserRequestDto {
     @NotBlank
     @Schema(description = "이름", example = "멋쟁이", required = true)
     private String name;
-    
+
     @NotBlank
     @Schema(description = "전공", example = "컴퓨터공학과", required = true)
     private String major;

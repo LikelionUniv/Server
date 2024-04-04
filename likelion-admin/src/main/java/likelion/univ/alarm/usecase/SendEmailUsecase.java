@@ -10,7 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 @UseCase
 @RequiredArgsConstructor
-public class SendEmailUseCase {
+public class SendEmailUsecase {
 
     private final EmailSender emailSender;
 

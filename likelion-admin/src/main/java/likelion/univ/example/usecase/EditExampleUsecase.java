@@ -2,16 +2,15 @@ package likelion.univ.example.usecase;
 
 import likelion.univ.annotation.UseCase;
 import likelion.univ.domain.example.adaptor.ExampleAdaptor;
-import likelion.univ.domain.example.entity.Example;
 import likelion.univ.domain.example.service.ExampleDomainService;
 import likelion.univ.domain.user.adaptor.UserAdaptor;
 import likelion.univ.domain.user.service.UserDomainService;
+import likelion.univ.example.dto.request.CreateExampleRequestDto;
 import lombok.RequiredArgsConstructor;
 
 @UseCase
 @RequiredArgsConstructor
-public class DeleteExampleUseCase {
-
+public class EditExampleUsecase {
     /* 예시로 적어놓은 유저어댑터 및 도메인서비스입니다. 필요하지않는 싱글톤 인스턴스들은 제거해주세요. */
     private final UserAdaptor userAdaptor;
     private final UserDomainService userDomainService;
@@ -25,9 +24,8 @@ public class DeleteExampleUseCase {
         Transaction을 배제한 도메인에 영향을 주지않는 service라고 생각하시면 쉽습니다.
         Transaction의 영역의 로직은 domainservice 혹의 엔티티에 구현해주세요. (but, 엔티티에 구현은 최대한 자제)(예를들어 유저의경우 changeProfile 같은걸 엔티티에 구현)
     */
-    public void execute(Long id) {
-        Example example = exampleAdaptor.findById(id);
-        exampleAdaptor.delete(example);
+    public void excute(Long id, CreateExampleRequestDto createExampleRequestDto) {
+        exampleDomainService.editExample(id, createExampleRequestDto.body());
     }
 
 }

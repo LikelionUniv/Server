@@ -8,7 +8,7 @@ import lombok.RequiredArgsConstructor;
 
 @UseCase
 @RequiredArgsConstructor
-public class DeleteUserUseCase {
+public class DeleteUserUsecase {
 
     private final UserAdaptor userAdaptor;
     private final UserDomainService userDomainService;

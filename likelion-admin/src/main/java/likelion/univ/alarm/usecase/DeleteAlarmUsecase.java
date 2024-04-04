@@ -6,7 +6,7 @@ import lombok.RequiredArgsConstructor;
 
 @UseCase
 @RequiredArgsConstructor
-public class DeleteAlarmUseCase {
+public class DeleteAlarmUsecase {
 
     private final AlarmDomainService alarmDomainService;
 
