@@ -1,12 +1,11 @@
 package likelion.univ.response;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import likelion.univ.exception.base.BaseErrorCode;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
-
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 @Getter
 @ToString
@@ -25,9 +24,11 @@ public class BaseResponse {
     public static BaseResponse of(Boolean isSuccess, BaseErrorCode errorCode, String message) {
         return new BaseResponse(isSuccess, errorCode.getCode(), message);
     }
+
     public static BaseResponse of(Boolean isSuccess, String code, String message) {
         return new BaseResponse(isSuccess, code, message);
     }
+
     public static BaseResponse success() {
         return new BaseResponse(true, "200", "호출에 성공하셨습니다.");
     }

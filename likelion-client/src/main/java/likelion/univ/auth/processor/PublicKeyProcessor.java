@@ -31,6 +31,6 @@ public class PublicKeyProcessor {
     }
 
     public RSAPublicKey generatePublicKey(PublicKeyDto key) {
-        return PublicKeyGenerator.excute(key.getKty(), key.getN(), key.getE());
+        return PublicKeyGenerator.execute(key.getKty(), key.getN(), key.getE());
     }
 }

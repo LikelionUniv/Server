@@ -1,6 +1,7 @@
 package likelion.univ.constant;
 
 public class StaticValue {
+
     /* 에러 코드 static 값 */
     public static final int BAD_REQUEST = 400;
     public static final int UNAUTHORIZED = 401;
