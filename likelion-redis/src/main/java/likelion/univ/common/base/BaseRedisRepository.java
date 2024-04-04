@@ -4,7 +4,6 @@ import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 import org.springframework.data.redis.core.RedisTemplate;
 
-
 public abstract class BaseRedisRepository<T> {
 
     protected RedisTemplate<String, T> redisTemplate;

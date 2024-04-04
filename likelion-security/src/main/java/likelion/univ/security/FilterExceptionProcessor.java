@@ -1,22 +1,21 @@
 package likelion.univ.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import likelion.univ.annotation.Processor;
-import likelion.univ.exception.base.BaseException;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
+import javax.servlet.http.HttpServletResponse;
+import likelion.univ.annotation.Processor;
+import likelion.univ.exception.base.BaseException;
+import lombok.RequiredArgsConstructor;
 
 @Processor
 @RequiredArgsConstructor
 public class FilterExceptionProcessor {
 
     private final ObjectMapper objectMapper;
+
     public void excute(HttpServletResponse response, BaseException e) throws IOException {
         Map<String, Object> errorResponse = new HashMap<>();
         errorResponse.put("timestamp", LocalDateTime.now());

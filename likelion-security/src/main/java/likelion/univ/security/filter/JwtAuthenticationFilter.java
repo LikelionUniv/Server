@@ -1,5 +1,14 @@
 package likelion.univ.security.filter;
 
+import static likelion.univ.constant.StaticValue.ACCESS_TOKEN;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import likelion.univ.exception.base.BaseException;
 import likelion.univ.jwt.JwtProvider;
 import likelion.univ.jwt.dto.DecodedJwtToken;
@@ -14,16 +23,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
-import static likelion.univ.constant.StaticValue.ACCESS_TOKEN;
-
 @Component
 @RequiredArgsConstructor
 @Slf4j
@@ -31,6 +30,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtProvider jwtProvider;
     private final FilterExceptionProcessor filterExceptionProcessor;
+
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
             throws IOException, ServletException {
@@ -41,12 +41,13 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 SecurityContextHolder.getContext().setAuthentication(authentication); //SecurityContextHolder에 담기
             }
             chain.doFilter(request, response);
-        }catch (BaseException e){
+        } catch (BaseException e) {
             filterExceptionProcessor.excute(response, e);
         }
     }
+
     private Authentication getAuthentication(String token) {
-        DecodedJwtToken decodedJwtToken = jwtProvider.decodeToken(token,ACCESS_TOKEN);
+        DecodedJwtToken decodedJwtToken = jwtProvider.decodeToken(token, ACCESS_TOKEN);
 
         Long userId = decodedJwtToken.getUserId();
         String role = decodedJwtToken.getRole();
@@ -55,11 +56,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         return new UsernamePasswordAuthenticationToken(userId, null, authorities);
     }
+
     private String resolveToken(HttpServletRequest request) {
         String bearerToken = request.getHeader("Authorization");
         if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
             return bearerToken.substring(7);
-        } else if (bearerToken != null){
+        } else if (bearerToken != null) {
             return bearerToken;
         }
         return null;
