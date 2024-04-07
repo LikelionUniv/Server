@@ -56,7 +56,7 @@ public class ProjectController {
 
     //-----------프로젝트 목록 --------//
     @Operation(summary = "프로젝트 목록", description = "프로젝트 목록을 출력했습니다.")
-    @GetMapping("/")
+    @GetMapping
     public SuccessResponse<PageResponse<ProjectResponseDto>> getAllProject(
             @ParameterObject
             @PageableDefault(size = 12, sort = "createdDate", direction = Sort.Direction.DESC)
@@ -80,7 +80,7 @@ public class ProjectController {
 
     //--------- 프로젝트 등록 ------------//
     @Operation(summary = "프로젝트 등록", description = "새로운 프로젝트를 등록했습니다.")
-    @PostMapping("/")
+    @PostMapping
     public SuccessResponse<ProjectIdResponseDto> createProject(
             @Valid @RequestBody ProjectRequestDto projectRequestDto
     ) {
