@@ -41,7 +41,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/v1")
+@RequestMapping("/v1/community/posts")
 @Tag(name = "게시글", description = "커뮤니티 APIs")
 public class PostController {
 
@@ -61,7 +61,7 @@ public class PostController {
                             ### 게시글 상세 조회 api입니다.
                             - 테스트 완료(황제철)
                             - 게시글 / 댓글에 profile projectImage url이 없으면 boolean 타입만 전달 (url : null 포함x)""")
-    @GetMapping("/community/posts/{postId}")
+    @GetMapping("/{postId}")
     public SuccessResponse<PostDetailResponseDto> findPostDetail(
             @PathVariable Long postId
     ) {
@@ -77,7 +77,7 @@ public class PostController {
                     - postId에 해당하는 게시글 없으면 404 반환
                     """
     )
-    @GetMapping("/community/posts/{postId}/simple")
+    @GetMapping("/{postId}/simple")
     public SuccessResponse<PostEditResponseDto> findPostEdit(
             @PathVariable Long postId
     ) {
@@ -104,7 +104,7 @@ public class PostController {
                             - **s (size ; 페이지 크기)** :  양수
                             """
     )
-    @GetMapping("/community/posts")
+    @GetMapping
     public BaseResponse findCategorizedPosts(
             @RequestParam PostOrderCondition oc,
             @RequestParam(defaultValue = "멋쟁이사자처럼") String mc,
@@ -138,7 +138,7 @@ public class PostController {
                     - **FREE_BOARD(자유게시판)** : INFO(정보공유), GET_MEMBER(팀원모집), GET_PROJECT(플젝모집), SHOWOFF(플젝자랑)
                     - **OVERFLOW(멋사 오버플로우)** : FRONTEND(프론트), BACKEND(백), PM(기획), UXUI(디자인), ETC(기타)"""
     )
-    @GetMapping("/community/posts/search")
+    @GetMapping("/search")
     public BaseResponse searchPost(
             @RequestParam PostOrderCondition oc,
             @RequestParam(defaultValue = "검색어") String st,
@@ -169,7 +169,7 @@ public class PostController {
                             - **HQ_BOARD(멋대 중앙)** : NOTICE(공지사항), QNA(질문건의), INFO(정보공유)
                             - **FREE_BOARD(자유게시판)** : INFO(정보공유), GET_MEMBER(팀원모집), GET_PROJECT(플젝모집), SHOWOFF(플젝자랑)
                             - **OVERFLOW(멋사 오버플로우)** : FRONTEND(프론트), BACKEND(백), PM(기획), UXUI(디자인), ETC(기타)""")
-    @PostMapping("/community/posts/new")
+    @PostMapping("/new")
     public SuccessResponse<Long> createPost(
             @RequestBody @Valid PostCreateRequestDto request
     ) {
@@ -180,7 +180,7 @@ public class PostController {
     @Operation(
             summary = "게시글 수정",
             description = "제목, 내용, 썸네일 수정 : 수정을 안하는 값은 기존 데이터로 넘겨줘야 함")
-    @PatchMapping("/community/posts/{postId}")
+    @PatchMapping("/{postId}")
     public SuccessResponse<Long> updatePost(
             @PathVariable Long postId,
             @RequestBody PostUpdateRequestDto request
@@ -192,7 +192,7 @@ public class PostController {
     @Operation(
             summary = "게시글 hard delete",
             description = "게시글을 database로부터 hard delete")
-    @DeleteMapping("/community/posts/{postId}")
+    @DeleteMapping("/{postId}")
     public SuccessResponse deletePost(
             @PathVariable Long postId
     ) {
