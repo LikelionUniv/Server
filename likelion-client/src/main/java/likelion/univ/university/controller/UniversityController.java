@@ -29,13 +29,13 @@ public class UniversityController {
 
     //-----------대학교 조회 --------//
     @Operation(summary = "대학교 조회", description = "대학교를 조회합니다.")
-    @GetMapping("/")
+    @GetMapping
     public SuccessResponse<Object> getAllUniv() {
         List<UnivResponseDto> univList = getUnivUsecase.execute();
         return SuccessResponse.of(univList);
     }
 
-    @Operation(summary = "대학교 전체 조회", description = "대학교 잔체를 조회합니다.")
+    @Operation(summary = "대학교 전체 조회", description = "대학교 전체를 조회합니다.")
     @GetMapping("/all")
     public SuccessResponse<List<UniversityDetailResponseDto>> getAllUnivList() {
         List<UniversityDetailResponseDto> result = getTotalUnivDetailsUsecase.execute();
