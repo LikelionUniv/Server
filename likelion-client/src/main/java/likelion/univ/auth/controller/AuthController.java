@@ -34,10 +34,10 @@ public class AuthController {
     private final GetUserInfoUsecase getUserInfoUsecase;
 
     @Operation(summary = "id token 발급", description = "인가 코드로 id token을 발급받습니다.")
-    @GetMapping("/{logintype}/idtoken")
+    @GetMapping("/{loginType}/idToken")
     public SuccessResponse<Object> getIdToken(
             @RequestParam("code") String code,
-            @PathVariable("logintype") String loginType
+            @PathVariable("loginType") String loginType
     ) {
         IdTokenDto idTokenDto = requestIdTokenUsecase.execute(loginType, code);
         return SuccessResponse.of(idTokenDto);
@@ -46,32 +46,32 @@ public class AuthController {
     @Operation(
             summary = "id token 발급 (local용)",
             description = "인가 코드로 id token을 발급받습니다.(개발용으로 redirect url의 도메인이)" +
-                          "localhostt:3000입니다. (나머지 경로는 같습니다.)"
+                          "localhost:3000입니다. (나머지 경로는 같습니다.)"
     )
-    @GetMapping("/{logintype}/idtoken/local")
+    @GetMapping("/{loginType}/idToken/local")
     public SuccessResponse<Object> getIdTokenForLocal(
             @RequestParam("code") String code,
-            @PathVariable("logintype") String loginType
+            @PathVariable("loginType") String loginType
     ) {
         IdTokenDto idTokenDto = requestIdTokenUsecase.executeForLocal(loginType, code);
         return SuccessResponse.of(idTokenDto);
     }
 
     @Operation(summary = "로그인", description = "id token과 login type으로 로그인 합니다.")
-    @PostMapping("/{logintype}/login")
+    @PostMapping("/{loginType}/login")
     public SuccessResponse<Object> login(
-            @RequestParam("idtoken") String idToken,
-            @PathVariable("logintype") String loginType
+            @RequestParam("idToken") String idToken,
+            @PathVariable("loginType") String loginType
     ) {
         AccountTokenDto accountTokenDto = loginUsecase.execute(loginType, idToken);
         return SuccessResponse.of(accountTokenDto);
     }
 
     @Operation(summary = "회원가입", description = "id token과 login type으로 회원가입 합니다.")
-    @PostMapping("/{logintype}/signup")
+    @PostMapping("/{loginType}/signup")
     public SuccessResponse<Object> signUp(
-            @RequestParam("idtoken") String idToken,
-            @PathVariable("logintype") String loginType,
+            @RequestParam("idToken") String idToken,
+            @PathVariable("loginType") String loginType,
             @RequestBody SignUpRequestDto signUpRequestDto
     ) {
         AccountTokenDto accountTokenDto = signUpUsecase.execute(loginType, idToken, signUpRequestDto);
@@ -79,7 +79,7 @@ public class AuthController {
     }
 
     @Operation(summary = "유저 정보 조회", description = "간단한 유저정보를 조회합니다.")
-    @GetMapping("/userinfo")
+    @GetMapping("/userInfo")
     public SuccessResponse<Object> getUserInfo() {
         AccountUserInfoDto accountUserInfoDto = getUserInfoUsecase.execute();
         return SuccessResponse.of(accountUserInfoDto);
