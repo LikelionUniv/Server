@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(value = "/v1/donation_history")
+@RequestMapping(value = "/v1/donation-history")
 @Tag(name = "기부금 게시판", description = "기부금 게시판관련 API입니다.")
 public class DonationHistoryController {
 
@@ -28,7 +28,7 @@ public class DonationHistoryController {
     private final GetDonationHistoryDetailsUsecase getDonationHistoryDetailsUsecase;
 
     @Operation(summary = "기부금 게시글 목록 검색", description = "기부금 게시글을 검색합니다. 파라미터로 search를 포함하지 않을 시 전체 조회입니다.")
-    @GetMapping("")
+    @GetMapping
     public SuccessResponse<Object> searchDonationHistories(
             @RequestParam(value = "sort", required = false, defaultValue = "created_date") String sort,
             @RequestParam(value = "search", required = false) String search,
