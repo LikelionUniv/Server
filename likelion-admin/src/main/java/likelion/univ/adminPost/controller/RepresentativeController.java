@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j
 @RestController("adminPost.controller.RepresentativeController")
-@RequestMapping(value = "/v1/univAdmin")
+@RequestMapping("/v1/univAdmin")
 @RequiredArgsConstructor
 @Tag(name = "PostByUnivAdmin", description = "학교 대표에 의한 게시글 관련 API")
 public class RepresentativeController {
@@ -39,8 +39,8 @@ public class RepresentativeController {
             @ParameterObject
             @PageableDefault(size = 6, page = 0, sort = "created_date", direction = DESC)
             Pageable pageable,
-            @RequestParam MainCategory mainCategory,
-            @RequestParam SubCategory subCategory
+            @RequestParam("mainCategory") MainCategory mainCategory,
+            @RequestParam("subCategory") SubCategory subCategory
     ) {
         PageResponse<PostInfoResponseDto> response =
                 getPostsByCategoriesAndUniversityUseCase.execute(pageable, mainCategory, subCategory);
@@ -50,7 +50,7 @@ public class RepresentativeController {
     @Operation(summary = "선택된 게시글들 삭제")
     @DeleteMapping("/posts")
     public SuccessResponse<Object> getProjectsOfFreeBoardPosts(
-            @RequestParam List<Long> selectedIds
+            @RequestParam("selectedIds") List<Long> selectedIds
     ) {
         deleteSelectedPostsUseCase.execute(selectedIds);
         return SuccessResponse.empty();
