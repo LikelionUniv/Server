@@ -3,10 +3,10 @@ package likelion.univ.project.usecase;
 import java.util.List;
 import java.util.stream.Collectors;
 import likelion.univ.annotation.UseCase;
-import likelion.univ.domain.project.adapter.ProjectAdaptor;
 import likelion.univ.domain.project.entity.Project;
 import likelion.univ.domain.project.entity.ProjectImage;
 import likelion.univ.domain.project.entity.ProjectMember;
+import likelion.univ.domain.project.repository.ProjectRepository;
 import likelion.univ.domain.project.service.ProjectImageService;
 import likelion.univ.domain.project.service.ProjectMemberService;
 import likelion.univ.domain.project.service.ProjectService;
@@ -31,14 +31,14 @@ public class UpdateProjectUsecase {
     private final ProjectTechService projectTechService;
     private final ProjectImageService projectImageService;
     private final ProjectMemberService projectMemberService;
-    private final ProjectAdaptor projectAdaptor;
+    private final ProjectRepository projectRepository;
     private final UserAdaptor userAdaptor;
     private final UniversityAdaptor universityAdaptor;
 
     @Transactional
     public ProjectIdResponseDto execute(Long projectId, ProjectRequestDto projectRequestDto) {
 
-        Project project = projectAdaptor.findById(projectId);
+        Project project = projectRepository.getById(projectId);
 
         authenticatedUserUtils.checkIdentification(project.getAuthor().getId());
 

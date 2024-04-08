@@ -1,8 +1,8 @@
 package likelion.univ.project.usecase;
 
 import likelion.univ.annotation.UseCase;
-import likelion.univ.domain.project.adapter.ProjectAdaptor;
 import likelion.univ.domain.project.entity.Project;
+import likelion.univ.domain.project.repository.ProjectRepository;
 import likelion.univ.domain.project.service.ProjectImageService;
 import likelion.univ.domain.project.service.ProjectMemberService;
 import likelion.univ.domain.project.service.ProjectService;
@@ -19,10 +19,10 @@ public class DeleteProjectUsecase {
     private final ProjectImageService projectImageService;
     private final ProjectMemberService projectMemberService;
     private final ProjectService projectService;
-    private final ProjectAdaptor projectAdaptor;
+    private final ProjectRepository projectRepository;
 
     public void execute(Long projectId) {
-        Project project = projectAdaptor.findById(projectId);
+        Project project = projectRepository.getById(projectId);
 
         authenticatedUserUtils.checkIdentification(project.getAuthor().getId());
 

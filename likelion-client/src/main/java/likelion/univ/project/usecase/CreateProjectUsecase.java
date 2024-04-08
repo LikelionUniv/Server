@@ -3,10 +3,10 @@ package likelion.univ.project.usecase;
 import java.util.List;
 import java.util.stream.Collectors;
 import likelion.univ.annotation.UseCase;
-import likelion.univ.domain.project.adapter.ProjectMemberAdaptor;
 import likelion.univ.domain.project.entity.Project;
 import likelion.univ.domain.project.entity.ProjectImage;
 import likelion.univ.domain.project.entity.ProjectMember;
+import likelion.univ.domain.project.repository.ProjectMemberRepository;
 import likelion.univ.domain.project.service.ProjectImageService;
 import likelion.univ.domain.project.service.ProjectService;
 import likelion.univ.domain.project.service.ProjectTechService;
@@ -30,7 +30,7 @@ public class CreateProjectUsecase {
     private final ProjectTechService projectTechService;
     private final ProjectImageService projectImageService;
     private final UserAdaptor userAdaptor;
-    private final ProjectMemberAdaptor projectMemberAdaptor;
+    private final ProjectMemberRepository projectMemberRepository;
     private final UniversityAdaptor universityAdaptor;
 
     @Transactional
@@ -61,7 +61,7 @@ public class CreateProjectUsecase {
         List<ProjectMember> projectMembers = projectMembersRequest.stream()
                 .map(p -> matchProjectMembers(p, project, requestUsers)).toList();
 
-        projectMemberAdaptor.saveAll(projectMembers);
+        projectMemberRepository.saveAll(projectMembers);
 
         return ProjectIdResponseDto.of(project.getId());
     }
