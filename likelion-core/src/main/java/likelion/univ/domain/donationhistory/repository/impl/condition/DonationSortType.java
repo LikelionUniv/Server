@@ -1,6 +1,6 @@
-package likelion.univ.domain.donation_history.repository.impl.condition;
+package likelion.univ.domain.donationhistory.repository.impl.condition;
 
-import static likelion.univ.domain.donation_history.entity.QDonationHistory.donationHistory;
+import static likelion.univ.domain.donationhistory.entity.QDonationHistory.donationHistory;
 
 import com.querydsl.core.types.OrderSpecifier;
 import likelion.univ.exception.SortTypeNotMatchedException;

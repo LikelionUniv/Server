@@ -1,4 +1,4 @@
-package likelion.univ.domain.donation_history.entity;
+package likelion.univ.domain.donationhistory.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

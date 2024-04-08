@@ -3,7 +3,7 @@ package likelion.univ.donation_history.dto.response;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
-import likelion.univ.domain.donation_history.entity.DonationHistory;
+import likelion.univ.domain.donationhistory.entity.DonationHistory;
 import lombok.Builder;
 import lombok.Getter;
 

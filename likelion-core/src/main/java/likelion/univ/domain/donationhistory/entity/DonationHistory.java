@@ -1,4 +1,4 @@
-package likelion.univ.domain.donation_history.entity;
+package likelion.univ.domain.donationhistory.entity;
 
 import java.util.ArrayList;
 import java.util.List;

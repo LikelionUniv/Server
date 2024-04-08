@@ -1,8 +1,8 @@
 package likelion.univ.donation_history.usecase;
 
 import likelion.univ.annotation.UseCase;
-import likelion.univ.domain.donation_history.entity.DonationHistory;
-import likelion.univ.domain.donation_history.service.DonationHistoryDomainService;
+import likelion.univ.domain.donationhistory.entity.DonationHistory;
+import likelion.univ.domain.donationhistory.service.DonationHistoryDomainService;
 import likelion.univ.donation_history.dto.response.DonationHistoriesDetailsResponseDto;
 import lombok.RequiredArgsConstructor;
 

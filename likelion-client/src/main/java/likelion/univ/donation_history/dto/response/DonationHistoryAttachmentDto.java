@@ -1,6 +1,6 @@
 package likelion.univ.donation_history.dto.response;
 
-import likelion.univ.domain.donation_history.entity.DonationHistoryAttachment;
+import likelion.univ.domain.donationhistory.entity.DonationHistoryAttachment;
 import lombok.Builder;
 import lombok.Getter;
 

@@ -1,4 +1,4 @@
-package likelion.univ.domain.donation_history.exception;
+package likelion.univ.domain.donationhistory.exception;
 
 import static likelion.univ.constant.StaticValue.NOT_FOUND;
 
