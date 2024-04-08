@@ -54,7 +54,7 @@ public class AlarmController {
             description = "알람 전송을 희망하는 분들을 조회하는 API 입니다."
     )
     @GetMapping
-    public SuccessResponse<GetAlarmsDto> getAlarms(@RequestParam Long ordinal) {
+    public SuccessResponse<GetAlarmsDto> getAlarms(@RequestParam("ordinal") Long ordinal) {
         GetAlarmsDto response = getAlarmsUsecase.execute(ordinal);
         return SuccessResponse.of(response);
     }
@@ -64,7 +64,7 @@ public class AlarmController {
             description = "등록된 알람을 삭제하는 API 입니다."
     )
     @DeleteMapping("/{id}")
-    public SuccessResponse<Long> deleteAlarm(@PathVariable Long id) {
+    public SuccessResponse<Long> deleteAlarm(@PathVariable("id") Long id) {
         deleteAlarmUsecase.execute(id);
         return SuccessResponse.of(id);
     }
