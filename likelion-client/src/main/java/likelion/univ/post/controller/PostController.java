@@ -63,7 +63,7 @@ public class PostController {
                             - 게시글 / 댓글에 profile projectImage url이 없으면 boolean 타입만 전달 (url : null 포함x)""")
     @GetMapping("/{postId}")
     public SuccessResponse<PostDetailResponseDto> findPostDetail(
-            @PathVariable Long postId
+            @PathVariable("postId") Long postId
     ) {
         PostDetailResponseDto response = getPostDetailUsecase.execute(postId);
         return SuccessResponse.of(response);
@@ -79,7 +79,7 @@ public class PostController {
     )
     @GetMapping("/{postId}/simple")
     public SuccessResponse<PostEditResponseDto> findPostEdit(
-            @PathVariable Long postId
+            @PathVariable("postId") Long postId
     ) {
         PostEditResponseDto response = getPostEditUsecase.execute(postId);
         return SuccessResponse.of(response);
@@ -106,9 +106,9 @@ public class PostController {
     )
     @GetMapping
     public BaseResponse findCategorizedPosts(
-            @RequestParam PostOrderCondition oc,
-            @RequestParam(defaultValue = "멋쟁이사자처럼") String mc,
-            @RequestParam(defaultValue = "공지 사항") String sc,
+            @RequestParam("oc") PostOrderCondition oc,
+            @RequestParam(value = "mc", defaultValue = "멋쟁이사자처럼") String mc,
+            @RequestParam(value = "sc", defaultValue = "공지 사항") String sc,
             @ParameterObject @PageableDefault(size = 5, page = 1) Pageable pageable
     ) {
         if (!MainCategory.isValid(mc) || !SubCategory.isValid(sc)) {
@@ -140,10 +140,10 @@ public class PostController {
     )
     @GetMapping("/search")
     public BaseResponse searchPost(
-            @RequestParam PostOrderCondition oc,
-            @RequestParam(defaultValue = "검색어") String st,
-            @RequestParam(defaultValue = "전체 게시판") String mc,
-            @RequestParam(defaultValue = "전체 게시판") String sc,
+            @RequestParam("oc") PostOrderCondition oc,
+            @RequestParam(value = "st", defaultValue = "검색어") String st,
+            @RequestParam(value = "mc", defaultValue = "전체 게시판") String mc,
+            @RequestParam(value = "sc", defaultValue = "전체 게시판") String sc,
             @ParameterObject @PageableDefault(size = 5, page = 1) Pageable pageable
     ) {
 
@@ -182,7 +182,7 @@ public class PostController {
             description = "제목, 내용, 썸네일 수정 : 수정을 안하는 값은 기존 데이터로 넘겨줘야 함")
     @PatchMapping("/{postId}")
     public SuccessResponse<Long> updatePost(
-            @PathVariable Long postId,
+            @PathVariable("postId") Long postId,
             @RequestBody PostUpdateRequestDto request
     ) {
         Long updatedPostId = editPostUsecase.execute(postId, request);
@@ -194,7 +194,7 @@ public class PostController {
             description = "게시글을 database로부터 hard delete")
     @DeleteMapping("/{postId}")
     public SuccessResponse deletePost(
-            @PathVariable Long postId
+            @PathVariable("postId") Long postId
     ) {
         deletePostUsecase.execute(postId);
         return SuccessResponse.empty();

@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(value = "/v1/donation-history")
+@RequestMapping( "/v1/donation-history")
 @Tag(name = "기부금 게시판", description = "기부금 게시판관련 API입니다.")
 public class DonationHistoryController {
 
@@ -42,7 +42,7 @@ public class DonationHistoryController {
     @Operation(summary = "기부금 게시글 상세정보", description = "해당 기부금 게시글의 상세정보를 조회합니다.")
     @GetMapping("/{donationHistoryId}")
     public SuccessResponse<Object> searchDonationHistories(
-            @PathVariable Long donationHistoryId
+            @PathVariable("donationHistoryId") Long donationHistoryId
     ) {
         DonationHistoriesDetailsResponseDto result = getDonationHistoryDetailsUsecase.execute(donationHistoryId);
         return SuccessResponse.of(result);

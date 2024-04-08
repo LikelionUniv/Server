@@ -33,7 +33,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(value = "/v1/project")
+@RequestMapping("/v1/project")
 @Tag(name = "Project", description = "프로젝트 API")
 public class ProjectController {
 
@@ -72,7 +72,7 @@ public class ProjectController {
     public SuccessResponse<PageResponse<ProjectListResponseDto>> getProjectByOrdinal(
             @ParameterObject
             @PageableDefault(size = 12, sort = "createdDate", direction = Sort.Direction.DESC) Pageable pageable,
-            @PathVariable Long ordinal
+            @PathVariable("ordinal") Long ordinal
     ) {
         PageResponse<ProjectListResponseDto> projectList = getProjectByUsecase.execute(ordinal, pageable);
         return SuccessResponse.of(projectList);

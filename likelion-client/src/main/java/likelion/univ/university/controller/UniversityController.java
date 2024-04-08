@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(value = "/v1/university")
+@RequestMapping( "/v1/university")
 @Tag(name = "University", description = "대학교 API")
 public class UniversityController {
 
