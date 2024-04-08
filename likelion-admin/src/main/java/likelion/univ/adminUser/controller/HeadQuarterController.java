@@ -21,10 +21,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j
 @RestController
-@RequestMapping(value = "/v1/headquaters")
+@RequestMapping("/v1/headQuarter")
 @RequiredArgsConstructor
-@Tag(name = "UserByHeadquaters", description = "본사에 의한 사용자 관련 API")
-public class HeadquatersController {
+@Tag(name = "UserByHeadQuarter", description = "본사에 의한 사용자 관련 API")
+public class HeadQuarterController {
 
     private final FindAllByHeadqueatersUsecase findAllByHeadqueatersUsecase;
 
@@ -34,8 +34,8 @@ public class HeadquatersController {
             @ParameterObject
             @PageableDefault(size = 10, page = 0, sort = "createdDate", direction = DESC)
             Pageable pageable,
-            @RequestParam(required = false) Role role,
-            @RequestParam(required = false) String univName
+            @RequestParam(value = "role", required = false) Role role,
+            @RequestParam(value = "univName", required = false) String univName
     ) {
         PageResponse<UserInfoResponseDto> response = findAllByHeadqueatersUsecase.execute(role, univName, pageable);
         return SuccessResponse.of(response);

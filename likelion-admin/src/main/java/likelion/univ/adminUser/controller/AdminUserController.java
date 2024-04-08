@@ -29,7 +29,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j
 @RestController("adminUser.controller.RepresentativeController")
-@RequestMapping(value = "/v1/univAdmin")
+@RequestMapping("/v1/univAdmin")
 @RequiredArgsConstructor
 @Tag(name = "UserByUnivAdmin", description = "학교 대표에 의한 사용자 관련 API")
 public class AdminUserController {
