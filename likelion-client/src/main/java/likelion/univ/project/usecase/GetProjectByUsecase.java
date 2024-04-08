@@ -5,7 +5,7 @@ import likelion.univ.common.response.PageResponse;
 import likelion.univ.domain.project.entity.Project;
 import likelion.univ.domain.project.repository.ProjectImageRepository;
 import likelion.univ.domain.project.repository.ProjectRepository;
-import likelion.univ.domain.university.adaptor.UniversityAdaptor;
+import likelion.univ.domain.university.repository.UniversityRepository;
 import likelion.univ.project.dto.response.ProjectListResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -17,7 +17,7 @@ public class GetProjectByUsecase {
 
     private final ProjectRepository projectRepository;
     private final ProjectImageRepository projectImageRepository;
-    private final UniversityAdaptor universityAdaptor;
+    private final UniversityRepository universityRepository;
 
     public PageResponse<ProjectListResponseDto> execute(Long ordinal, Pageable pageable) {
         long recentOrdinal = projectRepository.findLatestOrdinal();
@@ -39,7 +39,7 @@ public class GetProjectByUsecase {
 
     public String getUniversityName(Project project) {
         if (project.getUniv() != null) {
-            return universityAdaptor.findById(project.getUniv().getId()).getName();
+            return universityRepository.getById(project.getUniv().getId()).getName();
         }
         return null;
     }

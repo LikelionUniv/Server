@@ -1,7 +1,7 @@
 package likelion.univ.domain.university.service;
 
-import likelion.univ.domain.university.adaptor.UniversityAdaptor;
 import likelion.univ.domain.university.entity.University;
+import likelion.univ.domain.university.repository.UniversityRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,9 +11,9 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class UniversityService {
 
-    private final UniversityAdaptor universityAdaptor;
+    private final UniversityRepository universityRepository;
 
     public University findByName(String name) {
-        return universityAdaptor.findByName(name);
+        return universityRepository.getByName(name);
     }
 }

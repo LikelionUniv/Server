@@ -5,7 +5,7 @@ import likelion.univ.common.response.PageResponse;
 import likelion.univ.domain.project.entity.Project;
 import likelion.univ.domain.project.repository.ProjectImageRepository;
 import likelion.univ.domain.project.repository.ProjectRepository;
-import likelion.univ.domain.university.adaptor.UniversityAdaptor;
+import likelion.univ.domain.university.repository.UniversityRepository;
 import likelion.univ.project.dto.response.ProjectListResponseDto;
 import likelion.univ.project.dto.response.ProjectResponseDto;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +18,7 @@ public class GetAllProjectUsecase {
 
     private final ProjectRepository projectRepository;
     private final ProjectImageRepository projectImageRepository;
-    private final UniversityAdaptor universityAdaptor;
+    private final UniversityRepository universityRepository;
 
     public PageResponse<ProjectResponseDto> execute(Pageable pageable) {
         Page<Project> projects = projectRepository.findAll(pageable);
@@ -31,7 +31,7 @@ public class GetAllProjectUsecase {
 
     public String getUniversityName(Project project) {
         if (project.getUniv() != null) {
-            return universityAdaptor.findById(project.getUniv().getId()).getName();
+            return universityRepository.getById(project.getUniv().getId()).getName();
         }
         return null;
     }

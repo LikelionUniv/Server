@@ -5,8 +5,8 @@ import likelion.univ.auth.dto.request.SignUpRequestDto;
 import likelion.univ.auth.dto.response.AccountTokenDto;
 import likelion.univ.auth.processor.GenerateAccountTokenProcessor;
 import likelion.univ.auth.processor.LoginByIdTokenProcessor;
-import likelion.univ.domain.university.adaptor.UniversityAdaptor;
 import likelion.univ.domain.university.entity.University;
+import likelion.univ.domain.university.repository.UniversityRepository;
 import likelion.univ.domain.user.adaptor.UserAdaptor;
 import likelion.univ.domain.user.entity.AuthInfo;
 import likelion.univ.domain.user.entity.LoginType;
@@ -22,7 +22,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class SignUpUsecase {
 
-    private final UniversityAdaptor universityAdaptor;
+    private final UniversityRepository universityRepository;
     private final UserDomainService userDomainService;
     private final UserAdaptor userAdaptor;
     private final LoginByIdTokenProcessor loginByIdTokenProcessor;
@@ -35,7 +35,7 @@ public class SignUpUsecase {
         if (!userAdaptor.checkEmail(userInfo.getEmail())) {
             Profile profile = Profile.fromName(signUpRequestDto.getName());
 
-            University university = universityAdaptor.findByName(signUpRequestDto.getUniversityName());
+            University university = universityRepository.getByName(signUpRequestDto.getUniversityName());
             UniversityInfo universityInfo = UniversityInfo.universityInfoForSignUp(university,
                     signUpRequestDto.getMajor());
 

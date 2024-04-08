@@ -11,7 +11,7 @@ import likelion.univ.domain.project.repository.ProjectMemberRepository;
 import likelion.univ.domain.project.repository.ProjectRepository;
 import likelion.univ.domain.project.repository.ProjectTechRepository;
 import likelion.univ.domain.project.repository.TechRepository;
-import likelion.univ.domain.university.adaptor.UniversityAdaptor;
+import likelion.univ.domain.university.repository.UniversityRepository;
 import likelion.univ.project.dto.response.ProjectMemberResponseDto;
 import likelion.univ.project.dto.response.ProjectResponseDto;
 import lombok.RequiredArgsConstructor;
@@ -25,13 +25,13 @@ public class GetProjectUsecase {
     private final ProjectMemberRepository projectMemberRepository;
     private final ProjectTechRepository projectTechRepository;
     private final TechRepository techRepository;
-    private final UniversityAdaptor universityAdaptor;
+    private final UniversityRepository universityRepository;
 
     public ProjectResponseDto execute(Long id) {
         Project project = projectRepository.getById(id);
         String univ = null;
         if (project.getUniv() != null) {
-            univ = universityAdaptor.findById(project.getUniv().getId()).getName();
+            univ = universityRepository.getById(project.getUniv().getId()).getName();
         }
 
         List<Tech> projectTeches = projectTechRepository.findByProject(project).stream()

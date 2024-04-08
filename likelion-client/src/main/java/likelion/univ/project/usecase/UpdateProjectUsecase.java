@@ -11,7 +11,7 @@ import likelion.univ.domain.project.service.ProjectImageService;
 import likelion.univ.domain.project.service.ProjectMemberService;
 import likelion.univ.domain.project.service.ProjectService;
 import likelion.univ.domain.project.service.ProjectTechService;
-import likelion.univ.domain.university.adaptor.UniversityAdaptor;
+import likelion.univ.domain.university.repository.UniversityRepository;
 import likelion.univ.domain.user.adaptor.UserAdaptor;
 import likelion.univ.domain.user.entity.Part;
 import likelion.univ.domain.user.entity.User;
@@ -33,7 +33,7 @@ public class UpdateProjectUsecase {
     private final ProjectMemberService projectMemberService;
     private final ProjectRepository projectRepository;
     private final UserAdaptor userAdaptor;
-    private final UniversityAdaptor universityAdaptor;
+    private final UniversityRepository universityRepository;
 
     @Transactional
     public ProjectIdResponseDto execute(Long projectId, ProjectRequestDto projectRequestDto) {
@@ -50,7 +50,7 @@ public class UpdateProjectUsecase {
 
         Project editProject = projectRequestDto.toEntity();
         if (!projectRequestDto.getUniv().isEmpty()) {
-            editProject.updateUniv(universityAdaptor.findByName(projectRequestDto.getUniv()));
+            editProject.updateUniv(universityRepository.getByName(projectRequestDto.getUniv()));
         } else {
             editProject.updateUniv(null);
         }
