@@ -5,8 +5,8 @@ import java.util.stream.Collectors;
 import likelion.univ.annotation.UseCase;
 import likelion.univ.common.response.PageResponse;
 import likelion.univ.domain.like.postlike.adaptor.PostLikeAdaptor;
-import likelion.univ.domain.post.adaptor.PostAdaptor;
 import likelion.univ.domain.post.entity.Post;
+import likelion.univ.domain.post.repository.PostRepository;
 import likelion.univ.post.processor.GetOrCreatePostCountInfoProcessor;
 import likelion.univ.user.dto.response.UserPagePostsDto;
 import likelion.univ.utils.AuthenticatedUserUtils;
@@ -19,13 +19,13 @@ import org.springframework.data.domain.Pageable;
 public class GetUserLikedPostsUsecase {
 
     private final AuthenticatedUserUtils authenticatedUserUtils;
-    private final PostAdaptor postAdaptor;
+    private final PostRepository postRepository;
     private final GetOrCreatePostCountInfoProcessor getOrCreatePostCountInfoProcessor;
     private final PostLikeAdaptor postLikeAdaptor;
 
     public PageResponse<UserPagePostsDto> execute(Long userId, Pageable pageable, String sort, String search) {
         Long currentUserId = authenticatedUserUtils.getCurrentUserId();
-        Page<Post> posts = postAdaptor.findByPostLikeAuthorId(userId, pageable, sort, search);
+        Page<Post> posts = postRepository.findByPostLikeAuthorId(userId, pageable, sort, search);
 
         List<Long> postIds = posts.get().map(p -> p.getId()).collect(Collectors.toList());
         List<Long> myLikedPostIds = postLikeAdaptor.findPostIdsByUserIdAndPostIdsIn(currentUserId, postIds);

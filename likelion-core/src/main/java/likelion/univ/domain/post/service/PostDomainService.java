@@ -3,7 +3,6 @@ package likelion.univ.domain.post.service;
 import java.util.List;
 import likelion.univ.domain.follow.adaptor.FollowAdaptor;
 import likelion.univ.domain.like.postlike.adaptor.PostLikeAdaptor;
-import likelion.univ.domain.post.adaptor.PostAdaptor;
 import likelion.univ.domain.post.dto.enums.MainCategory;
 import likelion.univ.domain.post.dto.enums.PostOrderCondition;
 import likelion.univ.domain.post.dto.enums.SubCategory;
@@ -20,6 +19,7 @@ import likelion.univ.domain.post.dto.response.PostSimpleData;
 import likelion.univ.domain.post.entity.Post;
 import likelion.univ.domain.post.exception.PostNoAuthorizationException;
 import likelion.univ.domain.post.exception.PostNotFoundException;
+import likelion.univ.domain.post.repository.PostRepository;
 import likelion.univ.domain.user.adaptor.UserAdaptor;
 import likelion.univ.domain.user.entity.Profile;
 import likelion.univ.domain.user.entity.UniversityInfo;
@@ -36,7 +36,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class PostDomainService {
 
-    private final PostAdaptor postAdaptor;
+    private final PostRepository postRepository;
     private final UserAdaptor userAdaptor;
     private final FollowAdaptor followAdaptor;
     private final PostLikeAdaptor postLikeAdaptor;
@@ -46,7 +46,7 @@ public class PostDomainService {
         Long loginUserId = request.loginUserId();
 
         // post entity data
-        Post post = postAdaptor.findById(postId);
+        Post post = postRepository.getById(postId);
         Boolean isLikedPost = postLikeAdaptor.existsByPostIdAndAuthorId(postId, loginUserId);
         Integer postLikeCount = Math.toIntExact(postLikeAdaptor.countByPostId(postId));
 
@@ -76,7 +76,7 @@ public class PostDomainService {
     }
 
     public PostEditData getPostEditById(Long postId) {
-        PostEditData postEdit = postAdaptor.findPostEditByPostId(postId);
+        PostEditData postEdit = postRepository.findPostEditByPostId(postId);
         if (postEdit == null) {
             throw new PostNotFoundException();
         }
@@ -88,7 +88,7 @@ public class PostDomainService {
                                                                   Pageable pageable) {
         MainCategory mainCategory = request.mainCategory();
         SubCategory subCategory = request.subCategory();
-        Page<Post> posts = postAdaptor.findByCategoriesOrderByCreatedDate(mainCategory, subCategory, pageable);
+        Page<Post> posts = postRepository.findByCategoriesOrderByCreatedDate(mainCategory, subCategory, pageable);
         List<PostSimpleData> postSimpleDataList = posts.stream().map(PostSimpleData::of).toList();
         return new PageImpl<>(postSimpleDataList, pageable, posts.getTotalElements());
     }
@@ -97,7 +97,7 @@ public class PostDomainService {
                                                                 Pageable pageable) {
         MainCategory mainCategory = request.mainCategory();
         SubCategory subCategory = request.subCategory();
-        Page<Post> posts = postAdaptor.findByCategoriesOrderByLikeCount(mainCategory, subCategory, pageable);
+        Page<Post> posts = postRepository.findByCategoriesOrderByLikeCount(mainCategory, subCategory, pageable);
         List<PostSimpleData> postSimpleDataList = posts.stream().map(PostSimpleData::of).toList();
         return new PageImpl<>(postSimpleDataList, pageable, posts.getTotalElements());
     }
@@ -106,7 +106,7 @@ public class PostDomainService {
                                                                    Pageable pageable) {
         MainCategory mainCategory = request.mainCategory();
         SubCategory subCategory = request.subCategory();
-        Page<Post> posts = postAdaptor.findByCategoriesOrderByCommentCount(mainCategory, subCategory, pageable);
+        Page<Post> posts = postRepository.findByCategoriesOrderByCommentCount(mainCategory, subCategory, pageable);
         List<PostSimpleData> postSimpleDataList = posts.stream().map(PostSimpleData::of).toList();
         return new PageImpl<>(postSimpleDataList, pageable, posts.getTotalElements());
     }
@@ -119,13 +119,14 @@ public class PostDomainService {
         SubCategory subCategory = request.subCategory();
 
         if (orderCondition.equals(PostOrderCondition.COMMENT_COUNT_ORDER)) {
-            return postAdaptor.findByCategoriesAndSearchTitleOrderByCommentCount(searchTitle, mainCategory, subCategory,
+            return postRepository.findByCategoriesAndSearchTitleOrderByCommentCount(searchTitle, mainCategory,
+                    subCategory,
                     pageable);
         } else if (orderCondition.equals(PostOrderCondition.LIKE_COUNT_ORDER)) {
-            return postAdaptor.findByCategoriesAndSearchTitleOrderByLikeCount(searchTitle, mainCategory, subCategory,
+            return postRepository.findByCategoriesAndSearchTitleOrderByLikeCount(searchTitle, mainCategory, subCategory,
                     pageable);
         } // order by created date
-        return postAdaptor.findByCategoriesAndSearchTitleOrderByCreatedDate(searchTitle, mainCategory, subCategory,
+        return postRepository.findByCategoriesAndSearchTitleOrderByCreatedDate(searchTitle, mainCategory, subCategory,
                 pageable);
     }
 
@@ -134,38 +135,36 @@ public class PostDomainService {
         String searchTitle = request.searchTitle();
 
         if (orderCondition.equals(PostOrderCondition.LIKE_COUNT_ORDER)) {
-            return postAdaptor.findBySearchTitleOrderByLikeCount(searchTitle, pageable);
+            return postRepository.findBySearchTitleOrderByLikeCount(searchTitle, pageable);
         } else if (orderCondition.equals(PostOrderCondition.COMMENT_COUNT_ORDER)) {
-            return postAdaptor.findBySearchTitleOrderByCommentCount(searchTitle, pageable);
+            return postRepository.findBySearchTitleOrderByCommentCount(searchTitle, pageable);
         }
-        return postAdaptor.findBySearchTitleOrderByCreatedDate(searchTitle, pageable);
+        return postRepository.findBySearchTitleOrderByCreatedDate(searchTitle, pageable);
     }
 
     @Transactional
     public Long createPost(CreatePostCommand request) {
         Post post = createEntity(request);
-        Long savedId = postAdaptor.save(post);
-        return savedId;
+        return postRepository.save(post).getId();
     }
 
     @Transactional
     public Long editPost(UpdatePostCommand request) {
-        Post post = postAdaptor.findById(request.postId());
+        Post post = postRepository.getById(request.postId());
         if (!(post.getAuthor().getId().equals(request.loginUserId()))) {
             throw new PostNoAuthorizationException();
         }
         post.edit(request);
-        Long saveId = postAdaptor.save(post);
-        return saveId;
+        return postRepository.save(post).getId();
     }
 
     @Transactional
     public void deletePost(DeletePostCommand request) {
-        Post post = postAdaptor.findById(request.postId());
+        Post post = postRepository.getById(request.postId());
         if (!(post.getAuthor().getId().equals(request.loginUserId()))) {
             throw new PostNoAuthorizationException();
         }
-        postAdaptor.delete(post);
+        postRepository.delete(post);
     }
 
     private Post createEntity(CreatePostCommand request) {

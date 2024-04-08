@@ -6,10 +6,10 @@ import likelion.univ.annotation.UseCase;
 import likelion.univ.common.response.PageResponse;
 import likelion.univ.domain.comment.adaptor.CommentAdaptor;
 import likelion.univ.domain.like.postlike.adaptor.PostLikeAdaptor;
-import likelion.univ.domain.post.adaptor.PostAdaptor;
 import likelion.univ.domain.post.dto.enums.MainCategory;
 import likelion.univ.domain.post.dto.enums.SubCategory;
 import likelion.univ.domain.post.entity.Post;
+import likelion.univ.domain.post.repository.PostRepository;
 import likelion.univ.domain.user.entity.User;
 import likelion.univ.post.dao.PostCountInfoRedisDao;
 import likelion.univ.post.entity.PostCountInfo;
@@ -23,7 +23,7 @@ import org.springframework.data.domain.Pageable;
 @RequiredArgsConstructor
 public class GetPostsByCategoriesAndUniversityUseCase {
 
-    private final PostAdaptor postAdaptor;
+    private final PostRepository postRepository;
     private final PostLikeAdaptor postLikeAdaptor;
     private final CommentAdaptor commentAdaptor;
     private final PostCountInfoRedisDao postCountInfoRedisDao;
@@ -37,7 +37,7 @@ public class GetPostsByCategoriesAndUniversityUseCase {
             SubCategory subCategory
     ) {
         User user = authenticatedUserUtils.getCurrentUser();
-        Page<Post> posts = postAdaptor.findPostsByCategoriesAndUniversityOrderByCreatedDate
+        Page<Post> posts = postRepository.findByCategoriesAndUniversityOrderByCreatedDate
                 (mainCategory, subCategory, user.getUniversityInfo().getUniversity().getId(), pageable);
         return PageResponse.of(posts.map(this::createResult));
     }

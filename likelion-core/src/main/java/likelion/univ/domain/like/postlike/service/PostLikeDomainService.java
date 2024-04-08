@@ -4,8 +4,8 @@ import likelion.univ.domain.comment.exception.NotAuthorizedException;
 import likelion.univ.domain.like.postlike.adaptor.PostLikeAdaptor;
 import likelion.univ.domain.like.postlike.dto.PostLikeCommand;
 import likelion.univ.domain.like.postlike.entity.PostLike;
-import likelion.univ.domain.post.adaptor.PostAdaptor;
 import likelion.univ.domain.post.entity.Post;
+import likelion.univ.domain.post.repository.PostRepository;
 import likelion.univ.domain.user.adaptor.UserAdaptor;
 import likelion.univ.domain.user.entity.User;
 import lombok.RequiredArgsConstructor;
@@ -16,13 +16,13 @@ import org.springframework.stereotype.Service;
 public class PostLikeDomainService {
 
     private final PostLikeAdaptor postLikeAdaptor;
-    private final PostAdaptor postAdaptor;
+    private final PostRepository postRepository;
     private final UserAdaptor userAdaptor;
 
     public boolean createOrDeletePostLike(PostLikeCommand request) {
         Long postId = request.postId();
         Long loginUserId = request.loginUserId();
-        Post post = postAdaptor.findById(postId);
+        Post post = postRepository.getById(postId);
         User user = userAdaptor.findById(loginUserId);
 
         if (existsPostLike(postId, loginUserId)) {
@@ -50,7 +50,7 @@ public class PostLikeDomainService {
     private PostLike newPostLikeBy(PostLikeCommand request) {
         Long postId = request.postId();
         Long loginUserId = request.loginUserId();
-        Post findPost = postAdaptor.findById(postId);
+        Post findPost = postRepository.getById(postId);
         User findUser = userAdaptor.findById(loginUserId);
         return PostLike.builder()
                 .post(findPost)

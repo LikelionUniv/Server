@@ -14,8 +14,8 @@ import likelion.univ.domain.comment.dto.response.ParentCommentData;
 import likelion.univ.domain.comment.entity.Comment;
 import likelion.univ.domain.comment.exception.NotAuthorizedException;
 import likelion.univ.domain.like.commentlike.adaptor.CommentLikeAdaptor;
-import likelion.univ.domain.post.adaptor.PostAdaptor;
 import likelion.univ.domain.post.entity.Post;
+import likelion.univ.domain.post.repository.PostRepository;
 import likelion.univ.domain.user.adaptor.UserAdaptor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -27,14 +27,14 @@ import org.springframework.transaction.annotation.Transactional;
 public class CommentDomainService {
 
     private final CommentAdaptor commentAdaptor;
-    private final PostAdaptor postAdaptor;
+    private final PostRepository postRepository;
     private final UserAdaptor userAdaptor;
     private final CommentLikeAdaptor commentLikeAdaptor;
 
     public CommentData getComment(GetCommentCommand command) {
         Long postId = command.postId();
         Long loginUserId = command.loginUserId();
-        Long authorId = postAdaptor.findById(postId).getAuthor().getId();
+        Long authorId = postRepository.getById(postId).getAuthor().getId();
 
         // comment entity data
         List<Comment> parentComments = commentAdaptor.findParentCommentsByPostId(postId);
@@ -89,7 +89,7 @@ public class CommentDomainService {
     /* --------------- 내부 편의 메서드 --------------- */
     private Comment parentCommentBy(CreateParentCommentCommand request) {
         return Comment.builder()
-                .post(postAdaptor.findById(request.postId()))
+                .post(postRepository.getById(request.postId()))
                 .author(userAdaptor.findById(request.loginUserId()))
                 .body(request.body())
                 .build();
