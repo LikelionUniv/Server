@@ -1,7 +1,7 @@
 package likelion.univ.example.usecase;
 
 import likelion.univ.annotation.UseCase;
-import likelion.univ.domain.example.adaptor.ExampleAdaptor;
+import likelion.univ.domain.example.repository.ExampleRepository;
 import likelion.univ.domain.example.service.ExampleDomainService;
 import likelion.univ.domain.user.adaptor.UserAdaptor;
 import likelion.univ.domain.user.service.UserDomainService;
@@ -16,7 +16,7 @@ public class CreateExampleUsecase {
     private final UserAdaptor userAdaptor;
     private final UserDomainService userDomainService;
 
-    private final ExampleAdaptor exampleAdaptor;
+    private final ExampleRepository exampleRepository;
     private final ExampleDomainService exampleDomainService;
 
     /*

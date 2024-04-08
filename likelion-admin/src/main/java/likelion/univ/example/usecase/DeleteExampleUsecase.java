@@ -1,8 +1,8 @@
 package likelion.univ.example.usecase;
 
 import likelion.univ.annotation.UseCase;
-import likelion.univ.domain.example.adaptor.ExampleAdaptor;
 import likelion.univ.domain.example.entity.Example;
+import likelion.univ.domain.example.repository.ExampleRepository;
 import likelion.univ.domain.example.service.ExampleDomainService;
 import likelion.univ.domain.user.adaptor.UserAdaptor;
 import likelion.univ.domain.user.service.UserDomainService;
@@ -16,7 +16,7 @@ public class DeleteExampleUsecase {
     private final UserAdaptor userAdaptor;
     private final UserDomainService userDomainService;
 
-    private final ExampleAdaptor exampleAdaptor;
+    private final ExampleRepository exampleRepository;
     private final ExampleDomainService exampleDomainService;
 
     /*
@@ -26,7 +26,7 @@ public class DeleteExampleUsecase {
         Transaction의 영역의 로직은 domainservice 혹의 엔티티에 구현해주세요. (but, 엔티티에 구현은 최대한 자제)(예를들어 유저의경우 changeProfile 같은걸 엔티티에 구현)
     */
     public void execute(Long id) {
-        Example example = exampleAdaptor.findById(id);
-        exampleAdaptor.delete(example);
+        Example example = exampleRepository.getById(id);
+        exampleRepository.delete(example);
     }
 }
