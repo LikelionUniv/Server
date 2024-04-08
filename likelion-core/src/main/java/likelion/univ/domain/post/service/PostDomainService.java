@@ -2,7 +2,7 @@ package likelion.univ.domain.post.service;
 
 import java.util.List;
 import likelion.univ.domain.follow.adaptor.FollowAdaptor;
-import likelion.univ.domain.like.postlike.adaptor.PostLikeAdaptor;
+import likelion.univ.domain.like.postlike.repository.PostLikeRepository;
 import likelion.univ.domain.post.dto.enums.MainCategory;
 import likelion.univ.domain.post.dto.enums.PostOrderCondition;
 import likelion.univ.domain.post.dto.enums.SubCategory;
@@ -39,7 +39,7 @@ public class PostDomainService {
     private final PostRepository postRepository;
     private final UserAdaptor userAdaptor;
     private final FollowAdaptor followAdaptor;
-    private final PostLikeAdaptor postLikeAdaptor;
+    private final PostLikeRepository postLikeRepository;
 
     public PostDetailData getPostDetail(GetPostDetailCommand request) {
         Long postId = request.postId();
@@ -47,8 +47,8 @@ public class PostDomainService {
 
         // post entity data
         Post post = postRepository.getById(postId);
-        Boolean isLikedPost = postLikeAdaptor.existsByPostIdAndAuthorId(postId, loginUserId);
-        Integer postLikeCount = Math.toIntExact(postLikeAdaptor.countByPostId(postId));
+        Boolean isLikedPost = postLikeRepository.existsByPostIdAndUserId(postId, loginUserId);
+        Integer postLikeCount = Math.toIntExact(postLikeRepository.countByPostId(postId));
 
         // user entity data
         User author = post.getAuthor();

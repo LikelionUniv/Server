@@ -1,9 +1,9 @@
 package likelion.univ.domain.like.postlike.service;
 
 import likelion.univ.domain.comment.exception.NotAuthorizedException;
-import likelion.univ.domain.like.postlike.adaptor.PostLikeAdaptor;
 import likelion.univ.domain.like.postlike.dto.PostLikeCommand;
 import likelion.univ.domain.like.postlike.entity.PostLike;
+import likelion.univ.domain.like.postlike.repository.PostLikeRepository;
 import likelion.univ.domain.post.entity.Post;
 import likelion.univ.domain.post.repository.PostRepository;
 import likelion.univ.domain.user.adaptor.UserAdaptor;
@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class PostLikeDomainService {
 
-    private final PostLikeAdaptor postLikeAdaptor;
+    private final PostLikeRepository postLikeRepository;
     private final PostRepository postRepository;
     private final UserAdaptor userAdaptor;
 
@@ -26,20 +26,20 @@ public class PostLikeDomainService {
         User user = userAdaptor.findById(loginUserId);
 
         if (existsPostLike(postId, loginUserId)) {
-            PostLike postLike = postLikeAdaptor.findByPostAndUser(post, user);
+            PostLike postLike = postLikeRepository.getByPostAndUser(post, user);
             if (isAuthorized(postLike, loginUserId)) {
-                postLikeAdaptor.delete(postLike);
+                postLikeRepository.delete(postLike);
                 return false;
             }
             throw new NotAuthorizedException();
         }
         PostLike newPostLike = newPostLikeBy(request);
-        postLikeAdaptor.save(newPostLike);
+        postLikeRepository.save(newPostLike);
         return true;
     }
 
     private Boolean existsPostLike(Long postId, Long loginUserId) {
-        return postLikeAdaptor.existsByPostIdAndAuthorId(postId, loginUserId);
+        return postLikeRepository.existsByPostIdAndUserId(postId, loginUserId);
     }
 
     private boolean isAuthorized(PostLike findPostLike, Long loginUserId) {

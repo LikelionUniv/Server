@@ -5,7 +5,7 @@ import likelion.univ.adminPost.dto.response.PostInfoResponseDto;
 import likelion.univ.annotation.UseCase;
 import likelion.univ.common.response.PageResponse;
 import likelion.univ.domain.comment.adaptor.CommentAdaptor;
-import likelion.univ.domain.like.postlike.adaptor.PostLikeAdaptor;
+import likelion.univ.domain.like.postlike.repository.PostLikeRepository;
 import likelion.univ.domain.post.dto.enums.MainCategory;
 import likelion.univ.domain.post.dto.enums.SubCategory;
 import likelion.univ.domain.post.entity.Post;
@@ -24,7 +24,7 @@ import org.springframework.data.domain.Pageable;
 public class GetPostsByCategoriesAndUniversityUseCase {
 
     private final PostRepository postRepository;
-    private final PostLikeAdaptor postLikeAdaptor;
+    private final PostLikeRepository postLikeRepository;
     private final CommentAdaptor commentAdaptor;
     private final PostCountInfoRedisDao postCountInfoRedisDao;
     private final PostCountInfoRedisService postCountInfoRedisService;
@@ -51,7 +51,7 @@ public class GetPostsByCategoriesAndUniversityUseCase {
         Optional<PostCountInfo> postCountInfo = postCountInfoRedisDao.findById(postId);
         if (postCountInfo.isEmpty()) {
             Long commentCount = commentAdaptor.countByPostId(postId);
-            Long likeCount = postLikeAdaptor.countByPostId(postId);
+            Long likeCount = postLikeRepository.countByPostId(postId);
             return postCountInfoRedisService.save(postId, commentCount, likeCount);
         }
         return postCountInfo.get();
