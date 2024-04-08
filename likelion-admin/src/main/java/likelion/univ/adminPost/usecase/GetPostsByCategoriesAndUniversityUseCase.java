@@ -4,7 +4,7 @@ import java.util.Optional;
 import likelion.univ.adminPost.dto.response.PostInfoResponseDto;
 import likelion.univ.annotation.UseCase;
 import likelion.univ.common.response.PageResponse;
-import likelion.univ.domain.comment.adaptor.CommentAdaptor;
+import likelion.univ.domain.comment.repository.CommentRepository;
 import likelion.univ.domain.like.postlike.repository.PostLikeRepository;
 import likelion.univ.domain.post.dto.enums.MainCategory;
 import likelion.univ.domain.post.dto.enums.SubCategory;
@@ -25,7 +25,7 @@ public class GetPostsByCategoriesAndUniversityUseCase {
 
     private final PostRepository postRepository;
     private final PostLikeRepository postLikeRepository;
-    private final CommentAdaptor commentAdaptor;
+    private final CommentRepository commentRepository;
     private final PostCountInfoRedisDao postCountInfoRedisDao;
     private final PostCountInfoRedisService postCountInfoRedisService;
 
@@ -50,7 +50,7 @@ public class GetPostsByCategoriesAndUniversityUseCase {
     private PostCountInfo getPostCountInfo(Long postId) {
         Optional<PostCountInfo> postCountInfo = postCountInfoRedisDao.findById(postId);
         if (postCountInfo.isEmpty()) {
-            Long commentCount = commentAdaptor.countByPostId(postId);
+            Long commentCount = commentRepository.countByPostId(postId);
             Long likeCount = postLikeRepository.countByPostId(postId);
             return postCountInfoRedisService.save(postId, commentCount, likeCount);
         }

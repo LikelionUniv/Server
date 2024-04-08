@@ -1,11 +1,14 @@
 package likelion.univ.domain.comment.repository;
 
 import likelion.univ.domain.comment.entity.Comment;
+import likelion.univ.domain.comment.exception.CommentNotFoundException;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface CommentRepository extends JpaRepository<Comment, Long>, CommentRepositoryCustom {
 
-    Long countByPostId(Long postId);
+    default Comment getById(Long id) {
+        return findById(id).orElseThrow(CommentNotFoundException::new);
+    }
 
-    Comment findByPostId(Long postId);
+    Long countByPostId(Long postId);
 }

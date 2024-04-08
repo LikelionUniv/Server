@@ -1,7 +1,7 @@
 package likelion.univ.domain.like.commentlike.service;
 
-import likelion.univ.domain.comment.adaptor.CommentAdaptor;
 import likelion.univ.domain.comment.exception.NotAuthorizedException;
+import likelion.univ.domain.comment.repository.CommentRepository;
 import likelion.univ.domain.like.commentlike.adaptor.CommentLikeAdaptor;
 import likelion.univ.domain.like.commentlike.dto.request.CommentLikeCommand;
 import likelion.univ.domain.like.commentlike.entity.CommentLike;
@@ -16,7 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class CommentLikeDomainService {
 
     private final UserAdaptor userAdaptor;
-    private final CommentAdaptor commentAdaptor;
+    private final CommentRepository commentRepository;
     private final CommentLikeAdaptor commentLikeAdaptor;
 
     public boolean createOrDeleteCommentLike(CommentLikeCommand request) throws NotAuthorizedException {
@@ -47,7 +47,7 @@ public class CommentLikeDomainService {
     private CommentLike getCommentLike(CommentLikeCommand request) {
         return CommentLike.builder()
                 .user(userAdaptor.findById(request.loginUserId()))
-                .comment(commentAdaptor.findById(request.commentId()))
+                .comment(commentRepository.getById(request.commentId()))
                 .build();
     }
 
