@@ -13,7 +13,7 @@ import likelion.univ.domain.comment.dto.response.ParentCommentData;
 import likelion.univ.domain.comment.entity.Comment;
 import likelion.univ.domain.comment.exception.NotAuthorizedException;
 import likelion.univ.domain.comment.repository.CommentRepository;
-import likelion.univ.domain.like.commentlike.adaptor.CommentLikeAdaptor;
+import likelion.univ.domain.like.commentlike.repository.CommentLikeRepository;
 import likelion.univ.domain.post.entity.Post;
 import likelion.univ.domain.post.repository.PostRepository;
 import likelion.univ.domain.user.adaptor.UserAdaptor;
@@ -29,7 +29,7 @@ public class CommentDomainService {
     private final CommentRepository commentRepository;
     private final PostRepository postRepository;
     private final UserAdaptor userAdaptor;
-    private final CommentLikeAdaptor commentLikeAdaptor;
+    private final CommentLikeRepository commentLikeRepository;
 
     public CommentData getComment(GetCommentCommand command) {
         Long postId = command.postId();
@@ -41,9 +41,10 @@ public class CommentDomainService {
         List<Comment> childComments = commentRepository.findChildCommentsByPostId(postId);
 
         List<ParentCommentData> parentCommentData = parentComments.stream().map(i -> ParentCommentData.of(i,
-                commentLikeAdaptor.existsByCommentIdAndUserId(i.getId(), loginUserId))).toList();
+                commentLikeRepository.existsByCommentIdAndUserId(i.getId(), loginUserId))).toList();
         List<ChildCommentData> childCommentData = childComments.stream()
-                .map(i -> ChildCommentData.of(i, commentLikeAdaptor.existsByCommentIdAndUserId(i.getId(), loginUserId)))
+                .map(i -> ChildCommentData.of(i,
+                        commentLikeRepository.existsByCommentIdAndUserId(i.getId(), loginUserId)))
                 .toList();
 
         return new CommentData(authorId, parentCommentData, childCommentData);

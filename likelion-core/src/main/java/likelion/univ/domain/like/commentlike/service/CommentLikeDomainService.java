@@ -2,9 +2,9 @@ package likelion.univ.domain.like.commentlike.service;
 
 import likelion.univ.domain.comment.exception.NotAuthorizedException;
 import likelion.univ.domain.comment.repository.CommentRepository;
-import likelion.univ.domain.like.commentlike.adaptor.CommentLikeAdaptor;
 import likelion.univ.domain.like.commentlike.dto.request.CommentLikeCommand;
 import likelion.univ.domain.like.commentlike.entity.CommentLike;
+import likelion.univ.domain.like.commentlike.repository.CommentLikeRepository;
 import likelion.univ.domain.user.adaptor.UserAdaptor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,7 +17,7 @@ public class CommentLikeDomainService {
 
     private final UserAdaptor userAdaptor;
     private final CommentRepository commentRepository;
-    private final CommentLikeAdaptor commentLikeAdaptor;
+    private final CommentLikeRepository commentLikeRepository;
 
     public boolean createOrDeleteCommentLike(CommentLikeCommand request) throws NotAuthorizedException {
         Long commentId = request.commentId();
@@ -25,23 +25,23 @@ public class CommentLikeDomainService {
 
         // 이미 좋아요 했으면 취소
         if (existsCommentLike(commentId, loginUserId)) {
-            CommentLike commentLike = commentLikeAdaptor.findByCommentIdAndUserId(commentId, loginUserId);
+            CommentLike commentLike = commentLikeRepository.getByCommentIdAndUserId(commentId, loginUserId);
             if (isAuthorized(commentLike.getUser().getId(), loginUserId)) {
-                commentLikeAdaptor.delete(commentLike);
+                commentLikeRepository.delete(commentLike);
                 return false;
             }
             throw new NotAuthorizedException();
         }
         // 좋아요 없으면 새로 생성
         CommentLike newLike = getCommentLike(request);
-        commentLikeAdaptor.save(newLike);
+        commentLikeRepository.save(newLike);
         return true;
     }
 
     /* ----- 내부 편의 메서드 ------ */
 
     private Boolean existsCommentLike(Long commentId, Long userId) {
-        return commentLikeAdaptor.existsByCommentIdAndUserId(commentId, userId);
+        return commentLikeRepository.existsByCommentIdAndUserId(commentId, userId);
     }
 
     private CommentLike getCommentLike(CommentLikeCommand request) {
