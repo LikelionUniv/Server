@@ -5,7 +5,7 @@ import likelion.univ.domain.comment.repository.CommentRepository;
 import likelion.univ.domain.like.commentlike.dto.request.CommentLikeCommand;
 import likelion.univ.domain.like.commentlike.entity.CommentLike;
 import likelion.univ.domain.like.commentlike.repository.CommentLikeRepository;
-import likelion.univ.domain.user.adaptor.UserAdaptor;
+import likelion.univ.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,7 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class CommentLikeDomainService {
 
-    private final UserAdaptor userAdaptor;
+    private final UserRepository userRepository;
     private final CommentRepository commentRepository;
     private final CommentLikeRepository commentLikeRepository;
 
@@ -46,7 +46,7 @@ public class CommentLikeDomainService {
 
     private CommentLike getCommentLike(CommentLikeCommand request) {
         return CommentLike.builder()
-                .user(userAdaptor.findById(request.loginUserId()))
+                .user(userRepository.getById(request.loginUserId()))
                 .comment(commentRepository.getById(request.commentId()))
                 .build();
     }

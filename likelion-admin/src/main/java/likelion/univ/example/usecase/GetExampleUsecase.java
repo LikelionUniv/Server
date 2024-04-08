@@ -3,9 +3,6 @@ package likelion.univ.example.usecase;
 import likelion.univ.annotation.UseCase;
 import likelion.univ.domain.example.entity.Example;
 import likelion.univ.domain.example.repository.ExampleRepository;
-import likelion.univ.domain.example.service.ExampleDomainService;
-import likelion.univ.domain.user.adaptor.UserAdaptor;
-import likelion.univ.domain.user.service.UserDomainService;
 import likelion.univ.example.dto.response.ExampleInfoResponseDto;
 import lombok.RequiredArgsConstructor;
 
@@ -14,11 +11,7 @@ import lombok.RequiredArgsConstructor;
 public class GetExampleUsecase {
 
     /* 예시로 적어놓은 유저어댑터 및 도메인서비스입니다. 필요하지않는 싱글톤 인스턴스들은 제거해주세요. */
-    private final UserAdaptor userAdaptor;
-    private final UserDomainService userDomainService;
-
     private final ExampleRepository exampleRepository;
-    private final ExampleDomainService exampleDomainService;
 
     /*
         하나의 usecase엔 하나의 기능만 담기

@@ -12,9 +12,9 @@ import likelion.univ.domain.project.service.ProjectMemberService;
 import likelion.univ.domain.project.service.ProjectService;
 import likelion.univ.domain.project.service.ProjectTechService;
 import likelion.univ.domain.university.repository.UniversityRepository;
-import likelion.univ.domain.user.adaptor.UserAdaptor;
 import likelion.univ.domain.user.entity.Part;
 import likelion.univ.domain.user.entity.User;
+import likelion.univ.domain.user.repository.UserRepository;
 import likelion.univ.project.dto.request.ProjectMemberRequestDto;
 import likelion.univ.project.dto.request.ProjectRequestDto;
 import likelion.univ.project.dto.response.ProjectIdResponseDto;
@@ -32,7 +32,7 @@ public class UpdateProjectUsecase {
     private final ProjectImageService projectImageService;
     private final ProjectMemberService projectMemberService;
     private final ProjectRepository projectRepository;
-    private final UserAdaptor userAdaptor;
+    private final UserRepository userRepository;
     private final UniversityRepository universityRepository;
 
     @Transactional
@@ -58,7 +58,7 @@ public class UpdateProjectUsecase {
         List<ProjectMemberRequestDto> projectMembersRequest = projectRequestDto.getProjectMembers();
         List<Long> ids = projectMembersRequest.stream()
                 .map(projectMemberRequestDto -> projectMemberRequestDto.getUserId()).toList();
-        List<User> requestUsers = userAdaptor.findAllByIdIn(ids);
+        List<User> requestUsers = userRepository.findAllByIdsExactly(ids);
 
         List<ProjectMember> projectMembers = projectMembersRequest.stream()
                 .map(p -> matchProjectMembers(p, project, requestUsers)).toList();

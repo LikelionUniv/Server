@@ -20,10 +20,10 @@ import likelion.univ.domain.post.entity.Post;
 import likelion.univ.domain.post.exception.PostNoAuthorizationException;
 import likelion.univ.domain.post.exception.PostNotFoundException;
 import likelion.univ.domain.post.repository.PostRepository;
-import likelion.univ.domain.user.adaptor.UserAdaptor;
 import likelion.univ.domain.user.entity.Profile;
 import likelion.univ.domain.user.entity.UniversityInfo;
 import likelion.univ.domain.user.entity.User;
+import likelion.univ.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -37,7 +37,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class PostDomainService {
 
     private final PostRepository postRepository;
-    private final UserAdaptor userAdaptor;
+    private final UserRepository userRepository;
     private final FollowRepository followRepository;
     private final PostLikeRepository postLikeRepository;
 
@@ -169,7 +169,7 @@ public class PostDomainService {
 
     private Post createEntity(CreatePostCommand request) {
         return Post.builder()
-                .author(userAdaptor.findById(request.authorId()))
+                .author(userRepository.getById(request.authorId()))
                 .title(request.title())
                 .body(request.body())
                 .thumbnail(request.thumbnail())

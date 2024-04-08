@@ -5,8 +5,8 @@ import static likelion.univ.constant.StaticValue.REFRESH_TOKEN;
 import likelion.univ.annotation.UseCase;
 import likelion.univ.auth.dto.response.AccountTokenDto;
 import likelion.univ.auth.processor.GenerateAccountTokenProcessor;
-import likelion.univ.domain.user.adaptor.UserAdaptor;
 import likelion.univ.domain.user.entity.User;
+import likelion.univ.domain.user.repository.UserRepository;
 import likelion.univ.exception.ExpiredTokenException;
 import likelion.univ.exception.InvalidTokenException;
 import likelion.univ.jwt.JwtProvider;
@@ -22,11 +22,11 @@ public class RefreshTokenUsecase {
     private final RefreshTokenRedisService refreshTokenRedisService;
     private final GenerateAccountTokenProcessor generateAccountTokenProcessor;
     private final JwtProvider jwtProvider;
-    private final UserAdaptor userAdaptor;
+    private final UserRepository userRepository;
 
     public AccountTokenDto execute(String refreshToken) {
         DecodedJwtToken decodedJwtToken = decodeRefreshToken(refreshToken);
-        User user = userAdaptor.findById(decodedJwtToken.getUserId());
+        User user = userRepository.getById(decodedJwtToken.getUserId());
 
         if (refreshTokenRedisService.checkToken(user.getId(), refreshToken)) {
             return generateAccountTokenProcessor.refreshToken(user, refreshToken);

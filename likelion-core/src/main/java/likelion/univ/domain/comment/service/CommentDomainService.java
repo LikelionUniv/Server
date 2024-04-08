@@ -16,7 +16,7 @@ import likelion.univ.domain.comment.repository.CommentRepository;
 import likelion.univ.domain.like.commentlike.repository.CommentLikeRepository;
 import likelion.univ.domain.post.entity.Post;
 import likelion.univ.domain.post.repository.PostRepository;
-import likelion.univ.domain.user.adaptor.UserAdaptor;
+import likelion.univ.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,7 +28,7 @@ public class CommentDomainService {
 
     private final CommentRepository commentRepository;
     private final PostRepository postRepository;
-    private final UserAdaptor userAdaptor;
+    private final UserRepository userRepository;
     private final CommentLikeRepository commentLikeRepository;
 
     public CommentData getComment(GetCommentCommand command) {
@@ -91,7 +91,7 @@ public class CommentDomainService {
     private Comment parentCommentBy(CreateParentCommentCommand request) {
         return Comment.builder()
                 .post(postRepository.getById(request.postId()))
-                .author(userAdaptor.findById(request.loginUserId()))
+                .author(userRepository.getById(request.loginUserId()))
                 .body(request.body())
                 .build();
     }
@@ -99,7 +99,7 @@ public class CommentDomainService {
     private Comment childCommentBy(CreateChildCommentCommand request) {
         Comment comment = Comment.builder()
                 .post(getPostFromParentComment(request))
-                .author(userAdaptor.findById(request.getLoginUserId()))
+                .author(userRepository.getById(request.getLoginUserId()))
                 .body(request.getBody())
                 .build();
         comment.setParent(commentRepository.getById(request.getParentCommentId()));

@@ -3,8 +3,8 @@ package likelion.univ.user.usecase;
 import java.util.Optional;
 import likelion.univ.annotation.UseCase;
 import likelion.univ.domain.follow.repository.FollowRepository;
-import likelion.univ.domain.user.adaptor.UserAdaptor;
 import likelion.univ.domain.user.entity.User;
+import likelion.univ.domain.user.repository.UserRepository;
 import likelion.univ.follow.dao.FollowNumRedisDao;
 import likelion.univ.follow.entity.FollowNum;
 import likelion.univ.follow.service.FollowNumRedisService;
@@ -17,14 +17,14 @@ import lombok.RequiredArgsConstructor;
 public class GetProfileUsecase {
 
     private final AuthenticatedUserUtils authenticatedUserUtils;
-    private final UserAdaptor userAdaptor;
+    private final UserRepository userRepository;
     private final FollowNumRedisDao followNumRedisDao;
     private final FollowNumRedisService followNumRedisService;
     private final FollowRepository followRepository;
 
     public ProfileDetailsDto execute(Long userId) {
         Long currentUserId = authenticatedUserUtils.getCurrentUserId();
-        User user = userAdaptor.findByIdWithUniversity(userId);
+        User user = userRepository.getByIdWithUniversity(userId);
 
         return createDto(user, currentUserId);
     }

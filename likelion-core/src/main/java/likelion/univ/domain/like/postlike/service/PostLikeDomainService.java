@@ -6,8 +6,8 @@ import likelion.univ.domain.like.postlike.entity.PostLike;
 import likelion.univ.domain.like.postlike.repository.PostLikeRepository;
 import likelion.univ.domain.post.entity.Post;
 import likelion.univ.domain.post.repository.PostRepository;
-import likelion.univ.domain.user.adaptor.UserAdaptor;
 import likelion.univ.domain.user.entity.User;
+import likelion.univ.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -17,13 +17,13 @@ public class PostLikeDomainService {
 
     private final PostLikeRepository postLikeRepository;
     private final PostRepository postRepository;
-    private final UserAdaptor userAdaptor;
+    private final UserRepository userRepository;
 
     public boolean createOrDeletePostLike(PostLikeCommand request) {
         Long postId = request.postId();
         Long loginUserId = request.loginUserId();
         Post post = postRepository.getById(postId);
-        User user = userAdaptor.findById(loginUserId);
+        User user = userRepository.getById(loginUserId);
 
         if (existsPostLike(postId, loginUserId)) {
             PostLike postLike = postLikeRepository.getByPostAndUser(post, user);
@@ -51,7 +51,7 @@ public class PostLikeDomainService {
         Long postId = request.postId();
         Long loginUserId = request.loginUserId();
         Post findPost = postRepository.getById(postId);
-        User findUser = userAdaptor.findById(loginUserId);
+        User findUser = userRepository.getById(loginUserId);
         return PostLike.builder()
                 .post(findPost)
                 .user(findUser)

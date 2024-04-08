@@ -4,7 +4,6 @@ import likelion.univ.annotation.UseCase;
 import likelion.univ.domain.example.entity.Example;
 import likelion.univ.domain.example.repository.ExampleRepository;
 import likelion.univ.domain.example.service.ExampleDomainService;
-import likelion.univ.domain.user.adaptor.UserAdaptor;
 import likelion.univ.domain.user.service.UserDomainService;
 import lombok.RequiredArgsConstructor;
 
@@ -13,7 +12,6 @@ import lombok.RequiredArgsConstructor;
 public class DeleteExampleUsecase {
 
     /* 예시로 적어놓은 유저어댑터 및 도메인서비스입니다. 필요하지않는 싱글톤 인스턴스들은 제거해주세요. */
-    private final UserAdaptor userAdaptor;
     private final UserDomainService userDomainService;
 
     private final ExampleRepository exampleRepository;

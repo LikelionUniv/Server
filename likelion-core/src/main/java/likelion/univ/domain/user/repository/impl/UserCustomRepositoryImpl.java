@@ -36,7 +36,7 @@ public class UserCustomRepositoryImpl implements UserCustomRepository {
     private final ConvertSliceProcessor convertSliceProcessor;
 
     @Override
-    public List<User> findDynamicUsers(UserSearchCondition condition) {
+    public List<User> search(UserSearchCondition condition) {
         return queryFactory
                 .selectFrom(user)
                 .where(
@@ -142,7 +142,7 @@ public class UserCustomRepositoryImpl implements UserCustomRepository {
     }
 
     @Override
-    public Slice<User> findFollowingUsersByFollowerID(Long followerId, Pageable pageable) {
+    public Slice<User> findFollowingUsersByFollowerId(Long followerId, Pageable pageable) {
         List<User> users =
                 queryFactory
                         .select(follow.following)
@@ -158,7 +158,7 @@ public class UserCustomRepositoryImpl implements UserCustomRepository {
     }
 
     @Override
-    public Slice<User> findFollowerUsersByFollowingID(Long followingId, Pageable pageable) {
+    public Slice<User> findFollowerUsersByFollowingId(Long followingId, Pageable pageable) {
         List<User> users =
                 queryFactory
                         .select(user)

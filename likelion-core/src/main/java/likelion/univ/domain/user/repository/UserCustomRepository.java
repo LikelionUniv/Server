@@ -10,11 +10,11 @@ import org.springframework.data.domain.Slice;
 
 public interface UserCustomRepository {
 
-    List<User> findDynamicUsers(UserSearchCondition condition);
+    List<User> search(UserSearchCondition condition);
 
-    Slice<User> findFollowingUsersByFollowerID(Long userId, Pageable pageable);
+    Slice<User> findFollowingUsersByFollowerId(Long userId, Pageable pageable);
 
-    Slice<User> findFollowerUsersByFollowingID(Long userId, Pageable pageable);
+    Slice<User> findFollowerUsersByFollowingId(Long userId, Pageable pageable);
 
     Slice<User> searchByName(String name, Pageable pageable);
 
