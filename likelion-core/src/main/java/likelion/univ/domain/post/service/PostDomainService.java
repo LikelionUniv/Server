@@ -1,7 +1,7 @@
 package likelion.univ.domain.post.service;
 
 import java.util.List;
-import likelion.univ.domain.follow.adaptor.FollowAdaptor;
+import likelion.univ.domain.follow.repository.FollowRepository;
 import likelion.univ.domain.like.postlike.repository.PostLikeRepository;
 import likelion.univ.domain.post.dto.enums.MainCategory;
 import likelion.univ.domain.post.dto.enums.PostOrderCondition;
@@ -38,7 +38,7 @@ public class PostDomainService {
 
     private final PostRepository postRepository;
     private final UserAdaptor userAdaptor;
-    private final FollowAdaptor followAdaptor;
+    private final FollowRepository followRepository;
     private final PostLikeRepository postLikeRepository;
 
     public PostDetailData getPostDetail(GetPostDetailCommand request) {
@@ -55,7 +55,7 @@ public class PostDomainService {
         Profile authorProfile = author.getProfile();
         UniversityInfo authorUniversityInfo = author.getUniversityInfo();
         String authorProfileImageUrl = authorProfile.getProfileImage();
-        Boolean hasFollowedAuthor = followAdaptor.hasFollowedUser(loginUserId, author.getId());
+        Boolean hasFollowedAuthor = followRepository.existsByFollowerIdAndFollowingId(loginUserId, author.getId());
 
         return PostDetailData.builder()
                 .postId(post.getId())
