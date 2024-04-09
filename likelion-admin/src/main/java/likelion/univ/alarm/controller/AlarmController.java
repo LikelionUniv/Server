@@ -8,9 +8,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
 import likelion.univ.alarm.dto.GetAlarmsDto;
 import likelion.univ.alarm.dto.SendEmailDto;
-import likelion.univ.alarm.usecase.DeleteAlarmUsecase;
-import likelion.univ.alarm.usecase.GetAlarmsUsecase;
-import likelion.univ.alarm.usecase.SendEmailUsecase;
+import likelion.univ.alarm.service.AdminAlarmService;
 import likelion.univ.response.SuccessResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -29,9 +27,7 @@ import org.springframework.web.multipart.MultipartFile;
 @RequiredArgsConstructor
 public class AlarmController {
 
-    private final SendEmailUsecase sendEmailUsecase;
-    private final GetAlarmsUsecase getAlarmsUsecase;
-    private final DeleteAlarmUsecase deleteAlarmUsecase;
+    private final AdminAlarmService adminAlarmService;
 
     @Operation(
             summary = "이메일 알람 전송 API",
@@ -45,7 +41,7 @@ public class AlarmController {
             @RequestPart SendEmailDto sendEmailDto,
             @RequestPart(required = false) List<MultipartFile> attachments
     ) {
-        sendEmailUsecase.execute(sendEmailDto, attachments);
+        adminAlarmService.sendEmail(sendEmailDto, attachments);
         return SuccessResponse.of("리크루팅 알람 전송 성공");
     }
 
@@ -54,8 +50,8 @@ public class AlarmController {
             description = "알람 전송을 희망하는 분들을 조회하는 API 입니다."
     )
     @GetMapping
-    public SuccessResponse<GetAlarmsDto> getAlarms(@RequestParam("ordinal") Long ordinal) {
-        GetAlarmsDto response = getAlarmsUsecase.execute(ordinal);
+    public SuccessResponse<GetAlarmsDto> getAlarms(@RequestParam Long ordinal) {
+        GetAlarmsDto response = adminAlarmService.getAlarms(ordinal);
         return SuccessResponse.of(response);
     }
 
@@ -64,8 +60,8 @@ public class AlarmController {
             description = "등록된 알람을 삭제하는 API 입니다."
     )
     @DeleteMapping("/{id}")
-    public SuccessResponse<Long> deleteAlarm(@PathVariable("id") Long id) {
-        deleteAlarmUsecase.execute(id);
+    public SuccessResponse<Long> deleteAlarm(@PathVariable Long id) {
+        adminAlarmService.deleteAlarm(id);
         return SuccessResponse.of(id);
     }
 }
