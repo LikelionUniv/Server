@@ -6,11 +6,8 @@ import likelion.univ.auth.dto.request.SignUpRequestDto;
 import likelion.univ.auth.dto.response.AccountTokenDto;
 import likelion.univ.auth.dto.response.AccountUserInfoDto;
 import likelion.univ.auth.dto.response.IdTokenDto;
-import likelion.univ.auth.usecase.GetUserInfoUsecase;
-import likelion.univ.auth.usecase.LoginUsecase;
-import likelion.univ.auth.usecase.RefreshTokenUsecase;
-import likelion.univ.auth.usecase.RequestIdTokenUsecase;
-import likelion.univ.auth.usecase.SignUpUsecase;
+import likelion.univ.auth.service.ClientAuthService;
+import likelion.univ.auth.service.LocalClientAuthService;
 import likelion.univ.response.SuccessResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,19 +24,16 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "Auth", description = "인증 API")
 public class AuthController {
 
-    private final LoginUsecase loginUsecase;
-    private final RequestIdTokenUsecase requestIdTokenUsecase;
-    private final SignUpUsecase signUpUsecase;
-    private final RefreshTokenUsecase refreshTokenUsecase;
-    private final GetUserInfoUsecase getUserInfoUsecase;
+    private final ClientAuthService clientAuthService;
+    private final LocalClientAuthService localClientAuthService;
 
     @Operation(summary = "id token 발급", description = "인가 코드로 id token을 발급받습니다.")
-    @GetMapping("/{loginType}/idToken")
-    public SuccessResponse<Object> getIdToken(
+    @GetMapping("/{logintype}/idtoken")
+    public SuccessResponse<IdTokenDto> getIdToken(
             @RequestParam("code") String code,
-            @PathVariable("loginType") String loginType
+            @PathVariable("logintype") String loginType
     ) {
-        IdTokenDto idTokenDto = requestIdTokenUsecase.execute(loginType, code);
+        IdTokenDto idTokenDto = clientAuthService.requestIdToken(loginType, code);
         return SuccessResponse.of(idTokenDto);
     }
 
@@ -53,35 +47,35 @@ public class AuthController {
             @RequestParam("code") String code,
             @PathVariable("loginType") String loginType
     ) {
-        IdTokenDto idTokenDto = requestIdTokenUsecase.executeForLocal(loginType, code);
+        IdTokenDto idTokenDto = localClientAuthService.requestIdTokenForLocal(loginType, code);
         return SuccessResponse.of(idTokenDto);
     }
 
     @Operation(summary = "로그인", description = "id token과 login type으로 로그인 합니다.")
-    @PostMapping("/{loginType}/login")
+    @PostMapping("/{logintype}/login")
     public SuccessResponse<Object> login(
-            @RequestParam("idToken") String idToken,
-            @PathVariable("loginType") String loginType
+            @RequestParam("idtoken") String idToken,
+            @PathVariable("logintype") String loginType
     ) {
-        AccountTokenDto accountTokenDto = loginUsecase.execute(loginType, idToken);
+        AccountTokenDto accountTokenDto = clientAuthService.login(loginType, idToken);
         return SuccessResponse.of(accountTokenDto);
     }
 
     @Operation(summary = "회원가입", description = "id token과 login type으로 회원가입 합니다.")
-    @PostMapping("/{loginType}/signup")
+    @PostMapping("/{logintype}/signup")
     public SuccessResponse<Object> signUp(
-            @RequestParam("idToken") String idToken,
-            @PathVariable("loginType") String loginType,
+            @RequestParam("idtoken") String idToken,
+            @PathVariable("logintype") String loginType,
             @RequestBody SignUpRequestDto signUpRequestDto
     ) {
-        AccountTokenDto accountTokenDto = signUpUsecase.execute(loginType, idToken, signUpRequestDto);
+        AccountTokenDto accountTokenDto = clientAuthService.signup(loginType, idToken, signUpRequestDto);
         return SuccessResponse.of(accountTokenDto);
     }
 
     @Operation(summary = "유저 정보 조회", description = "간단한 유저정보를 조회합니다.")
     @GetMapping("/userInfo")
     public SuccessResponse<Object> getUserInfo() {
-        AccountUserInfoDto accountUserInfoDto = getUserInfoUsecase.execute();
+        AccountUserInfoDto accountUserInfoDto = clientAuthService.getUserInfo();
         return SuccessResponse.of(accountUserInfoDto);
     }
 
@@ -90,7 +84,7 @@ public class AuthController {
     public SuccessResponse<Object> refreshToken(
             @RequestParam("token") String refreshToken
     ) {
-        AccountTokenDto accountTokenDto = refreshTokenUsecase.execute(refreshToken);
+        AccountTokenDto accountTokenDto = clientAuthService.refreshToken(refreshToken);
         return SuccessResponse.of(accountTokenDto);
     }
 }

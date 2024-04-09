@@ -22,7 +22,7 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 @Component
 public class JwtProvider {
-    
+
     private final JwtProperties jwtProperties;
 
     public Key getSecretKey() {
@@ -68,12 +68,11 @@ public class JwtProvider {
     public DecodedJwtToken decodeToken(String token, String type) {
         Claims claims = getClaim(token).getBody();
         checkType(claims, type);
-        DecodedJwtToken result = DecodedJwtToken.builder()
+        return DecodedJwtToken.builder()
                 .userId(Long.valueOf(claims.getSubject()))
                 .role(String.valueOf(claims.get("role")))
                 .type(String.valueOf(claims.get("type")))
                 .build();
-        return result;
     }
 
     private void checkType(Claims claims, String type) {
