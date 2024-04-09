@@ -2,8 +2,7 @@ package likelion.univ.follow.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import likelion.univ.follow.usecase.CancelFollowUsecase;
-import likelion.univ.follow.usecase.FollowUserUsecase;
+import likelion.univ.follow.service.ClientFollowService;
 import likelion.univ.response.SuccessResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -18,15 +17,14 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "팔로우", description = "팔로우 관련 API입니다.")
 public class FollowController {
 
-    private final FollowUserUsecase followUserUsecase;
-    private final CancelFollowUsecase cancelFollowUsecase;
+    private final ClientFollowService clientFollowService;
 
     @Operation(summary = "팔로우 ", description = "해당 유저를 팔로우 합니다.")
     @PostMapping("/{userId}")
     public SuccessResponse<Object> follow(
             @PathVariable("userId") Long userId
     ) {
-        followUserUsecase.execute(userId);
+        clientFollowService.follow(userId);
         return SuccessResponse.empty();
     }
 
@@ -35,7 +33,7 @@ public class FollowController {
     public SuccessResponse<Object> deleteFollow(
             @PathVariable("userId") Long userId
     ) {
-        cancelFollowUsecase.execute(userId);
+        clientFollowService.cancelFollow(userId);
         return SuccessResponse.empty();
     }
 }

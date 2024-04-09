@@ -5,8 +5,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import likelion.univ.common.response.PageResponse;
 import likelion.univ.donationhistory.dto.response.DonationHistoriesDetailsResponseDto;
 import likelion.univ.donationhistory.dto.response.DonationHistoriesSearchResponseDto;
-import likelion.univ.donationhistory.usecase.GetDonationHistoryDetailsUsecase;
-import likelion.univ.donationhistory.usecase.SearchDonationHistoryUsecase;
+import likelion.univ.donationhistory.service.DonationHistoryService;
 import likelion.univ.response.SuccessResponse;
 import lombok.RequiredArgsConstructor;
 import org.springdoc.api.annotations.ParameterObject;
@@ -20,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping( "/v1/donation-history")
+@RequestMapping("/v1/donation-history")
 @Tag(name = "기부금 게시판", description = "기부금 게시판관련 API입니다.")
 public class DonationHistoryController {
 
