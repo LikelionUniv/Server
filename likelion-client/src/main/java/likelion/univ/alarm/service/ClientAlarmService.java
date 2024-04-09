@@ -1,4 +1,4 @@
-package likelion.univ.alarm.usecase;
+package likelion.univ.alarm.service;
 
 import likelion.univ.alarm.dto.request.AlarmRegisterRequestDto;
 import likelion.univ.annotation.UseCase;
@@ -10,12 +10,12 @@ import lombok.RequiredArgsConstructor;
 
 @UseCase
 @RequiredArgsConstructor
-public class RegisterAlarmUsecase {
+public class ClientAlarmService {
 
     private final AlarmRepository alarmRepository;
     private final AlarmDomainService alarmDomainService;
 
-    public void execute(Long ordinal, AlarmRegisterRequestDto alarmRegisterRequestDto) {
+    public void registerAlarm(Long ordinal, AlarmRegisterRequestDto alarmRegisterRequestDto) {
         if (alarmRepository.existsByOrdinalAndEmail(ordinal, alarmRegisterRequestDto.getEmail())) {
             throw new EmailAlreadyRegisteredAsAlarmException();
         }
