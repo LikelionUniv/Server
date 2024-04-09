@@ -1,8 +1,8 @@
-package likelion.univ.adminpost.usecase;
+package likelion.univ.adminpost.service;
 
+import java.util.List;
 import java.util.Optional;
 import likelion.univ.adminpost.dto.response.PostInfoResponseDto;
-import likelion.univ.annotation.UseCase;
 import likelion.univ.common.response.PageResponse;
 import likelion.univ.domain.comment.repository.CommentRepository;
 import likelion.univ.domain.like.postlike.repository.PostLikeRepository;
@@ -18,10 +18,13 @@ import likelion.univ.utils.AuthenticatedUserUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-@UseCase
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
-public class GetPostsByCategoriesAndUniversityUseCase {
+@Service
+public class AdminPostService {
 
     private final PostRepository postRepository;
     private final PostLikeRepository postLikeRepository;
@@ -31,7 +34,12 @@ public class GetPostsByCategoriesAndUniversityUseCase {
 
     private final AuthenticatedUserUtils authenticatedUserUtils;
 
-    public PageResponse<PostInfoResponseDto> execute(
+    @Transactional
+    public void deletePosts(List<Long> postIds) {
+        postRepository.deleteAllByIdInBatch(postIds);
+    }
+
+    public PageResponse<PostInfoResponseDto> getPostsByCategoriesAndUniversity(
             Pageable pageable,
             MainCategory mainCategory,
             SubCategory subCategory
