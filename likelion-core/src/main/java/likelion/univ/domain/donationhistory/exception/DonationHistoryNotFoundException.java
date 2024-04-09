@@ -1,4 +1,4 @@
-package likelion.univ.domain.donation_history.exception;
+package likelion.univ.domain.donationhistory.exception;
 
 import likelion.univ.exception.base.BaseException;
 

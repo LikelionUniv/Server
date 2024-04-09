@@ -1,7 +1,6 @@
 package likelion.univ.domain.comment.service;
 
 import java.util.List;
-import likelion.univ.domain.comment.adaptor.CommentAdaptor;
 import likelion.univ.domain.comment.dto.request.CreateChildCommentCommand;
 import likelion.univ.domain.comment.dto.request.CreateParentCommentCommand;
 import likelion.univ.domain.comment.dto.request.DeleteCommentCommand;
@@ -13,10 +12,11 @@ import likelion.univ.domain.comment.dto.response.DeleteCommentData;
 import likelion.univ.domain.comment.dto.response.ParentCommentData;
 import likelion.univ.domain.comment.entity.Comment;
 import likelion.univ.domain.comment.exception.NotAuthorizedException;
-import likelion.univ.domain.like.commentlike.adaptor.CommentLikeAdaptor;
-import likelion.univ.domain.post.adaptor.PostAdaptor;
+import likelion.univ.domain.comment.repository.CommentRepository;
+import likelion.univ.domain.like.commentlike.repository.CommentLikeRepository;
 import likelion.univ.domain.post.entity.Post;
-import likelion.univ.domain.user.adaptor.UserAdaptor;
+import likelion.univ.domain.post.repository.PostRepository;
+import likelion.univ.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,24 +26,25 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class CommentDomainService {
 
-    private final CommentAdaptor commentAdaptor;
-    private final PostAdaptor postAdaptor;
-    private final UserAdaptor userAdaptor;
-    private final CommentLikeAdaptor commentLikeAdaptor;
+    private final CommentRepository commentRepository;
+    private final PostRepository postRepository;
+    private final UserRepository userRepository;
+    private final CommentLikeRepository commentLikeRepository;
 
     public CommentData getComment(GetCommentCommand command) {
         Long postId = command.postId();
         Long loginUserId = command.loginUserId();
-        Long authorId = postAdaptor.findById(postId).getAuthor().getId();
+        Long authorId = postRepository.getById(postId).getAuthor().getId();
 
         // comment entity data
-        List<Comment> parentComments = commentAdaptor.findParentCommentsByPostId(postId);
-        List<Comment> childComments = commentAdaptor.findChildCommentsByPostId(postId);
+        List<Comment> parentComments = commentRepository.findParentCommentsByPostId(postId);
+        List<Comment> childComments = commentRepository.findChildCommentsByPostId(postId);
 
         List<ParentCommentData> parentCommentData = parentComments.stream().map(i -> ParentCommentData.of(i,
-                commentLikeAdaptor.existsByCommentIdAndUserId(i.getId(), loginUserId))).toList();
+                commentLikeRepository.existsByCommentIdAndUserId(i.getId(), loginUserId))).toList();
         List<ChildCommentData> childCommentData = childComments.stream()
-                .map(i -> ChildCommentData.of(i, commentLikeAdaptor.existsByCommentIdAndUserId(i.getId(), loginUserId)))
+                .map(i -> ChildCommentData.of(i,
+                        commentLikeRepository.existsByCommentIdAndUserId(i.getId(), loginUserId)))
                 .toList();
 
         return new CommentData(authorId, parentCommentData, childCommentData);
@@ -51,19 +52,19 @@ public class CommentDomainService {
 
     public void createParentComment(CreateParentCommentCommand request) {
         Comment parentComment = parentCommentBy(request);
-        commentAdaptor.save(parentComment);
+        commentRepository.save(parentComment);
     }
 
     public Long createChildComment(CreateChildCommentCommand request) {
         Comment childComment = childCommentBy(request);
         Long postId = childComment.getPost().getId();
-        commentAdaptor.save(childComment);
+        commentRepository.save(childComment);
         return postId;
     }
 
     public Long updateCommentBody(UpdateCommentCommand request) {
         if (isAuthorized(request)) {
-            Comment findComment = commentAdaptor.findById(request.getCommentId());
+            Comment findComment = commentRepository.getById(request.getCommentId());
             Long updatedCommentId = findComment.updateBody(request.getBody());
             return updatedCommentId;
         }
@@ -72,7 +73,7 @@ public class CommentDomainService {
 
     public DeleteCommentData deleteCommentSoft(DeleteCommentCommand request) {
         if (isAuthorized(request)) {
-            Comment findComment = commentAdaptor.findById(request.commentId());
+            Comment findComment = commentRepository.getById(request.commentId());
             Boolean isDeleted = findComment.softDelete();
             Long postId = findComment.getPost().getId();
             return new DeleteCommentData(isDeleted, postId);
@@ -81,16 +82,16 @@ public class CommentDomainService {
     }
 
     public void deleteCommentHard(DeleteCommentCommand request) {
-        Comment findComment = commentAdaptor.findById(request.commentId());
-        commentAdaptor.delete(findComment);
+        Comment findComment = commentRepository.getById(request.commentId());
+        commentRepository.delete(findComment);
     }
 
 
     /* --------------- 내부 편의 메서드 --------------- */
     private Comment parentCommentBy(CreateParentCommentCommand request) {
         return Comment.builder()
-                .post(postAdaptor.findById(request.postId()))
-                .author(userAdaptor.findById(request.loginUserId()))
+                .post(postRepository.getById(request.postId()))
+                .author(userRepository.getById(request.loginUserId()))
                 .body(request.body())
                 .build();
     }
@@ -98,16 +99,16 @@ public class CommentDomainService {
     private Comment childCommentBy(CreateChildCommentCommand request) {
         Comment comment = Comment.builder()
                 .post(getPostFromParentComment(request))
-                .author(userAdaptor.findById(request.getLoginUserId()))
+                .author(userRepository.getById(request.getLoginUserId()))
                 .body(request.getBody())
                 .build();
-        comment.setParent(commentAdaptor.findById(request.getParentCommentId()));
+        comment.setParent(commentRepository.getById(request.getParentCommentId()));
         return comment;
     }
 
     private Post getPostFromParentComment(CreateChildCommentCommand request) {
         Long parentCommentId = request.getParentCommentId();
-        Post post = commentAdaptor.findById(parentCommentId).getPost();
+        Post post = commentRepository.getById(parentCommentId).getPost();
         return post;
     }
 
@@ -127,6 +128,6 @@ public class CommentDomainService {
     }
 
     private Long getAuthorId(Long commentId) {
-        return commentAdaptor.findById(commentId).getAuthor().getId();
+        return commentRepository.getById(commentId).getAuthor().getId();
     }
 }

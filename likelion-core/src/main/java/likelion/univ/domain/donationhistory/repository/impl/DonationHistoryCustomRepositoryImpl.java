@@ -1,6 +1,6 @@
-package likelion.univ.domain.donation_history.repository.impl;
+package likelion.univ.domain.donationhistory.repository.impl;
 
-import static likelion.univ.domain.donation_history.entity.QDonationHistory.donationHistory;
+import static likelion.univ.domain.donationhistory.entity.QDonationHistory.donationHistory;
 import static likelion.univ.domain.user.entity.QUser.user;
 
 import com.querydsl.core.types.OrderSpecifier;
@@ -8,9 +8,9 @@ import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.util.List;
-import likelion.univ.domain.donation_history.entity.DonationHistory;
-import likelion.univ.domain.donation_history.repository.DonationHistoryCustomRepository;
-import likelion.univ.domain.donation_history.repository.impl.condition.DonationSortType;
+import likelion.univ.domain.donationhistory.entity.DonationHistory;
+import likelion.univ.domain.donationhistory.repository.DonationHistoryCustomRepository;
+import likelion.univ.domain.donationhistory.repository.impl.condition.DonationSortType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;

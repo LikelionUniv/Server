@@ -1,7 +1,7 @@
 package likelion.univ.domain.example.service;
 
-import likelion.univ.domain.example.adaptor.ExampleAdaptor;
 import likelion.univ.domain.example.entity.Example;
+import likelion.univ.domain.example.repository.ExampleRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,26 +11,26 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class ExampleDomainService {
 
-    private final ExampleAdaptor exampleAdaptor;
+    private final ExampleRepository exampleRepository;
 
     @Transactional
     public Example createExample(String body) {
         Example example = Example.builder()
                 .body(body)
                 .build();
-        exampleAdaptor.save(example);
+        exampleRepository.save(example);
         return example;
     }
 
     @Transactional
     public void editExample(Long id, String body) {
-        Example example = exampleAdaptor.findById(id);
+        Example example = exampleRepository.getById(id);
         example.editBody(body);
     }
 
     @Transactional
     public void deleteExample(Long id) {
-        Example example = exampleAdaptor.findById(id);
-        exampleAdaptor.delete(example);
+        Example example = exampleRepository.getById(id);
+        exampleRepository.delete(example);
     }
 }

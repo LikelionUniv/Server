@@ -1,7 +1,6 @@
 package likelion.univ.domain.user.service;
 
 import java.util.List;
-import likelion.univ.domain.user.adaptor.UserAdaptor;
 import likelion.univ.domain.user.entity.AuthInfo;
 import likelion.univ.domain.user.entity.LoginType;
 import likelion.univ.domain.user.entity.Part;
@@ -21,11 +20,10 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class UserDomainService {
 
-    private final UserAdaptor userAdaptor;
     private final UserRepository userRepository;
 
     public User login(LoginType loginType, String email) {
-        User user = userAdaptor.findByEmail(email);
+        User user = userRepository.getByEmail(email);
         if (user.getAuthInfo().getLoginType().equals(loginType)) {
             return user;
         } else {
@@ -40,12 +38,12 @@ public class UserDomainService {
                 .authInfo(authInfo)
                 .universityInfo(universityInfo)
                 .build();
-        return userAdaptor.save(user);
+        return userRepository.save(user);
     }
 
     @Transactional
     public User editProfile(Long userId, Profile profile) {
-        User user = userAdaptor.findById(userId);
+        User user = userRepository.getById(userId);
         user.editProfile(profile);
         return user;
     }
@@ -58,7 +56,7 @@ public class UserDomainService {
         user.getUniversityInfo().updateUniversityInfo(major, ordinal);
         user.getAuthInfo().updateRole(role);
 
-        userAdaptor.save(user);
+        userRepository.save(user);
     }
 
     @Transactional
@@ -66,7 +64,7 @@ public class UserDomainService {
         user.getAuthInfo().delete();
         user.getProfile().delete();
 
-        userAdaptor.save(user);
+        userRepository.save(user);
     }
 
     @Transactional
@@ -74,12 +72,12 @@ public class UserDomainService {
         users.stream().forEach(user -> {
             user.getAuthInfo().delete();
             user.getProfile().delete();
-            userAdaptor.save(user);
+            userRepository.save(user);
         });
     }
 
     public List<User> findDynamicUsers(UserSearchCondition condition) {
-        return userAdaptor.findDynamicUsers(condition);
+        return userRepository.search(condition);
     }
 
     public List<User> findByRoleIn(List<Role> roles) {

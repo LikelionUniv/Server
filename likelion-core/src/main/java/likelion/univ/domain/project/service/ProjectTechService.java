@@ -2,11 +2,12 @@ package likelion.univ.domain.project.service;
 
 import java.util.ArrayList;
 import java.util.List;
-import likelion.univ.domain.project.adapter.ProjectAdaptor;
-import likelion.univ.domain.project.adapter.ProjectTechAdaptor;
 import likelion.univ.domain.project.entity.Project;
 import likelion.univ.domain.project.entity.ProjectTech;
 import likelion.univ.domain.project.entity.Tech;
+import likelion.univ.domain.project.repository.ProjectRepository;
+import likelion.univ.domain.project.repository.ProjectTechRepository;
+import likelion.univ.domain.project.repository.TechRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,20 +17,21 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class ProjectTechService {
 
-    private final ProjectAdaptor projectAdaptor;
-    private final ProjectTechAdaptor projectTechAdaptor;
+    private final TechRepository techRepository;
+    private final ProjectRepository projectRepository;
+    private final ProjectTechRepository projectTechRepository;
 
     @Transactional
     public void addProjectTech(Project project, List<String> techNames) {
         List<ProjectTech> projectTeches = new ArrayList<>();
         for (String techName : techNames) {
-            Tech existingTech = projectTechAdaptor.findByName(techName);
+            Tech existingTech = techRepository.findByTechName(techName);
             Tech tech;
             if (existingTech != null) {
                 tech = existingTech;
             } else {
                 Tech newTech = Tech.builder().techName(techName).build();
-                projectTechAdaptor.saveTech(newTech);
+                techRepository.save(newTech);
                 tech = newTech;
             }
             ProjectTech projectTech = ProjectTech.builder()
@@ -38,22 +40,22 @@ public class ProjectTechService {
                     .build();
             projectTeches.add(projectTech);
         }
-        projectTechAdaptor.saveAll(projectTeches);
+        projectTechRepository.saveAll(projectTeches);
     }
 
     @Transactional
     public void updateProjectTech(Project project, List<String> teches) {
-        projectTechAdaptor.deleteByProject(project);
+        projectTechRepository.deleteByProject(project);
         if (teches != null && !teches.isEmpty()) {
             List<ProjectTech> projectTeches = new ArrayList<>();
 
             for (String techName : teches) {
-                Tech tech = projectTechAdaptor.findByName(techName.toUpperCase());
+                Tech tech = techRepository.findByTechName(techName.toUpperCase());
 
                 Tech persistedTech;
                 if (tech == null) {
                     Tech newTech = Tech.builder().techName(techName.toUpperCase()).build();
-                    projectTechAdaptor.saveTech(newTech);
+                    techRepository.save(newTech);
                     persistedTech = newTech;
                 } else {
                     persistedTech = tech;
@@ -62,13 +64,13 @@ public class ProjectTechService {
                 ProjectTech projectTech = new ProjectTech(project, persistedTech);
                 projectTeches.add(projectTech);
             }
-            projectTechAdaptor.saveAll(projectTeches);
+            projectTechRepository.saveAll(projectTeches);
         }
     }
 
     @Transactional
     public void deleteProjectTech(Long id) {
-        Project project = projectAdaptor.findById(id);
-        projectTechAdaptor.deleteByProject(project);
+        Project project = projectRepository.getById(id);
+        projectTechRepository.deleteByProject(project);
     }
 }

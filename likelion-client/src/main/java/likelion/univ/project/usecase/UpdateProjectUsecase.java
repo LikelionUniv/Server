@@ -3,18 +3,18 @@ package likelion.univ.project.usecase;
 import java.util.List;
 import java.util.stream.Collectors;
 import likelion.univ.annotation.UseCase;
-import likelion.univ.domain.project.adapter.ProjectAdaptor;
 import likelion.univ.domain.project.entity.Project;
 import likelion.univ.domain.project.entity.ProjectImage;
 import likelion.univ.domain.project.entity.ProjectMember;
+import likelion.univ.domain.project.repository.ProjectRepository;
 import likelion.univ.domain.project.service.ProjectImageService;
 import likelion.univ.domain.project.service.ProjectMemberService;
 import likelion.univ.domain.project.service.ProjectService;
 import likelion.univ.domain.project.service.ProjectTechService;
-import likelion.univ.domain.university.adaptor.UniversityAdaptor;
-import likelion.univ.domain.user.adaptor.UserAdaptor;
+import likelion.univ.domain.university.repository.UniversityRepository;
 import likelion.univ.domain.user.entity.Part;
 import likelion.univ.domain.user.entity.User;
+import likelion.univ.domain.user.repository.UserRepository;
 import likelion.univ.project.dto.request.ProjectMemberRequestDto;
 import likelion.univ.project.dto.request.ProjectRequestDto;
 import likelion.univ.project.dto.response.ProjectIdResponseDto;
@@ -31,14 +31,14 @@ public class UpdateProjectUsecase {
     private final ProjectTechService projectTechService;
     private final ProjectImageService projectImageService;
     private final ProjectMemberService projectMemberService;
-    private final ProjectAdaptor projectAdaptor;
-    private final UserAdaptor userAdaptor;
-    private final UniversityAdaptor universityAdaptor;
+    private final ProjectRepository projectRepository;
+    private final UserRepository userRepository;
+    private final UniversityRepository universityRepository;
 
     @Transactional
     public ProjectIdResponseDto execute(Long projectId, ProjectRequestDto projectRequestDto) {
 
-        Project project = projectAdaptor.findById(projectId);
+        Project project = projectRepository.getById(projectId);
 
         authenticatedUserUtils.checkIdentification(project.getAuthor().getId());
 
@@ -50,7 +50,7 @@ public class UpdateProjectUsecase {
 
         Project editProject = projectRequestDto.toEntity();
         if (!projectRequestDto.getUniv().isEmpty()) {
-            editProject.updateUniv(universityAdaptor.findByName(projectRequestDto.getUniv()));
+            editProject.updateUniv(universityRepository.getByName(projectRequestDto.getUniv()));
         } else {
             editProject.updateUniv(null);
         }
@@ -58,7 +58,7 @@ public class UpdateProjectUsecase {
         List<ProjectMemberRequestDto> projectMembersRequest = projectRequestDto.getProjectMembers();
         List<Long> ids = projectMembersRequest.stream()
                 .map(projectMemberRequestDto -> projectMemberRequestDto.getUserId()).toList();
-        List<User> requestUsers = userAdaptor.findAllByIdIn(ids);
+        List<User> requestUsers = userRepository.findAllByIdsExactly(ids);
 
         List<ProjectMember> projectMembers = projectMembersRequest.stream()
                 .map(p -> matchProjectMembers(p, project, requestUsers)).toList();

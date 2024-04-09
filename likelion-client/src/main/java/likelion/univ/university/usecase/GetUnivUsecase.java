@@ -3,7 +3,7 @@ package likelion.univ.university.usecase;
 import java.util.List;
 import java.util.stream.Collectors;
 import likelion.univ.annotation.UseCase;
-import likelion.univ.domain.university.adaptor.UniversityAdaptor;
+import likelion.univ.domain.university.repository.UniversityRepository;
 import likelion.univ.university.dto.response.UnivResponseDto;
 import lombok.RequiredArgsConstructor;
 
@@ -11,10 +11,10 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class GetUnivUsecase {
 
-    private final UniversityAdaptor universityAdaptor;
+    private final UniversityRepository universityRepository;
 
     public List<UnivResponseDto> execute() {
-        return universityAdaptor.findAll().stream()
+        return universityRepository.findAllByStatusIsActive().stream()
                 .map(university -> UnivResponseDto.of(university.getName()))
                 .collect(Collectors.toList());
     }

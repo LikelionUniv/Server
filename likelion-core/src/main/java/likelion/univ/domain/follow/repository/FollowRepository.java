@@ -13,6 +13,7 @@ public interface FollowRepository extends JpaRepository<Follow, Long> {
 
     Long countByFollowingId(Long followingId);
 
+    // TODO 제거
     @Modifying
     @Transactional
     @Query(value = "insert into follow(created_date, modified_date, follower_id, following_id)"

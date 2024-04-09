@@ -1,9 +1,9 @@
 package likelion.univ.domain.project.service;
 
 import java.time.LocalDate;
-import likelion.univ.domain.project.adapter.ProjectAdaptor;
 import likelion.univ.domain.project.entity.Project;
 import likelion.univ.domain.project.exception.CreateProjectBadRequestException;
+import likelion.univ.domain.project.repository.ProjectRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class ProjectService {
 
-    private final ProjectAdaptor projectAdaptor;
+    private final ProjectRepository projectRepository;
 
     public Project createProject(Project project) {
         LocalDate startDate = project.getStartDate();
@@ -22,18 +22,22 @@ public class ProjectService {
         if (startDate.isEqual(endDate) || startDate.isAfter(endDate)) {
             throw new CreateProjectBadRequestException();
         }
-        Project savedProject = projectAdaptor.save(project);
-        return savedProject;
+        try {
+            Project savedProject = projectRepository.save(project);
+            return savedProject;
+        } catch (Exception e) {
+            throw new CreateProjectBadRequestException();
+        }
     }
 
     public void updateProject(Long id, Project updateProject) {
-        Project project = projectAdaptor.findById(id);
+        Project project = projectRepository.getById(id);
         project.update(updateProject);
-        projectAdaptor.save(project);
+        projectRepository.save(project);
     }
 
     public void deleteProject(Long id) {
-        Project project = projectAdaptor.findById(id);
-        projectAdaptor.delete(project);
+        Project project = projectRepository.getById(id);
+        projectRepository.delete(project);
     }
 }

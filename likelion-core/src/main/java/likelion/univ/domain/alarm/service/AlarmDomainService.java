@@ -1,7 +1,6 @@
 package likelion.univ.domain.alarm.service;
 
 import java.util.List;
-import likelion.univ.domain.alarm.adaptor.AlarmAdaptor;
 import likelion.univ.domain.alarm.entity.Alarm;
 import likelion.univ.domain.alarm.repository.AlarmRepository;
 import lombok.RequiredArgsConstructor;
@@ -13,12 +12,11 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class AlarmDomainService {
 
-    private final AlarmAdaptor alarmAdaptor;
     private final AlarmRepository alarmRepository;
 
     @Transactional
     public Alarm createAlarm(Alarm alarm) {
-        return alarmAdaptor.save(alarm);
+        return alarmRepository.save(alarm);
     }
 
     public List<Alarm> findAllByOrdinal(Long ordinal) {

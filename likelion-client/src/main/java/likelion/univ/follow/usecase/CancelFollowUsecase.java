@@ -2,7 +2,7 @@ package likelion.univ.follow.usecase;
 
 import java.util.Optional;
 import likelion.univ.annotation.UseCase;
-import likelion.univ.domain.follow.adaptor.FollowAdaptor;
+import likelion.univ.domain.follow.repository.FollowRepository;
 import likelion.univ.follow.dao.FollowNumRedisDao;
 import likelion.univ.follow.entity.FollowNum;
 import likelion.univ.follow.service.FollowNumRedisService;
@@ -14,13 +14,13 @@ import lombok.RequiredArgsConstructor;
 public class CancelFollowUsecase {
 
     private final AuthenticatedUserUtils authenticatedUserUtils;
-    private final FollowAdaptor followAdaptor;
+    private final FollowRepository followRepository;
     private final FollowNumRedisDao followNumRedisDao;
     private final FollowNumRedisService followNumRedisService;
 
     public void execute(Long userId) {
         Long currentUserId = authenticatedUserUtils.getCurrentUserId();
-        followAdaptor.delete(currentUserId, userId);
+        followRepository.delete(currentUserId, userId);
         updateFollowNumRedis(currentUserId, userId);
     }
 

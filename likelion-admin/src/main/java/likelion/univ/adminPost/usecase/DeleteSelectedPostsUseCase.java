@@ -2,16 +2,16 @@ package likelion.univ.adminPost.usecase;
 
 import java.util.List;
 import likelion.univ.annotation.UseCase;
-import likelion.univ.domain.post.adaptor.PostAdaptor;
+import likelion.univ.domain.post.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
 
 @UseCase
 @RequiredArgsConstructor
 public class DeleteSelectedPostsUseCase {
 
-    private final PostAdaptor postAdaptor;
+    private final PostRepository postRepository;
 
     public void execute(List<Long> selectedIds) {
-        postAdaptor.deleteAllByIdInBatch(selectedIds);
+        postRepository.deleteAllByIdInBatch(selectedIds);
     }
 }
