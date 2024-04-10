@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping( "/v1/university")
+@RequestMapping("/v1/universities")
 @Tag(name = "University", description = "대학교 API")
 public class UniversityController {
 
@@ -27,7 +27,6 @@ public class UniversityController {
     private final GetTotalUnivDetailsUsecase getTotalUnivDetailsUsecase;
     private final GetLocationUnivDetailsUsecase getLocationUnivDetailsUsecase;
 
-    //-----------대학교 조회 --------//
     @Operation(summary = "대학교 조회", description = "대학교를 조회합니다.")
     @GetMapping
     public SuccessResponse<Object> getAllUniv() {

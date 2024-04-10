@@ -21,10 +21,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j
 @RestController
-@RequestMapping("/v1/headQuarter")
+@RequestMapping("/v1/headquarters")
 @RequiredArgsConstructor
 @Tag(name = "UserByHeadQuarter", description = "본사에 의한 사용자 관련 API")
-public class HeadQuarterController {
+public class HeadquarterController {
 
     private final FindAllByHeadqueatersUsecase findAllByHeadqueatersUsecase;
 

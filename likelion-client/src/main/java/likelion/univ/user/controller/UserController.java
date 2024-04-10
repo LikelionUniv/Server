@@ -33,7 +33,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping( "/v1/user")
+@RequestMapping("/v1/user")
 @Tag(name = "유저페이지", description = "유저페이지관련 API입니다.")
 public class UserController {
 
