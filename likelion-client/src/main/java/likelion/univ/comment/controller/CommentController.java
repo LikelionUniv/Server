@@ -49,7 +49,7 @@ public class CommentController {
                     """)
     @GetMapping("/comments")
     public SuccessResponse<List<CommentResponseDto>> getCommentsByPost(
-            @RequestParam Long postId
+            @RequestParam("postId") Long postId
     ) {
         List<CommentResponseDto> response = getCommentUsecase.execute(postId);
         return SuccessResponse.of(response);
@@ -59,7 +59,7 @@ public class CommentController {
     @Operation(summary = "댓글 작성", description = "부모 댓글을 생성합니다.")
     @PostMapping("/comments/parent")
     public SuccessResponse createParentComment(
-            @RequestParam Long postId,
+            @RequestParam("postId") Long postId,
             @RequestBody CommentCreateParentRequestDto request
     ) {
         createParentCommentUsecase.execute(postId, request);
@@ -69,7 +69,7 @@ public class CommentController {
     @Operation(summary = "대댓글 작성", description = "자식 댓글을 생성합니다.")
     @PostMapping("/comments/{parentCommentId}/child")
     public SuccessResponse createChildComment(
-            @PathVariable Long parentCommentId,
+            @PathVariable("parentCommentId") Long parentCommentId,
             @RequestBody CommentCreateChildRequestDto request
     ) {
         createChildCommentUsecase.execute(parentCommentId, request);
@@ -79,7 +79,7 @@ public class CommentController {
     @Operation(summary = "댓글 내용 수정", description = "댓글의 내용(body only)을 수정합니다.")
     @PatchMapping("/{commentId}")
     public SuccessResponse<Long> updateComment(
-            @PathVariable Long commentId,
+            @PathVariable("commentId") Long commentId,
             @RequestBody CommentUpdateRequestDto request
     ) {
         Long updatedCommentId = updateCommentUsecase.execute(commentId, request);
@@ -89,7 +89,7 @@ public class CommentController {
     @Operation(summary = "댓글 soft 삭제", description = "댓글을 soft delete 합니다.")
     @PatchMapping("/disable/{commentId}")
     public SuccessResponse deleteCommentSoft(
-            @PathVariable Long commentId
+            @PathVariable("commentId") Long commentId
     ) {
         softDeleteCommentUsecase.execute(commentId);// soft delete
         return SuccessResponse.empty();
@@ -103,7 +103,7 @@ public class CommentController {
                     """)
     @DeleteMapping("/{commentId}")
     public SuccessResponse deleteCommentHard(
-            @PathVariable Long commentId
+            @PathVariable("commentId") Long commentId
     ) {
         hardDeleteCommentUsecase.execute(commentId);
         return SuccessResponse.empty();

@@ -33,7 +33,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(value = "/v1/project")
+@RequestMapping("/v1/projects")
 @Tag(name = "Project", description = "프로젝트 API")
 public class ProjectController {
 
@@ -44,7 +44,6 @@ public class ProjectController {
     private final DeleteProjectUsecase deleteProjectUsecase;
     private final GetProjectByUsecase getProjectByUsecase;
 
-    //-----------프로젝트 한 개 조회 --------//
     @Operation(summary = "프로젝트 조회", description = "프로젝트 id로 프로젝트를 조회했습니다.")
     @GetMapping("/{projectId}")
     public SuccessResponse<ProjectResponseDto> getProject(
@@ -54,9 +53,8 @@ public class ProjectController {
         return SuccessResponse.of(projectResponseDto);
     }
 
-    //-----------프로젝트 목록 --------//
     @Operation(summary = "프로젝트 목록", description = "프로젝트 목록을 출력했습니다.")
-    @GetMapping("/")
+    @GetMapping
     public SuccessResponse<PageResponse<ProjectResponseDto>> getAllProject(
             @ParameterObject
             @PageableDefault(size = 12, sort = "createdDate", direction = Sort.Direction.DESC)
@@ -66,21 +64,19 @@ public class ProjectController {
         return SuccessResponse.of(projectList);
     }
 
-    //--------  기수별 프로젝트 -----//
     @Operation(summary = "기수별 프로젝트", description = "선택한 기수에 따라 프로젝트 목록을 출력했습니다. 최근 5개의 기수보다 이전의 기수는 한번에 보여집니다.")
     @GetMapping("/ordinal/{ordinal}")
     public SuccessResponse<PageResponse<ProjectListResponseDto>> getProjectByOrdinal(
             @ParameterObject
             @PageableDefault(size = 12, sort = "createdDate", direction = Sort.Direction.DESC) Pageable pageable,
-            @PathVariable Long ordinal
+            @PathVariable("ordinal") Long ordinal
     ) {
         PageResponse<ProjectListResponseDto> projectList = getProjectByUsecase.execute(ordinal, pageable);
         return SuccessResponse.of(projectList);
     }
 
-    //--------- 프로젝트 등록 ------------//
     @Operation(summary = "프로젝트 등록", description = "새로운 프로젝트를 등록했습니다.")
-    @PostMapping("/")
+    @PostMapping
     public SuccessResponse<ProjectIdResponseDto> createProject(
             @Valid @RequestBody ProjectRequestDto projectRequestDto
     ) {
@@ -88,7 +84,6 @@ public class ProjectController {
         return SuccessResponse.of(projectIdResponseDto);
     }
 
-    //-----------프로젝트 수정 --------//
     @Operation(summary = "프로젝트 수정", description = "프로젝트의 내용을 수정하였습니다.")
     @PatchMapping("/{projectId}")
     public SuccessResponse<ProjectIdResponseDto> updateProject(
@@ -99,7 +94,6 @@ public class ProjectController {
         return SuccessResponse.of(projectIdResponseDto);
     }
 
-    //-----------프로젝트 삭제 --------//
     @Operation(summary = "프로젝트 삭제", description = "프로젝트를 삭제했습니다.")
     @DeleteMapping("/{projectId}")
     public SuccessResponse deleteProject(

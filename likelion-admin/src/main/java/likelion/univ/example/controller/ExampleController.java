@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(value = "/v1/example")
+@RequestMapping("/v1/example")
 @Tag(name = "Example", description = "예시 API")
 public class ExampleController {
 
@@ -34,7 +34,7 @@ public class ExampleController {
     private final DeleteExampleUsecase deleteExampleUsecase;
 
     @Operation(summary = "예시 조회", description = "예시를 조회합니다.")
-    @GetMapping(value = "/{exampleId}")
+    @GetMapping("/{exampleId}")
     public SuccessResponse<Object> getExample(@PathVariable Long exampleId) {
         return SuccessResponse.of(getExampleUsecase.execute(exampleId));
     }
@@ -49,9 +49,9 @@ public class ExampleController {
     }
 
     @Operation(summary = "예시 수정", description = "예시를 수정합니다.")
-    @PatchMapping(value = "/{exampleId}")
+    @PatchMapping("/{exampleId}")
     public SuccessResponse<Object> editExample(
-            @PathVariable Long exampleId,
+            @PathVariable("exampleId") Long exampleId,
             @Validated @RequestBody CreateExampleRequestDto exampleRequestDto
     ) {
         editExampleUsecase.excute(exampleId, exampleRequestDto);
@@ -59,8 +59,8 @@ public class ExampleController {
     }
 
     @Operation(summary = "예시 삭제", description = "예시를 삭제합니다.")
-    @DeleteMapping(value = "/{exampleId}")
-    public SuccessResponse<Object> deleteExample(@PathVariable Long exampleId) {
+    @DeleteMapping("/{exampleId}")
+    public SuccessResponse<Object> deleteExample(@PathVariable("exampleId") Long exampleId) {
         deleteExampleUsecase.execute(exampleId);
         return SuccessResponse.empty();
     }

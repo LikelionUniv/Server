@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(value = "/v1/image")
+@RequestMapping("/v1/image")
 @Tag(name = "이미지 업로드", description = "Presigned-url 발급 API")
 public class ImageController {
 
@@ -25,7 +25,7 @@ public class ImageController {
     @Operation(summary = "project 이미지용입니다.")
     @GetMapping("/project")
     public SuccessResponse<Object> getProjectPresignedUrl(
-            @RequestParam String fileNameExtension
+            @RequestParam("fileNameExtension") String fileNameExtension
     ) {
         ImageUrlResponseDto imageUrlResponseDto = createDraftPresignedUrlUsecase.execute("project", fileNameExtension);
         return SuccessResponse.of(imageUrlResponseDto);
@@ -34,8 +34,8 @@ public class ImageController {
     @Operation(summary = "user 프로필 이미지용입니다.")
     @GetMapping("/user/{userId}")
     public SuccessResponse<Object> getUserPresignedUrl(
-            @PathVariable Long userId,
-            @RequestParam String fileNameExtension
+            @PathVariable("userId") Long userId,
+            @RequestParam("fileNameExtension") String fileNameExtension
     ) {
         ImageUrlResponseDto imageUrlResponseDto = createPresignedUrlUsecase.execute("user", userId, fileNameExtension);
         return SuccessResponse.of(imageUrlResponseDto);

@@ -24,7 +24,7 @@ public class RecruitController {
     @PostMapping("/{universityName}")
     public SuccessResponse register(
             @RequestBody CreateRecruitDto createRecruitDto,
-            @PathVariable String universityName
+            @PathVariable("universityName") String universityName
     ) {
         Long recruitId = createRecruitUsecase.execute(createRecruitDto, universityName);
         return SuccessResponse.of(recruitId);
