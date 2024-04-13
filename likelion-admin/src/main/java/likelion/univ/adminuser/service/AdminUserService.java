@@ -6,7 +6,7 @@ import likelion.univ.adminuser.dto.response.UserInfoResponseDto;
 import likelion.univ.common.response.PageResponse;
 import likelion.univ.domain.user.entity.User;
 import likelion.univ.domain.user.repository.UserRepository;
-import likelion.univ.domain.user.service.UserDomainService;
+import likelion.univ.domain.user.service.UserService;
 import likelion.univ.utils.AuthenticatedUserUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -20,17 +20,17 @@ import org.springframework.transaction.annotation.Transactional;
 public class AdminUserService {
 
     private final UserRepository userRepository;
-    private final UserDomainService userDomainService;
+    private final UserService userService;
     private final AuthenticatedUserUtils authenticatedUserUtils;
 
     public void delete(Long userId) {
         User user = userRepository.getById(userId);
-        userDomainService.deleteUser(user);
+        userService.deleteUser(user);
     }
 
     public void deleteAllUser(List<Long> userIds) {
         List<User> users = userRepository.findAllByIdsExactly(userIds);
-        userDomainService.deleteAll(users);
+        userService.deleteAll(users);
     }
 
     public PageResponse<UserInfoResponseDto> findAllByAdminUserUniv(Pageable pageable) {
@@ -44,7 +44,7 @@ public class AdminUserService {
 
     public UserInfoResponseDto updateUser(Long userId, UpdateUserRequestDto updateUserRequestDto) {
         User user = userRepository.getByIdWithUniversity(userId);
-        userDomainService.updateUser(
+        userService.updateUser(
                 user, updateUserRequestDto.getName(),
                 updateUserRequestDto.getPart(), updateUserRequestDto.getMajor(),
                 updateUserRequestDto.getOrdinal(), updateUserRequestDto.getRole()

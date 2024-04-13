@@ -18,7 +18,7 @@ import likelion.univ.domain.user.entity.User;
 import likelion.univ.domain.user.exception.EmailAlreadyRegistered;
 import likelion.univ.domain.user.exception.NotSupportedLoginTypeException;
 import likelion.univ.domain.user.repository.UserRepository;
-import likelion.univ.domain.user.service.UserDomainService;
+import likelion.univ.domain.user.service.UserService;
 import likelion.univ.exception.ExpiredTokenException;
 import likelion.univ.exception.InvalidTokenException;
 import likelion.univ.feign.oauth.google.RequestGoogleTokenClient;
@@ -44,7 +44,7 @@ public class ClientAuthService {
     private final AuthenticatedUserUtils authenticatedUserUtils;
     private final UserRepository userRepository;
     private final LoginByIdTokenProcessor loginByIdTokenProcessor;
-    private final UserDomainService userDomainService;
+    private final UserService userService;
     private final GenerateAccountTokenProcessor generateAccountTokenProcessor;
     private final RefreshTokenRedisService refreshTokenRedisService;
     private final JwtProvider jwtProvider;
@@ -68,7 +68,7 @@ public class ClientAuthService {
         if (!userRepository.existsByAuthInfoEmail(userInfo.getEmail())) {
             return AccountTokenDto.notRegistered();
         }
-        User user = userDomainService.login(LoginType.fromValue(loginType), userInfo.getEmail());
+        User user = userService.login(LoginType.fromValue(loginType), userInfo.getEmail());
         return generateAccountTokenProcessor.createToken(user);
     }
 
@@ -124,7 +124,7 @@ public class ClientAuthService {
                     signUpRequestDto.getMajor()
             );
             AuthInfo authInfo = AuthInfo.authInfoForSignUp((LoginType.fromValue(loginType)), userInfo.getEmail());
-            User user = userDomainService.signUp(profile, authInfo, universityInfo);
+            User user = userService.signUp(profile, authInfo, universityInfo);
             return generateAccountTokenProcessor.createToken(user);
         }
         throw new EmailAlreadyRegistered();

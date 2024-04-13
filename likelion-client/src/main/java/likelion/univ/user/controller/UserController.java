@@ -11,14 +11,8 @@ import likelion.univ.user.dto.response.ProfileDetailsDto;
 import likelion.univ.user.dto.response.UserPagePostsDto;
 import likelion.univ.user.dto.response.UserPageProjectsDto;
 import likelion.univ.user.dto.response.UserSearchResultDto;
-import likelion.univ.user.usecase.EditProfileUsecase;
-import likelion.univ.user.usecase.GetFollowInfoUsecase;
-import likelion.univ.user.usecase.GetPostsCommentedByMeUsecase;
-import likelion.univ.user.usecase.GetProfileUsecase;
-import likelion.univ.user.usecase.GetUserLikedPostsUsecase;
-import likelion.univ.user.usecase.GetUserPostsUsecase;
-import likelion.univ.user.usecase.GetUserProjectsUsecase;
-import likelion.univ.user.usecase.SearchUserByNameUsecase;
+import likelion.univ.user.service.ClientUserQueryService;
+import likelion.univ.user.service.ClientUserService;
 import lombok.RequiredArgsConstructor;
 import org.springdoc.api.annotations.ParameterObject;
 import org.springframework.data.domain.Pageable;
@@ -37,21 +31,15 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "유저페이지", description = "유저페이지관련 API입니다.")
 public class UserController {
 
-    private final GetProfileUsecase getProfileUsecase;
-    private final EditProfileUsecase editProfileUsecase;
-    private final GetUserPostsUsecase getUserPostsUsecase;
-    private final GetPostsCommentedByMeUsecase getPostsCommentedByMeUsecase;
-    private final GetFollowInfoUsecase getFollowInfoUsecase;
-    private final SearchUserByNameUsecase searchUserByNameUsecase;
-    private final GetUserLikedPostsUsecase getUserLikedPostsUsecase;
-    private final GetUserProjectsUsecase getUserProjectsUsecase;
+    private final ClientUserService userService;
+    private final ClientUserQueryService userQueryService;
 
     @Operation(summary = "유저페이지 프로필 조회", description = "해당 유저의 프로필 정보를 조회합니다.")
     @GetMapping("/{userId}/profile")
     public SuccessResponse<Object> getProfile(
             @PathVariable("userId") Long userId
     ) {
-        ProfileDetailsDto profileDetailsDto = getProfileUsecase.execute(userId);
+        ProfileDetailsDto profileDetailsDto = userQueryService.getProfile(userId);
         return SuccessResponse.of(profileDetailsDto);
     }
 
@@ -61,7 +49,7 @@ public class UserController {
             @PathVariable("userId") Long userId,
             @RequestBody ProfileEditRequestDto profileEditRequestDto
     ) {
-        editProfileUsecase.execute(userId, profileEditRequestDto);
+        userService.editProfile(userId, profileEditRequestDto);
         return SuccessResponse.empty();
     }
 
@@ -71,7 +59,7 @@ public class UserController {
             @PathVariable("userId") Long userId,
             @ParameterObject @PageableDefault(size = 4, page = 0) Pageable pageable
     ) {
-        SliceResponse<FollowUserInfoDto> followingUsers = getFollowInfoUsecase.executeForFollowing(userId, pageable);
+        SliceResponse<FollowUserInfoDto> followingUsers = userQueryService.getFollowInfoForFollowing(userId, pageable);
         return SuccessResponse.of(followingUsers);
     }
 
@@ -81,7 +69,7 @@ public class UserController {
             @PathVariable("userId") Long userId,
             @ParameterObject @PageableDefault(size = 4, page = 0) Pageable pageable
     ) {
-        SliceResponse<FollowUserInfoDto> followerUsers = getFollowInfoUsecase.executeForFollower(userId, pageable);
+        SliceResponse<FollowUserInfoDto> followerUsers = userQueryService.getFollowInfoForFollower(userId, pageable);
         return SuccessResponse.of(followerUsers);
     }
 
@@ -91,7 +79,7 @@ public class UserController {
             @PathVariable("userId") Long userId,
             @ParameterObject @PageableDefault(size = 6, page = 1) Pageable pageable
     ) {
-        PageResponse<UserPagePostsDto> myPagePostsPage = getUserPostsUsecase.execute(userId, pageable);
+        PageResponse<UserPagePostsDto> myPagePostsPage = userQueryService.getUserPosts(userId, pageable);
         return SuccessResponse.of(myPagePostsPage);
     }
 
@@ -103,8 +91,9 @@ public class UserController {
             @RequestParam(value = "search", required = false) String search,
             @ParameterObject @PageableDefault(size = 6, page = 0) Pageable pageable
     ) {
-        PageResponse<UserPagePostsDto> myPagePostsPageLikedByUser = getUserLikedPostsUsecase.execute(userId, pageable,
-                sort, search);
+        PageResponse<UserPagePostsDto> myPagePostsPageLikedByUser = userQueryService.getUserLikedPosts(
+                userId, pageable, sort, search
+        );
         return SuccessResponse.of(myPagePostsPageLikedByUser);
     }
 
@@ -114,8 +103,9 @@ public class UserController {
             @PathVariable("userId") Long userId,
             @ParameterObject @PageableDefault(size = 6, page = 0) Pageable pageable
     ) {
-        PageResponse<UserPagePostsDto> myPagePostsPageCommentedByUser = getPostsCommentedByMeUsecase.execute(userId,
-                pageable);
+        PageResponse<UserPagePostsDto> myPagePostsPageCommentedByUser = userQueryService.getPostsCommentedByMe(
+                userId, pageable
+        );
         return SuccessResponse.of(myPagePostsPageCommentedByUser);
     }
 
@@ -125,7 +115,7 @@ public class UserController {
             @RequestParam(value = "name", required = false) String name,
             @ParameterObject @PageableDefault(size = 4, page = 0) Pageable pageable
     ) {
-        SliceResponse<UserSearchResultDto> searchedUsers = searchUserByNameUsecase.execute(name, pageable);
+        SliceResponse<UserSearchResultDto> searchedUsers = userQueryService.searchUserByName(name, pageable);
         return SuccessResponse.of(searchedUsers);
     }
 
@@ -135,21 +125,8 @@ public class UserController {
             @PathVariable("userId") Long userId,
             @ParameterObject @PageableDefault(size = 6, page = 0) Pageable pageable
     ) {
-        PageResponse<UserPageProjectsDto> myPageProjects = getUserProjectsUsecase.execute(userId, pageable);
+        PageResponse<UserPageProjectsDto> myPageProjects = userQueryService.getUserProjects(userId, pageable);
         return SuccessResponse.of(myPageProjects);
     }
-//
-//    @Operation(summary = "휴대폰 인증 요청", description = "휴대폰 번호 인증을 위해 서버 내부에 인증번호를 생성합니다.")
-//    @PostMapping("/phone/certify")
-//    public SuccessResponse<Object> login(@RequestParam("phonenum") String phoneNum){
-//        return SuccessResponse.of();
-//    }
-//
-//    @Operation(summary = "휴대폰 인증번호 확인", description = "휴대폰 인증번호 확인 후 인증 토큰을 발급합니다.")
-//    @PostMapping("/phone/certify/check")
-//    public SuccessResponse<Object> getIdToken(@RequestParam("certifynum") Long certifyNum){
-//
-//        return SuccessResponse.of();
-//    }
 }
 
