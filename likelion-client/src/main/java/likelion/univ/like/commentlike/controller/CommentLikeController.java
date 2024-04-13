@@ -33,7 +33,7 @@ public class CommentLikeController {
             @RequestBody CommentLikeRequestDto request
     ) throws NotAuthorizedException {
         Long userId = userUtils.getCurrentUserId();
-        boolean likeCreated = clientCommentLikeService.createOrDeleteCommentLike(request.toCommand(userId));
+        boolean likeCreated = clientCommentLikeService.createOrDelete(request.toCommand(userId));
         if (likeCreated) {
             return SuccessResponse.of("좋아요가 생성되었습니다.", "201");
         }

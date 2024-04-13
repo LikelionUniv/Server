@@ -12,7 +12,7 @@ public class ClientCommentLikeService {
 
     private final CommentLikeService commentLikeService;
 
-    public boolean createOrDeleteCommentLike(CommentLikeCommand command) throws NotAuthorizedException {
+    public boolean createOrDelete(CommentLikeCommand command) throws NotAuthorizedException {
         return commentLikeService.createOrDeleteCommentLike(command);
     }
 }

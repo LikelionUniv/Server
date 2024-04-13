@@ -1,27 +1,24 @@
-package likelion.univ.like.postlike.usecase;
+package likelion.univ.like.postlike.service;
 
 import likelion.univ.annotation.UseCase;
 import likelion.univ.domain.like.postlike.dto.PostLikeCommand;
 import likelion.univ.domain.like.postlike.service.PostLikeDomainService;
-import likelion.univ.like.postlike.dto.PostLikeRequestDto;
 import likelion.univ.post.entity.PostCountInfo;
 import likelion.univ.post.processor.GetOrCreatePostCountInfoProcessor;
 import likelion.univ.post.processor.UpdatePostCountInfoProcessor;
-import likelion.univ.utils.AuthenticatedUserUtils;
 import lombok.RequiredArgsConstructor;
 
 @UseCase
 @RequiredArgsConstructor
-public class CreateOrDeletePostLikeUsecase {
+public class ClientPostLikeService {
 
     private final PostLikeDomainService postLikeDomainService;
-    private final AuthenticatedUserUtils userUtils;
     private final GetOrCreatePostCountInfoProcessor getOrCreatePostCountInfoProcessor;
     private final UpdatePostCountInfoProcessor updatePostCountInfoProcessor;
 
-    public boolean execute(PostLikeRequestDto request) {
-        boolean hasCreated = postLikeDomainService.createOrDeletePostLike(getServiceDto(request));
-        Long postId = request.postId();
+    public boolean createOrDelete(PostLikeCommand command) {
+        boolean hasCreated = postLikeDomainService.createOrDeletePostLike(command);
+        Long postId = command.postId();
         PostCountInfo countInfo = getOrCreatePostCountInfoProcessor.execute(postId);
         Long commentCount = countInfo.getCommentCount();
         Long likeCount = countInfo.getLikeCount();
@@ -31,9 +28,5 @@ public class CreateOrDeletePostLikeUsecase {
             updatePostCountInfoProcessor.execute(postId, commentCount, --likeCount);
         }
         return hasCreated;
-    }
-
-    private PostLikeCommand getServiceDto(PostLikeRequestDto request) {
-        return new PostLikeCommand(request.postId(), userUtils.getCurrentUserId());
     }
 }
