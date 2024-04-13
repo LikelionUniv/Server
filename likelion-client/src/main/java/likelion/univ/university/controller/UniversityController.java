@@ -6,9 +6,7 @@ import java.util.List;
 import likelion.univ.response.SuccessResponse;
 import likelion.univ.university.dto.response.UnivResponseDto;
 import likelion.univ.university.dto.response.UniversityDetailResponseDto;
-import likelion.univ.university.usecase.GetLocationUnivDetailsUsecase;
-import likelion.univ.university.usecase.GetTotalUnivDetailsUsecase;
-import likelion.univ.university.usecase.GetUnivUsecase;
+import likelion.univ.university.service.ClientUniversityQueryService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,21 +21,19 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "University", description = "대학교 API")
 public class UniversityController {
 
-    private final GetUnivUsecase getUnivUsecase;
-    private final GetTotalUnivDetailsUsecase getTotalUnivDetailsUsecase;
-    private final GetLocationUnivDetailsUsecase getLocationUnivDetailsUsecase;
+    private final ClientUniversityQueryService universityQueryService;
 
     @Operation(summary = "대학교 조회", description = "대학교를 조회합니다.")
     @GetMapping
     public SuccessResponse<Object> getAllUniv() {
-        List<UnivResponseDto> univList = getUnivUsecase.execute();
+        List<UnivResponseDto> univList = universityQueryService.getUniv();
         return SuccessResponse.of(univList);
     }
 
     @Operation(summary = "대학교 전체 조회", description = "대학교 전체를 조회합니다.")
     @GetMapping("/all")
     public SuccessResponse<List<UniversityDetailResponseDto>> getAllUnivList() {
-        List<UniversityDetailResponseDto> result = getTotalUnivDetailsUsecase.execute();
+        List<UniversityDetailResponseDto> result = universityQueryService.getTotalUnivDetails();
         return SuccessResponse.of(result);
     }
 
@@ -46,7 +42,7 @@ public class UniversityController {
     public SuccessResponse<List<UniversityDetailResponseDto>> getLocalUnivList(
             @PathVariable("location") String location
     ) {
-        List<UniversityDetailResponseDto> result = getLocationUnivDetailsUsecase.execute(location);
+        List<UniversityDetailResponseDto> result = universityQueryService.getLocationUnivDetails(location);
         return SuccessResponse.of(result);
     }
 }
