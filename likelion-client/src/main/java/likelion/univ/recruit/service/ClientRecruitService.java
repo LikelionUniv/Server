@@ -1,4 +1,4 @@
-package likelion.univ.recruit.usecase;
+package likelion.univ.recruit.service;
 
 import likelion.univ.annotation.UseCase;
 import likelion.univ.domain.recruit.entity.Recruit;
@@ -10,12 +10,12 @@ import lombok.RequiredArgsConstructor;
 
 @UseCase
 @RequiredArgsConstructor
-public class CreateRecruitUsecase {
+public class ClientRecruitService {
 
     private final RecruitService recruitService;
     private final UniversityService universityService;
 
-    public Long execute(CreateRecruitDto createRecruitDto, String universityName) {
+    public Long create(CreateRecruitDto createRecruitDto, String universityName) {
         University university = universityService.findByName(universityName);
         Recruit recruit = createRecruitDto.toEntity(university);
         return recruitService.register(recruit);
