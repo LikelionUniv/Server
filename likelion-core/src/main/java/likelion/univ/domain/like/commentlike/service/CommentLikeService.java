@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class CommentLikeDomainService {
+public class CommentLikeService {
 
     private final UserRepository userRepository;
     private final CommentRepository commentRepository;

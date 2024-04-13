@@ -4,8 +4,9 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import likelion.univ.domain.comment.exception.NotAuthorizedException;
 import likelion.univ.like.commentlike.dto.CommentLikeRequestDto;
-import likelion.univ.like.commentlike.usecase.CreateOrDeleteCommentLikeUsecase;
+import likelion.univ.like.commentlike.service.ClientCommentLikeService;
 import likelion.univ.response.SuccessResponse;
+import likelion.univ.utils.AuthenticatedUserUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,7 +21,8 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "댓글 좋아요", description = "커뮤니티 APIs")
 public class CommentLikeController {
 
-    private final CreateOrDeleteCommentLikeUsecase createOrDeleteCommentLikeUsecase;
+    private final AuthenticatedUserUtils userUtils;
+    private final ClientCommentLikeService clientCommentLikeService;
 
     @Operation(summary = "댓글 좋아요 수행 / 취소", description = """
             - commentId에 대하여 댓글 좋아요 수행
@@ -30,7 +32,8 @@ public class CommentLikeController {
     public SuccessResponse createOrDeleteCommentLike(
             @RequestBody CommentLikeRequestDto request
     ) throws NotAuthorizedException {
-        boolean likeCreated = createOrDeleteCommentLikeUsecase.execute(request);
+        Long userId = userUtils.getCurrentUserId();
+        boolean likeCreated = clientCommentLikeService.createOrDeleteCommentLike(request.toCommand(userId));
         if (likeCreated) {
             return SuccessResponse.of("좋아요가 생성되었습니다.", "201");
         }
