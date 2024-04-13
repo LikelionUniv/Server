@@ -34,7 +34,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
-public class PostDomainService {
+public class PostService {
 
     private final PostRepository postRepository;
     private final UserRepository userRepository;

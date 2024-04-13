@@ -2,7 +2,7 @@ package likelion.univ.example.service;
 
 import likelion.univ.domain.example.entity.Example;
 import likelion.univ.domain.example.repository.ExampleRepository;
-import likelion.univ.domain.example.service.ExampleDomainService;
+import likelion.univ.domain.example.service.ExampleService;
 import likelion.univ.example.dto.request.CreateExampleRequestDto;
 import likelion.univ.example.dto.response.ExampleInfoResponseDto;
 import lombok.RequiredArgsConstructor;
@@ -14,11 +14,11 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class ExampleAdminService {
 
-    private final ExampleDomainService exampleDomainService;
+    private final ExampleService exampleService;
     private final ExampleRepository exampleRepository;
 
     public void create(CreateExampleRequestDto createExampleRequestDto) {
-        exampleDomainService.createExample(createExampleRequestDto.body());
+        exampleService.createExample(createExampleRequestDto.body());
     }
 
     public void delete(Long id) {
@@ -27,7 +27,7 @@ public class ExampleAdminService {
     }
 
     public void edit(Long id, CreateExampleRequestDto createExampleRequestDto) {
-        exampleDomainService.editExample(id, createExampleRequestDto.body());
+        exampleService.editExample(id, createExampleRequestDto.body());
     }
 
     public ExampleInfoResponseDto get(Long id) {

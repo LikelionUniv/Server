@@ -12,7 +12,7 @@ import likelion.univ.domain.comment.dto.response.CommentData;
 import likelion.univ.domain.comment.dto.response.DeleteCommentData;
 import likelion.univ.domain.comment.dto.response.ParentCommentData;
 import likelion.univ.domain.comment.exception.CommentAlreadyDeletedException;
-import likelion.univ.domain.comment.service.CommentDomainService;
+import likelion.univ.domain.comment.service.CommentService;
 import likelion.univ.post.entity.PostCountInfo;
 import likelion.univ.post.processor.GetOrCreatePostCountInfoProcessor;
 import likelion.univ.post.processor.UpdatePostCountInfoProcessor;
@@ -25,12 +25,12 @@ import org.springframework.stereotype.Service;
 public class ClientCommentService {
 
     private final AuthenticatedUserUtils userUtils;
-    private final CommentDomainService commentDomainService;
+    private final CommentService commentService;
     private final GetOrCreatePostCountInfoProcessor getOrCreatePostCountInfoProcessor;
     private final UpdatePostCountInfoProcessor updatePostCountInfoProcessor;
 
     public void createChildComment(CreateChildCommentCommand command) {
-        Long postId = commentDomainService.createChildComment(command);
+        Long postId = commentService.createChildComment(command);
         // redis update
         PostCountInfo postCountInfo = getOrCreatePostCountInfoProcessor.execute(postId);
         Long commentCount = postCountInfo.getCommentCount();
@@ -40,7 +40,7 @@ public class ClientCommentService {
 
     public void createParentComment(CreateParentCommentCommand command) {
         Long postId = command.postId();
-        commentDomainService.createParentComment(command);
+        commentService.createParentComment(command);
         // redis update
         PostCountInfo countInfo = getOrCreatePostCountInfoProcessor.execute(postId);
         Long commentCount = countInfo.getCommentCount();
@@ -50,7 +50,7 @@ public class ClientCommentService {
 
     public List<CommentResponseDto> getComments(Long postId) {
         Long loginUserId = userUtils.getCurrentUserId();
-        CommentData commentData = commentDomainService.getComment(new GetCommentCommand(postId, loginUserId));
+        CommentData commentData = commentService.getComment(new GetCommentCommand(postId, loginUserId));
         Long postAuthorId = commentData.postAuthorId();
         List<ParentCommentData> parentCommentData = commentData.parentComments();
         List<ChildCommentData> childCommentData = commentData.childComments();
@@ -64,11 +64,11 @@ public class ClientCommentService {
     }
 
     public void hardDeleteComment(DeleteCommentCommand command) {
-        commentDomainService.deleteCommentHard(command);
+        commentService.deleteCommentHard(command);
     }
 
     public void softDeleteComment(DeleteCommentCommand command) {
-        DeleteCommentData deleteCommentData = commentDomainService.deleteCommentSoft(command);
+        DeleteCommentData deleteCommentData = commentService.deleteCommentSoft(command);
         if (!deleteCommentData.isDeleted()) {
             throw new CommentAlreadyDeletedException();
         }
@@ -81,6 +81,6 @@ public class ClientCommentService {
     }
 
     public Long updateComment(UpdateCommentCommand command) {
-        return commentDomainService.updateCommentBody(command);
+        return commentService.updateCommentBody(command);
     }
 }

@@ -14,7 +14,7 @@ import likelion.univ.domain.post.dto.request.GetPostsBySearchTitleCommand;
 import likelion.univ.domain.post.dto.response.PostDetailData;
 import likelion.univ.domain.post.dto.response.PostEditData;
 import likelion.univ.domain.post.dto.response.PostSimpleData;
-import likelion.univ.domain.post.service.PostDomainService;
+import likelion.univ.domain.post.service.PostService;
 import likelion.univ.post.dto.response.PostDetailResponseDto;
 import likelion.univ.post.dto.response.PostEditResponseDto;
 import likelion.univ.post.dto.response.PostResponseDto;
@@ -31,14 +31,14 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class ClientPostQueryService {
 
-    private final PostDomainService postDomainService;
+    private final PostService postService;
     private final AuthenticatedUserUtils authenticatedUserUtils;
     private final GetOrCreatePostCountInfoProcessor getOrCreatePostCountInfoProcessor;
 
     public PostDetailResponseDto getDetail(Long postId) {
         Long loginUserId = authenticatedUserUtils.getCurrentUserId();
         GetPostDetailCommand serviceRequestDto = new GetPostDetailCommand(postId, loginUserId);
-        PostDetailData serviceResponseDto = postDomainService.getPostDetail(serviceRequestDto);
+        PostDetailData serviceResponseDto = postService.getPostDetail(serviceRequestDto);
         return PostDetailResponseDto.of(
                 serviceResponseDto,
                 getOrCreatePostCountInfoProcessor.execute(serviceResponseDto.postId()),
@@ -47,7 +47,7 @@ public class ClientPostQueryService {
     }
 
     public PostEditResponseDto getPostEdit(Long postId) {
-        PostEditData postEdit = postDomainService.getPostEditById(postId);
+        PostEditData postEdit = postService.getPostEditById(postId);
         return PostEditResponseDto.of(postEdit);
     }
 
@@ -62,7 +62,7 @@ public class ClientPostQueryService {
                 SubCategory.findByTitle(subCategory)
         );
         if (orderCondition.equals(LIKE_COUNT_ORDER)) {
-            Page<PostSimpleData> postSimpleDataPage = postDomainService.getByCategoriesOrderByLikeCount(
+            Page<PostSimpleData> postSimpleDataPage = postService.getByCategoriesOrderByLikeCount(
                     request, pageable
             );
             return PageResponse.of(postSimpleDataPage.map(
@@ -70,13 +70,13 @@ public class ClientPostQueryService {
             ));
 
         } else if (orderCondition.equals(COMMENT_COUNT_ORDER)) {
-            Page<PostSimpleData> postSimpleDataPage = postDomainService.getByCategoriesOrderByCommentCount(request,
+            Page<PostSimpleData> postSimpleDataPage = postService.getByCategoriesOrderByCommentCount(request,
                     pageable);
             return PageResponse.of(postSimpleDataPage.map(
                     p -> PostResponseDto.of(p, getOrCreatePostCountInfoProcessor.execute(p.postId()))
             ));
         }
-        Page<PostSimpleData> postSimpleDataPage = postDomainService.getByCategoriesOrderByCreatedData(request,
+        Page<PostSimpleData> postSimpleDataPage = postService.getByCategoriesOrderByCreatedData(request,
                 pageable);
         return PageResponse.of(postSimpleDataPage.map(
                 p -> PostResponseDto.of(p, getOrCreatePostCountInfoProcessor.execute(p.postId()))
@@ -97,7 +97,7 @@ public class ClientPostQueryService {
                     mainCategory,
                     subCategory
             );
-            var result = postDomainService.getByCategoriesAndSearchTitle(request, pageable);
+            var result = postService.getByCategoriesAndSearchTitle(request, pageable);
             return PageResponse.of(result.map(p ->
                     PostResponseDto.of(
                             p,
@@ -105,7 +105,7 @@ public class ClientPostQueryService {
                     )));
         }
         var request = new GetPostsBySearchTitleCommand(orderCondition, searchTitle);
-        var result = postDomainService.getBySearchTitle(request, pageable);
+        var result = postService.getBySearchTitle(request, pageable);
         return PageResponse.of(result.map(p ->
                 PostResponseDto.of(
                         p,

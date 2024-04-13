@@ -24,7 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class CommentDomainService {
+public class CommentService {
 
     private final CommentRepository commentRepository;
     private final PostRepository postRepository;
