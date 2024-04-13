@@ -8,22 +8,19 @@ import likelion.univ.common.response.PageResponse;
 import likelion.univ.domain.post.dto.enums.MainCategory;
 import likelion.univ.domain.post.dto.enums.PostOrderCondition;
 import likelion.univ.domain.post.dto.enums.SubCategory;
+import likelion.univ.domain.post.dto.request.DeletePostCommand;
 import likelion.univ.domain.post.exception.PostErrorCode;
 import likelion.univ.post.dto.request.PostCreateRequestDto;
 import likelion.univ.post.dto.request.PostUpdateRequestDto;
 import likelion.univ.post.dto.response.PostDetailResponseDto;
 import likelion.univ.post.dto.response.PostEditResponseDto;
 import likelion.univ.post.dto.response.PostResponseDto;
-import likelion.univ.post.usecase.CreatePostUsecase;
-import likelion.univ.post.usecase.DeletePostUsecase;
-import likelion.univ.post.usecase.EditPostUsecase;
-import likelion.univ.post.usecase.GetPostDetailUsecase;
-import likelion.univ.post.usecase.GetPostEditUsecase;
-import likelion.univ.post.usecase.GetPostsByCategoriesUsecase;
-import likelion.univ.post.usecase.GetPostsBySearchTitleUsecase;
+import likelion.univ.post.service.ClientPostQueryService;
+import likelion.univ.post.service.ClientPostService;
 import likelion.univ.response.BaseResponse;
 import likelion.univ.response.ErrorResponse;
 import likelion.univ.response.SuccessResponse;
+import likelion.univ.utils.AuthenticatedUserUtils;
 import lombok.RequiredArgsConstructor;
 import org.springdoc.api.annotations.ParameterObject;
 import org.springframework.data.domain.Pageable;
@@ -45,13 +42,9 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "게시글", description = "커뮤니티 APIs")
 public class PostController {
 
-    private final CreatePostUsecase createPostUsecase;
-    private final EditPostUsecase editPostUsecase;
-    private final DeletePostUsecase deletePostUsecase;
-    private final GetPostsByCategoriesUsecase getPostsByCategoriesUsecase;
-    private final GetPostDetailUsecase getPostDetailUsecase;
-    private final GetPostEditUsecase getPostEditUsecase;
-    private final GetPostsBySearchTitleUsecase getPostsBySearchTitleUsecase;
+    private final AuthenticatedUserUtils userUtils;
+    private final ClientPostService postService;
+    private final ClientPostQueryService postQueryService;
 
     /* ----- read ----- */
     @Operation(
@@ -65,7 +58,7 @@ public class PostController {
     public SuccessResponse<PostDetailResponseDto> findPostDetail(
             @PathVariable("postId") Long postId
     ) {
-        PostDetailResponseDto response = getPostDetailUsecase.execute(postId);
+        PostDetailResponseDto response = postQueryService.getDetail(postId);
         return SuccessResponse.of(response);
     }
 
@@ -81,7 +74,7 @@ public class PostController {
     public SuccessResponse<PostEditResponseDto> findPostEdit(
             @PathVariable("postId") Long postId
     ) {
-        PostEditResponseDto response = getPostEditUsecase.execute(postId);
+        PostEditResponseDto response = postQueryService.getPostEdit(postId);
         return SuccessResponse.of(response);
     }
 
@@ -114,7 +107,9 @@ public class PostController {
         if (!MainCategory.isValid(mc) || !SubCategory.isValid(sc)) {
             return ErrorResponse.of(PostErrorCode.CATEGORY_NOT_FOUND);
         }
-        PageResponse<PostResponseDto> response = getPostsByCategoriesUsecase.execute(oc, mc, sc, pageable);
+        PageResponse<PostResponseDto> response = postQueryService.getPostsByCategories(
+                oc, mc, sc, pageable
+        );
         return SuccessResponse.of(response);
     }
 
@@ -150,7 +145,9 @@ public class PostController {
         if (!mc.equals("전체 게시판") && (!MainCategory.isValid(mc) || !SubCategory.isValid(sc))) {
             return ErrorResponse.of(PostErrorCode.CATEGORY_NOT_FOUND);
         }
-        PageResponse<PostResponseDto> response = getPostsBySearchTitleUsecase.execute(oc, st, mc, sc, pageable);
+        PageResponse<PostResponseDto> response = postQueryService.getPostBySearchTitle(
+                oc, st, mc, sc, pageable
+        );
         return SuccessResponse.of(response);
     }
 
@@ -173,7 +170,8 @@ public class PostController {
     public SuccessResponse<Long> createPost(
             @RequestBody @Valid PostCreateRequestDto request
     ) {
-        Long savedPostId = createPostUsecase.execute(request);
+        Long userId = userUtils.getCurrentUserId();
+        Long savedPostId = postService.create(request.toCommand(userId));
         return SuccessResponse.of(savedPostId);
     }
 
@@ -185,7 +183,8 @@ public class PostController {
             @PathVariable("postId") Long postId,
             @RequestBody PostUpdateRequestDto request
     ) {
-        Long updatedPostId = editPostUsecase.execute(postId, request);
+        Long userId = userUtils.getCurrentUserId();
+        Long updatedPostId = postService.update(request.toCommand(postId, userId));
         return SuccessResponse.of(updatedPostId);
     }
 
@@ -196,7 +195,8 @@ public class PostController {
     public SuccessResponse deletePost(
             @PathVariable("postId") Long postId
     ) {
-        deletePostUsecase.execute(postId);
+        Long userId = userUtils.getCurrentUserId();
+        postService.delete(new DeletePostCommand(postId, userId));
         return SuccessResponse.empty();
     }
 }
