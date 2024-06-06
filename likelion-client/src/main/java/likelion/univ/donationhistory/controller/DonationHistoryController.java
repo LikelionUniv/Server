@@ -5,8 +5,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import likelion.univ.common.response.PageResponse;
 import likelion.univ.donationhistory.dto.response.DonationHistoriesDetailsResponseDto;
 import likelion.univ.donationhistory.dto.response.DonationHistoriesSearchResponseDto;
-import likelion.univ.donationhistory.usecase.GetDonationHistoryDetailsUsecase;
-import likelion.univ.donationhistory.usecase.SearchDonationHistoryUsecase;
+import likelion.univ.donationhistory.service.ClientDonationHistoryService;
 import likelion.univ.response.SuccessResponse;
 import lombok.RequiredArgsConstructor;
 import org.springdoc.api.annotations.ParameterObject;
@@ -20,12 +19,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping( "/v1/donation-history")
+@RequestMapping("/v1/donation-history")
 @Tag(name = "기부금 게시판", description = "기부금 게시판관련 API입니다.")
 public class DonationHistoryController {
 
-    private final SearchDonationHistoryUsecase searchDonationHistoryUsecase;
-    private final GetDonationHistoryDetailsUsecase getDonationHistoryDetailsUsecase;
+    private final ClientDonationHistoryService clientDonationHistoryService;
 
     @Operation(summary = "기부금 게시글 목록 검색", description = "기부금 게시글을 검색합니다. 파라미터로 search를 포함하지 않을 시 전체 조회입니다.")
     @GetMapping
@@ -34,7 +32,7 @@ public class DonationHistoryController {
             @RequestParam(value = "search", required = false) String search,
             @ParameterObject @PageableDefault(size = 10, page = 0) Pageable pageable
     ) {
-        PageResponse<DonationHistoriesSearchResponseDto> result = searchDonationHistoryUsecase.execute(sort, search,
+        PageResponse<DonationHistoriesSearchResponseDto> result = clientDonationHistoryService.search(sort, search,
                 pageable);
         return SuccessResponse.of(result);
     }
@@ -44,7 +42,7 @@ public class DonationHistoryController {
     public SuccessResponse<Object> searchDonationHistories(
             @PathVariable("donationHistoryId") Long donationHistoryId
     ) {
-        DonationHistoriesDetailsResponseDto result = getDonationHistoryDetailsUsecase.execute(donationHistoryId);
+        DonationHistoriesDetailsResponseDto result = clientDonationHistoryService.getDetails(donationHistoryId);
         return SuccessResponse.of(result);
     }
 }

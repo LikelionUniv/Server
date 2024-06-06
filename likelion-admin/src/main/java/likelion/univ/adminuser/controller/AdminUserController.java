@@ -8,10 +8,7 @@ import javax.validation.Valid;
 import likelion.univ.adminuser.dto.request.DeletedUserListRequestDto;
 import likelion.univ.adminuser.dto.request.UpdateUserRequestDto;
 import likelion.univ.adminuser.dto.response.UserInfoResponseDto;
-import likelion.univ.adminuser.usecase.DeleteAllUserUsecase;
-import likelion.univ.adminuser.usecase.DeleteUserUsecase;
-import likelion.univ.adminuser.usecase.FindAllByUnivAdminUsecase;
-import likelion.univ.adminuser.usecase.UpdateUserUsecase;
+import likelion.univ.adminuser.service.AdminUserService;
 import likelion.univ.common.response.PageResponse;
 import likelion.univ.response.SuccessResponse;
 import lombok.RequiredArgsConstructor;
@@ -34,10 +31,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "UserByUnivAdmin", description = "학교 대표에 의한 사용자 관련 API")
 public class AdminUserController {
 
-    private final UpdateUserUsecase updateUserUsecase;
-    private final DeleteUserUsecase deleteUserUsecase;
-    private final DeleteAllUserUsecase deleteAllUserUsecase;
-    private final FindAllByUnivAdminUsecase findAllByUnivAdminUsecase;
+    private final AdminUserService adminUserService;
 
     @Operation(summary = "우리 학교 동아리 멤버 전체 조회")
     @GetMapping("/univ/users")
@@ -46,7 +40,7 @@ public class AdminUserController {
             @PageableDefault(size = 10, page = 0, sort = "createdDate", direction = DESC)
             Pageable pageable
     ) {
-        PageResponse<UserInfoResponseDto> response = findAllByUnivAdminUsecase.execute(pageable);
+        PageResponse<UserInfoResponseDto> response = adminUserService.findAllByAdminUserUniv(pageable);
         return SuccessResponse.of(response);
     }
 
@@ -56,7 +50,7 @@ public class AdminUserController {
             @PathVariable("userId") Long userId,
             @RequestBody UpdateUserRequestDto updateUserRequestDto
     ) {
-        UserInfoResponseDto response = updateUserUsecase.execute(userId, updateUserRequestDto);
+        UserInfoResponseDto response = adminUserService.updateUser(userId, updateUserRequestDto);
         return SuccessResponse.of(response);
     }
 
@@ -65,16 +59,16 @@ public class AdminUserController {
     public SuccessResponse deleteUser(
             @PathVariable("userId") Long userId
     ) {
-        deleteUserUsecase.execute(userId);
+        adminUserService.delete(userId);
         return SuccessResponse.empty();
     }
 
     @Operation(summary = "우리 학교 동아리 멤버(리스트) 삭제")
     @DeleteMapping("/users")
     public SuccessResponse deleteUserList(
-            @Valid @RequestBody DeletedUserListRequestDto deletedUserListRequestDto
+            @Valid @RequestBody DeletedUserListRequestDto dto
     ) {
-        deleteAllUserUsecase.execute(deletedUserListRequestDto);
+        adminUserService.deleteAllUser(dto.getIds());
         return SuccessResponse.empty();
     }
 }

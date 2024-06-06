@@ -2,6 +2,7 @@ package likelion.univ.post.dto.request;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import javax.validation.constraints.NotBlank;
+import likelion.univ.domain.post.dto.request.UpdatePostCommand;
 import lombok.Builder;
 
 @Builder
@@ -21,4 +22,15 @@ public record PostUpdateRequestDto(
         @Schema(description = "게시글 서브 카테고리 수정", example = "정보공유")
         String subCategory
 ) {
+    public UpdatePostCommand toCommand(Long postId, Long userId) {
+        return UpdatePostCommand.builder()
+                .loginUserId(userId)
+                .postId(postId)
+                .title(title)
+                .thumbnail(thumbnail)
+                .body(body)
+                .mainCategory(mainCategory)
+                .subCategory(subCategory)
+                .build();
+    }
 }

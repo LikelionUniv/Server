@@ -6,7 +6,7 @@ import lombok.ToString;
 @Getter
 @ToString
 public class SuccessResponse<T> extends BaseResponse {
-    
+
     private final T data;
 
     public SuccessResponse(T data) {
