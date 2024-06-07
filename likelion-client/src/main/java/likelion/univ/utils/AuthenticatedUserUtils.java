@@ -7,7 +7,7 @@ import likelion.univ.security.SecurityUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-// TODO 이것도 반드시 제거..
+// TODO 이것도 반드시 제거 ..
 @Component
 @RequiredArgsConstructor
 public class AuthenticatedUserUtils {
