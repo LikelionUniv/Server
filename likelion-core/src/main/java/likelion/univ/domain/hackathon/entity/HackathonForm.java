@@ -55,6 +55,8 @@ public class HackathonForm {
     @Column(length = 10, nullable = false)
     private String teamName;
 
+    private boolean offlineParticipation;
+
     public HackathonForm(
             User user,
             String name,
@@ -63,7 +65,8 @@ public class HackathonForm {
             String major,
             String phone,
             HackathonPart hackathonPart,
-            String teamName
+            String teamName,
+            boolean offlineParticipation
     ) {
         this.user = user;
         this.name = name;
@@ -73,6 +76,7 @@ public class HackathonForm {
         this.phone = phone;
         this.hackathonPart = hackathonPart;
         this.teamName = teamName;
+        this.offlineParticipation = offlineParticipation;
     }
 
     public void apply() {

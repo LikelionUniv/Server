@@ -14,7 +14,8 @@ public record HackathonApplyCommand(
         String major,
         String phone,
         HackathonPart hackathonPart,
-        String teamName
+        String teamName,
+        boolean offlineParticipation
 ) {
     public HackathonForm toHackathonForm(User user, University university) {
         return new HackathonForm(
@@ -25,7 +26,8 @@ public record HackathonApplyCommand(
                 major,
                 phone,
                 hackathonPart,
-                teamName
+                teamName,
+                offlineParticipation
         );
     }
 }

@@ -36,7 +36,8 @@ class HackathonFormTest {
                 "major",
                 "01011112222",
                 HackathonPart.PM,
-                "team"
+                "team",
+                false
         );
 
         // when & then
@@ -61,7 +62,8 @@ class HackathonFormTest {
                 "major",
                 "01011112222",
                 HackathonPart.PM,
-                "team"
+                "team",
+                false
         );
 
         // when & then
