@@ -11,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import likelion.univ.common.entity.BaseTimeEntity;
 import likelion.univ.domain.hackathon.exception.NoAuthorityGuestApplyHackathon;
 import likelion.univ.domain.hackathon.exception.NoAuthorityOrdinalApplyHackathon;
 import likelion.univ.domain.university.entity.University;
@@ -23,7 +24,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-public class HackathonForm {
+public class HackathonForm extends BaseTimeEntity {
 
     public static final Long HACKATHON_ORDINAL = 12L;
 
