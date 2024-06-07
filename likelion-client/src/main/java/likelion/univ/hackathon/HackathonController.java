@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import javax.validation.Valid;
 import likelion.univ.domain.hackathon.service.HackathonService;
+import likelion.univ.email.sender.EmailSender;
 import likelion.univ.hackathon.request.HackathonApplyRequest;
 import likelion.univ.response.SuccessResponse;
 import likelion.univ.utils.AuthenticatedUserUtils;
@@ -21,6 +22,7 @@ public class HackathonController {
 
     private final AuthenticatedUserUtils userUtils;
     private final HackathonService hackathonService;
+    private final EmailSender emailSender;
 
     @Operation(summary = "해커톤 신청")
     @PostMapping
@@ -29,6 +31,7 @@ public class HackathonController {
     ) {
         Long userId = userUtils.getCurrentUserId();
         Long projectId = hackathonService.apply(request.toCommand(userId));
+        // TODO: emailSender.send(); ???
         return SuccessResponse.of(projectId);
     }
 }
