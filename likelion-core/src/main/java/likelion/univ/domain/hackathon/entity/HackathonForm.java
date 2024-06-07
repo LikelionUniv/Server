@@ -11,7 +11,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import likelion.univ.domain.hackathon.exception.NoAuthorityApplyHackathon;
+import likelion.univ.domain.hackathon.exception.NoAuthorityGuestApplyHackathon;
+import likelion.univ.domain.hackathon.exception.NoAuthorityOrdinalApplyHackathon;
 import likelion.univ.domain.university.entity.University;
 import likelion.univ.domain.user.entity.Role;
 import likelion.univ.domain.user.entity.User;
@@ -23,6 +24,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 public class HackathonForm {
+
+    public static final Long HACKATHON_ORDINAL = 12L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -81,7 +84,10 @@ public class HackathonForm {
 
     public void apply() {
         if (user.getAuthInfo().getRole().equals(Role.GUEST)) {
-            throw new NoAuthorityApplyHackathon();
+            throw new NoAuthorityGuestApplyHackathon();
+        }
+        if (!user.getUniversityInfo().getOrdinal().equals(HACKATHON_ORDINAL)) {
+            throw new NoAuthorityOrdinalApplyHackathon();
         }
     }
 }
