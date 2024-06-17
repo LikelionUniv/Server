@@ -93,14 +93,6 @@ public class HackathonForm extends BaseTimeEntity {
     }
 
     public void modify(String phone, HackathonPart hackathonPart, String teamName, boolean offlineParticipation) {
-
-        if (user.getAuthInfo().getRole().equals(Role.GUEST)) {
-            throw new NoAuthorityGuestApplyHackathon();
-        }
-        if (!user.getUniversityInfo().getOrdinal().equals(HACKATHON_ORDINAL)) {
-            throw new NoAuthorityOrdinalApplyHackathon();
-        }
-
         this.phone = phone;
         this.hackathonPart = hackathonPart;
         this.teamName = teamName;

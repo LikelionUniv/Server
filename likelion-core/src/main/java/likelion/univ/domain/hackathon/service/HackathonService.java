@@ -4,7 +4,6 @@ import likelion.univ.domain.hackathon.entity.HackathonForm;
 import likelion.univ.domain.hackathon.exception.HackathonFormNotFoundException;
 import likelion.univ.domain.hackathon.repository.HackathonFormRepository;
 import likelion.univ.domain.hackathon.service.command.HackathonApplyCommand;
-//import likelion.univ.domain.hackathon.service.command.HackathonModifyCommand;
 import likelion.univ.domain.hackathon.service.command.HackathonModifyCommand;
 import likelion.univ.domain.university.entity.University;
 import likelion.univ.domain.university.repository.UniversityRepository;
@@ -32,8 +31,7 @@ public class HackathonService {
     }
 
     public void modify(HackathonModifyCommand command) {
-        HackathonForm hackathonForm = hackathonFormRepository.findById(command.hackathonFormId())
-                .orElseThrow(HackathonFormNotFoundException::new);
+        HackathonForm hackathonForm = hackathonFormRepository.getById(command.hackathonFormId());
         hackathonForm.modify(command.phone(), command.hackathonPart(), command.teamName(), command.offlineParticipation());
     }
 }

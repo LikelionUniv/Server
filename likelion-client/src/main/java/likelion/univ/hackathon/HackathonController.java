@@ -39,7 +39,7 @@ public class HackathonController {
     }
 
     @Operation(summary = "해커톤 신청 수정")
-    @PutMapping("{hackathonFormId}")
+    @PutMapping("/{hackathonFormId}")
     public SuccessResponse<Long> modify(
             @Valid @RequestBody HackathonModifyRequest request,
             @PathVariable("hackathonFormId") Long hackathonFormId
