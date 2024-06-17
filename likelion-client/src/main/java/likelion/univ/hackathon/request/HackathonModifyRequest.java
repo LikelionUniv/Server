@@ -6,25 +6,9 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import likelion.univ.domain.hackathon.entity.HackathonPart;
-import likelion.univ.domain.hackathon.service.command.HackathonApplyCommand;
+import likelion.univ.domain.hackathon.service.command.HackathonModifyCommand;
 
-public record HackathonApplyRequest(
-        @NotBlank
-        @Schema(description = "신청자 이름", example = "김멋사")
-        String name,
-
-        @NotBlank
-        @Schema(description = "신청자 이메일", example = "likelion@likelion.com")
-        String email,
-
-        @NotBlank
-        @Schema(description = "신청자 학교 이름", example = "멋사대학교")
-        String universityName,
-
-        @NotBlank
-        @Schema(description = "신청자 전공", example = "멋쟁이과")
-        String major,
-
+public record HackathonModifyRequest(
         @NotBlank
         @Schema(description = "신청자 전화번호 (-생략, 숫자만)", example = "01012341234")
         String phone,
@@ -41,13 +25,10 @@ public record HackathonApplyRequest(
         @Schema(description = "오프라인 참가 여부", example = "true")
         boolean offlineParticipation
 ) {
-    public HackathonApplyCommand toCommand(Long userId) {
-        return new HackathonApplyCommand(
+    public HackathonModifyCommand toCommand(Long userId, Long hackathonFormId) {
+        return new HackathonModifyCommand(
+                hackathonFormId,
                 userId,
-                name,
-                email,
-                universityName,
-                major,
                 phone,
                 hackathonPart,
                 teamName,
