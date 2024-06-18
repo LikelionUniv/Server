@@ -7,9 +7,11 @@ import likelion.univ.domain.hackathon.service.HackathonService;
 import likelion.univ.email.sender.EmailSender;
 import likelion.univ.hackathon.request.HackathonApplyRequest;
 import likelion.univ.hackathon.request.HackathonModifyRequest;
+import likelion.univ.domain.hackathon.response.HackathonFindResponse;
 import likelion.univ.response.SuccessResponse;
 import likelion.univ.utils.AuthenticatedUserUtils;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -36,6 +38,16 @@ public class HackathonController {
         Long projectId = hackathonService.apply(request.toCommand(userId));
         // TODO: emailSender.send(); ???
         return SuccessResponse.of(projectId);
+    }
+
+    @Operation(summary = "해커톤 신청 조회")
+    @GetMapping("/{hackathonFormId}")
+    public SuccessResponse<HackathonFindResponse> find(
+            @PathVariable("hackathonFormId") Long hackathonFormId
+    ) {
+        Long userId = userUtils.getCurrentUserId();
+        HackathonFindResponse response = hackathonService.find(userId, hackathonFormId);
+        return SuccessResponse.of(response);
     }
 
     @Operation(summary = "해커톤 신청 수정")
