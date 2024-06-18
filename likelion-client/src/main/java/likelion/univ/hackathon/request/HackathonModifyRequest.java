@@ -18,7 +18,7 @@ public record HackathonModifyRequest(
         HackathonPart hackathonPart,
 
         @NotBlank
-        @Size(max = 10)
+        @Size(max = 10, message = "팀명은 10자 이하여야 합니다.")
         @Schema(description = "팀명", example = "멋쟁이팀")
         String teamName,
 
