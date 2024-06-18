@@ -20,7 +20,6 @@ import likelion.univ.domain.university.entity.University;
 import likelion.univ.domain.user.entity.Role;
 import likelion.univ.domain.user.entity.User;
 import lombok.AccessLevel;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
