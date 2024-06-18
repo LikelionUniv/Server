@@ -32,7 +32,7 @@ public class HackathonService {
     public void modify(HackathonModifyCommand command) {
         HackathonForm hackathonForm = hackathonFormRepository.getById(command.hackathonFormId());
         User user = userRepository.getById(command.userId());
-        hackathonForm.validateUser(user, hackathonForm.getUser());
+        hackathonForm.validateUser(user);
         hackathonForm.modify(command.phone(), command.hackathonPart(), command.teamName(), command.offlineParticipation());
     }
 }

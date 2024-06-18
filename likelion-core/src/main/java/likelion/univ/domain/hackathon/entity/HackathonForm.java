@@ -100,8 +100,8 @@ public class HackathonForm extends BaseTimeEntity {
         this.offlineParticipation = offlineParticipation;
     }
 
-    public void validateUser(User commandUser, User hackathonFormUser) {
-        if (!commandUser.equals(hackathonFormUser)) {
+    public void validateUser(User user) {
+        if (!this.user.equals(user)) {
             throw new HackathonFormNotEditableException();
         }
     }
