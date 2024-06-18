@@ -1,7 +1,10 @@
 package likelion.univ.domain.hackathon.response;
 
+import likelion.univ.domain.hackathon.entity.HackathonForm;
 import likelion.univ.domain.hackathon.entity.HackathonPart;
+import lombok.Builder;
 
+@Builder
 public record HackathonFindResponse(
         Long hackathonFormId,
         String name,
@@ -14,4 +17,19 @@ public record HackathonFindResponse(
         boolean offlineParticipation,
         String reasonForNotOffline
 ) {
+
+    public static HackathonFindResponse from(HackathonForm hackathonForm) {
+        return new HackathonFindResponse(
+                hackathonForm.getId(),
+                hackathonForm.getName(),
+                hackathonForm.getEmail(),
+                hackathonForm.getUniversity().getName(),
+                hackathonForm.getMajor(),
+                hackathonForm.getPhone(),
+                hackathonForm.getHackathonPart(),
+                hackathonForm.getTeamName(),
+                hackathonForm.isOfflineParticipation(),
+                hackathonForm.getReasonForNotOffline()
+        );
+    }
 }

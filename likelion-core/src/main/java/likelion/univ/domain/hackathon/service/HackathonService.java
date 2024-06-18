@@ -34,18 +34,7 @@ public class HackathonService {
         HackathonForm hackathonForm = hackathonFormRepository.getById(hackathonFormId);
         User user = userRepository.getById(userId);
         hackathonForm.validateUser(user);
-        return new HackathonFindResponse(
-                hackathonForm.getId(),
-                hackathonForm.getName(),
-                hackathonForm.getEmail(),
-                hackathonForm.getUniversity().getName(),
-                hackathonForm.getMajor(),
-                hackathonForm.getPhone(),
-                hackathonForm.getHackathonPart(),
-                hackathonForm.getTeamName(),
-                hackathonForm.isOfflineParticipation(),
-                hackathonForm.getReasonForNotOffline()
-        );
+        return HackathonFindResponse.from(hackathonForm);
     }
 
     public void modify(HackathonModifyCommand command) {
