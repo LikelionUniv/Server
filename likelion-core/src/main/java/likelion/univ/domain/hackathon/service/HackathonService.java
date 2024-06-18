@@ -26,7 +26,6 @@ public class HackathonService {
         User user = userRepository.getById(command.userId());
         University university = universityRepository.getByName(command.universityName());
         HackathonForm hackathonForm = command.toHackathonForm(user, university);
-        hackathonForm.validReasonForNotOffline(command.offlineParticipation(), command.reasonForNotOffline());
         hackathonForm.apply();
         return hackathonFormRepository.save(hackathonForm).getId();
     }
@@ -53,7 +52,6 @@ public class HackathonService {
         HackathonForm hackathonForm = hackathonFormRepository.getById(command.hackathonFormId());
         User user = userRepository.getById(command.userId());
         hackathonForm.validateUser(user);
-        hackathonForm.validReasonForNotOffline(command.offlineParticipation(), command.reasonForNotOffline());
         hackathonForm.modify(command.phone(),
                 command.hackathonPart(),
                 command.teamName(),

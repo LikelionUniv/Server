@@ -87,7 +87,7 @@ public class HackathonForm extends BaseTimeEntity {
         this.hackathonPart = hackathonPart;
         this.teamName = teamName;
         this.offlineParticipation = offlineParticipation;
-        this.reasonForNotOffline = reasonForNotOffline;
+        setReasonForNotOffline(offlineParticipation, reasonForNotOffline);
     }
 
     public void apply() {
@@ -97,6 +97,8 @@ public class HackathonForm extends BaseTimeEntity {
         if (!user.getUniversityInfo().getOrdinal().equals(HACKATHON_ORDINAL)) {
             throw new NoAuthorityOrdinalApplyHackathon();
         }
+
+        setReasonForNotOffline(offlineParticipation, reasonForNotOffline);
     }
 
     public void modify(String phone, HackathonPart hackathonPart, String teamName, boolean offlineParticipation, String reasonForNotOffline) {
@@ -104,12 +106,7 @@ public class HackathonForm extends BaseTimeEntity {
         this.hackathonPart = hackathonPart;
         this.teamName = teamName;
         this.offlineParticipation = offlineParticipation;
-        this.reasonForNotOffline = reasonForNotOffline;
-    }
-
-    public void validReasonForNotOffline(boolean offlineParticipation, String reasonForNotOffline) {
-        if (!offlineParticipation && (reasonForNotOffline == null || reasonForNotOffline.isEmpty()))
-            throw new ReasonForNotOfflineException();
+        setReasonForNotOffline(offlineParticipation, reasonForNotOffline);
     }
 
     public void validateUser(User user) {
@@ -117,5 +114,19 @@ public class HackathonForm extends BaseTimeEntity {
             throw new HackathonFormNotEditableException();
         }
     }
+
+    private void setReasonForNotOffline(boolean offlineParticipation, String reasonForNotOffline) {
+        if (offlineParticipation) {
+            this.reasonForNotOffline = null;
+        } else {
+            validReasonForNotOffline(offlineParticipation, reasonForNotOffline);
+            this.reasonForNotOffline = reasonForNotOffline;
+        }
+    }
+    private void validReasonForNotOffline(boolean offlineParticipation, String reasonForNotOffline) {
+        if (!offlineParticipation && (reasonForNotOffline == null || reasonForNotOffline.isEmpty()))
+            throw new ReasonForNotOfflineException();
+    }
+
 }
 
