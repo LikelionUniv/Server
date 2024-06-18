@@ -1,4 +1,4 @@
-package likelion.univ.hackathon;
+package likelion.univ.hackathon.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
