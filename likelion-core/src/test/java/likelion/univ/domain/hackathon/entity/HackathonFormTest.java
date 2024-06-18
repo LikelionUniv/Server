@@ -39,7 +39,8 @@ class HackathonFormTest {
                 "01011112222",
                 HackathonPart.PM,
                 "team",
-                false
+                false,
+                "개인 사정으로 불참합니다."
         );
 
         // when & then
@@ -68,7 +69,8 @@ class HackathonFormTest {
                 "01011112222",
                 HackathonPart.PM,
                 "team",
-                false
+                false,
+                "개인 사정으로 불참합니다."
         );
 
         // when & then
@@ -97,7 +99,8 @@ class HackathonFormTest {
                 "01011112222",
                 HackathonPart.PM,
                 "team",
-                false
+                false,
+                "개인 사정으로 불참합니다."
         );
 
         // when & then

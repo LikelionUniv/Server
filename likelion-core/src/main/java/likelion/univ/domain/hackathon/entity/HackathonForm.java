@@ -15,10 +15,12 @@ import likelion.univ.common.entity.BaseTimeEntity;
 import likelion.univ.domain.hackathon.exception.HackathonFormNotEditableException;
 import likelion.univ.domain.hackathon.exception.NoAuthorityGuestApplyHackathon;
 import likelion.univ.domain.hackathon.exception.NoAuthorityOrdinalApplyHackathon;
+import likelion.univ.domain.hackathon.exception.ReasonForNotOfflineException;
 import likelion.univ.domain.university.entity.University;
 import likelion.univ.domain.user.entity.Role;
 import likelion.univ.domain.user.entity.User;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -62,6 +64,9 @@ public class HackathonForm extends BaseTimeEntity {
 
     private boolean offlineParticipation;
 
+    @Column(length = 100)
+    private String reasonForNotOffline;
+
     public HackathonForm(
             User user,
             String name,
@@ -71,7 +76,8 @@ public class HackathonForm extends BaseTimeEntity {
             String phone,
             HackathonPart hackathonPart,
             String teamName,
-            boolean offlineParticipation
+            boolean offlineParticipation,
+            String reasonForNotOffline
     ) {
         this.user = user;
         this.name = name;
@@ -82,6 +88,7 @@ public class HackathonForm extends BaseTimeEntity {
         this.hackathonPart = hackathonPart;
         this.teamName = teamName;
         this.offlineParticipation = offlineParticipation;
+        this.reasonForNotOffline = reasonForNotOffline;
     }
 
     public void apply() {
@@ -93,11 +100,17 @@ public class HackathonForm extends BaseTimeEntity {
         }
     }
 
-    public void modify(String phone, HackathonPart hackathonPart, String teamName, boolean offlineParticipation) {
+    public void modify(String phone, HackathonPart hackathonPart, String teamName, boolean offlineParticipation, String reasonForNotOffline) {
         this.phone = phone;
         this.hackathonPart = hackathonPart;
         this.teamName = teamName;
         this.offlineParticipation = offlineParticipation;
+        this.reasonForNotOffline = reasonForNotOffline;
+    }
+
+    public void validReasonForNotOffline(boolean offlineParticipation, String reasonForNotOffline) {
+        if (!offlineParticipation && (reasonForNotOffline == null || reasonForNotOffline.isEmpty()))
+            throw new ReasonForNotOfflineException();
     }
 
     public void validateUser(User user) {

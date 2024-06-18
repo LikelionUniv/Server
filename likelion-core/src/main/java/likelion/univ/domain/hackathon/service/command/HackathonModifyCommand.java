@@ -9,6 +9,7 @@ public record HackathonModifyCommand(
         String phone,
         HackathonPart hackathonPart,
         String teamName,
-        boolean offlineParticipation
+        boolean offlineParticipation,
+        String reasonForNotOffline
 ) {
 }

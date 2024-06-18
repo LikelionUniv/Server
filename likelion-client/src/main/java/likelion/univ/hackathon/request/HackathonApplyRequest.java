@@ -39,7 +39,11 @@ public record HackathonApplyRequest(
         String teamName,
 
         @Schema(description = "오프라인 참가 여부", example = "true")
-        boolean offlineParticipation
+        boolean offlineParticipation,
+
+        @Size(max = 100, message = "불참사유는 100자 이내여야 합니다.")
+        @Schema(description = "불참 사유", example = "개인 사정으로 인해 불참합니다.")
+        String reasonForNotOffline
 ) {
     public HackathonApplyCommand toCommand(Long userId) {
         return new HackathonApplyCommand(
@@ -51,7 +55,8 @@ public record HackathonApplyRequest(
                 phone,
                 hackathonPart,
                 teamName,
-                offlineParticipation
+                offlineParticipation,
+                reasonForNotOffline
         );
     }
 }
