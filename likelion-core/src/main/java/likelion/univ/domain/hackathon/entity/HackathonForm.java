@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import likelion.univ.common.entity.BaseTimeEntity;
+import likelion.univ.domain.hackathon.exception.HackathonFormNotEditableException;
 import likelion.univ.domain.hackathon.exception.NoAuthorityGuestApplyHackathon;
 import likelion.univ.domain.hackathon.exception.NoAuthorityOrdinalApplyHackathon;
 import likelion.univ.domain.university.entity.University;
@@ -97,6 +98,12 @@ public class HackathonForm extends BaseTimeEntity {
         this.hackathonPart = hackathonPart;
         this.teamName = teamName;
         this.offlineParticipation = offlineParticipation;
+    }
+
+    public void validateUser(User commandUser, User hackathonFormUser) {
+        if (!commandUser.equals(hackathonFormUser)) {
+            throw new HackathonFormNotEditableException();
+        }
     }
 }
 
