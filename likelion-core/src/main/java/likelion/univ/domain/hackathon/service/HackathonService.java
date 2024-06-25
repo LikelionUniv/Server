@@ -2,6 +2,7 @@ package likelion.univ.domain.hackathon.service;
 
 import likelion.univ.domain.hackathon.entity.HackathonForm;
 import likelion.univ.domain.hackathon.repository.HackathonFormRepository;
+import likelion.univ.domain.hackathon.repository.condition.HackathonFormSearchCondition;
 import likelion.univ.domain.hackathon.response.HackathonFindResponse;
 import likelion.univ.domain.hackathon.service.command.HackathonApplyCommand;
 import likelion.univ.domain.hackathon.service.command.HackathonModifyCommand;
@@ -10,6 +11,8 @@ import likelion.univ.domain.university.repository.UniversityRepository;
 import likelion.univ.domain.user.entity.User;
 import likelion.univ.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -48,5 +51,10 @@ public class HackathonService {
                 command.offlineParticipation(),
                 command.reasonForNotOffline()
         );
+    }
+
+    public Page<HackathonForm> search(HackathonFormSearchCondition condition, Pageable pageable) {
+        Page<HackathonForm> result = hackathonFormRepository.search(condition, pageable);
+        return result;
     }
 }
