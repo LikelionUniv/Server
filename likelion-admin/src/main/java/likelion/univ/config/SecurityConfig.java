@@ -41,6 +41,7 @@ public class SecurityConfig {
                 .permitAll()
                 .antMatchers("/v1/univAdmin/**").hasRole("MANAGER")
                 .antMatchers("/v1/headquaters/**").hasRole("SUPER_ADMIN")
+                .antMatchers("/v1/hackathons/**").hasRole("SUPER_ADMIN")
 //                .antMatchers("/v1/**").hasRole(ROLE_USER)
 //                .anyRequest().authenticated();
                 .anyRequest().permitAll(); //임시
