@@ -1,16 +1,18 @@
 package likelion.univ.domain.hackathon.entity;
 
-import static javax.persistence.EnumType.STRING;
-
+import java.util.HashSet;
+import java.util.Set;
+import java.util.stream.Collectors;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import likelion.univ.common.entity.BaseTimeEntity;
 import likelion.univ.domain.hackathon.exception.HackathonFormNotEditableException;
 import likelion.univ.domain.hackathon.exception.NoAuthorityGuestApplyHackathon;
@@ -54,9 +56,8 @@ public class HackathonForm extends BaseTimeEntity {
     @Column(nullable = false)
     private String phone;
 
-    @Enumerated(STRING)
-    @Column(nullable = false)
-    private HackathonPart hackathonPart;
+    @OneToMany(mappedBy = "hackathonForm", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<HackathonParticipantPart> hackathonParts = new HashSet<>();
 
     @Column(length = 10, nullable = false)
     private String teamName;
@@ -73,7 +74,7 @@ public class HackathonForm extends BaseTimeEntity {
             University university,
             String major,
             String phone,
-            HackathonPart hackathonPart,
+            Set<HackathonPart> hackathonParts,
             String teamName,
             boolean offlineParticipation,
             String reasonForNotOffline
@@ -84,10 +85,32 @@ public class HackathonForm extends BaseTimeEntity {
         this.university = university;
         this.major = major;
         this.phone = phone;
-        this.hackathonPart = hackathonPart;
+        setHackathonParts(hackathonParts);
         this.teamName = teamName;
         this.offlineParticipation = offlineParticipation;
         setReasonForNotOffline(offlineParticipation, reasonForNotOffline);
+    }
+
+    private void setHackathonParts(Set<HackathonPart> hackathonParts) {
+        this.hackathonParts.clear();
+        this.hackathonParts.addAll(hackathonParts.stream()
+                .map(it -> new HackathonParticipantPart(this, it))
+                .collect(Collectors.toSet()));
+    }
+
+    private void setReasonForNotOffline(boolean offlineParticipation, String reasonForNotOffline) {
+        if (offlineParticipation) {
+            this.reasonForNotOffline = null;
+        } else {
+            validReasonForNotOffline(reasonForNotOffline);
+            this.reasonForNotOffline = reasonForNotOffline;
+        }
+    }
+
+    private void validReasonForNotOffline(String reasonForNotOffline) {
+        if ((reasonForNotOffline == null || reasonForNotOffline.isEmpty())) {
+            throw new ReasonForNotOfflineException();
+        }
     }
 
     public void apply() {
@@ -101,9 +124,15 @@ public class HackathonForm extends BaseTimeEntity {
         setReasonForNotOffline(offlineParticipation, reasonForNotOffline);
     }
 
-    public void modify(String phone, HackathonPart hackathonPart, String teamName, boolean offlineParticipation, String reasonForNotOffline) {
+    public void modify(
+            String phone,
+            Set<HackathonPart> hackathonParts,
+            String teamName,
+            boolean offlineParticipation,
+            String reasonForNotOffline
+    ) {
         this.phone = phone;
-        this.hackathonPart = hackathonPart;
+        setHackathonParts(hackathonParts);
         this.teamName = teamName;
         this.offlineParticipation = offlineParticipation;
         setReasonForNotOffline(offlineParticipation, reasonForNotOffline);
@@ -114,19 +143,5 @@ public class HackathonForm extends BaseTimeEntity {
             throw new HackathonFormNotEditableException();
         }
     }
-
-    private void setReasonForNotOffline(boolean offlineParticipation, String reasonForNotOffline) {
-        if (offlineParticipation) {
-            this.reasonForNotOffline = null;
-        } else {
-            validReasonForNotOffline(offlineParticipation, reasonForNotOffline);
-            this.reasonForNotOffline = reasonForNotOffline;
-        }
-    }
-    private void validReasonForNotOffline(boolean offlineParticipation, String reasonForNotOffline) {
-        if (!offlineParticipation && (reasonForNotOffline == null || reasonForNotOffline.isEmpty()))
-            throw new ReasonForNotOfflineException();
-    }
-
 }
 

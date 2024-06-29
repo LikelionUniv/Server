@@ -46,7 +46,7 @@ public class HackathonService {
         hackathonForm.validateUser(user);
         hackathonForm.modify(
                 command.phone(),
-                command.hackathonPart(),
+                command.hackathonParts(),
                 command.teamName(),
                 command.offlineParticipation(),
                 command.reasonForNotOffline()

@@ -1,7 +1,9 @@
 package likelion.univ.domain.hackathon.response;
 
+import java.util.List;
 import likelion.univ.domain.hackathon.entity.HackathonForm;
 import likelion.univ.domain.hackathon.entity.HackathonPart;
+import likelion.univ.domain.hackathon.entity.HackathonParticipantPart;
 import lombok.Builder;
 
 @Builder
@@ -12,7 +14,7 @@ public record HackathonFindResponse(
         String universityName,
         String major,
         String phone,
-        HackathonPart hackathonPart,
+        List<HackathonPart> hackathonParts,
         String teamName,
         boolean offlineParticipation,
         String reasonForNotOffline
@@ -26,7 +28,9 @@ public record HackathonFindResponse(
                 hackathonForm.getUniversity().getName(),
                 hackathonForm.getMajor(),
                 hackathonForm.getPhone(),
-                hackathonForm.getHackathonPart(),
+                hackathonForm.getHackathonParts().stream()
+                        .map(HackathonParticipantPart::getHackathonPart)
+                        .toList(),
                 hackathonForm.getTeamName(),
                 hackathonForm.isOfflineParticipation(),
                 hackathonForm.getReasonForNotOffline()

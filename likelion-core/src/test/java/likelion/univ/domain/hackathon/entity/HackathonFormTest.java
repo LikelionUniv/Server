@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import java.util.Set;
 import likelion.univ.domain.hackathon.exception.NoAuthorityGuestApplyHackathon;
 import likelion.univ.domain.hackathon.exception.NoAuthorityOrdinalApplyHackathon;
 import likelion.univ.domain.university.entity.University;
@@ -37,7 +38,7 @@ class HackathonFormTest {
                 mock(University.class),
                 "major",
                 "01011112222",
-                HackathonPart.PM,
+                Set.of(HackathonPart.PM),
                 "team",
                 false,
                 "개인 사정으로 불참합니다."
@@ -67,7 +68,7 @@ class HackathonFormTest {
                 mock(University.class),
                 "major",
                 "01011112222",
-                HackathonPart.PM,
+                Set.of(HackathonPart.PM),
                 "team",
                 false,
                 "개인 사정으로 불참합니다."
@@ -97,7 +98,7 @@ class HackathonFormTest {
                 mock(University.class),
                 "major",
                 "01011112222",
-                HackathonPart.PM,
+                Set.of(HackathonPart.PM),
                 "team",
                 false,
                 "개인 사정으로 불참합니다."
