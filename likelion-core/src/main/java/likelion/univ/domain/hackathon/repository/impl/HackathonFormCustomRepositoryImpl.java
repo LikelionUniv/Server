@@ -1,5 +1,6 @@
 package likelion.univ.domain.hackathon.repository.impl;
 
+import static likelion.univ.domain.hackathon.entity.QHackathon.hackathon;
 import static likelion.univ.domain.hackathon.entity.QHackathonForm.hackathonForm;
 
 import com.querydsl.core.types.Predicate;
@@ -40,6 +41,15 @@ public class HackathonFormCustomRepositoryImpl implements HackathonFormCustomRep
                 ? PageableExecutionUtils.getPage(
                 result, PageRequest.of(0, ids.size() + 1), ids::size)
                 : PageableExecutionUtils.getPage(result, pageable, ids::size);
+    }
+
+    @Override
+    public List<HackathonForm> findByUserId(Long userId) {
+        return queryFactory.selectFrom(hackathonForm)
+                .leftJoin(hackathonForm.hackathon, hackathon).fetchJoin()
+                .where(hackathonForm.user.id.eq(userId))
+                .orderBy(hackathonForm.createdDate.desc())
+                .fetch();
     }
 
     /**

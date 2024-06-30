@@ -1,11 +1,14 @@
 package likelion.univ.domain.hackathon.service;
 
+import java.util.List;
 import likelion.univ.domain.hackathon.entity.Hackathon;
 import likelion.univ.domain.hackathon.entity.HackathonForm;
+import likelion.univ.domain.hackathon.exception.AlreadyAppliedHackathonException;
 import likelion.univ.domain.hackathon.repository.HackathonFormRepository;
 import likelion.univ.domain.hackathon.repository.HackathonRepository;
 import likelion.univ.domain.hackathon.repository.condition.HackathonFormSearchCondition;
 import likelion.univ.domain.hackathon.response.HackathonFindResponse;
+import likelion.univ.domain.hackathon.response.HackathonFormFindResponse;
 import likelion.univ.domain.hackathon.service.command.HackathonApplyCommand;
 import likelion.univ.domain.hackathon.service.command.HackathonModifyCommand;
 import likelion.univ.domain.university.entity.University;
@@ -33,16 +36,26 @@ public class HackathonService {
         University university = universityRepository.getById(command.universityId());
         // TODO: 추후 해커톤 생성 api 개발 시 변경
         Hackathon hackathon = hackathonRepository.getById(1L);
+
+        if (hackathonFormRepository.findByHackathonIdAndUserId(1L, command.userId()).isPresent()) {
+            throw new AlreadyAppliedHackathonException();
+        }
+
         HackathonForm hackathonForm = command.toHackathonForm(user, university, hackathon);
         hackathonForm.apply();
         return hackathonFormRepository.save(hackathonForm).getId();
     }
 
-    public HackathonFindResponse find(Long userId, Long hackathonFormId) {
+    public List<HackathonFindResponse> findMyHackathonForms(Long userId) {
+        List<HackathonForm> hackathonForms = hackathonFormRepository.findByUserId(userId);
+        return hackathonForms.stream().map(HackathonFindResponse::from).toList();
+    }
+
+    public HackathonFormFindResponse find(Long userId, Long hackathonFormId) {
         HackathonForm hackathonForm = hackathonFormRepository.getById(hackathonFormId);
         User user = userRepository.getById(userId);
         hackathonForm.validateUser(user);
-        return HackathonFindResponse.from(hackathonForm);
+        return HackathonFormFindResponse.from(hackathonForm);
     }
 
     public void modify(HackathonModifyCommand command) {

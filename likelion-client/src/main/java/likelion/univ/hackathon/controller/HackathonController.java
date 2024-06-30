@@ -2,8 +2,10 @@ package likelion.univ.hackathon.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import java.util.List;
 import javax.validation.Valid;
 import likelion.univ.domain.hackathon.response.HackathonFindResponse;
+import likelion.univ.domain.hackathon.response.HackathonFormFindResponse;
 import likelion.univ.domain.hackathon.service.HackathonService;
 import likelion.univ.email.sender.EmailSender;
 import likelion.univ.hackathon.request.HackathonApplyRequest;
@@ -40,13 +42,21 @@ public class HackathonController {
         return SuccessResponse.of(projectId);
     }
 
-    @Operation(summary = "해커톤 신청 조회")
+    @Operation(summary = "해커톤 신청 내역 조회")
+    @GetMapping
+    public SuccessResponse<List<HackathonFindResponse>> findMyHackathonForms() {
+        Long userId = userUtils.getCurrentUserId();
+        List<HackathonFindResponse> response = hackathonService.findMyHackathonForms(userId);
+        return SuccessResponse.of(response);
+    }
+
+    @Operation(summary = "해커톤 신청 상세 조회")
     @GetMapping("/{hackathonFormId}")
-    public SuccessResponse<HackathonFindResponse> find(
+    public SuccessResponse<HackathonFormFindResponse> find(
             @PathVariable("hackathonFormId") Long hackathonFormId
     ) {
         Long userId = userUtils.getCurrentUserId();
-        HackathonFindResponse response = hackathonService.find(userId, hackathonFormId);
+        HackathonFormFindResponse response = hackathonService.find(userId, hackathonFormId);
         return SuccessResponse.of(response);
     }
 
