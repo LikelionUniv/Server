@@ -2,8 +2,9 @@ package likelion.univ.hackathon.request;
 
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import java.util.Set;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 import likelion.univ.domain.hackathon.entity.HackathonPart;
 import likelion.univ.domain.hackathon.service.command.HackathonApplyCommand;
@@ -29,9 +30,9 @@ public record HackathonApplyRequest(
         @Schema(description = "신청자 전화번호 (-생략, 숫자만)", example = "01012341234")
         String phone,
 
-        @NotNull
-        @Schema(description = "해커톤 파트", example = "PM")
-        HackathonPart hackathonPart,
+        @NotEmpty
+        @Schema(description = "해커톤 파트들", example = "PM,BACKEND")
+        Set<HackathonPart> hackathonParts,
 
         @NotBlank
         @Size(max = 10, message = "팀명은 10자 이하여야 합니다.")
@@ -53,7 +54,7 @@ public record HackathonApplyRequest(
                 universityName,
                 major,
                 phone,
-                hackathonPart,
+                hackathonParts,
                 teamName,
                 offlineParticipation,
                 reasonForNotOffline
