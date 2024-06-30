@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.Set;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import likelion.univ.domain.hackathon.entity.HackathonPart;
 import likelion.univ.domain.hackathon.service.command.HackathonApplyCommand;
@@ -18,7 +19,7 @@ public record HackathonApplyRequest(
         @Schema(description = "신청자 이메일", example = "likelion@likelion.com")
         String email,
 
-        @NotBlank
+        @NotNull
         @Schema(description = "신청자 학교 ID", example = "2")
         Long universityId,
 
@@ -31,7 +32,7 @@ public record HackathonApplyRequest(
         String phone,
 
         @NotEmpty
-        @Schema(description = "해커톤 파트들", example = "PM,BACKEND")
+        @Schema(description = "해커톤 파트들", implementation = HackathonPart.class)
         Set<HackathonPart> hackathonParts,
 
         @NotBlank
