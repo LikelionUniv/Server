@@ -4,14 +4,12 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import javax.validation.Valid;
 import likelion.univ.common.response.PageResponse;
-import likelion.univ.domain.hackathon.entity.HackathonForm;
 import likelion.univ.domain.hackathon.response.HackathonFormFindResponse;
 import likelion.univ.domain.hackathon.service.HackathonService;
 import likelion.univ.hackathon.dto.request.HackathonFormSearchRequest;
 import likelion.univ.response.SuccessResponse;
 import lombok.RequiredArgsConstructor;
 import org.springdoc.api.annotations.ParameterObject;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,7 +29,7 @@ public class HackathonController {
             @ParameterObject @Valid HackathonFormSearchRequest request,
             @ParameterObject Pageable pageable
     ) {
-        Page<HackathonForm> result = hackathonService.search(request.toCondition(), pageable);
-        return SuccessResponse.of(PageResponse.of(result.map(HackathonFormFindResponse::from)));
+        PageResponse<HackathonFormFindResponse> result = hackathonService.search(request.toCondition(), pageable);
+        return SuccessResponse.of(result);
     }
 }

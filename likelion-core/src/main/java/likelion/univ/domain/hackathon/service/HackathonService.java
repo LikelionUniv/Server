@@ -1,6 +1,7 @@
 package likelion.univ.domain.hackathon.service;
 
 import java.util.List;
+import likelion.univ.common.response.PageResponse;
 import likelion.univ.domain.hackathon.entity.Hackathon;
 import likelion.univ.domain.hackathon.entity.HackathonForm;
 import likelion.univ.domain.hackathon.exception.AlreadyAppliedHackathonException;
@@ -71,8 +72,8 @@ public class HackathonService {
         );
     }
 
-    public Page<HackathonForm> search(HackathonFormSearchCondition condition, Pageable pageable) {
+    public PageResponse<HackathonFormFindResponse> search(HackathonFormSearchCondition condition, Pageable pageable) {
         Page<HackathonForm> result = hackathonFormRepository.search(condition, pageable);
-        return result;
+        return PageResponse.of(result.map(HackathonFormFindResponse::from));
     }
 }
