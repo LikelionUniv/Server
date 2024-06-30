@@ -21,7 +21,7 @@ public class FollowController {
 
     @Operation(summary = "팔로우 ", description = "해당 유저를 팔로우 합니다.")
     @PostMapping("/{userId}")
-    public SuccessResponse<Object> follow(
+    public SuccessResponse follow(
             @PathVariable("userId") Long userId
     ) {
         clientFollowService.follow(userId);
@@ -30,7 +30,7 @@ public class FollowController {
 
     @Operation(summary = "팔로우 취소", description = "해당 유저를 팔로우 취소 합니다.")
     @DeleteMapping("/{userId}")
-    public SuccessResponse<Object> deleteFollow(
+    public SuccessResponse deleteFollow(
             @PathVariable("userId") Long userId
     ) {
         clientFollowService.cancelFollow(userId);

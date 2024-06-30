@@ -43,7 +43,7 @@ public class AuthController {
                           "localhost:3000입니다. (나머지 경로는 같습니다.)"
     )
     @GetMapping("/{loginType}/idToken/local")
-    public SuccessResponse<Object> getIdTokenForLocal(
+    public SuccessResponse<IdTokenDto> getIdTokenForLocal(
             @RequestParam("code") String code,
             @PathVariable("loginType") String loginType
     ) {
@@ -53,7 +53,7 @@ public class AuthController {
 
     @Operation(summary = "로그인", description = "id token과 login type으로 로그인 합니다.")
     @PostMapping("/{logintype}/login")
-    public SuccessResponse<Object> login(
+    public SuccessResponse<AccountTokenDto> login(
             @RequestParam("idtoken") String idToken,
             @PathVariable("logintype") String loginType
     ) {
@@ -63,7 +63,7 @@ public class AuthController {
 
     @Operation(summary = "회원가입", description = "id token과 login type으로 회원가입 합니다.")
     @PostMapping("/{logintype}/signup")
-    public SuccessResponse<Object> signUp(
+    public SuccessResponse<AccountTokenDto> signUp(
             @RequestParam("idtoken") String idToken,
             @PathVariable("logintype") String loginType,
             @RequestBody SignUpRequestDto signUpRequestDto
@@ -74,14 +74,14 @@ public class AuthController {
 
     @Operation(summary = "유저 정보 조회", description = "간단한 유저정보를 조회합니다.")
     @GetMapping("/userInfo")
-    public SuccessResponse<Object> getUserInfo() {
+    public SuccessResponse<AccountUserInfoDto> getUserInfo() {
         AccountUserInfoDto accountUserInfoDto = clientAuthService.getUserInfo();
         return SuccessResponse.of(accountUserInfoDto);
     }
 
     @Operation(summary = "토큰 재발급", description = "refresh token으로 access token을 재발급합니다.")
     @PostMapping("/refresh")
-    public SuccessResponse<Object> refreshToken(
+    public SuccessResponse<AccountTokenDto> refreshToken(
             @RequestParam("token") String refreshToken
     ) {
         AccountTokenDto accountTokenDto = clientAuthService.refreshToken(refreshToken);

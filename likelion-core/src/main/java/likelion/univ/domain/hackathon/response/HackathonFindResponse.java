@@ -1,39 +1,26 @@
 package likelion.univ.domain.hackathon.response;
 
-import java.util.List;
+import java.time.LocalDate;
+import likelion.univ.domain.hackathon.entity.Hackathon;
 import likelion.univ.domain.hackathon.entity.HackathonForm;
-import likelion.univ.domain.hackathon.entity.HackathonPart;
-import likelion.univ.domain.hackathon.entity.HackathonParticipantPart;
 import lombok.Builder;
 
 @Builder
 public record HackathonFindResponse(
+        Long hackathonId,
         Long hackathonFormId,
-        String name,
-        String email,
-        String universityName,
-        String major,
-        String phone,
-        List<HackathonPart> hackathonParts,
-        String teamName,
-        boolean offlineParticipation,
-        String reasonForNotOffline
-) {
+        String hackathonName,
+        LocalDate startDate,
+        LocalDate endDate) {
 
     public static HackathonFindResponse from(HackathonForm hackathonForm) {
+        final Hackathon hackathon = hackathonForm.getHackathon();
         return new HackathonFindResponse(
+                hackathon.getId(),
                 hackathonForm.getId(),
-                hackathonForm.getName(),
-                hackathonForm.getEmail(),
-                hackathonForm.getUniversity().getName(),
-                hackathonForm.getMajor(),
-                hackathonForm.getPhone(),
-                hackathonForm.getHackathonParts().stream()
-                        .map(HackathonParticipantPart::getHackathonPart)
-                        .toList(),
-                hackathonForm.getTeamName(),
-                hackathonForm.isOfflineParticipation(),
-                hackathonForm.getReasonForNotOffline()
+                hackathon.getName(),
+                hackathon.getStartDate(),
+                hackathon.getEndDate()
         );
     }
 }

@@ -2,6 +2,7 @@ package likelion.univ.domain.hackathon.service.command;
 
 
 import java.util.Set;
+import likelion.univ.domain.hackathon.entity.Hackathon;
 import likelion.univ.domain.hackathon.entity.HackathonForm;
 import likelion.univ.domain.hackathon.entity.HackathonPart;
 import likelion.univ.domain.university.entity.University;
@@ -11,7 +12,7 @@ public record HackathonApplyCommand(
         Long userId,
         String name,
         String email,
-        String universityName,
+        Long universityId,
         String major,
         String phone,
         Set<HackathonPart> hackathonParts,
@@ -19,12 +20,13 @@ public record HackathonApplyCommand(
         boolean offlineParticipation,
         String reasonForNotOffline
 ) {
-    public HackathonForm toHackathonForm(User user, University university) {
+    public HackathonForm toHackathonForm(User user, University university, Hackathon hackathon) {
         return new HackathonForm(
                 user,
                 name,
                 email,
                 university,
+                hackathon,
                 major,
                 phone,
                 hackathonParts,

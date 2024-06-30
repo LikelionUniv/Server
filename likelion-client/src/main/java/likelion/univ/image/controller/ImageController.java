@@ -22,7 +22,7 @@ public class ImageController {
 
     @Operation(summary = "project 이미지용입니다.")
     @GetMapping("/project")
-    public SuccessResponse<Object> getProjectPresignedUrl(
+    public SuccessResponse<ImageUrlResponseDto> getProjectPresignedUrl(
             @RequestParam("fileNameExtension") String fileNameExtension
     ) {
         ImageUrlResponseDto imageUrlResponseDto = clientImageService.createProjectImagePresignedUrl(
@@ -33,7 +33,7 @@ public class ImageController {
 
     @Operation(summary = "user 프로필 이미지용입니다.")
     @GetMapping("/user/{userId}")
-    public SuccessResponse<Object> getUserPresignedUrl(
+    public SuccessResponse<ImageUrlResponseDto> getUserPresignedUrl(
             @PathVariable("userId") Long userId,
             @RequestParam("fileNameExtension") String fileNameExtension
     ) {

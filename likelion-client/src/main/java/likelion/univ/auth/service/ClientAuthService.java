@@ -57,10 +57,7 @@ public class ClientAuthService {
     public AccountUserInfoDto getUserInfo() {
         Long currentUserId = authenticatedUserUtils.getCurrentUserId();
         User user = userRepository.getByIdWithUniversity(currentUserId);
-        if (user.getUniversityInfo().getUniversity() == null) {
-            return AccountUserInfoDto.of(user, null);
-        }
-        return AccountUserInfoDto.of(user, user.getUniversityInfo().getUniversity().getName());
+        return AccountUserInfoDto.of(user, user.getUniversityInfo().getUniversity());
     }
 
     public AccountTokenDto login(String loginType, String idToken) {

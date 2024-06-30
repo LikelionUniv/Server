@@ -27,7 +27,7 @@ public class DonationHistoryController {
 
     @Operation(summary = "기부금 게시글 목록 검색", description = "기부금 게시글을 검색합니다. 파라미터로 search를 포함하지 않을 시 전체 조회입니다.")
     @GetMapping
-    public SuccessResponse<Object> searchDonationHistories(
+    public SuccessResponse<PageResponse<DonationHistoriesSearchResponseDto>> searchDonationHistories(
             @RequestParam(value = "sort", required = false, defaultValue = "created_date") String sort,
             @RequestParam(value = "search", required = false) String search,
             @ParameterObject @PageableDefault(size = 10, page = 0) Pageable pageable
@@ -39,7 +39,7 @@ public class DonationHistoryController {
 
     @Operation(summary = "기부금 게시글 상세정보", description = "해당 기부금 게시글의 상세정보를 조회합니다.")
     @GetMapping("/{donationHistoryId}")
-    public SuccessResponse<Object> searchDonationHistories(
+    public SuccessResponse<DonationHistoriesDetailsResponseDto> searchDonationHistories(
             @PathVariable("donationHistoryId") Long donationHistoryId
     ) {
         DonationHistoriesDetailsResponseDto result = clientDonationHistoryService.getDetails(donationHistoryId);
