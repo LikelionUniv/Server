@@ -1,7 +1,9 @@
 package likelion.univ.domain.hackathon.service;
 
+import likelion.univ.domain.hackathon.entity.Hackathon;
 import likelion.univ.domain.hackathon.entity.HackathonForm;
 import likelion.univ.domain.hackathon.repository.HackathonFormRepository;
+import likelion.univ.domain.hackathon.repository.HackathonRepository;
 import likelion.univ.domain.hackathon.repository.condition.HackathonFormSearchCondition;
 import likelion.univ.domain.hackathon.response.HackathonFindResponse;
 import likelion.univ.domain.hackathon.service.command.HackathonApplyCommand;
@@ -21,14 +23,17 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class HackathonService {
 
+    private final HackathonRepository hackathonRepository;
     private final HackathonFormRepository hackathonFormRepository;
     private final UserRepository userRepository;
     private final UniversityRepository universityRepository;
 
     public Long apply(HackathonApplyCommand command) {
         User user = userRepository.getById(command.userId());
-        University university = universityRepository.getByName(command.universityName());
-        HackathonForm hackathonForm = command.toHackathonForm(user, university);
+        University university = universityRepository.getById(command.universityId());
+        // TODO: 추후 해커톤 생성 api 개발 시 변경
+        Hackathon hackathon = hackathonRepository.getById(1L);
+        HackathonForm hackathonForm = command.toHackathonForm(user, university, hackathon);
         hackathonForm.apply();
         return hackathonFormRepository.save(hackathonForm).getId();
     }

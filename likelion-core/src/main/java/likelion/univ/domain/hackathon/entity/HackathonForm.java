@@ -50,6 +50,10 @@ public class HackathonForm extends BaseTimeEntity {
     @JoinColumn(name = "university_id", nullable = false)
     private University university;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "hackathon_id", nullable = false)
+    private Hackathon hackathon;
+
     @Column(nullable = false)
     private String major;
 
@@ -72,6 +76,7 @@ public class HackathonForm extends BaseTimeEntity {
             String name,
             String email,
             University university,
+            Hackathon hackathon,
             String major,
             String phone,
             Set<HackathonPart> hackathonParts,
@@ -83,6 +88,7 @@ public class HackathonForm extends BaseTimeEntity {
         this.name = name;
         this.email = email;
         this.university = university;
+        this.hackathon = hackathon;
         this.major = major;
         this.phone = phone;
         setHackathonParts(hackathonParts);
