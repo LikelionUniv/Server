@@ -19,8 +19,8 @@ public record HackathonApplyRequest(
         String email,
 
         @NotBlank
-        @Schema(description = "신청자 학교 이름", example = "멋사대학교")
-        String universityName,
+        @Schema(description = "신청자 학교 ID", example = "2")
+        Long universityId,
 
         @NotBlank
         @Schema(description = "신청자 전공", example = "멋쟁이과")
@@ -51,7 +51,7 @@ public record HackathonApplyRequest(
                 userId,
                 name,
                 email,
-                universityName,
+                universityId,
                 major,
                 phone,
                 hackathonParts,
