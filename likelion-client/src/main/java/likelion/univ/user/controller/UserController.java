@@ -36,7 +36,7 @@ public class UserController {
 
     @Operation(summary = "유저페이지 프로필 조회", description = "해당 유저의 프로필 정보를 조회합니다.")
     @GetMapping("/{userId}/profile")
-    public SuccessResponse<Object> getProfile(
+    public SuccessResponse<ProfileDetailsDto> getProfile(
             @PathVariable("userId") Long userId
     ) {
         ProfileDetailsDto profileDetailsDto = userQueryService.getProfile(userId);
@@ -45,7 +45,7 @@ public class UserController {
 
     @Operation(summary = "유저페이지 프로필 수정", description = "해당 유저의 프로필 정보를 수정합니다.")
     @PatchMapping("/{userId}/profile")
-    public SuccessResponse<Object> editProfile(
+    public SuccessResponse editProfile(
             @PathVariable("userId") Long userId,
             @RequestBody ProfileEditRequestDto profileEditRequestDto
     ) {
@@ -55,7 +55,7 @@ public class UserController {
 
     @Operation(summary = "팔로잉 목록 조회", description = "해당 유저의 팔로잉 목록을 조회합니다.")
     @GetMapping("/{userId}/following")
-    public SuccessResponse<Object> getFollowingList(
+    public SuccessResponse<SliceResponse<FollowUserInfoDto>> getFollowingList(
             @PathVariable("userId") Long userId,
             @ParameterObject @PageableDefault(size = 4, page = 0) Pageable pageable
     ) {
@@ -65,7 +65,7 @@ public class UserController {
 
     @Operation(summary = "팔로워 목록 조회", description = "해당 유저의 팔로워 목록을 조회합니다.")
     @GetMapping("/{userId}/follower")
-    public SuccessResponse<Object> getFollowerList(
+    public SuccessResponse<SliceResponse<FollowUserInfoDto>> getFollowerList(
             @PathVariable("userId") Long userId,
             @ParameterObject @PageableDefault(size = 4, page = 0) Pageable pageable
     ) {
@@ -75,7 +75,7 @@ public class UserController {
 
     @Operation(summary = "해당 유저가 쓴 게시글 조회", description = "해당 유저가 작성한 게시글을 조회합니다.")
     @GetMapping("/{userId}/posts")
-    public SuccessResponse<Object> getPostsWrittenByUser(
+    public SuccessResponse<PageResponse<UserPagePostsDto>> getPostsWrittenByUser(
             @PathVariable("userId") Long userId,
             @ParameterObject @PageableDefault(size = 6, page = 1) Pageable pageable
     ) {
@@ -85,7 +85,7 @@ public class UserController {
 
     @Operation(summary = "해당 유저가 좋아요 누른 게시글 조회", description = "해당 유저가 좋아요를 누른 게시글을 조회합니다. 파라미터로 search를 포함하지 않을 시 전체 조회입니다.")
     @GetMapping("/{userId}/posts/like")
-    public SuccessResponse<Object> getPostsLikedByUser(
+    public SuccessResponse<PageResponse<UserPagePostsDto>> getPostsLikedByUser(
             @PathVariable("userId") Long userId,
             @RequestParam(value = "sort", required = false, defaultValue = "created_date") String sort,
             @RequestParam(value = "search", required = false) String search,
@@ -99,7 +99,7 @@ public class UserController {
 
     @Operation(summary = "해당 유저가 댓글 쓴 게시글 조회", description = "해당 유저가 댓글을 작성한 게시글을 조회합니다.")
     @GetMapping("/{userId}/posts/comment")
-    public SuccessResponse<Object> getPostsCommentedByUser(
+    public SuccessResponse<PageResponse<UserPagePostsDto>> getPostsCommentedByUser(
             @PathVariable("userId") Long userId,
             @ParameterObject @PageableDefault(size = 6, page = 0) Pageable pageable
     ) {
@@ -111,7 +111,7 @@ public class UserController {
 
     @Operation(summary = "유저 검색 (Simple Data) (project page)", description = "이름으로 유저를 검색합니다. (프로젝트 페이지 모달)")
     @GetMapping("/search")
-    public SuccessResponse<Object> searchUser(
+    public SuccessResponse<SliceResponse<UserSearchResultDto>> searchUser(
             @RequestParam(value = "name", required = false) String name,
             @ParameterObject @PageableDefault(size = 4, page = 0) Pageable pageable
     ) {
@@ -121,7 +121,7 @@ public class UserController {
 
     @Operation(summary = "내가 참여한 프로젝트 조회", description = "참여한 프로젝트를 조회합니다.")
     @GetMapping("/{userId}/projects")
-    public SuccessResponse<Object> getMyProjects(
+    public SuccessResponse<PageResponse<UserPageProjectsDto>> getMyProjects(
             @PathVariable("userId") Long userId,
             @ParameterObject @PageableDefault(size = 6, page = 0) Pageable pageable
     ) {

@@ -8,6 +8,7 @@ import likelion.univ.domain.hackathon.entity.HackathonForm;
 import likelion.univ.domain.hackathon.response.HackathonFindResponse;
 import likelion.univ.domain.hackathon.service.HackathonService;
 import likelion.univ.hackathon.dto.request.HackathonFormSearchRequest;
+import likelion.univ.response.SuccessResponse;
 import lombok.RequiredArgsConstructor;
 import org.springdoc.api.annotations.ParameterObject;
 import org.springframework.data.domain.Page;
@@ -26,11 +27,11 @@ public class HackathonController {
 
     @Operation(summary = "해커톤 신청 조회")
     @GetMapping
-    public PageResponse<HackathonFindResponse> searchHackathons(
+    public SuccessResponse<PageResponse<HackathonFindResponse>> searchHackathons(
             @ParameterObject @Valid HackathonFormSearchRequest request,
             @ParameterObject Pageable pageable
     ) {
         Page<HackathonForm> result = hackathonService.search(request.toCondition(), pageable);
-        return PageResponse.of(result.map(HackathonFindResponse::from));
+        return SuccessResponse.of(PageResponse.of(result.map(HackathonFindResponse::from)));
     }
 }

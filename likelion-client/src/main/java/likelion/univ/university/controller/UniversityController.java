@@ -25,7 +25,7 @@ public class UniversityController {
 
     @Operation(summary = "대학교 조회", description = "대학교를 조회합니다.")
     @GetMapping
-    public SuccessResponse<Object> getAllUniv() {
+    public SuccessResponse<List<UnivResponseDto>> getAllUniv() {
         List<UnivResponseDto> univList = universityQueryService.getUniv();
         return SuccessResponse.of(univList);
     }

@@ -47,7 +47,7 @@ public class RepresentativeController {
 
     @Operation(summary = "선택된 게시글들 삭제")
     @DeleteMapping("/posts")
-    public SuccessResponse<Object> getProjectsOfFreeBoardPosts(
+    public SuccessResponse getProjectsOfFreeBoardPosts(
             @RequestParam("selectedIds") List<Long> selectedIds
     ) {
         adminPostService.deletePosts(selectedIds);
