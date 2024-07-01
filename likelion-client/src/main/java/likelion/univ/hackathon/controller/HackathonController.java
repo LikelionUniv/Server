@@ -1,5 +1,7 @@
 package likelion.univ.hackathon.controller;
 
+import static likelion.univ.email.ContentsType.HTML;
+
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
@@ -7,7 +9,9 @@ import javax.validation.Valid;
 import likelion.univ.domain.hackathon.response.HackathonFindResponse;
 import likelion.univ.domain.hackathon.response.HackathonFormFindResponse;
 import likelion.univ.domain.hackathon.service.HackathonService;
+import likelion.univ.email.sender.EmailContent;
 import likelion.univ.email.sender.EmailSender;
+import likelion.univ.hackathon.email.HackathonApplyEmailContent;
 import likelion.univ.hackathon.request.HackathonApplyRequest;
 import likelion.univ.hackathon.request.HackathonModifyRequest;
 import likelion.univ.response.SuccessResponse;
@@ -38,7 +42,12 @@ public class HackathonController {
     ) {
         Long userId = userUtils.getCurrentUserId();
         Long projectId = hackathonService.apply(request.toCommand(userId));
-        // TODO: emailSender.send(); ???
+        emailSender.send(EmailContent.builder()
+                .subject("[멋쟁이사자처럼] 12기 중앙 해커톤 신청이 완료되었습니다.")
+                .contentsType(HTML.name())
+                .contents(HackathonApplyEmailContent.VALUE)
+                .receivers(List.of(request.email()))
+                .build());
         return SuccessResponse.of(projectId);
     }
 
