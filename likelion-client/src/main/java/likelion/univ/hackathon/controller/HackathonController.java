@@ -18,9 +18,9 @@ import likelion.univ.response.SuccessResponse;
 import likelion.univ.utils.AuthenticatedUserUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -70,7 +70,7 @@ public class HackathonController {
     }
 
     @Operation(summary = "해커톤 신청 수정")
-    @PutMapping("/{hackathonFormId}")
+    @PatchMapping("/{hackathonFormId}")
     public SuccessResponse<Long> modify(
             @Valid @RequestBody HackathonModifyRequest request,
             @PathVariable("hackathonFormId") Long hackathonFormId
