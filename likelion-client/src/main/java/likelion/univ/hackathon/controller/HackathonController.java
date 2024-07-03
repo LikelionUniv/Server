@@ -1,7 +1,5 @@
 package likelion.univ.hackathon.controller;
 
-import static likelion.univ.email.ContentsType.HTML;
-
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
@@ -18,9 +16,9 @@ import likelion.univ.response.SuccessResponse;
 import likelion.univ.utils.AuthenticatedUserUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -42,12 +40,14 @@ public class HackathonController {
     ) {
         Long userId = userUtils.getCurrentUserId();
         Long projectId = hackathonService.apply(request.toCommand(userId));
-        emailSender.send(EmailContent.builder()
+        EmailContent emailContent = EmailContent.builder()
                 .subject("[멋쟁이사자처럼] 12기 중앙 해커톤 신청이 완료되었습니다.")
-                .contentsType(HTML.name())
                 .contents(HackathonApplyEmailContent.VALUE)
                 .receivers(List.of(request.email()))
-                .build());
+//                .attachments(List.of(FileUploadUtil.convertPngToMultipartFile(IMAGE_PATH)))
+                .build();
+
+        emailSender.send(emailContent);
         return SuccessResponse.of(projectId);
     }
 
@@ -70,7 +70,7 @@ public class HackathonController {
     }
 
     @Operation(summary = "해커톤 신청 수정")
-    @PutMapping("/{hackathonFormId}")
+    @PatchMapping("/{hackathonFormId}")
     public SuccessResponse<Long> modify(
             @Valid @RequestBody HackathonModifyRequest request,
             @PathVariable("hackathonFormId") Long hackathonFormId
