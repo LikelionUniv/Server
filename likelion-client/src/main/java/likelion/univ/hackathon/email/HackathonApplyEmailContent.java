@@ -49,5 +49,5 @@ public final class HackathonApplyEmailContent {
             </body></html>
             """;
 
-    public static String IMAGE_PATH = "attachment/hackathon/12th_hackathon.png";\
+    public static String IMAGE_PATH = "attachment/hackathon/12th_hackathon.png";
 }
