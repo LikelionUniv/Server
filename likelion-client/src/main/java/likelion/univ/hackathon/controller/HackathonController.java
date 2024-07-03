@@ -1,7 +1,5 @@
 package likelion.univ.hackathon.controller;
 
-import static likelion.univ.email.ContentsType.HTML;
-
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
@@ -42,12 +40,14 @@ public class HackathonController {
     ) {
         Long userId = userUtils.getCurrentUserId();
         Long projectId = hackathonService.apply(request.toCommand(userId));
-        emailSender.send(EmailContent.builder()
+        EmailContent emailContent = EmailContent.builder()
                 .subject("[멋쟁이사자처럼] 12기 중앙 해커톤 신청이 완료되었습니다.")
-                .contentsType(HTML.name())
                 .contents(HackathonApplyEmailContent.VALUE)
                 .receivers(List.of(request.email()))
-                .build());
+//                .attachments(List.of(FileUploadUtil.convertPngToMultipartFile(IMAGE_PATH)))
+                .build();
+
+        emailSender.send(emailContent);
         return SuccessResponse.of(projectId);
     }
 

@@ -11,6 +11,7 @@ import com.azure.core.credential.AzureKeyCredential;
 import com.azure.core.util.BinaryData;
 import com.azure.core.util.polling.PollResponse;
 import com.azure.core.util.polling.SyncPoller;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.util.List;
 import likelion.univ.email.exception.EmailSendFailed;
@@ -62,7 +63,12 @@ public class AzureEmailSender implements EmailSender {
     private void sendEmail(EmailClient emailClient, EmailMessage message) {
         SyncPoller<EmailSendResult, EmailSendResult> poller = emailClient.beginSend(message, null);
         PollResponse<EmailSendResult> response = poller.waitForCompletion();
-
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            System.out.println(objectMapper.writeValueAsString(response));
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
         if (!response.getValue().getStatus().equals(EmailSendStatus.SUCCEEDED)) {
             throw new EmailSendFailed();
         }
