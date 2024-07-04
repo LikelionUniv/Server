@@ -16,7 +16,7 @@ public final class HackathonApplyEmailContent {
             				<tr>
             					<td style="width: 20px"></td>
             					<td>
-            						<img src="https://drive.google.com/uc?id=17_m34Zn_PnbB_R5HjzJJe0k1Lh4BX04w" width="300" height="100" style="max-width: 100%; height: auto; vertical-align: top">
+            						<img src="https://drive.google.com/thumbnail?id=17_m34Zn_PnbB_R5HjzJJe0k1Lh4BX04w&sz=s4000" width="300" height="100" style="max-width: 100%; height: auto; vertical-align: top" loading="eager">
             					</td>
             				</tr>
             				<tr>
