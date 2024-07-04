@@ -19,6 +19,7 @@ import likelion.univ.email.exception.InvalidAttachment;
 import likelion.univ.email.sender.EmailContent;
 import likelion.univ.email.sender.EmailSender;
 import lombok.RequiredArgsConstructor;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -28,6 +29,7 @@ public class AzureEmailSender implements EmailSender {
 
     private final AzureCommunicationProperties properties;
 
+    @Async
     @Override
     public void send(EmailContent emailContent) {
         EmailClient emailClient = setUpEmailClient();
