@@ -5,6 +5,6 @@ import likelion.univ.exception.base.BaseException;
 public class UserNotMatchException extends BaseException {
 
     public UserNotMatchException() {
-        super(UserErrorCode.USER_NOT_MATCH);
+        super(UserErrorCode.USER_NOT_FOUND);
     }
 }
