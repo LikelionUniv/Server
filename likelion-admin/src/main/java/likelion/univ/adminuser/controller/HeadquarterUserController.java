@@ -17,8 +17,10 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j
+@RestController("adminuser.controller.HeadquarterUserController")
 @RequestMapping("/v1/headquarters")
 @RequiredArgsConstructor
 @Tag(name = "UserByHeadquarters", description = "본사에 의한 사용자 관련 API")
