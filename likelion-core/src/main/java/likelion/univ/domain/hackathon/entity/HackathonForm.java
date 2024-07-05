@@ -21,6 +21,7 @@ import likelion.univ.domain.hackathon.exception.ReasonForNotOfflineException;
 import likelion.univ.domain.university.entity.University;
 import likelion.univ.domain.user.entity.Role;
 import likelion.univ.domain.user.entity.User;
+import likelion.univ.domain.user.exception.NoOrdinalUserException;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -122,6 +123,9 @@ public class HackathonForm extends BaseTimeEntity {
     public void apply() {
         if (user.getAuthInfo().getRole().equals(Role.GUEST)) {
             throw new NoAuthorityGuestApplyHackathon();
+        }
+        if (user.getUniversityInfo().getOrdinal() == null) {
+            throw new NoOrdinalUserException();
         }
         if (!user.getUniversityInfo().getOrdinal().equals(HACKATHON_ORDINAL)) {
             throw new NoAuthorityOrdinalApplyHackathon();
