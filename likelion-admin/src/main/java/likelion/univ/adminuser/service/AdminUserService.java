@@ -23,11 +23,13 @@ public class AdminUserService {
     private final UserService userService;
     private final AuthenticatedUserUtils authenticatedUserUtils;
 
+    @Transactional
     public void delete(Long userId) {
         User user = userRepository.getById(userId);
         userService.deleteUser(user);
     }
 
+    @Transactional
     public void deleteAllUser(List<Long> userIds) {
         List<User> users = userRepository.findAllByIdsExactly(userIds);
         userService.deleteAll(users);
@@ -42,6 +44,7 @@ public class AdminUserService {
         return PageResponse.of(users.map(UserInfoResponseDto::of));
     }
 
+    @Transactional
     public UserInfoResponseDto updateUser(Long userId, UpdateUserRequestDto updateUserRequestDto) {
         User user = userRepository.getByIdWithUniversity(userId);
         userService.updateUser(
