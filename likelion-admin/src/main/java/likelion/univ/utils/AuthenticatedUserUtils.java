@@ -1,6 +1,8 @@
 package likelion.univ.utils;
 
+import likelion.univ.domain.user.entity.Role;
 import likelion.univ.domain.user.entity.User;
+import likelion.univ.domain.user.exception.NotSuperAdminException;
 import likelion.univ.domain.user.repository.UserRepository;
 import likelion.univ.security.SecurityUtils;
 import lombok.RequiredArgsConstructor;
@@ -19,5 +21,13 @@ public class AuthenticatedUserUtils {
 
     public User getCurrentUser() {
         return userRepository.getById(getCurrentUserId());
+    }
+
+    // TODO controller에서 어노테이션 검증으로 수정하기
+    public void validateSuperAdmin() {
+        User user = getCurrentUser();
+        if (user.getAuthInfo().getRole() != Role.SUPER_ADMIN) {
+            throw new NotSuperAdminException();
+        }
     }
 }
