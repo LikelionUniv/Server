@@ -4,35 +4,31 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import likelion.univ.common.response.PageResponse;
 import likelion.univ.common.response.SliceResponse;
+import likelion.univ.domain.graduation.service.GraduationService;
 import likelion.univ.response.SuccessResponse;
+import likelion.univ.user.dto.request.IssueGraduationRequest;
 import likelion.univ.user.dto.request.ProfileEditRequestDto;
-import likelion.univ.user.dto.response.FollowUserInfoDto;
-import likelion.univ.user.dto.response.ProfileDetailsDto;
-import likelion.univ.user.dto.response.UserPagePostsDto;
-import likelion.univ.user.dto.response.UserPageProjectsDto;
-import likelion.univ.user.dto.response.UserSearchResultDto;
+import likelion.univ.user.dto.response.*;
 import likelion.univ.user.service.ClientUserQueryService;
 import likelion.univ.user.service.ClientUserService;
+import likelion.univ.utils.AuthenticatedUserUtils;
 import lombok.RequiredArgsConstructor;
 import org.springdoc.api.annotations.ParameterObject;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/v1/user")
 @Tag(name = "유저페이지", description = "유저페이지관련 API입니다.")
 public class UserController {
-
+    private final AuthenticatedUserUtils userUtils;
     private final ClientUserService userService;
     private final ClientUserQueryService userQueryService;
+    private final GraduationService graduationService;
 
     @Operation(summary = "유저페이지 프로필 조회", description = "해당 유저의 프로필 정보를 조회합니다.")
     @GetMapping("/{userId}/profile")
@@ -127,6 +123,16 @@ public class UserController {
     ) {
         PageResponse<UserPageProjectsDto> myPageProjects = userQueryService.getUserProjects(userId, pageable);
         return SuccessResponse.of(myPageProjects);
+    }
+
+    @Operation(summary = "수료증 발급 API", description = "수료증 PDF를 발급합니다.")
+    @PostMapping("/graduations/issue")
+    public SuccessResponse<IssueGraduationResponse> issueGraduations(
+            @RequestBody @Valid IssueGraduationRequest request
+    ) {
+        Long userId = userUtils.getCurrentUserId();
+        String result = graduationService.issue(userId, request.ordinal());
+        return SuccessResponse.of(IssueGraduationResponse.from(result));
     }
 }
 
