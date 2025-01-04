@@ -5,6 +5,7 @@ import likelion.univ.common.response.PageResponse;
 import likelion.univ.domain.hackathon.entity.Hackathon;
 import likelion.univ.domain.hackathon.entity.HackathonForm;
 import likelion.univ.domain.hackathon.exception.AlreadyAppliedHackathonException;
+import likelion.univ.domain.hackathon.exception.CannotModifyOfflineParticipationException;
 import likelion.univ.domain.hackathon.repository.HackathonFormRepository;
 import likelion.univ.domain.hackathon.repository.HackathonRepository;
 import likelion.univ.domain.hackathon.repository.condition.HackathonFormSearchCondition;
@@ -63,6 +64,12 @@ public class HackathonService {
         HackathonForm hackathonForm = hackathonFormRepository.getById(command.hackathonFormId());
         User user = userRepository.getById(command.userId());
         hackathonForm.validateUser(user);
+
+        // 임시로 신청기간 지난 후 오프라인 참가여부 변경 불가능 하도록 변경
+        if (hackathonForm.isOfflineParticipation() != command.offlineParticipation()) {
+            throw new CannotModifyOfflineParticipationException();
+        }
+
         hackathonForm.modify(
                 command.phone(),
                 command.hackathonParts(),

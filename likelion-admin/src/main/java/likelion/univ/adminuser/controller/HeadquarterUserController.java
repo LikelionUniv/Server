@@ -1,9 +1,8 @@
 package likelion.univ.adminuser.controller;
 
-import static org.springframework.data.domain.Sort.Direction.DESC;
-
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import likelion.univ.adminuser.dto.request.GraduateUsersRequest;
 import likelion.univ.adminuser.dto.response.UserInfoResponseDto;
 import likelion.univ.adminuser.service.HeadquarterUserService;
 import likelion.univ.common.response.PageResponse;
@@ -14,10 +13,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springdoc.api.annotations.ParameterObject;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
+
+import static org.springframework.data.domain.Sort.Direction.DESC;
 
 @Slf4j
 @RestController("adminuser.controller.HeadquarterUserController")
@@ -39,5 +39,14 @@ public class HeadquarterUserController {
     ) {
         PageResponse<UserInfoResponseDto> response = headquarterUserService.findAll(role, univName, pageable);
         return SuccessResponse.of(response);
+    }
+
+    @Operation(summary = "수료자 설정")
+    @PostMapping("/users/graduate")
+    public SuccessResponse graduateUsers(
+            @RequestBody @Valid GraduateUsersRequest request
+    ) {
+        headquarterUserService.graduateUsers(request.userIds(), request.ordinal());
+        return SuccessResponse.empty();
     }
 }
