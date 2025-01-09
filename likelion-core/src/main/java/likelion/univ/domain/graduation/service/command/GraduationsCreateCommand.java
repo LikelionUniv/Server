@@ -1,4 +1,4 @@
-package likelion.univ.domain.graduation.service;
+package likelion.univ.domain.graduation.service.command;
 
 import likelion.univ.domain.graduation.entity.Graduation;
 import likelion.univ.domain.user.entity.User;

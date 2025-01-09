@@ -5,7 +5,7 @@ import likelion.univ.common.response.PageResponse;
 import likelion.univ.domain.graduation.entity.Graduation;
 import likelion.univ.domain.graduation.repository.GraduationRepository;
 import likelion.univ.domain.graduation.service.GraduationService;
-import likelion.univ.domain.graduation.service.GraduationsCreateCommand;
+import likelion.univ.domain.graduation.service.command.GraduationsCreateCommand;
 import likelion.univ.domain.user.entity.Role;
 import likelion.univ.domain.user.entity.User;
 import likelion.univ.domain.user.repository.UserRepository;
