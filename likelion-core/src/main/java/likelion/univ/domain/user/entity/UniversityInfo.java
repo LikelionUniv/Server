@@ -1,15 +1,12 @@
 package likelion.univ.domain.user.entity;
 
+import likelion.univ.domain.university.entity.University;
+import lombok.*;
+
 import javax.persistence.Embeddable;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import likelion.univ.domain.university.entity.University;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 @Embeddable
 @Getter
@@ -29,10 +26,11 @@ public class UniversityInfo {
         this.ordinal = ordinal;
     }
 
-    public static UniversityInfo universityInfoForSignUp(University university, String major) {
+    public static UniversityInfo universityInfoForSignUp(University university, String major, Long ordinal) {
         return UniversityInfo.builder()
                 .university(university)
                 .major(major)
+                .ordinal(ordinal)
                 .build();
     }
 }

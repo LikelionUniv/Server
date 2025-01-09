@@ -18,4 +18,7 @@ public class SignUpRequestDto {
     @NotNull
     @Schema(description = "학과", example = "컴퓨터공학과", required = true)
     private String major;
+    @NotNull
+    @Schema(description = "기수", example = "12", required = true)
+    private Long ordinal;
 }
