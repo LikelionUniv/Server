@@ -12,11 +12,10 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.OutputStream;
-import java.nio.file.Files;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -46,8 +45,8 @@ public class GraduationService {
     public File generatePdf(Graduation graduation, String fileName) {
         String htmlName = "index.html";
         try {
-            ClassPathResource resource = new ClassPathResource("templates/" + htmlName);
-            String htmlContent = Files.readString(resource.getFile().toPath());
+            String baseUri = "templates/" + htmlName;
+            String htmlContent = readHtml(baseUri);
 
             // 변수 치환 - 타임리프 사용 x
             htmlContent = htmlContent.replace("{{userName}}", graduation.getUser().getProfile().getName());
@@ -57,7 +56,7 @@ public class GraduationService {
             htmlContent = htmlContent.replace("{{universityName}}", graduation.getUser().getUniversityInfo().getUniversity().getName());
             htmlContent = htmlContent.replace("{{part}}", graduation.getUser().getProfile().getPart().getValue());
 
-            String baseUri = resource.getFile().getParentFile().toURI().toString();
+
             File pdfFile = File.createTempFile(fileName, ".pdf");
 
             OutputStream os = new FileOutputStream(pdfFile);
@@ -72,6 +71,18 @@ public class GraduationService {
             return pdfFile;
         } catch (Exception e) {
             throw new RuntimeException("Failed to convert HTML to PDF", e);
+        }
+    }
+
+    // jar 로 변환 했을때 인식 못하는 에러 해결용
+    private String readHtml(String htmlPath) throws Exception {
+        ClassPathResource resource = new ClassPathResource(htmlPath);
+
+        try (InputStreamReader inputStreamReader = new InputStreamReader(resource.getInputStream(), StandardCharsets.UTF_8);
+             BufferedReader bufferedReader = new BufferedReader(inputStreamReader)) {
+
+            // HTML 내용을 String으로 변환
+            return bufferedReader.lines().collect(Collectors.joining(System.lineSeparator()));
         }
     }
 }
