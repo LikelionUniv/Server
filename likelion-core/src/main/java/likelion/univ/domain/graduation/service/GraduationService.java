@@ -1,14 +1,21 @@
 package likelion.univ.domain.graduation.service;
 
+import com.openhtmltopdf.pdfboxout.PdfRendererBuilder;
 import likelion.univ.domain.graduation.entity.Graduation;
 import likelion.univ.domain.graduation.exception.GraduationNotFoundException;
 import likelion.univ.domain.graduation.repository.GraduationRepository;
+import likelion.univ.domain.graduation.service.command.GraduationsCreateCommand;
 import likelion.univ.domain.user.entity.User;
 import likelion.univ.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
+import java.nio.file.Files;
 import java.util.List;
 
 @Service
@@ -24,12 +31,47 @@ public class GraduationService {
         graduationRepository.saveAll(graduations);
     }
 
-    public String issue(Long userId, Long ordinal) {
-        Graduation graduation = graduationRepository.findTopByUserIdAndOrdinal(userId, ordinal)
+    @Transactional(readOnly = true)
+    public Graduation find(Long userId, Long ordinal) {
+        return graduationRepository.findTopByUserIdAndOrdinal(userId, ordinal)
                 .orElseThrow(GraduationNotFoundException::new);
+    }
 
-        // Todo: 수료증 pdf 생성 후 s3 저장 -> url 변환 로직 추가
-        // 임시 return
-        return "https://likelion-univ-dev.s3.ap-northeast-2.amazonaws.com/test.jpeg";
+    public void updateFileUrl(Graduation graduation, String fileUrl) {
+        graduation.fileUpload(fileUrl);
+        graduationRepository.save(graduation);
+    }
+
+    // pdf 생성
+    public File generatePdf(Graduation graduation, String fileName) {
+        String htmlName = "index.html";
+        try {
+            ClassPathResource resource = new ClassPathResource("templates/" + htmlName);
+            String htmlContent = Files.readString(resource.getFile().toPath());
+
+            // 변수 치환 - 타임리프 사용 x
+            htmlContent = htmlContent.replace("{{userName}}", graduation.getUser().getProfile().getName());
+            htmlContent = htmlContent.replace("{{graduationId}}", String.format("%06d", graduation.getId()));
+            htmlContent = htmlContent.replace(" {{ordinal}}", graduation.getOrdinal().toString());
+            htmlContent = htmlContent.replace(" {{ordinal}}", graduation.getOrdinal().toString());
+            htmlContent = htmlContent.replace("{{universityName}}", graduation.getUser().getUniversityInfo().getUniversity().getName());
+            htmlContent = htmlContent.replace("{{part}}", graduation.getUser().getProfile().getPart().getValue());
+
+            String baseUri = resource.getFile().getParentFile().toURI().toString();
+            File pdfFile = File.createTempFile(fileName, ".pdf");
+
+            OutputStream os = new FileOutputStream(pdfFile);
+            PdfRendererBuilder builder = new PdfRendererBuilder();
+            builder.useFont(() -> getClass().getResourceAsStream("/static/font/Pretendard-Medium.ttf"), "Pretendard-Medium");
+            builder.useFont(() -> getClass().getResourceAsStream("/static/font/Pretendard-SemiBold.ttf"), "Pretendard-SemiBold");
+            builder.useFont(() -> getClass().getResourceAsStream("/static/font/Pretendard-Light.ttf"), "Pretendard-Light");
+            builder.useFastMode();
+            builder.withHtmlContent(htmlContent, baseUri); // Pass base URI for relative paths
+            builder.toStream(os);
+            builder.run();
+            return pdfFile;
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to convert HTML to PDF", e);
+        }
     }
 }

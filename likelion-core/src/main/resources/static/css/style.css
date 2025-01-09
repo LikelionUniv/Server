@@ -1,0 +1,367 @@
+.element-PDF {
+    background-color: #ffffff;
+    /*display: flex;*/
+    /*flex-direction: row;*/
+    /*justify-content: center;*/
+    width: 100%;
+}
+
+.element-PDF .overlap-wrapper {
+    background-color: var(--colorbwwhite);
+    overflow: hidden;
+    width: 595px;
+    height: 842px;
+}
+
+.element-PDF .overlap {
+    position: relative;
+    width: 1283px;
+    height: 842px;
+    left: -344px;
+}
+
+.element-PDF .graphic {
+    position: absolute;
+    width: 1283px;
+    height: 842px;
+    top: 0;
+    left: 0;
+}
+
+.element-PDF .img {
+    position: absolute;
+    width: 120px;
+    height: 120px;
+    top: 84px;
+    left: 771px;
+}
+
+.element-PDF .group-wrapper {
+    width: 134px;
+    height: 30px;
+    top: 678px;
+    position: absolute;
+    left: 392px;
+}
+
+.element-PDF .group {
+    position: relative;
+    width: 136px;
+    height: 30px;
+}
+
+.element-PDF .text-wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    font-family: "Pretendard-Medium", serif;
+    font-weight: 600;
+    color: #292625;
+    font-size: 14px;
+    letter-spacing: -0.30px;
+    line-height: 30px;
+    white-space: nowrap;
+}
+
+.element-PDF .overlap-group-wrapper {
+    position: absolute;
+    width: 595px;
+    height: 95px;
+    top: 747px;
+    left: 344px;
+}
+
+.element-PDF .overlap-group {
+    position: relative;
+    height: 95px;
+}
+
+.element-PDF .div-wrapper {
+    position: absolute;
+    width: 595px;
+    height: 95px;
+    top: 0;
+    left: 0;
+}
+
+.element-PDF .div {
+    position: absolute;
+    width: 595px;
+    height: 95px;
+    top: 0;
+    left: 0;
+    background-color: #ffed00;
+    transform: rotate(-180.00deg);
+}
+
+.element-PDF .yellow {
+    position: absolute;
+    width: 595px;
+    height: 59px;
+    top: 0;
+    left: 0;
+}
+
+.element-PDF .logo {
+    position: absolute;
+    width: 88px;
+    height: 13px;
+    top: 27px;
+    left: 41px;
+}
+
+.element-PDF .graphic-2 {
+    position: absolute;
+    width: 1283px;
+    height: 62px;
+    top: 0;
+    left: 0;
+}
+
+.element-PDF .overlap-2 {
+    position: absolute;
+    width: 595px;
+    height: 22px;
+    top: 0;
+    left: 344px;
+    background-color: #ff7710;
+    background-image: url(https://c.animaapp.com/r6zH18xQ/img/asset-11-4x-1.png);
+    background-size: cover;
+    background-position: 50% 50%;
+}
+
+.element-PDF .overlap-3 {
+    position: absolute;
+    width: 595px;
+    height: 40px;
+    top: 22px;
+    left: 344px;
+    background: linear-gradient(
+            180deg,
+            rgb(255, 119, 16) 5.71%,
+            rgba(255, 119, 16, 0.65) 29.16%,
+            rgba(255, 119, 16, 0.43) 46.7%,
+            rgba(255, 119, 16, 0) 100%
+    );
+    background-image: url(https://c.animaapp.com/r6zH18xQ/img/white-4-1.png);
+    background-size: cover;
+    background-position: 50% 50%;
+}
+
+.element-PDF .p {
+    position: absolute;
+    top: 772px;
+    left: 702px;
+    font-family: "Pretendard-Medium", serif;
+    font-weight: 600;
+    color: var(--colorwarmgreyex-10);
+    font-size: 12px;
+    letter-spacing: -0.10px;
+    line-height: normal;
+    white-space: nowrap;
+}
+
+.element-PDF .text-wrapper-2 {
+    position: absolute;
+    top: 772px;
+    left: 800px;
+    font-family: "Pretendard-Medium", serif;
+    font-weight: 600;
+    color: var(--colorwarmgreyex-10);
+    font-size: 12px;
+    letter-spacing: -0.10px;
+    line-height: normal;
+    white-space: nowrap;
+}
+
+.element-PDF .text-wrapper-3 {
+    position: absolute;
+    width: 456px;
+    top: 375px;
+    left: 392px;
+    font-family: "Pretendard-Light", serif;
+    font-weight: 500;
+    color: #292625;
+    font-size: 18px;
+    letter-spacing: -0.30px;
+    line-height: 30px;
+}
+
+.element-PDF .text-wrapper-4 {
+    position: absolute;
+    width: 499px;
+    top: 247px;
+    left: 392px;
+    font-family: "Pretendard-SemiBold", serif;
+    font-weight: 800;
+    color: #1c1b1a;
+    font-size: 18px;
+    letter-spacing: -0.20px;
+    line-height: normal;
+}
+
+.element-PDF .text-wrapper-5 {
+    position: absolute;
+    width: 499px;
+    top: 274px;
+    left: 392px;
+    font-family: "Pretendard-SemiBold", serif;
+    font-weight: 800;
+    color: #1c1b1a;
+    font-size: 18px;
+    letter-spacing: -0.20px;
+    line-height: normal;
+}
+
+.element-PDF .text-wrapper-6 {
+    position: absolute;
+    width: 499px;
+    top: 301px;
+    left: 392px;
+    font-family: "Pretendard-SemiBold", serif;
+    font-weight: 800;
+    color: #1c1b1a;
+    font-size: 22px;
+    letter-spacing: 0.50px;
+    line-height: normal;
+}
+
+.element-PDF .text-wrapper-7 {
+    position: absolute;
+    width: 320px;
+    top: 113px;
+    left: 392px;
+    font-family: "Pretendard-SemiBold", serif;
+    font-weight: 800;
+    color: #1c1b1a;
+    font-size: 40px;
+    letter-spacing: -1.00px;
+    line-height: normal;
+}
+
+.element-PDF .div-2 {
+    width: 320px;
+    top: 77px;
+    font-family: "Pretendard-Medium", serif;
+    font-weight: 700;
+    color: #ff7710;
+    font-size: 18px;
+    letter-spacing: 0.50px;
+    line-height: normal;
+    position: absolute;
+    left: 392px;
+}
+
+.element-PDF .span {
+    letter-spacing: 0.09px;
+}
+
+/* Original CSS code should be injected here */
+
+.element-PDF .date {
+    position: absolute;
+    top: 772px;
+    left: 702px;
+    font-family: "Pretendard-Medium", serif;
+    font-weight: 600;
+    color: var(--colorwarmgreyex-10);
+    font-size: 12px;
+    letter-spacing: -0.10px;
+    line-height: normal;
+    white-space: nowrap;
+}
+
+.element-PDF .certificate-number {
+    position: absolute;
+    top: 772px;
+    left: 800px;
+    font-family: "Pretendard-Medium", serif;
+    font-weight: 600;
+    color: var(--colorwarmgreyex-10);
+    font-size: 12px;
+    letter-spacing: -0.10px;
+    line-height: normal;
+    white-space: nowrap;
+}
+
+.element-PDF .completion-text {
+    position: absolute;
+    width: 456px;
+    top: 375px;
+    left: 392px;
+    font-family: "Pretendard-Light", serif;
+    font-weight: 500;
+    color: #292625;
+    font-size: 18px;
+    letter-spacing: -0.30px;
+    line-height: 30px;
+}
+
+.element-PDF .activity-period {
+    position: absolute;
+    width: 499px;
+    top: 247px;
+    left: 392px;
+    font-family: "Pretendard-SemiBold", serif;
+    font-weight: 800;
+    color: #1c1b1a;
+    font-size: 18px;
+    letter-spacing: -0.20px;
+    line-height: normal;
+}
+
+.element-PDF .university-and-track {
+    position: absolute;
+    width: 499px;
+    top: 274px;
+    left: 392px;
+    font-family: "Pretendard-SemiBold", serif;
+    font-weight: 800;
+    color: #1c1b1a;
+    font-size: 18px;
+    letter-spacing: -0.20px;
+    line-height: normal;
+}
+
+.element-PDF .student-name {
+    position: absolute;
+    width: 499px;
+    top: 301px;
+    left: 392px;
+    font-family: "Pretendard-SemiBold", serif;
+    font-weight: 800;
+    color: #1c1b1a;
+    font-size: 22px;
+    letter-spacing: 0.50px;
+    line-height: normal;
+}
+
+.element-PDF .certificate-title {
+    position: absolute;
+    width: 320px;
+    top: 113px;
+    left: 392px;
+    font-family: "Pretendard-SemiBold", serif;
+    font-weight: 800;
+    color: #1c1b1a;
+    font-size: 40px;
+    letter-spacing: -1.00px;
+    line-height: normal;
+}
+
+.element-PDF .certificate-subtitle {
+    width: 320px;
+    top: 77px;
+    font-family: "Pretendard-Medium", serif;
+    font-weight: 700;
+    color: #ff7710;
+    font-size: 18px;
+    letter-spacing: 0.50px;
+    line-height: normal;
+    position: absolute;
+    left: 392px;
+}
+
+.element-PDF .certificate-subtitle span {
+    letter-spacing: 0.09px;
+}

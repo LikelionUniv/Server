@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>멋사 대학 12기 수료증</title>
+    <link rel="stylesheet" href="http://localhost:8080/api/css/globals.css"/>
+    <link rel="stylesheet" href="http://localhost:8080/api/css/styleguide.css"/>
+    <link rel="stylesheet" href="http://localhost:8080/api/css/style.css"/>
+</head>
+<body>
+<main class="element-PDF">
+    <div class="overlap-wrapper">
+        <div class="overlap">
+            <section class="graphic">
+                <img
+                        class="img"
+                        src="http://localhost:8080/api/img/-----------------@2x.png"
+                        alt="멋쟁이사자처럼 로고"
+                />
+                <div class="group-wrapper">
+                    <div class="group">
+                        <p class="text-wrapper">사단법인 멋쟁이사자처럼</p>
+                    </div>
+                </div>
+                <div class="overlap-group-wrapper">
+                    <div class="overlap-group">
+                        <div class="div-wrapper">
+                            <div class="overlap-group">
+                                <div class="div"></div>
+                                <img class="div-wrapper" src="http://localhost:8080/api/img/line.png" alt="장식선"/>
+                            </div>
+                        </div>
+                        <img class="yellow" src="http://localhost:8080/api/img/yellow-2-2.png" alt="노란색 배경"/>
+                        <img
+                                class="logo"
+                                src="http://localhost:8080/api/img/logo----------@2x.png"
+                                alt="멋쟁이사자처럼 로고"
+                        />
+                    </div>
+                </div>
+                <div class="graphic-2">
+                    <div class="overlap-2" aria-hidden="true"></div>
+                    <div class="overlap-3" aria-hidden="true"></div>
+                </div>
+            </section>
+            <p class="date">2025 . 01 . 10</p>
+            <p class="certificate-number">2024-UNIV{{graduationId}}</p>
+            <p class="completion-text">위 학생은 멋사 대학 {{ordinal}}기 과정을<br/>성실히 수료하였기에 이 수료증을 드립니다.</p>
+            <p class="activity-period">활동기간 | 2024.01.01 - 2024.12.31</p>
+            <p class="university-and-track">{{universityName}} | {{part}}</p>
+            <h2 class="student-name">{{userName}}</h2>
+            <h1 class="certificate-title"> 멋사 대학<br/> {{ordinal}}기 수료증</h1>
+            <p class="certificate-subtitle"><span lang="en">CERTIFICATE </span> <span lang="en">of completion</span></p>
+        </div>
+    </div>
+</main>
+</body>
+</html>
