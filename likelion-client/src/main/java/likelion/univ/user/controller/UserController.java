@@ -4,7 +4,6 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import likelion.univ.common.response.PageResponse;
 import likelion.univ.common.response.SliceResponse;
-import likelion.univ.domain.graduation.service.GraduationService;
 import likelion.univ.response.SuccessResponse;
 import likelion.univ.user.dto.request.IssueGraduationRequest;
 import likelion.univ.user.dto.request.ProfileEditRequestDto;
@@ -28,7 +27,6 @@ public class UserController {
     private final AuthenticatedUserUtils userUtils;
     private final ClientUserService userService;
     private final ClientUserQueryService userQueryService;
-    private final GraduationService graduationService;
 
     @Operation(summary = "유저페이지 프로필 조회", description = "해당 유저의 프로필 정보를 조회합니다.")
     @GetMapping("/{userId}/profile")
@@ -131,7 +129,7 @@ public class UserController {
             @RequestBody @Valid IssueGraduationRequest request
     ) {
         Long userId = userUtils.getCurrentUserId();
-        String result = graduationService.issue(userId, request.ordinal());
+        String result = userService.generateGraduationPdf(userId, request.ordinal());
         return SuccessResponse.of(IssueGraduationResponse.from(result));
     }
 }

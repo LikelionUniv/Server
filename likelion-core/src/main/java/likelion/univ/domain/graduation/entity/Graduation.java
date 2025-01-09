@@ -24,8 +24,15 @@ public class Graduation extends BaseTimeEntity {
     @Column(nullable = false)
     private Long ordinal;
 
+    @Column(nullable = true)
+    private String fileUrl;
+
     public Graduation(User user, Long ordinal) {
         this.user = user;
         this.ordinal = ordinal;
+    }
+
+    public void fileUpload(String fileUrl) {
+        this.fileUrl = fileUrl;
     }
 }

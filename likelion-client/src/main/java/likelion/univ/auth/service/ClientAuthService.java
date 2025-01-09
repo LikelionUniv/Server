@@ -1,7 +1,5 @@
 package likelion.univ.auth.service;
 
-import static likelion.univ.constant.StaticValue.REFRESH_TOKEN;
-
 import likelion.univ.auth.dto.request.SignUpRequestDto;
 import likelion.univ.auth.dto.response.AccountTokenDto;
 import likelion.univ.auth.dto.response.AccountUserInfoDto;
@@ -10,11 +8,7 @@ import likelion.univ.auth.processor.GenerateAccountTokenProcessor;
 import likelion.univ.auth.processor.LoginByIdTokenProcessor;
 import likelion.univ.domain.university.entity.University;
 import likelion.univ.domain.university.repository.UniversityRepository;
-import likelion.univ.domain.user.entity.AuthInfo;
-import likelion.univ.domain.user.entity.LoginType;
-import likelion.univ.domain.user.entity.Profile;
-import likelion.univ.domain.user.entity.UniversityInfo;
-import likelion.univ.domain.user.entity.User;
+import likelion.univ.domain.user.entity.*;
 import likelion.univ.domain.user.exception.EmailAlreadyRegistered;
 import likelion.univ.domain.user.exception.NotSupportedLoginTypeException;
 import likelion.univ.domain.user.repository.UserRepository;
@@ -36,6 +30,8 @@ import likelion.univ.utils.AuthenticatedUserUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import static likelion.univ.constant.StaticValue.REFRESH_TOKEN;
 
 @RequiredArgsConstructor
 @Service
@@ -118,7 +114,8 @@ public class ClientAuthService {
             University university = universityRepository.getByName(signUpRequestDto.getUniversityName());
             UniversityInfo universityInfo = UniversityInfo.universityInfoForSignUp(
                     university,
-                    signUpRequestDto.getMajor()
+                    signUpRequestDto.getMajor(),
+                    signUpRequestDto.getOrdinal()
             );
             AuthInfo authInfo = AuthInfo.authInfoForSignUp((LoginType.fromValue(loginType)), userInfo.getEmail());
             User user = userService.signUp(profile, authInfo, universityInfo);
