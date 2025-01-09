@@ -32,14 +32,15 @@ public class ClientUserService {
 
     public String generateGraduationPdf(Long userId, Long ordinal) {
         Graduation graduation = graduationService.find(userId, ordinal);
-
-        if (graduation.getFileUrl() != null) {
-            return graduation.getFileUrl();
-        }
+        // 본사측 요청에 의해 그냥 새로 생성 하도록 함
+//        // 파일 이름 존재할 시 파일생성하지않음
+//        if (graduation.getFileUrl() != null) {
+//            return graduation.getFileUrl();
+//        }
 
         User user = graduation.getUser();
         String fileName = "멋쟁이사자처럼-" + graduation.getOrdinal() + "기-수료증";
-        String fileUri = "수료증/" + user.getId() + "/멋쟁이사자처럼-12기-수료증.pdf";
+        String fileUri = "수료증/" + user.getId() + fileName + ".pdf";
 
         File file = graduationService.generatePdf(graduation, fileName);
         String fileS3Url = s3FileUploadProcess.execute(fileUri, file);
