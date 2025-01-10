@@ -40,7 +40,7 @@ public class ClientUserService {
 
         User user = graduation.getUser();
         String fileName = "멋쟁이사자처럼-" + graduation.getOrdinal() + "기-수료증";
-        String fileUri = "수료증/" + user.getId() + fileName + ".pdf";
+        String fileUri = "수료증/" + user.getId() + "/" + fileName + ".pdf";
 
         File file = graduationService.generatePdf(graduation, fileName);
         String fileS3Url = s3FileUploadProcess.execute(fileUri, file);
