@@ -1,5 +1,6 @@
 package likelion.univ.domain.graduation.service;
 
+import com.openhtmltopdf.outputdevice.helper.BaseRendererBuilder;
 import com.openhtmltopdf.pdfboxout.PdfRendererBuilder;
 import likelion.univ.domain.graduation.entity.Graduation;
 import likelion.univ.domain.graduation.exception.GraduationNotFoundException;
@@ -66,6 +67,8 @@ public class GraduationService {
             builder.useFont(() -> getClass().getResourceAsStream("/static/font/Pretendard-Light.ttf"), "Pretendard-Light");
             builder.useFastMode();
             builder.withHtmlContent(htmlContent, baseUri); // Pass base URI for relative paths
+            // 여백 설정
+            builder.useDefaultPageSize(185, 249, BaseRendererBuilder.PageSizeUnits.MM); // A4 크기
             builder.toStream(os);
             builder.run();
             return pdfFile;
